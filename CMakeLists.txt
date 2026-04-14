@@ -11,6 +11,8 @@ add_executable(5bw12
     core/stateMachine.cpp
 
     states/menuState.cpp
+    states/gameState.cpp
+    states/battleState.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)

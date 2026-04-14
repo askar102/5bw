@@ -6,6 +6,10 @@
             currentState->OnExit();
         }
 
+        if (newState) {
+            newState->SetStateMachine(this);
+        }
+
         currentState = std::move(newState);
 
         if (currentState) {

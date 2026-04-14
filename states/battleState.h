@@ -4,15 +4,13 @@
 #include "../raylib/raylib.h"
 #include "../core/stateMachine.h"
 
-#include "battleState.h"
-
-class GameState : public State {
+class BattleState : public State {
     private:
-        bool startBattle = false;
+        // pass
+
 
     public:
         void HandleInput() override;
         void Update(float dt) override;
         void Draw() override;
-
 };

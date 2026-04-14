@@ -1,4 +1,5 @@
 #include "menuState.h"
+#include "gameState.h"
 
 void MenuState::HandleInput() {
     if (IsKeyPressed(KEY_ENTER)) {
@@ -8,11 +9,13 @@ void MenuState::HandleInput() {
 
 void MenuState::Draw() {
     ClearBackground(BLUE);
-    DrawText("MENU, PRESS ENTER", 400, 300, 20, WHITE);
+    DrawText("currentState: menu", 0, 0, 20, WHITE);
+    // todo: delete this in future
+    DrawText("NOTE: press Enter", 0, 30, 20, WHITE);
 }
 
 void MenuState::Update(float dt) {
     if (startPressed) {
-        // stateMachine->ChangeState(std::make_unique<GameState>());
+        stateMachine->ChangeState(std::make_unique<GameState>());
     }
 }
