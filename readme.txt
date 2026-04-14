@@ -26,3 +26,14 @@ src/
  │    ├── Panel.h/cpp
  │
  └── main.cpp
+
+ project/
+ ├── core/
+ │    ├── Game.h / Game.cpp        
+ │    ├── State.h                 
+ │    ├── StateMachine.h/cpp      
+ │   
+ ├── states/
+ │    ├── menuState.cpp / menuState.h    
+ │  
+ └── main.cpp

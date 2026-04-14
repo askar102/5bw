@@ -1,5 +1,7 @@
 #pragma once
 
+class StateMachine;
+
 class State {
 public:
     virtual ~State() = default;
@@ -33,4 +35,11 @@ public:
      * @warning Только отрисовка. Не изменять состояние игры
      */
     virtual void Draw() = 0;
+
+    void SetStateMachine(StateMachine* sm) {
+        stateMachine = sm;
+    }
+
+protected:
+    StateMachine* stateMachine = nullptr;
 };

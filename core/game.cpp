@@ -1,6 +1,6 @@
 #include "game.h"
 #include "../raylib/raylib.h"
-
+#include "../states/menuState.h"
 
 Game::Game(int width, int height, const char* title)
     : screenWidth(width),
@@ -15,6 +15,8 @@ Game::~Game() {
 void Game::Init() {
     InitWindow(screenWidth, screenHeight, windowTitle);
     SetTargetFPS(60);
+
+    stateMachine.ChangeState(std::make_unique<MenuState>());
 }
 
 void Game::Run() {
