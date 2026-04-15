@@ -6,15 +6,18 @@
 
 #include "battleState.h"
 #include "../entities/sprite.h"
+#include "../entities/player.h"
 
 class MapState : public State {
     private:
+        Player player;
         bool startBattle = false;
-        Sprite player;
 
     public:
         void HandleInput() override;
         void Update(float dt) override;
         void Draw() override;
+
+        void OnEnter() override;
 
 };
