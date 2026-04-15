@@ -1,20 +1,21 @@
-#include "gameState.h"
+#include "mapState.h"
 
-void GameState::HandleInput() {
+void MapState::HandleInput() {
     if (IsKeyPressed(KEY_B)) {
         startBattle = true;
     }
 }
 
-void GameState::Draw() {
+void MapState::Draw() {
     ClearBackground(GREEN);
     DrawText("currentState: game(map)", 0, 0, 20, WHITE);
     // todo: delete this in future
     DrawText("NOTE: press B for battle", 0, 30, 20, WHITE);
 }
 
-void GameState::Update(float dt) {
-    if (startBattle) {
+void MapState::Update(float dt) {
+    if (startBattle && stateMachine) {
+        startBattle = false;
         stateMachine->ChangeState(std::make_unique<BattleState>());
     }
 }

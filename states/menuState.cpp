@@ -1,5 +1,5 @@
 #include "menuState.h"
-#include "gameState.h"
+#include "mapState.h"
 
 void MenuState::HandleInput() {
     if (IsKeyPressed(KEY_ENTER)) {
@@ -16,6 +16,6 @@ void MenuState::Draw() {
 
 void MenuState::Update(float dt) {
     if (startPressed) {
-        stateMachine->ChangeState(std::make_unique<GameState>());
+        stateMachine->ChangeState(std::make_unique<MapState>());
     }
 }

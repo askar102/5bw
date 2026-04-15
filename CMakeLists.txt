@@ -11,7 +11,7 @@ add_executable(5bw12
     core/stateMachine.cpp
 
     states/menuState.cpp
-    states/gameState.cpp
+    states/mapState.cpp
     states/battleState.cpp
 )
 

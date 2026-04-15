@@ -5,10 +5,12 @@
 #include "../core/stateMachine.h"
 
 #include "battleState.h"
+#include "../entities/sprite.h"
 
-class GameState : public State {
+class MapState : public State {
     private:
         bool startBattle = false;
+        Sprite player;
 
     public:
         void HandleInput() override;
