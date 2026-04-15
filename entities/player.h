@@ -4,12 +4,42 @@
 
 #include "sprite.h"
 
-class Player : public Sprite {
-public:
-    Vector2 position{400, 300};
-    float speed = 200.0f;
+class Player {
+private:
+    Sprite _sprite;
+    float _speed = 200.0f;
 
-    void HandleInput();
+public:
+    /**
+     * @brief Get the Sprite object
+     * 
+     * @return Sprite& 
+     */
+    Sprite& getSprite() 
+    {
+        return _sprite;
+    }
+    
+    /**
+     * @brief Get the Speed object
+     * 
+     * @return float 
+     */
+    float getSpeed() const 
+    {
+        return _speed;
+    }
+
+    /**
+     * @brief Set the Speed object
+     * 
+     * @param newSpeed Player new speed
+     */
+    void setSpeed(float newSpeed) 
+    {
+        this->_speed = newSpeed;
+    }
+
     void Update(float dt);
-    void Draw() override;
+    void Draw();
 };
