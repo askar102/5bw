@@ -11,6 +11,7 @@
 class MapState : public State {
     private:
         Player player;
+        Sprite tree;
         bool startBattle = false;
 
     public:
