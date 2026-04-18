@@ -7,11 +7,16 @@
 #include "battleState.h"
 #include "../entities/sprite.h"
 #include "../entities/player.h"
+#include "../entities/nakedSprite.h"
+
 
 class MapState : public State {
     private:
         Player player;
-        Sprite tree;
+
+        Texture2D treeTexture;
+        NakedSprite tree;
+
         bool startBattle = false;
 
     public:
@@ -20,5 +25,9 @@ class MapState : public State {
         void Draw() override;
 
         void OnEnter() override;
+        void OnExit() override;
+
+        void LoadResources();
+        void UnloadResources();
 
 };

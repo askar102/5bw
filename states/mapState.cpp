@@ -26,9 +26,23 @@ void MapState::Update(float dt) {
 }
 
 void MapState::OnEnter() {
-    player.getSprite().setTexture("resources/player.png");
+    this->LoadResources();
+
     player.getSprite().setPosition({400, 300});
 
-    tree.setTexture("resources/tree.png");
     tree.setPosition({0, 0});
+}
+
+void MapState::OnExit() {
+    this->UnloadResources();
+}
+
+void MapState::LoadResources() {
+    player.getSprite().setTexture("resources/player.png");
+
+    treeTexture = LoadTexture("resources/tree.png");
+    tree.setTexture(&treeTexture);
+}
+void MapState::UnloadResources() {
+    UnloadTexture(treeTexture);
 }
