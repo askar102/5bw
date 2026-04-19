@@ -7,7 +7,6 @@
 #include "battleState.h"
 #include "../entities/sprite.h"
 #include "../entities/player.h"
-#include "../entities/nakedSprite.h"
 
 
 class MapState : public State {
@@ -15,7 +14,9 @@ class MapState : public State {
         Player player;
 
         Texture2D treeTexture;
-        NakedSprite tree;
+        Texture2D playerTexture;
+
+        Sprite tree;
 
         bool startBattle = false;
 

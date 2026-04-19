@@ -29,6 +29,7 @@ void MapState::OnEnter() {
     this->LoadResources();
 
     player.getSprite().setPosition({400, 300});
+    player.getSprite().setSize(100, 100);
 
     tree.setPosition({0, 0});
 }
@@ -38,11 +39,13 @@ void MapState::OnExit() {
 }
 
 void MapState::LoadResources() {
-    player.getSprite().setTexture("resources/player.png");
+    playerTexture = LoadTexture("resources/player.png");
+    player.getSprite().setTexture(&playerTexture);
 
     treeTexture = LoadTexture("resources/tree.png");
     tree.setTexture(&treeTexture);
 }
 void MapState::UnloadResources() {
     UnloadTexture(treeTexture);
+    UnloadTexture(playerTexture);
 }
