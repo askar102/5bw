@@ -8,6 +8,8 @@
 #include "../entities/sprite.h"
 #include "../entities/player.h"
 
+#include <vector>
+#include <memory>
 
 class MapState : public State {
     private:
@@ -19,6 +21,8 @@ class MapState : public State {
         Sprite tree;
 
         bool startBattle = false;
+
+        std::vector<std::unique_ptr<Sprite>> trees;
 
     public:
         void HandleInput() override;

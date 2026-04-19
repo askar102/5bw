@@ -53,11 +53,15 @@ public:
         _size = {w, h};
     }
 
+    Vector2 getSize() const {
+        return _size;
+    }
+
     /**
      * @brief Get the sprite rect (hitbox)
      * 
      * @return Rectangle
-     */
+     */ 
     Rectangle getRect() const {
         return {_position.x, _position.y, _size.x, _size.y};
     }

@@ -1,4 +1,5 @@
 #include "mapState.h"
+#include <memory>
 
 void MapState::HandleInput() {
     if (IsKeyPressed(KEY_B)) {
@@ -14,6 +15,10 @@ void MapState::Draw() {
 
     player.Draw();
     tree.Draw();
+
+    for (auto& tree : trees) {
+        tree->Draw();
+    }
 }
 
 void MapState::Update(float dt) {
@@ -29,9 +34,30 @@ void MapState::OnEnter() {
     this->LoadResources();
 
     player.getSprite().setPosition({400, 300});
-    player.getSprite().setSize(100, 100);
 
     tree.setPosition({0, 0});
+
+    // delete, just for test
+    Vector2 pos{0,0};
+
+    for (int i = 0; i < 12; i++) {
+        auto tree = std::make_unique<Sprite>();
+
+        tree->setTexture(&treeTexture);
+        tree->setPosition(pos);
+        
+        tree->setSize(100, 100);
+
+        if (!trees.empty()) {
+            if (CheckCollisionRecs(tree->getRect(), trees.back()->getRect())) {
+                pos.x += trees.back()->getSize().x;
+                tree->setPosition(pos);  
+            }
+        }
+
+        trees.push_back(std::move(tree));
+
+    }
 }
 
 void MapState::OnExit() {
