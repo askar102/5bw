@@ -40,7 +40,7 @@ void MapState::OnEnter() {
     // delete, just for test
     Vector2 pos{0,0};
     const int cols = 8;
-    const int rows = 8;
+    const int rows = 6;
 
 
     for (int y = 0; y < rows; y++) {
