@@ -6,6 +6,8 @@ private:
     Vector2 _position{0, 0};
     Texture2D _texture{0};
 
+    Vector2 _size;
+
     bool _loaded = false;
 
 public:
@@ -53,6 +55,18 @@ public:
 
         this->_texture = LoadTexture(texturePath);
         _loaded = true;
+
+        _size = {(float)_texture.width, (float)_texture.height};
+    }
+
+    /**
+     * @brief Set the sprite size
+     * 
+     * @param w weight
+     * @param h height
+     */
+    void setSize(float w, float h) {
+        _size = {w, h};
     }
 
     /**
@@ -61,6 +75,10 @@ public:
      */
     virtual void Draw() 
     {
-        DrawTexture(_texture, _position.x, _position.y, WHITE);
+        Rectangle src = {0, 0, (float)_texture.width, (float)_texture.height};
+        Rectangle dest = {_position.x, _position.y, _size.x, _size.y};
+
+        DrawTexturePro(_texture, src, dest, {0, 0}, 0.0f, WHITE);
+        // DrawTexture(_texture, _position.x, _position.y, WHITE);
     }
 };
