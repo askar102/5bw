@@ -14,7 +14,7 @@ void MapState::Draw() {
     DrawText("NOTE: press B for battle", 0, 30, 20, WHITE);
 
     player.Draw();
-    tree.Draw();
+    // tree.Draw();
 
     for (auto& tree : trees) {
         tree->Draw();
@@ -39,24 +39,27 @@ void MapState::OnEnter() {
 
     // delete, just for test
     Vector2 pos{0,0};
+    const int cols = 8;
+    const int rows = 8;
 
-    for (int i = 0; i < 12; i++) {
-        auto tree = std::make_unique<Sprite>();
 
-        tree->setTexture(&treeTexture);
-        tree->setPosition(pos);
-        
-        tree->setSize(100, 100);
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < cols; x++){
+            auto tree = std::make_unique<Sprite>();
 
-        if (!trees.empty()) {
-            if (CheckCollisionRecs(tree->getRect(), trees.back()->getRect())) {
-                pos.x += trees.back()->getSize().x;
-                tree->setPosition(pos);  
+            tree->setTexture(&treeTexture);
+            tree->setSize(100, 100);
+            tree->setPosition(pos);
+
+            if (!trees.empty()) {
+                tree->setPosition({
+                    x * trees.back()->getSize().x,
+                    y * trees.back()->getSize().y
+                });
             }
+        
+            trees.push_back(std::move(tree));
         }
-
-        trees.push_back(std::move(tree));
-
     }
 }
 
