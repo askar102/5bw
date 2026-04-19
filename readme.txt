@@ -29,11 +29,16 @@ src/
 
  project/
  ├── core/
- │    ├── Game.h / Game.cpp        
- │    ├── State.h                 
- │    ├── StateMachine.h/cpp      
+ │    ├── game.h / Game.cpp        
+ │    ├── state.h                 
+ │    ├── stateMachine.h/cpp      
  │   
  ├── states/
  │    ├── menuState.cpp / menuState.h    
  │  
  └── main.cpp
+
+
+ if (CheckCollisionRecs(player.getRect(), enemy.getRect())) {
+    // battle
+}

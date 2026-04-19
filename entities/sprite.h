@@ -8,8 +8,6 @@ private:
 
     Vector2 _size;
 
-    bool _loaded = false;
-
 public:
     /**
      * @brief Get the Positon object
@@ -39,7 +37,10 @@ public:
     void setTexture(Texture2D* texture) 
     {
         this->_texture = texture;
-        _size = {(float)_texture->width, (float)_texture->height};
+
+        if (_texture) {
+            _size = {(float)_texture->width, (float)_texture->height};
+        }
     }
 
     /**
@@ -53,11 +54,22 @@ public:
     }
 
     /**
+     * @brief Get the sprite rect (hitbox)
+     * 
+     * @return Rectangle
+     */
+    Rectangle getRect() const {
+        return {_position.x, _position.y, _size.x, _size.y};
+    }
+
+    /**
      * @brief Draw the texture
      *
      */
     virtual void Draw() 
     {
+        if (!_texture) return;
+
         Rectangle src = {0, 0, (float)_texture->width, (float)_texture->height};
         Rectangle dest = {_position.x, _position.y, _size.x, _size.y};
 
