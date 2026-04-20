@@ -23,6 +23,9 @@ void MapState::Draw() {
 
 void MapState::Update(float dt) {
     player.Update(dt);
+    playerPos  = player.getSprite().getPosition();
+
+    MapRotationCheck();
 
     if (startBattle && stateMachine) {
         startBattle = false;
@@ -37,7 +40,7 @@ void MapState::OnEnter() {
 
     tree.setPosition({0, 0});
 
-    trees = MapGenerator::Generate("config.json", &treeTexture);
+    LoadTile();
 }
 
 void MapState::OnExit() {
@@ -51,7 +54,55 @@ void MapState::LoadResources() {
     treeTexture = LoadTexture("resources/tree.png");
     tree.setTexture(&treeTexture);
 }
+
 void MapState::UnloadResources() {
     UnloadTexture(treeTexture);
     UnloadTexture(playerTexture);
+}
+
+void MapState::MapRotationCheck() {
+    // up
+    if (playerPos.y+100 < 0) {
+        currentTileY += 1;
+    
+        LoadTile();
+    
+        player.getSprite().setPosition({playerPos.x, (float)SCREEN_HEIGHT});
+    }
+
+    // down
+    if (playerPos.y > SCREEN_HEIGHT) {
+        currentTileY -= 1;
+    
+        LoadTile();
+    
+        player.getSprite().setPosition({playerPos.x, 0});
+    }
+
+    // left
+    if (playerPos.x+100 < 0) {
+        currentTileX -= 1;
+    
+        LoadTile();
+    
+        player.getSprite().setPosition({(float)SCREEN_WIDTH, playerPos.y});
+    }
+
+    // right
+    if (playerPos.x > SCREEN_WIDTH) {
+        currentTileX += 1;
+    
+        LoadTile();
+    
+        player.getSprite().setPosition({0-100, playerPos.y});
+    }
+}
+
+void MapState::LoadTile() {
+    trees = MapGenerator::GenerateTile(
+        "config.json",
+        currentTileX,
+        currentTileY,
+        &treeTexture
+    );
 }

@@ -16,6 +16,7 @@
 class MapState : public State {
     private:
         Player player;
+        Vector2 playerPos;
 
         Texture2D treeTexture;
         Texture2D playerTexture;
@@ -25,6 +26,13 @@ class MapState : public State {
         bool startBattle = false;
 
         std::vector<std::unique_ptr<Sprite>> trees;
+
+        unsigned int currentTileX = 600;
+        unsigned int currentTileY = 600;
+        
+        // todo: change to more safe method
+        const int SCREEN_WIDTH = 800;
+        const int SCREEN_HEIGHT = 600;
 
     public:
         void HandleInput() override;
@@ -36,5 +44,8 @@ class MapState : public State {
 
         void LoadResources();
         void UnloadResources();
+        
+        void MapRotationCheck();
+        void LoadTile();
 
 };

@@ -11,5 +11,10 @@
 
 class MapGenerator {
 public:
-    static std::vector<std::unique_ptr<Sprite>> Generate(const std::string& path, Texture2D* treeTexture);
+    static std::vector<std::unique_ptr<Sprite>> GenerateTile(
+        const std::string& path,
+        int tileX,
+        int tileY,
+        Texture2D* treeTexture
+    );
 };

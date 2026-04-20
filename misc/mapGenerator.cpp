@@ -2,47 +2,61 @@
 
 using json = nlohmann::json;
 
-std::vector<std::unique_ptr<Sprite>> MapGenerator::Generate(const std::string& path, Texture2D* treeTexture) 
+std::vector<std::unique_ptr<Sprite>> MapGenerator::GenerateTile(const std::string& path, int tileX, int tileY, Texture2D* treeTexture) 
 {
     std::vector<std::unique_ptr<Sprite>> result;
 
     std::ifstream file(path);
+    if (!file.is_open()) {
+        TraceLog(LOG_WARNING, "Chunk not found: %d %d", tileX, tileY);
+        return result;
+    }
+
     json data;
     file >> data;
 
-    auto map = data["map"][0]; // for start we check only first element
-
-    int mapWidth = map["x"];
-    int mapHeight = map["y"];
-
-    auto tiles = map["tile"];
-
     const int tileSize = 100;
 
-    for (int y = 0; y < tiles.size(); ++y) 
+    for (auto& chunk : data["map"]) 
     {
-        for (int x = 0; x < tiles[y].size(); ++x) 
-        {
-            /**
-             * 0 - Nothing
-             * 1 - Tree
-             */
-            int tileType = tiles[y][x];
+        int x = chunk["x"];
+        int y = chunk["y"];
 
-            if (tileType == 1) 
+        if (x == tileX && y == tileY) {
+            auto tiles = chunk["tile"];
+            
+            for (int ty = 0; ty < tiles.size(); ++ty) 
             {
-                auto sprite = std::make_unique<Sprite>();
+                for (int tx = 0; tx < tiles[ty].size(); ++tx) 
+                {
+                    /**
+                    * 0 - Nothing
+                    * 1 - Tree
+                    */
+                    int tileType = tiles[ty][tx];
 
-                sprite->setTexture(treeTexture);
-                sprite->setSize(tileSize, tileSize);
-                sprite->setPosition({
-                    (float)x * tileSize,
-                    (float)y * tileSize
-                });
+                    if (tileType == 1) 
+                    {
+                        auto sprite = std::make_unique<Sprite>();
 
-                result.push_back(std::move(sprite));
+                        sprite->setTexture(treeTexture);
+                        sprite->setSize(tileSize, tileSize);
+                        sprite->setPosition({
+                            (float)tx * tileSize,
+                            (float)ty * tileSize
+                        });
+
+                        result.push_back(std::move(sprite));
+                    }
+                }
             }
+
+            return result;
+
         }
+
     }
+    // if the chunk doesnt exits
+    // GenerateTile(path, 600, 600, treeTexture);
     return result;
 }
