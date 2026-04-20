@@ -37,30 +37,7 @@ void MapState::OnEnter() {
 
     tree.setPosition({0, 0});
 
-    // delete, just for test
-    Vector2 pos{0,0};
-    const int cols = 8;
-    const int rows = 6;
-
-
-    for (int y = 0; y < rows; y++) {
-        for (int x = 0; x < cols; x++){
-            auto tree = std::make_unique<Sprite>();
-
-            tree->setTexture(&treeTexture);
-            tree->setSize(100, 100);
-            tree->setPosition(pos);
-
-            if (!trees.empty()) {
-                tree->setPosition({
-                    x * trees.back()->getSize().x,
-                    y * trees.back()->getSize().y
-                });
-            }
-        
-            trees.push_back(std::move(tree));
-        }
-    }
+    trees = MapGenerator::Generate("config.json", &treeTexture);
 }
 
 void MapState::OnExit() {

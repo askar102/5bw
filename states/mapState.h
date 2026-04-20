@@ -8,6 +8,8 @@
 #include "../entities/sprite.h"
 #include "../entities/player.h"
 
+#include "../misc/mapGenerator.h"
+
 #include <vector>
 #include <memory>
 

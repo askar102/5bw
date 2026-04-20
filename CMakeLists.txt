@@ -15,6 +15,8 @@ add_executable(5bw12
     states/battleState.cpp
 
     entities/player.cpp
+
+    misc/mapGenerator.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)
