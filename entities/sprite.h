@@ -8,6 +8,8 @@ private:
 
     Vector2 _size;
 
+    bool _isSolid = false;
+
 public:
     /**
      * @brief Get the Positon object
@@ -64,6 +66,16 @@ public:
      */ 
     Rectangle getRect() const {
         return {_position.x, _position.y, _size.x, _size.y};
+    }
+
+    void setSolid(bool isSolid)
+    {
+        _isSolid = isSolid; 
+    }
+    
+    bool getSolid() const
+    {
+        return _isSolid; 
     }
 
     /**

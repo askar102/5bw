@@ -46,6 +46,8 @@ std::vector<std::unique_ptr<Sprite>> MapGenerator::GenerateTile(const std::strin
                             (float)ty * tileSize
                         });
 
+                        sprite->setSolid(true);
+
                         result.push_back(std::move(sprite));
                     }
                 }

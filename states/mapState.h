@@ -48,4 +48,6 @@ class MapState : public State {
         void MapRotationCheck();
         void LoadTile();
 
+        bool CheckCollision(Rectangle playerRect);
+
 };

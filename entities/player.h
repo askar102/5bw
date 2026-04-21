@@ -4,6 +4,8 @@
 
 #include "sprite.h"
 
+class MapState;
+
 class Player {
 private:
     Sprite _sprite;
@@ -40,6 +42,6 @@ public:
         this->_speed = newSpeed;
     }
 
-    void Update(float dt);
+    void Update(float dt, MapState* map);
     void Draw();
 };

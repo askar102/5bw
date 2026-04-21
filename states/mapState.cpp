@@ -22,7 +22,7 @@ void MapState::Draw() {
 }
 
 void MapState::Update(float dt) {
-    player.Update(dt);
+    player.Update(dt, this);
     playerPos  = player.getSprite().getPosition();
 
     MapRotationCheck();
@@ -105,4 +105,15 @@ void MapState::LoadTile() {
         currentTileY,
         &treeTexture
     );
+}
+
+bool MapState::CheckCollision(Rectangle playerRect) {
+    for (auto& tree : trees) {
+        if (tree->getSolid()) {
+            if (CheckCollisionRecs(playerRect, tree->getRect())) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
