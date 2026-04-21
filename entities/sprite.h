@@ -12,6 +12,12 @@ private:
 
     Rectangle _rect = {_position.x, _position.y, _size.x, _size.y};
 
+    void UpdateRect()
+    {
+        _rect.x = _position.x + (_size.x - _rect.width) / 2.0f;
+        _rect.y = _position.y + (_size.y - _rect.height) / 2.0f;
+    }
+
 public:
     /**
      * @brief Get the Positon object
@@ -31,8 +37,7 @@ public:
     void setPosition(Vector2 newPosition)
     {
         this->_position = newPosition;
-        _rect.x = newPosition.x;
-        _rect.y = newPosition.y;
+        UpdateRect();
     }
 
     /**
@@ -48,6 +53,7 @@ public:
             _size = {(float)_texture->width, (float)_texture->height};
             _rect.width = _size.x;
             _rect.height = _size.y;
+            UpdateRect();
         }
     }
 
@@ -59,8 +65,7 @@ public:
      */
     void setSize(float w, float h) {
         _size = {w, h};
-        _rect.width = w;
-        _rect.height = h;
+        UpdateRect();
     }
 
     Vector2 getSize() const {
@@ -74,7 +79,7 @@ public:
      */ 
     Rectangle getRect() const 
     {
-        return {_position.x, _position.y, _rect.width, _rect.height};
+        return _rect;
     }
 
     /**
@@ -85,6 +90,7 @@ public:
     {
         _rect.width = size.x;
         _rect.height = size.y;
+        UpdateRect();
     }
 
     /**
@@ -120,6 +126,6 @@ public:
         Rectangle dest = {_position.x, _position.y, _size.x, _size.y};
 
         DrawTexturePro(*_texture, src, dest, {0, 0}, 0.0f, WHITE);
-        // DrawTexture(_texture, _position.x, _position.y, WHITE);
+        DrawRectangle(_rect.x, _rect.y, _rect.width, _rect.height, WHITE);
     }
 };
