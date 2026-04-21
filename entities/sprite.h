@@ -10,6 +10,8 @@ private:
 
     bool _isSolid = false;
 
+    Rectangle _rect = {_position.x, _position.y, _size.x, _size.y};
+
 public:
     /**
      * @brief Get the Positon object
@@ -29,6 +31,8 @@ public:
     void setPosition(Vector2 newPosition)
     {
         this->_position = newPosition;
+        _rect.x = newPosition.x;
+        _rect.y = newPosition.y;
     }
 
     /**
@@ -42,6 +46,8 @@ public:
 
         if (_texture) {
             _size = {(float)_texture->width, (float)_texture->height};
+            _rect.width = _size.x;
+            _rect.height = _size.y;
         }
     }
 
@@ -53,6 +59,8 @@ public:
      */
     void setSize(float w, float h) {
         _size = {w, h};
+        _rect.width = w;
+        _rect.height = h;
     }
 
     Vector2 getSize() const {
@@ -64,15 +72,37 @@ public:
      * 
      * @return Rectangle
      */ 
-    Rectangle getRect() const {
-        return {_position.x, _position.y, _size.x, _size.y};
+    Rectangle getRect() const 
+    {
+        return {_position.x, _position.y, _rect.width, _rect.height};
     }
 
+    /**
+     * @brief  change size of the hitbox
+     * 
+     */
+    void changeSizeOfRect(Vector2 size) 
+    {
+        _rect.width = size.x;
+        _rect.height = size.y;
+    }
+
+    /**
+     * @brief The object has a collision or not
+     * 
+     * @param isSolid boolean
+     */
     void setSolid(bool isSolid)
     {
         _isSolid = isSolid; 
     }
     
+    /**
+     * @brief Determine the object has a collision or not
+     * 
+     * @return true 
+     * @return false 
+     */
     bool getSolid() const
     {
         return _isSolid; 
