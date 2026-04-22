@@ -18,3 +18,22 @@ void BattleState::Update(float dt) {
     //     // stateMachine->ChangeState(std::make_unique<GameState>());
     // }
 }
+
+void BattleState::OnEnter() {
+    this->LoadResources();
+
+    // start logic
+}
+
+void BattleState::OnExit() {
+    this->UnloadResources();
+}
+
+void BattleState::LoadResources() {
+    _backgroundTexture = LoadTexture("resources/battle.png");
+    _background.setTexture(&_backgroundTexture);
+}
+
+void BattleState::UnloadResources() {
+    UnloadTexture(_backgroundTexture);
+}

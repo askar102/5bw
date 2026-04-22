@@ -8,7 +8,7 @@
 
 class BattleState : public State {
     private:
-        Texture2D* _backgroundTexture = nullptr;
+        Texture2D _backgroundTexture;
         Sprite _background; 
 
 
@@ -16,6 +16,9 @@ class BattleState : public State {
         void HandleInput() override;
         void Update(float dt) override;
         void Draw() override;
+
+        void OnEnter() override;
+        void OnExit() override;
 
         void LoadResources();
         void UnloadResources();
