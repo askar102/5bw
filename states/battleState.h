@@ -4,13 +4,19 @@
 #include "../raylib/raylib.h"
 #include "../core/stateMachine.h"
 
+#include "../entities/sprite.h"
+
 class BattleState : public State {
     private:
-        // pass
+        Texture2D* _backgroundTexture = nullptr;
+        Sprite _background; 
 
 
     public:
         void HandleInput() override;
         void Update(float dt) override;
         void Draw() override;
+
+        void LoadResources();
+        void UnloadResources();
 };
