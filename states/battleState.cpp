@@ -8,6 +8,9 @@ void BattleState::HandleInput() {
 
 void BattleState::Draw() {
     ClearBackground(RED);
+
+    _background.Draw();
+
     DrawText("currentState: battle", 0, 0, 20, WHITE);
     // todo: delete this in future
     DrawText("NOTE: fcku, is last state", 0, 30, 20, WHITE);
@@ -23,6 +26,7 @@ void BattleState::OnEnter() {
     this->LoadResources();
 
     // start logic
+    _background.setSize(800, 600);
 }
 
 void BattleState::OnExit() {
