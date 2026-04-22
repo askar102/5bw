@@ -5,7 +5,5 @@
 
 class BattleSystem {
 public:
-    void UseAbility(BattleEntity& caster,
-                    BattleEntity& target,
-                    Ability* ability);
+    void UseAbility(BattleEntity& caster, BattleEntity& target, Ability* ability);
 };

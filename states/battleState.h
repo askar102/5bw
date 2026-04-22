@@ -6,6 +6,9 @@
 
 #include "../entities/sprite.h"
 
+#include "../battle/battleSystem.h"
+#include "../battle/party.h"
+
 class BattleState : public State {
     private:
         Texture2D _backgroundTexture;
