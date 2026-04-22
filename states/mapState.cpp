@@ -20,10 +20,7 @@ void MapState::Draw() {
     DrawText("currentState: game(map)", 0, 0, 20, WHITE);
     DrawText("NOTE: press B for battle", 0, 30, 20, WHITE);
 
-    std::string mapPosText = "X: " + std::to_string(currentTileX) +
-                ", Y: " + std::to_string(currentTileY);
-
-    DrawText(mapPosText.c_str(), 0, 60, 20, WHITE);
+    DrawText(TextFormat("X: %d, Y: %d", currentTileX, currentTileY), 0, 60, 20, WHITE);
 }
 
 void MapState::Update(float dt) {
