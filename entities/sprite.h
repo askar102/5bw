@@ -9,6 +9,7 @@ private:
     Vector2 _size;
 
     bool _isSolid = false;
+    static bool _drawHitboxes;
 
     Rectangle _rect = {_position.x, _position.y, _size.x, _size.y};
 
@@ -115,6 +116,27 @@ public:
     }
 
     /**
+     * @brief Set the _DrawHitboxes bool object
+     * 
+     * @param value do u wanna draw hitboxes?
+     */
+    static void SetDrawHitboxes(bool value)
+    {
+        _drawHitboxes = value;
+    }
+
+    /**
+     * @brief Get the _DrawHitboxes bool object
+     * 
+     * @return true 
+     * @return false 
+     */
+    static bool GetDrawHitboxes()
+    {
+        return _drawHitboxes;
+    }
+
+    /**
      * @brief Draw the texture
      *
      */
@@ -126,6 +148,11 @@ public:
         Rectangle dest = {_position.x, _position.y, _size.x, _size.y};
 
         DrawTexturePro(*_texture, src, dest, {0, 0}, 0.0f, WHITE);
-        DrawRectangle(_rect.x, _rect.y, _rect.width, _rect.height, WHITE);
+
+        if (_drawHitboxes) 
+        {
+            DrawRectangle(_rect.x, _rect.y, _rect.width, _rect.height, WHITE);
+        }
+        
     }
 };

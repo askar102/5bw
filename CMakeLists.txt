@@ -15,6 +15,7 @@ add_executable(5bw12
     states/battleState.cpp
 
     entities/player.cpp
+    entities/sprite.cpp
 
     misc/mapGenerator.cpp
 )

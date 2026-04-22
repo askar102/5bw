@@ -31,6 +31,11 @@ void MapState::Update(float dt) {
         startBattle = false;
         stateMachine->ChangeState(std::make_unique<BattleState>());
     }
+
+    if (IsKeyPressed(KEY_H))
+    {
+        Sprite::SetDrawHitboxes(!Sprite::GetDrawHitboxes());
+    }
 }
 
 void MapState::OnEnter() {
