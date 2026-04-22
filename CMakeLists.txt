@@ -18,6 +18,10 @@ add_executable(5bw12
     entities/sprite.cpp
 
     misc/mapGenerator.cpp
+
+    battle/battleSystem.cpp
+    battle/battleEntity.cpp
+    battle/party.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)

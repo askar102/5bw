@@ -14,6 +14,12 @@ class BattleState : public State {
         Texture2D _backgroundTexture;
         Sprite _background; 
 
+        // jsut for test
+        Texture2D _characterTexture;
+        std::unique_ptr<BattleEntity> _character;
+
+        Party party;
+
 
     public:
         void HandleInput() override;

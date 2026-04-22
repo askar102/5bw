@@ -4,6 +4,8 @@
 
 #include <string>
 
+class BattleEntity;
+
 class Ability {
 public:
     std::string name;
