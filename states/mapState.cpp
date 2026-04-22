@@ -1,5 +1,4 @@
 #include "mapState.h"
-#include <memory>
 
 void MapState::HandleInput() {
     if (IsKeyPressed(KEY_B)) {
@@ -9,9 +8,6 @@ void MapState::HandleInput() {
 
 void MapState::Draw() {
     ClearBackground(GREEN);
-    DrawText("currentState: game(map)", 0, 0, 20, WHITE);
-    // todo: delete this in future
-    DrawText("NOTE: press B for battle", 0, 30, 20, WHITE);
 
     player.Draw();
     // tree.Draw();
@@ -19,6 +15,15 @@ void MapState::Draw() {
     for (auto& tree : trees) {
         tree->Draw();
     }
+
+    // todo: delete this in future
+    DrawText("currentState: game(map)", 0, 0, 20, WHITE);
+    DrawText("NOTE: press B for battle", 0, 30, 20, WHITE);
+
+    std::string mapPosText = "X: " + std::to_string(currentTileX) +
+                ", Y: " + std::to_string(currentTileY);
+
+    DrawText(mapPosText.c_str(), 0, 60, 20, WHITE);
 }
 
 void MapState::Update(float dt) {
