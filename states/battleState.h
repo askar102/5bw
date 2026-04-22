@@ -9,14 +9,20 @@
 #include "../battle/battleSystem.h"
 #include "../battle/party.h"
 
+#include "../battle/abilityUI.h"
+
 class BattleState : public State {
     private:
         Texture2D _backgroundTexture;
         Sprite _background; 
 
+        Texture2D _abilityIconTexture;
+
         // jsut for test
         Texture2D _characterTexture;
         std::unique_ptr<BattleEntity> _character;
+        std::vector<AbilityUI> abilityIcons;
+
 
         Party party;
 

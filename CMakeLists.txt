@@ -21,6 +21,7 @@ add_executable(5bw12
 
     battle/battleSystem.cpp
     battle/battleEntity.cpp
+    battle/abilityUI.cpp
     battle/party.cpp
 )
 

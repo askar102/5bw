@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 class Ability;
 
@@ -19,7 +20,8 @@ public:
     Sprite sprite;
     bool selected = false;
 
-    std::vector<Ability*> abilities;
+    std::vector<std::unique_ptr<Ability>> abilities;
+    Texture2D abilityTexture;
     
 
     bool Alive() const
@@ -28,6 +30,8 @@ public:
     }
 
     void Draw();
+    void DrawAbilities();
+    void UpdateAbilities();
 
     Sprite& getSprite() 
     {
