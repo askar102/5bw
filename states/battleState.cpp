@@ -67,7 +67,7 @@ void BattleState::OnEnter()
 
     _character->abilities.push_back(std::make_unique<Ability>("Attack", 10, 0));
     _character->abilities.push_back(std::make_unique<Ability>("Defend"));
-    _character->abilities.push_back(std::make_unique<Ability>("Heal"));
+    _character->abilities.push_back(std::make_unique<Ability>("Heal", 0, 10));
 
     _resources.Load();
 

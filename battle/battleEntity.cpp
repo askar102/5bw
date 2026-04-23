@@ -40,14 +40,14 @@ void BattleEntity::UpdateAbilities()
  * 
  */
 
- void BattleEntity::Heal(unsigned int amount)
+ void BattleEntity::Heal(int amount)
  {
-    this->hp = std::min<unsigned int>(hp + amount, maxHp);
+    this->hp = std::min(hp + amount, maxHp);
  }
 
- void BattleEntity::Damage(unsigned int amount)
+ void BattleEntity::Damage(int amount)
  {
-    this->hp = std::max<unsigned int>(hp - amount, 0);
+    this->hp = std::max(hp - amount, 0);
  }
 
 /**

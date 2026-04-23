@@ -15,8 +15,8 @@ class BattleEntity {
 public:
     std::string name;
     
-    unsigned int maxHp = 100;
-    unsigned int hp = maxHp;
+    int maxHp = 100;
+    int hp = maxHp;
     
     
     Sprite sprite;
@@ -43,8 +43,8 @@ public:
     }
 
     // battle actions
-    void Heal(unsigned int amount);
-    void Damage(unsigned int amount);
+    void Heal(int amount);
+    void Damage(int amount);
 
     // misc
     void InitText();
