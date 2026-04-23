@@ -18,6 +18,9 @@ private:
     std::unique_ptr<BattleEntity> _enemy;
 
     AbilityPanel _abilityPanel;
+    
+    // Temporary
+    Ability* _lastUsedAbility; 
 
 public:
     void HandleInput() override;

@@ -17,6 +17,7 @@ public:
     void SetVisible(bool visible);
     void Update();
     void Draw();
+    Ability* GetAbilityAt(Vector2 mouse) const;
 
 private:
     struct Slot {

@@ -1,18 +1,28 @@
 #include "battleState.h"
 
-void BattleState::HandleInput() {
+void BattleState::HandleInput()
+{
     Vector2 mouse = GetMousePosition();
 
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) 
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
-        if (CheckCollisionPointRec(mouse, _character->getSprite().getRect())) 
+        if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
         {
-            if (_character->canSelected) 
+            _character->selected = false;
+            _lastUsedAbility = clickedAbility;
+
+            clickedAbility->Execute(*_character, *_enemy);
+            return;
+        }
+
+        if (CheckCollisionPointRec(mouse, _character->getSprite().getRect()))
+        {
+            if (_character->canSelected)
             {
                 _character->selected = !_character->selected;
             }
         }
-        else 
+        else
         {
             _character->selected = false;
         }
@@ -24,35 +34,34 @@ void BattleState::HandleInput() {
     }
 }
 
-void BattleState::Draw() {
+void BattleState::Draw()
+{
     ClearBackground(RED);
 
     _background.Draw();
-    
-    // just for test
+
     _character->Draw();
     _enemy->Draw();
 
     _abilityPanel.Draw();
 
     DrawText("currentState: battle", 0, 0, 20, WHITE);
-    // todo: delete this in future
     DrawText("NOTE: fcku, is last state", 0, 30, 20, WHITE);
+    if (_lastUsedAbility)
+        DrawText(TextFormat("Used: %s", _lastUsedAbility->name.c_str()), 0, 60, 20, WHITE);
 }
 
-void BattleState::Update(float dt) {
+void BattleState::Update(float dt)
+{
     (void)dt;
 
     _abilityPanel.SetVisible(_character->selected);
     _abilityPanel.SetAnchor(_character->getSprite().getPosition());
     _abilityPanel.Update();
-
-    // if (startBattle) {
-    //     // stateMachine->ChangeState(std::make_unique<GameState>());
-    // }
 }
 
-void BattleState::OnEnter() {
+void BattleState::OnEnter()
+{
     _character = std::make_unique<BattleEntity>();
     _enemy = std::make_unique<BattleEntity>();
 
@@ -62,30 +71,25 @@ void BattleState::OnEnter() {
 
     _resources.Load();
 
-    // start logic
     InitBackground();
 
-    // 50 x 300
     _character->getSprite().setPosition({50, 300});
     _character->getSprite().setTexture(_resources.CharacterTexture());
 
     _enemy->getSprite().setPosition({600, 300});
     _enemy->getSprite().setTexture(_resources.EnemyTexture());
     _enemy->canSelected = false;
+    _enemy->getSprite().setSize(100, 100);
 
     _abilityPanel.SetIconTexture(_resources.AbilityIconTexture());
     _abilityPanel.SetAbilities(_character->abilities);
     _abilityPanel.SetAnchor(_character->getSprite().getPosition());
     _abilityPanel.SetVisible(false);
     _abilityPanel.Update();
-
-
-    // 0 - is first
-    // party.Add(std::move(_character), 0);
-    
 }
 
-void BattleState::OnExit() {
+void BattleState::OnExit()
+{
     _resources.Unload();
 }
 
