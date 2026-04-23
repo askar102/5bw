@@ -19,7 +19,6 @@ public:
     virtual void Execute(BattleEntity& caster,
                          BattleEntity& target)
     {
-        (void)caster;
-        (void)target;
+        
     }
 };

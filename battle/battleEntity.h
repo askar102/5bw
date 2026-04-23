@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 class Ability;
 
@@ -14,8 +15,8 @@ class BattleEntity {
 public:
     std::string name;
     
-    int maxHp = 100;
-    int hp = maxHp;
+    unsigned int maxHp = 100;
+    unsigned int hp = maxHp;
     
     
     Sprite sprite;
@@ -40,6 +41,10 @@ public:
     {
         return sprite;
     }
+
+    // battle actions
+    void Heal(unsigned int amount);
+    void Damage(unsigned int amount);
 
     // misc
     void InitText();

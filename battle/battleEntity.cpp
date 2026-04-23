@@ -36,6 +36,21 @@ void BattleEntity::UpdateAbilities()
 }
 
 /**
+ * BATTLE ACTIONS
+ * 
+ */
+
+ void BattleEntity::Heal(unsigned int amount)
+ {
+    this->hp = std::min<unsigned int>(hp + amount, maxHp);
+ }
+
+ void BattleEntity::Damage(unsigned int amount)
+ {
+    this->hp = std::max<unsigned int>(hp - amount, 0);
+ }
+
+/**
  * MISC
  * 
  */
