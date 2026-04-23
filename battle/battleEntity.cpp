@@ -4,9 +4,8 @@ void BattleEntity::Draw()
 {
     sprite.Draw();
     
-    Vector2 pos = sprite.getPosition();
-    DrawText(TextFormat("Selected: %d", selected), pos.x, (pos.y - 30), 20, WHITE);
-}
+    InitText();
+}   
 
 void BattleEntity::DrawAbilities() 
 {
@@ -34,4 +33,25 @@ void BattleEntity::DrawAbilities()
 
 void BattleEntity::UpdateAbilities()
 {
+}
+
+/**
+ * MISC
+ * 
+ */
+
+void BattleEntity::InitText()
+{
+    Vector2 pos = sprite.getPosition();
+
+    DrawText(TextFormat("HP: %d", hp), pos.x, (pos.y - 60), 20, WHITE);
+
+    if (canSelected) 
+    {
+        DrawText(TextFormat("Selected: %d", selected), pos.x, (pos.y - 30), 20, WHITE);
+    }
+    else 
+    {
+        DrawText("Cant be selected", (pos.x - 20), (pos.y - 30), 20, WHITE);
+    }
 }

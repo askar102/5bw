@@ -14,11 +14,14 @@ class BattleEntity {
 public:
     std::string name;
     
-    int hp;
-    int maxHp;
+    int maxHp = 100;
+    int hp = maxHp;
+    
     
     Sprite sprite;
+
     bool selected = false;
+    bool canSelected = true;
 
     std::vector<std::unique_ptr<Ability>> abilities;
     Texture2D abilityTexture;
@@ -37,4 +40,7 @@ public:
     {
         return sprite;
     }
+
+    // misc
+    void InitText();
 };

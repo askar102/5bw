@@ -10,6 +10,7 @@ private:
 
     bool _isSolid = false;
     static bool _drawHitboxes;
+    bool _canDrawHitboxes = true;
 
     Rectangle _rect = {_position.x, _position.y, _size.x, _size.y};
 
@@ -137,6 +138,16 @@ public:
     }
 
     /**
+     * @brief Does the static object _drawHiboxes depend on this sprite?
+     * 
+     * @param val 
+     */
+    void SetCanDrawHiboxes(bool val)
+    {
+        _canDrawHitboxes = val;
+    }
+
+    /**
      * @brief Draw the texture
      *
      */
@@ -151,7 +162,10 @@ public:
 
         if (_drawHitboxes) 
         {
-            DrawRectangle(_rect.x, _rect.y, _rect.width, _rect.height, WHITE);
+            if (_canDrawHitboxes)
+            {
+                DrawRectangle(_rect.x, _rect.y, _rect.width, _rect.height, WHITE);
+            }
         }
         
     }
