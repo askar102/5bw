@@ -35,6 +35,17 @@ void BattleState::Draw() {
         for (auto& ui : abilityIcons)
         {
             ui.icon.Draw();
+
+            if (ui.ability)
+            {
+                DrawText(
+                    ui.ability->name.c_str(),
+                    ui.pos.x + 10,   // смещение внутри кнопки
+                    ui.pos.y + 10,
+                    20,
+                    WHITE
+                );
+        }
         }
     }
 }
