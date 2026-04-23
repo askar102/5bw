@@ -61,7 +61,7 @@ void AbilityPanel::Draw()
         if (slot.ability)
         {
             DrawText(
-                slot.ability->name.c_str(),
+                slot.ability->getName().c_str(),
                 static_cast<int>(slot.pos.x + 10.0f),
                 static_cast<int>(slot.pos.y + 10.0f),
                 20,

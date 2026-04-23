@@ -20,7 +20,7 @@ void BattleEntity::DrawAbilities()
 
         // только текст
         DrawText(
-            ability->name.c_str(),
+            ability->getName().c_str(),
             newPos.x,
             newPos.y,
             20,

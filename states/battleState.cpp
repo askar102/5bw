@@ -48,7 +48,7 @@ void BattleState::Draw()
     DrawText("currentState: battle", 0, 0, 20, WHITE);
     DrawText("NOTE: fcku, is last state", 0, 30, 20, WHITE);
     if (_lastUsedAbility)
-        DrawText(TextFormat("Used: %s", _lastUsedAbility->name.c_str()), 0, 60, 20, WHITE);
+        DrawText(TextFormat("Used: %s", _lastUsedAbility->getName().c_str()), 0, 60, 20, WHITE);
 }
 
 void BattleState::Update(float dt)

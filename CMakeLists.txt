@@ -24,6 +24,7 @@ add_executable(5bw12
     battle/abilityPanel.cpp
     battle/battleResources.cpp
     battle/party.cpp
+    battle/ability.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)
