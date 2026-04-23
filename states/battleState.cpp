@@ -65,7 +65,7 @@ void BattleState::OnEnter()
     _character = std::make_unique<BattleEntity>();
     _enemy = std::make_unique<BattleEntity>();
 
-    _character->abilities.push_back(std::make_unique<Ability>("Attack"));
+    _character->abilities.push_back(std::make_unique<Ability>("Attack", 10, 0));
     _character->abilities.push_back(std::make_unique<Ability>("Defend"));
     _character->abilities.push_back(std::make_unique<Ability>("Heal"));
 
