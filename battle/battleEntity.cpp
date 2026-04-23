@@ -3,8 +3,8 @@
 void BattleEntity::Draw() 
 {
     sprite.Draw();
-    
-    InitText();
+    RefreshActionText();
+    actionText.Draw();
 }   
 
 void BattleEntity::DrawAbilities() 
@@ -35,6 +35,23 @@ void BattleEntity::UpdateAbilities()
 {
 }
 
+void BattleEntity::RefreshActionText()
+{
+    Vector2 pos = sprite.getPosition();
+    actionText.SetAnchor(pos);
+
+    actionText.SetLine(0, TextFormat("HP: %d", hp));
+
+    if (canSelected)
+    {
+        actionText.SetLine(1, TextFormat("Selected: %d", selected));
+    }
+    else
+    {
+        actionText.SetLine(1, "Cant be selected");
+    }
+}
+
 /**
  * BATTLE ACTIONS
  * 
@@ -50,23 +67,3 @@ void BattleEntity::UpdateAbilities()
     this->hp = std::max(hp - amount, 0);
  }
 
-/**
- * MISC
- * 
- */
-
-void BattleEntity::InitText()
-{
-    Vector2 pos = sprite.getPosition();
-
-    DrawText(TextFormat("HP: %d", hp), pos.x, (pos.y - 60), 20, WHITE);
-
-    if (canSelected) 
-    {
-        DrawText(TextFormat("Selected: %d", selected), pos.x, (pos.y - 30), 20, WHITE);
-    }
-    else 
-    {
-        DrawText("Cant be selected", (pos.x - 20), (pos.y - 30), 20, WHITE);
-    }
-}

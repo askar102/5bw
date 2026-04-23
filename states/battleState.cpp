@@ -9,9 +9,9 @@ void BattleState::HandleInput()
         if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
         {
             _character->selected = false;
-            _lastUsedAbility = clickedAbility;
-
             clickedAbility->Execute(*_character, *_enemy);
+            _character->actionText.Add(TextFormat("Used %s", clickedAbility->getName().c_str()), YELLOW);
+            _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->getName().c_str()), ORANGE);
             return;
         }
 
@@ -47,8 +47,6 @@ void BattleState::Draw()
 
     DrawText("currentState: battle", 0, 0, 20, WHITE);
     DrawText("NOTE: fcku, is last state", 0, 30, 20, WHITE);
-    if (_lastUsedAbility)
-        DrawText(TextFormat("Used: %s", _lastUsedAbility->getName().c_str()), 0, 60, 20, WHITE);
 }
 
 void BattleState::Update(float dt)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ability.h"
+#include "actionText.h"
 
 #include "../entities/sprite.h"
 
@@ -20,6 +21,7 @@ public:
     
     
     Sprite sprite;
+    ActionText actionText;
 
     bool selected = false;
     bool canSelected = true;
@@ -36,6 +38,7 @@ public:
     void Draw();
     void DrawAbilities();
     void UpdateAbilities();
+    void RefreshActionText();
 
     Sprite& getSprite() 
     {
@@ -45,7 +48,4 @@ public:
     // battle actions
     void Heal(int amount);
     void Damage(int amount);
-
-    // misc
-    void InitText();
 };
