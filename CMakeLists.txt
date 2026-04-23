@@ -26,6 +26,8 @@ add_executable(5bw12
     battle/battleResources.cpp
     battle/party.cpp
     battle/ability.cpp
+    battle/vfx.cpp
+    battle/vfxManager.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)

@@ -1,6 +1,5 @@
 #include "actionText.h"
 
-#include <algorithm>
 #include <cstddef>
 
 void ActionText::SetAnchor(Vector2 anchor)
