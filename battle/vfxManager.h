@@ -1,6 +1,7 @@
 #pragma once
 
 #include "vfx.h"
+#include "battleResources.h"
 
 #include "../raylib/raylib.h"
 
@@ -16,10 +17,13 @@ public:
     void Clear();
 
     // Temporary per-ability hooks. Keep these empty for now.
-    void SpawnAttackVfx(Vector2 origin, Vector2 target);
+    void SpawnCardVfx();
     void SpawnDefendVfx(Vector2 origin, Vector2 target);
     void SpawnHealVfx(Vector2 origin, Vector2 target);
 
+    void InitTextureManager(BattleResources* resources);
+
 private:
     std::vector<std::unique_ptr<Vfx>> _effects;
+    BattleResources* _resources = nullptr;
 };

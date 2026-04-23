@@ -7,6 +7,7 @@
 #include "../battle/abilityPanel.h"
 #include "../battle/battleEntity.h"
 #include "../battle/battleResources.h"
+#include "../battle/vfxManager.h"
 
 class BattleState : public State {
 private:
@@ -18,6 +19,7 @@ private:
     std::unique_ptr<BattleEntity> _enemy;
 
     AbilityPanel _abilityPanel;
+    VfxManager _vfxManager;
 
 public:
     void HandleInput() override;

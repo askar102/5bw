@@ -10,6 +10,10 @@ void BattleResources::Load()
     _characterTexture = LoadTexture("resources/player.png");
     _enemyTexture = LoadTexture("resources/enemy.png");
     _abilityIconTexture = LoadTexture("resources/option.png");
+
+    // VFX
+    _cardVFXTexture = LoadTexture("resources/card.png");
+
     _loaded = true;
 }
 
@@ -23,6 +27,10 @@ void BattleResources::Unload()
     UnloadTexture(_characterTexture);
     UnloadTexture(_enemyTexture);
     UnloadTexture(_abilityIconTexture);
+
+    // VFX
+    UnloadTexture(_cardVFXTexture);
+
     _loaded = false;
 }
 
@@ -44,4 +52,11 @@ Texture2D* BattleResources::EnemyTexture()
 Texture2D* BattleResources::AbilityIconTexture()
 {
     return &_abilityIconTexture;
+}
+
+// VFX
+
+Texture2D* BattleResources::CardVFXTexture()
+{
+    return &_cardVFXTexture;
 }

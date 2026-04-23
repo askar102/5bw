@@ -11,11 +11,18 @@ public:
     Texture2D* CharacterTexture();
     Texture2D* EnemyTexture();
     Texture2D* AbilityIconTexture();
+
+    // VFX
+    Texture2D* CardVFXTexture();
     
 private:
     Texture2D _backgroundTexture = {};
     Texture2D _characterTexture = {};
     Texture2D _enemyTexture = {};
     Texture2D _abilityIconTexture = {};
+
+    // VFX
+    Texture2D _cardVFXTexture;
+
     bool _loaded = false;
 };

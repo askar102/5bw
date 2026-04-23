@@ -9,6 +9,18 @@ void BattleState::HandleInput()
         if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
         {
             _character->selected = false;
+
+            // ЛОГИКА БОЯ: определяем точки "кастер -> цель" для эффектов.
+            const Vector2 casterPos = _character->getSprite().getPosition();
+            const Vector2 targetPos = _enemy->getSprite().getPosition();
+            const std::string abilityName = clickedAbility->getName();
+
+            // VFX-ЛОГИКА: отдельные эффекты на разные типы умений.
+            if (abilityName == "Attack")
+            {
+                _vfxManager.SpawnCardVfx();
+            }
+
             clickedAbility->Execute(*_character, *_enemy);
             _character->actionText.Add(TextFormat("Used %s", clickedAbility->getName().c_str()), YELLOW);
             _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->getName().c_str()), ORANGE);
@@ -38,24 +50,28 @@ void BattleState::Draw()
 {
     ClearBackground(RED);
 
+    // РЕНДЕР: сначала фон и сущности.
     _background.Draw();
-
     _character->Draw();
     _enemy->Draw();
+
+    // РЕНДЕР: затем рисуем активные эффекты поверх.
+    _vfxManager.Draw();
 
     _abilityPanel.Draw();
 
     DrawText("currentState: battle", 0, 0, 20, WHITE);
-    DrawText("NOTE: fcku, is last state", 0, 30, 20, WHITE);
 }
 
 void BattleState::Update(float dt)
 {
-    (void)dt;
-
+    // UI-ЛОГИКА: панель умений следует за игроком и видна только при выборе.
     _abilityPanel.SetVisible(_character->selected);
     _abilityPanel.SetAnchor(_character->getSprite().getPosition());
     _abilityPanel.Update();
+
+    // ЛОГИКА АНИМАЦИЙ: обновляем таймеры и положение эффектов.
+    _vfxManager.Update(dt);
 }
 
 void BattleState::OnEnter()
@@ -70,6 +86,8 @@ void BattleState::OnEnter()
     _resources.Load();
 
     InitBackground();
+
+    _vfxManager.InitTextureManager(&_resources);
 
     _character->getSprite().setPosition({50, 300});
     _character->getSprite().setTexture(_resources.CharacterTexture());
@@ -88,6 +106,7 @@ void BattleState::OnEnter()
 
 void BattleState::OnExit()
 {
+    _vfxManager.Clear();
     _resources.Unload();
 }
 

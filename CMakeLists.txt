@@ -27,6 +27,7 @@ add_executable(5bw12
     battle/party.cpp
     battle/ability.cpp
     battle/vfx.cpp
+    battle/cardVfx.cpp
     battle/vfxManager.cpp
 )
 

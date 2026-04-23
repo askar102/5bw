@@ -14,7 +14,7 @@ void Vfx::Update(float dt)
     _position.y += _velocity.y * dt;
 }
 
-void Vfx::Draw() const
+void Vfx::Draw()
 {
     DrawCircleV(_position, 4.0f, _color);
 }

@@ -9,7 +9,7 @@ public:
     virtual ~Vfx() = default;
 
     virtual void Update(float dt);
-    virtual void Draw() const;
+    virtual void Draw();
     virtual bool IsFinished() const;
 
     void SetPosition(Vector2 position);
@@ -25,6 +25,4 @@ protected:
     float _lifetime = 0.0f;
     float _elapsed = 0.0f;
     Color _color = WHITE;
-
-    Texture2D* _texture;
 };

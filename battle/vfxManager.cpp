@@ -1,6 +1,7 @@
 #include "vfxManager.h"
 
-#include <algorithm>
+#include "battleResources.h"
+#include "cardVfx.h"
 
 void VfxManager::Update(float dt)
 {
@@ -42,23 +43,33 @@ void VfxManager::Clear()
     _effects.clear();
 }
 
-void VfxManager::SpawnAttackVfx(Vector2 origin, Vector2 target)
+
+void VfxManager::InitTextureManager(BattleResources* resources)
 {
-    (void)origin;
-    (void)target;
-    // TODO: add attack card spread VFX here.
+    _resources = resources;
+}
+
+
+void VfxManager::SpawnCardVfx()
+{
+    if (!_resources)
+    {
+        return;
+    }
+
+    Add(std::make_unique<CardVfx>(Vector2{0, 0}, 10.0f, _resources->CardVFXTexture()));
 }
 
 void VfxManager::SpawnDefendVfx(Vector2 origin, Vector2 target)
 {
     (void)origin;
     (void)target;
-    // TODO: add defend shield VFX here.
+    // TODO: сюда добавить VFX защиты.
 }
 
 void VfxManager::SpawnHealVfx(Vector2 origin, Vector2 target)
 {
     (void)origin;
     (void)target;
-    // TODO: add heal sparkle VFX here.
+    // TODO: сюда добавить VFX лечения.
 }
