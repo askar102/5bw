@@ -5,6 +5,7 @@ class Sprite {
 private:
     Vector2 _position{0, 0};
     Texture2D* _texture = nullptr;
+    float _rotation = 0.0f;
 
     Vector2 _size;
 
@@ -16,8 +17,8 @@ private:
 
     void UpdateRect()
     {
-        _rect.x = _position.x + (_size.x - _rect.width) / 2.0f;
-        _rect.y = _position.y + (_size.y - _rect.height) / 2.0f;
+        _rect.x = _position.x;
+        _rect.y = _position.y;
     }
 
 public:
@@ -68,6 +69,16 @@ public:
     void setSize(float w, float h) {
         _size = {w, h};
         UpdateRect();
+    }
+
+    void setRotation(float rotation)
+    {
+        _rotation = rotation;
+    }
+
+    float getRotation() const
+    {
+        return _rotation;
     }
 
     Vector2 getSize() const {
@@ -157,8 +168,9 @@ public:
 
         Rectangle src = {0, 0, (float)_texture->width, (float)_texture->height};
         Rectangle dest = {_position.x, _position.y, _size.x, _size.y};
+        Vector2 origin = {0, 0};
 
-        DrawTexturePro(*_texture, src, dest, {0, 0}, 0.0f, WHITE);
+        DrawTexturePro(*_texture, src, dest, origin, _rotation, WHITE);
 
         if (_drawHitboxes) 
         {

@@ -9,7 +9,9 @@ CardVfx::CardVfx(Vector2 position, float lifetime, Texture2D* texture)
 void CardVfx::OnEnter()
 {
     _sprite.setPosition({_position.x, _position.y});
+    _sprite.setRotation(-90);
     SetSpeed(160.0f);
+
 }
 
 void CardVfx::Update(float dt)
