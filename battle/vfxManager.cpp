@@ -59,7 +59,7 @@ void VfxManager::SpawnCardVfx(Vector2 casterPos, float casterHeight)
     }
 
     float casterYPosCalc = casterPos.y + (casterHeight / 2);
-    Add(std::make_unique<CardVfx>((Vector2){casterPos.x + 40, casterYPosCalc}, 10.0f, _resources->CardVFXTexture()));
+    Add(std::make_unique<CardVfx>((Vector2){casterPos.x + 40, casterYPosCalc}, 10.0f, 0.0f, _resources->CardVFXTexture()));
 }
 
 void VfxManager::SpawnDefendVfx(Vector2 origin, Vector2 target)

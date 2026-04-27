@@ -1,19 +1,14 @@
 #pragma once
 
 #include "vfx.h"
-#include "../entities/sprite.h"
 
 class CardVfx : public Vfx {
 public:
-    CardVfx(Vector2 position, float lifetime, Texture2D* texture);
+    CardVfx(Vector2 position, float lifetime, float rotation, Texture2D* texture);
 
     void OnEnter() override;
     void Update(float dt) override;
     void Draw() override;
     bool IsFinished() const override;
-
-private:
-    Sprite _sprite;
-    // float _moveSpeed = 160.0f;
 };
     

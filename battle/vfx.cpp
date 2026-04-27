@@ -1,10 +1,15 @@
 #include "vfx.h"
 
-Vfx::Vfx(Vector2 position, float lifetime, Color color)
-    : _position(position),
-      _lifetime(lifetime),
-      _color(color)
+Vfx::Vfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, Color color)
+    : _lifetime(lifetime), _color(color)
 {
+    if (texture) {
+        _sprite.setTexture(texture);
+    }
+
+    _sprite.setPosition(position);
+    _sprite.setRotation(rotation);
+    
 }
 
 void Vfx::OnEnter()
@@ -18,17 +23,12 @@ void Vfx::Update(float dt)
 
 void Vfx::Draw()
 {
-    DrawCircleV(_position, 4.0f, _color);
+    DrawCircleV(_sprite.getPosition(), 4.0f, _color);
 }
 
 bool Vfx::IsFinished() const
 {
     return _elapsed >= _lifetime;
-}
-
-void Vfx::SetPosition(Vector2 position)
-{
-    _position = position;
 }
 
 void Vfx::SetSpeed(float speed)
@@ -44,9 +44,4 @@ void Vfx::SetLifetime(float lifetime)
 void Vfx::SetColor(Color color)
 {
     _color = color;
-}
-
-Vector2 Vfx::GetPosition() const
-{
-    return _position;
 }

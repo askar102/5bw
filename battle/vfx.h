@@ -2,10 +2,12 @@
 
 #include "../raylib/raylib.h"
 
+#include "../entities/sprite.h"
+
 class Vfx {
 public:
     Vfx() = default;
-    Vfx(Vector2 position, float lifetime, Color color = WHITE);
+    Vfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, Color color = WHITE);
     virtual ~Vfx() = default;
 
     virtual void OnEnter();
@@ -13,19 +15,12 @@ public:
     virtual void Draw();
     virtual bool IsFinished() const;
 
-    void SetPosition(Vector2 position);
     void SetSpeed(float speed);
     void SetLifetime(float lifetime);
     void SetColor(Color color);
 
-    Vector2 GetPosition() const;
-
 protected:
-    /**
-     * TODO: добавить в поля обычный Sprite, убрать _position
-     * 
-     */
-    Vector2 _position = {0.0f, 0.0f};
+    Sprite _sprite;
     float _speed = 0.0f;
     float _lifetime = 0.0f;
     float _elapsed = 0.0f; // времени истекло

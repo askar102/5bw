@@ -1,23 +1,31 @@
+#include <cmath>
+
 #include "cardVfx.h"
 
-CardVfx::CardVfx(Vector2 position, float lifetime, Texture2D* texture)
-    : Vfx(position, lifetime, WHITE)
+CardVfx::CardVfx(Vector2 position, float lifetime, float rotation, Texture2D* texture)
+    : Vfx(position, lifetime, rotation, texture, WHITE)
 {
-    _sprite.setTexture(texture);
 }
 
 void CardVfx::OnEnter()
 {
-    _sprite.setPosition({_position.x, _position.y});
-    _sprite.setRotation(-90);
     SetSpeed(160.0f);
-
 }
 
 void CardVfx::Update(float dt)
 {
-    _position.x += _speed * dt;
-    _sprite.setPosition({_position.x, _position.y});
+    /**
+     * for up animation:
+     *  const float rotationRad = _sprite.getRotation() * PI / 180.0f;
+     *  const Vector2 movement = {
+     *      std::cos(rotationRad) * _speed * dt,
+     *      std::sin(rotationRad) * _speed * dt
+     *  };
+     * 
+     */
+
+    const Vector2 position = _sprite.getPosition();
+    _sprite.setPosition({position.x + _speed * dt, position.y /*+ movement.y*/});
 
     Vfx::Update(dt);
 }
