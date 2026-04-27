@@ -8,12 +8,13 @@ public:
     Vfx(Vector2 position, float lifetime, Color color = WHITE);
     virtual ~Vfx() = default;
 
+    virtual void OnEnter();
     virtual void Update(float dt);
     virtual void Draw();
     virtual bool IsFinished() const;
 
     void SetPosition(Vector2 position);
-    void SetVelocity(Vector2 velocity);
+    void SetSpeed(float speed);
     void SetLifetime(float lifetime);
     void SetColor(Color color);
 
@@ -25,7 +26,7 @@ protected:
      * 
      */
     Vector2 _position = {0.0f, 0.0f};
-    Vector2 _velocity = {0.0f, 0.0f};
+    float _speed = 0.0f;
     float _lifetime = 0.0f;
     float _elapsed = 0.0f; // времени истекло
     Color _color = WHITE;

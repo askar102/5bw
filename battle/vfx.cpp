@@ -7,11 +7,13 @@ Vfx::Vfx(Vector2 position, float lifetime, Color color)
 {
 }
 
+void Vfx::OnEnter()
+{
+}
+
 void Vfx::Update(float dt)
 {
     _elapsed += dt;
-    _position.x += _velocity.x * dt;
-    _position.y += _velocity.y * dt;
 }
 
 void Vfx::Draw()
@@ -29,9 +31,9 @@ void Vfx::SetPosition(Vector2 position)
     _position = position;
 }
 
-void Vfx::SetVelocity(Vector2 velocity)
+void Vfx::SetSpeed(float speed)
 {
-    _velocity = velocity;
+    _speed = speed;
 }
 
 void Vfx::SetLifetime(float lifetime)

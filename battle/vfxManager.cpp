@@ -35,6 +35,7 @@ void VfxManager::Add(std::unique_ptr<Vfx> vfx)
         return;
     }
 
+    vfx->OnEnter();
     _effects.push_back(std::move(vfx));
 }
 

@@ -6,9 +6,17 @@ CardVfx::CardVfx(Vector2 position, float lifetime, Texture2D* texture)
     _sprite.setTexture(texture);
 }
 
-void CardVfx::Update(float dt)
+void CardVfx::OnEnter()
 {
     _sprite.setPosition({_position.x, _position.y});
+    SetSpeed(160.0f);
+}
+
+void CardVfx::Update(float dt)
+{
+    _position.x += _speed * dt;
+    _sprite.setPosition({_position.x, _position.y});
+
     Vfx::Update(dt);
 }
 
