@@ -176,7 +176,7 @@ public:
         {
             if (_canDrawHitboxes)
             {
-                DrawRectangle(_rect.x, _rect.y, _rect.width, _rect.height, WHITE);
+                DrawRectanglePro(_rect, origin, _rotation, WHITE);
             }
         }
         
