@@ -10,12 +10,10 @@ void BattleState::HandleInput()
         {
             _character->selected = false;
 
-            // ЛОГИКА БОЯ: определяем точки "кастер -> цель" для эффектов.
             const Vector2 casterPos = _character->getSprite().getPosition();
             const Vector2 targetPos = _enemy->getSprite().getPosition();
             const std::string abilityName = clickedAbility->getName();
 
-            // VFX-ЛОГИКА: отдельные эффекты на разные типы умений.
             if (abilityName == "Attack")
             {
                 _vfxManager.SpawnCardVfx();

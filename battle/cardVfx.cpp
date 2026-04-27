@@ -8,7 +8,6 @@ CardVfx::CardVfx(Vector2 position, float lifetime, Texture2D* texture)
 
 void CardVfx::Update(float dt)
 {
-    // ЛОГИКА: общий таймер жизни + смещение по скорости.
     _sprite.setPosition({_position.x, _position.y});
     Vfx::Update(dt);
 }

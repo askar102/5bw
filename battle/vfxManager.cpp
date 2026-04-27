@@ -64,12 +64,10 @@ void VfxManager::SpawnDefendVfx(Vector2 origin, Vector2 target)
 {
     (void)origin;
     (void)target;
-    // TODO: сюда добавить VFX защиты.
 }
 
 void VfxManager::SpawnHealVfx(Vector2 origin, Vector2 target)
 {
     (void)origin;
     (void)target;
-    // TODO: сюда добавить VFX лечения.
 }
