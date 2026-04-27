@@ -8,13 +8,13 @@ void MapState::HandleInput() {
 
 void MapState::Draw() {
     ClearBackground(GREEN);
-
-    player.Draw();
     // tree.Draw();
 
     for (auto& tree : trees) {
         tree->Draw();
     }
+
+    player.Draw();
 
     // todo: delete this in future
     DrawText("currentState: game(map)", 0, 0, 20, WHITE);

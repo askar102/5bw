@@ -48,7 +48,7 @@ std::vector<std::unique_ptr<Sprite>> MapGenerator::GenerateTile(const std::strin
 
                         sprite->setSolid(true);
                         // width, height
-                        sprite->changeSizeOfRect({60, 60});
+                        sprite->changeSizeOfRect({90, 60});
 
                         result.push_back(std::move(sprite));
                     }
