@@ -17,7 +17,7 @@ public:
     void Clear();
 
     // Temporary per-ability hooks. Keep these empty for now.
-    void SpawnCardVfx();
+    void SpawnCardVfx(Vector2 casterPos);
     void SpawnDefendVfx(Vector2 origin, Vector2 target);
     void SpawnHealVfx(Vector2 origin, Vector2 target);
 

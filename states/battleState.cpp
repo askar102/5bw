@@ -16,7 +16,7 @@ void BattleState::HandleInput()
 
             if (abilityName == "Attack")
             {
-                _vfxManager.SpawnCardVfx();
+                _vfxManager.SpawnCardVfx(casterPos);
             }
 
             clickedAbility->Execute(*_character, *_enemy);
