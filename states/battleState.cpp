@@ -14,9 +14,15 @@ void BattleState::HandleInput()
             const Vector2 targetPos = _enemy->getSprite().getPosition();
             const std::string abilityName = clickedAbility->getName();
 
+            const float casterHeight = _character->getSprite().getRect().height;
+
             if (abilityName == "Attack")
             {
-                _vfxManager.SpawnCardVfx(casterPos);
+                /**
+                 * TODO: maybe we should pass _character itself
+                 * 
+                 */
+                _vfxManager.SpawnCardVfx(casterPos, casterHeight);
             }
 
             clickedAbility->Execute(*_character, *_enemy);

@@ -50,14 +50,15 @@ void VfxManager::InitTextureManager(BattleResources* resources)
 }
 
 
-void VfxManager::SpawnCardVfx(Vector2 casterPos)
+void VfxManager::SpawnCardVfx(Vector2 casterPos, float casterHeight)
 {
     if (!_resources)
     {
         return;
     }
 
-    Add(std::make_unique<CardVfx>(casterPos, 10.0f, _resources->CardVFXTexture()));
+    float casterYPosCalc = casterPos.y + (casterHeight / 2);
+    Add(std::make_unique<CardVfx>((Vector2){casterPos.x + 40, casterYPosCalc}, 10.0f, _resources->CardVFXTexture()));
 }
 
 void VfxManager::SpawnDefendVfx(Vector2 origin, Vector2 target)
