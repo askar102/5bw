@@ -7,13 +7,26 @@ CardVfx::CardVfx(Vector2 position, float lifetime, float rotation, Texture2D* te
 
 void CardVfx::OnEnter()
 {
-    SetSpeed(160.0f);
+    SetSpeed(400.0f);
 }
 
 void CardVfx::Update(float dt)
 {
     const Vector2 position = _sprite.getPosition();
-    const Vector2 nextPosition = {position.x + _speed * dt, position.y};
+
+    // DEG2RAD is PI / 180.0f
+    float rad = _sprite.getRotation() * DEG2RAD;
+
+    Vector2 direction = {
+        std::cosf(rad),
+        std::sinf(rad)
+    };
+
+    Vector2 nextPosition = {
+        position.x + direction.x * _speed * dt,
+        position.y + direction.y * _speed * dt
+    };
+
     _sprite.setPosition(nextPosition);
 
     if (CheckCollisionRecs(_sprite.getRect(), _targetRect))
@@ -22,7 +35,10 @@ void CardVfx::Update(float dt)
     }
 
     const Rectangle projectileRect = _sprite.getRect();
-    if (projectileRect.x > static_cast<float>(GetScreenWidth()))
+    if (projectileRect.x > static_cast<float>(GetScreenWidth()) ||
+        projectileRect.x + projectileRect.width < 0 ||
+        projectileRect.y > static_cast<float>(GetScreenHeight()) ||
+        projectileRect.y + projectileRect.height < 0)
     {
         _leftScreen = true;
     }

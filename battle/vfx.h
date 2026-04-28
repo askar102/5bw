@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "../raylib/raylib.h"
 
 #include "../entities/sprite.h"
