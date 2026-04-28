@@ -141,8 +141,7 @@ public:
 
         _previousCostumeEnabled = _costume.enabled;
         _previousCostumeIndex = _costume.index;
-        // If current texture is an atlas and no costume is active yet,
-        // fallback to the first costume on revert instead of full atlas.
+        
         const bool looksLikeCostumeAtlas =
             _texture->width == (_costume.width * _costume.total) &&
             _texture->height == _costume.height;
