@@ -23,6 +23,10 @@ private:
 
     Rectangle _rect = {_position.x, _position.y, _size.x, _size.y};
     Costume _costume;
+    bool _hasTimedCostume = false;
+    bool _previousCostumeEnabled = false;
+    int _previousCostumeIndex = 0;
+    double _costumeRevertAt = 0.0;
 
     float _alpha = 1.0f;
 
@@ -30,6 +34,34 @@ private:
     {
         _rect.x = _position.x;
         _rect.y = _position.y;
+    }
+
+    void ApplyCostumeState(bool enabled, int costumeIndex)
+    {
+        if (!_texture) {
+            return;
+        }
+
+        if (enabled && _costume.total > 0) {
+            if (costumeIndex < 0) {
+                costumeIndex = 0;
+            }
+            if (costumeIndex >= _costume.total) {
+                costumeIndex = _costume.total - 1;
+            }
+
+            _costume.enabled = true;
+            _costume.index = costumeIndex;
+            _size = {(float)_costume.width, (float)_costume.height};
+        } else {
+            _costume.enabled = false;
+            _costume.index = 0;
+            _size = {(float)_texture->width, (float)_texture->height};
+        }
+
+        _rect.width = _size.x;
+        _rect.height = _size.y;
+        UpdateRect();
     }
 
 public:
@@ -62,8 +94,10 @@ public:
     void setTexture(Texture2D* texture) 
     {
         this->_texture = texture;
-        _costume.enabled = false;
-        _costume.index = 0;
+        _hasTimedCostume = false;
+        _previousCostumeEnabled = false;
+        _previousCostumeIndex = 0;
+        _costumeRevertAt = 0.0;
 
         if (_texture) {
             _size = {(float)_texture->width, (float)_texture->height};
@@ -73,26 +107,53 @@ public:
         }
     }
 
+    /**
+     * @brief ставим костюм из аталаса
+     * 
+     * @param costumeIndex 
+     */
     void setCostume(int costumeIndex)
     {
-        if (!_texture || _costume.total <= 0) {
+        if (!_texture) {
             return;
         }
 
-        if (costumeIndex < 0) {
-            costumeIndex = 0;
-        }
-        if (costumeIndex >= _costume.total) {
-            costumeIndex = _costume.total - 1;
+        _hasTimedCostume = false;
+        ApplyCostumeState(true, costumeIndex);
+    }
+
+    /**
+     * @brief здесь перегрузка: мы типо можем поставить лайфтайм
+     * 
+     * @param costumeIndex 
+     * @param lifetime вот и он
+     */
+    void setCostume(int costumeIndex, float lifetime)
+    {
+        if (!_texture) {
+            return;
         }
 
-        _costume.enabled = true;
-        _costume.index = costumeIndex;
+        if (lifetime <= 0.0f) {
+            setCostume(costumeIndex);
+            return;
+        }
 
-        _size = {(float)_costume.width, (float)_costume.height};
-        _rect.width = _size.x;
-        _rect.height = _size.y;
-        UpdateRect();
+        _previousCostumeEnabled = _costume.enabled;
+        _previousCostumeIndex = _costume.index;
+        // If current texture is an atlas and no costume is active yet,
+        // fallback to the first costume on revert instead of full atlas.
+        const bool looksLikeCostumeAtlas =
+            _texture->width == (_costume.width * _costume.total) &&
+            _texture->height == _costume.height;
+        if (!_previousCostumeEnabled && looksLikeCostumeAtlas) {
+            _previousCostumeEnabled = true;
+            _previousCostumeIndex = 0;
+        }
+        ApplyCostumeState(true, costumeIndex);
+
+        _hasTimedCostume = true;
+        _costumeRevertAt = GetTime() + lifetime;
     }
 
     void disableCostume()
@@ -101,12 +162,8 @@ public:
             return;
         }
 
-        _costume.enabled = false;
-        _costume.index = 0;
-        _size = {(float)_texture->width, (float)_texture->height};
-        _rect.width = _size.x;
-        _rect.height = _size.y;
-        UpdateRect();
+        _hasTimedCostume = false;
+        ApplyCostumeState(false, 0);
     }
 
     /**
@@ -224,6 +281,10 @@ public:
     virtual void Draw() 
     {
         if (!_texture) return;
+        if (_hasTimedCostume && GetTime() >= _costumeRevertAt) {
+            ApplyCostumeState(_previousCostumeEnabled, _previousCostumeIndex);
+            _hasTimedCostume = false;
+        }
 
         Rectangle src = {0, 0, (float)_texture->width, (float)_texture->height};
         if (_costume.enabled) {
