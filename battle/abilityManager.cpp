@@ -1,11 +1,9 @@
 #include "abilityManager.h"
 
-#include <cmath>
-
 namespace AbilityManager {
 namespace CardGuy {
 
-void SpawnCardAttack(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
+void SpawnCardAttack(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
 {
     const Rectangle targetRect = target.getSprite().getRect();
 
@@ -14,6 +12,8 @@ void SpawnCardAttack(VfxManager& vfxManager, BattleEntity& caster, BattleEntity&
         casterPos.x + 40,
         casterPos.y + (caster.getSprite().getSize().y / 2)
     };
+
+    caster.getSprite().setTexture(resManager.CardAttackTexture());
 
     // up
     vfxManager.SpawnCardVfx(cardPostion, 5.0f, -10.0f, target);

@@ -14,6 +14,9 @@ public:
 
     // VFX
     Texture2D* CardVFXTexture();
+
+    // cardGuy
+    Texture2D* CardAttackTexture();
     
 private:
     Texture2D _backgroundTexture = {};
@@ -23,6 +26,9 @@ private:
 
     // VFX
     Texture2D _cardVFXTexture;
+
+    // cardGuy
+    Texture2D _cardAttackTexture = {};
 
     bool _loaded = false;
 };

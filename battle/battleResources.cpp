@@ -14,6 +14,9 @@ void BattleResources::Load()
     // VFX
     _cardVFXTexture = LoadTexture("resources/card.png");
 
+    // cardGuy
+    _cardAttackTexture = LoadTexture("resources/cardAttack.png");
+
     _loaded = true;
 }
 
@@ -30,6 +33,9 @@ void BattleResources::Unload()
 
     // VFX
     UnloadTexture(_cardVFXTexture);
+
+    // cardGuy
+    UnloadTexture(_cardAttackTexture);
 
     _loaded = false;
 }
@@ -59,4 +65,10 @@ Texture2D* BattleResources::AbilityIconTexture()
 Texture2D* BattleResources::CardVFXTexture()
 {
     return &_cardVFXTexture;
+}
+
+// cardGuy
+Texture2D* BattleResources::CardAttackTexture()
+{
+    return &_cardAttackTexture;
 }

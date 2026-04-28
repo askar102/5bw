@@ -15,7 +15,7 @@ void BattleState::HandleInput()
 
             if (abilityName == "CardAttack")
             {
-                AbilityManager::CardGuy::SpawnCardAttack(_vfxManager, *_character, *_enemy);
+                AbilityManager::CardGuy::SpawnCardAttack(_resources, _vfxManager, *_character, *_enemy);
             }
 
             clickedAbility->Execute(*_character, *_enemy);
