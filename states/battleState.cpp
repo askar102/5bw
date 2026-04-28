@@ -18,6 +18,11 @@ void BattleState::HandleInput()
                 AbilityManager::CardGuy::SpawnCardAttack(_resources, _vfxManager, *_character, *_enemy);
             }
 
+            if (abilityName == "CardHeal")
+            {
+                AbilityManager::CardGuy::SpawnCardHeal(_resources, _vfxManager, *_character, *_enemy);
+            }
+
             clickedAbility->Execute(*_character, *_enemy);
             _character->actionText.Add(TextFormat("Used %s", clickedAbility->getName().c_str()), YELLOW);
             _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->getName().c_str()), ORANGE);
@@ -73,7 +78,7 @@ void BattleState::OnEnter()
     _enemy = std::make_unique<BattleEntity>();
 
     _character->abilities.push_back(std::make_unique<Ability>("CardAttack", 10, 0));
-    _character->abilities.push_back(std::make_unique<Ability>("Defend"));
+    _character->abilities.push_back(std::make_unique<Ability>("CardHeal"));
     _character->abilities.push_back(std::make_unique<Ability>("Heal", 0, 10));
 
     _resources.Load();

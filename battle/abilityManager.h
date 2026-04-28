@@ -9,7 +9,7 @@
 namespace AbilityManager {
     namespace CardGuy {
         void SpawnCardAttack(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target);
-        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target);
+        void SpawnCardHeal(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target);
         void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster);
     }
 }
