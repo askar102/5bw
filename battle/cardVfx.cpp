@@ -1,7 +1,8 @@
 #include "cardVfx.h"
+#include "battleEntity.h"
 
-CardVfx::CardVfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, Rectangle targetRect)
-    : Vfx(position, lifetime, rotation, texture, WHITE), _targetRect(targetRect)
+CardVfx::CardVfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, BattleEntity& target)
+    : Vfx(position, lifetime, rotation, texture, WHITE), _target(&target)
 {
 }
 
@@ -29,7 +30,7 @@ void CardVfx::Update(float dt)
 
     _sprite.setPosition(nextPosition);
 
-    if (CheckCollisionRecs(_sprite.getRect(), _targetRect))
+    if (_target && CheckCollisionRecs(_sprite.getRect(), _target->getSprite().getRect()))
     {
         _hitTarget = true;
     }

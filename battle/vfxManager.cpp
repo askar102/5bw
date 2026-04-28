@@ -52,25 +52,14 @@ void VfxManager::InitTextureManager(BattleResources* resources)
 }
 
 
-void VfxManager::SpawnCardVfx(Vector2 casterPos, float casterHeight, BattleEntity& target)
+void VfxManager::SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target)
 {
     if (!_resources)
     {
         return;
     }
 
-    const Rectangle targetRect = target.getSprite().getRect();
-    float casterYPosCalc = casterPos.y + (casterHeight / 2);
-
-    // up
-    Add(std::make_unique<CardVfx>((Vector2){casterPos.x + 40, casterYPosCalc}, 5.0f, -10.0f, _resources->CardVFXTexture(), targetRect));
-
-
-    // mid
-    Add(std::make_unique<CardVfx>((Vector2){casterPos.x + 40, casterYPosCalc}, 5.0f, 0.0f, _resources->CardVFXTexture(), targetRect));
-
-    // down
-    Add(std::make_unique<CardVfx>((Vector2){casterPos.x + 40, casterYPosCalc}, 5.0f, 10.0f, _resources->CardVFXTexture(), targetRect));
+    Add(std::make_unique<CardVfx>(position, lifetime, rotation, _resources->CardVFXTexture(), target));
 }
 
 void VfxManager::SpawnDefendVfx(Vector2 origin, Vector2 target)

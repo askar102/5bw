@@ -1,4 +1,5 @@
 #include "battleState.h"
+#include "../battle/abilityManager.h"
 
 void BattleState::HandleInput()
 {
@@ -10,18 +11,11 @@ void BattleState::HandleInput()
         {
             _character->selected = false;
 
-            const Vector2 casterPos = _character->getSprite().getPosition();
             const std::string abilityName = clickedAbility->getName();
 
-            const float casterHeight = _character->getSprite().getRect().height;
-
-            if (abilityName == "Attack")
+            if (abilityName == "CardAttack")
             {
-                /**
-                 * TODO: maybe we should pass _character itself
-                 * 
-                 */
-                _vfxManager.SpawnCardVfx(casterPos, casterHeight, *_enemy);
+                AbilityManager::CardGuy::SpawnCardAttack(_vfxManager, *_character, *_enemy);
             }
 
             clickedAbility->Execute(*_character, *_enemy);
@@ -78,7 +72,7 @@ void BattleState::OnEnter()
     _character = std::make_unique<BattleEntity>();
     _enemy = std::make_unique<BattleEntity>();
 
-    _character->abilities.push_back(std::make_unique<Ability>("Attack", 10, 0));
+    _character->abilities.push_back(std::make_unique<Ability>("CardAttack", 10, 0));
     _character->abilities.push_back(std::make_unique<Ability>("Defend"));
     _character->abilities.push_back(std::make_unique<Ability>("Heal", 0, 10));
 
@@ -95,6 +89,7 @@ void BattleState::OnEnter()
     _enemy->getSprite().setTexture(_resources.EnemyTexture());
     _enemy->canSelected = false;
     _enemy->getSprite().setSize(100, 100);
+    _enemy->getSprite().changeSizeOfRect({100 , 100});
 
     _abilityPanel.SetIconTexture(_resources.AbilityIconTexture());
     _abilityPanel.SetAbilities(_character->abilities);
