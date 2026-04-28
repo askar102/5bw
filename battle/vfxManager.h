@@ -8,6 +8,8 @@
 #include <memory>
 #include <vector>
 
+class BattleEntity;
+
 class VfxManager {
 public:
     void Update(float dt);
@@ -17,7 +19,7 @@ public:
     void Clear();
 
     // Temporary per-ability hooks. Keep these empty for now.
-    void SpawnCardVfx(Vector2 casterPos, float casterHeight);
+    void SpawnCardVfx(Vector2 casterPos, float casterHeight, BattleEntity& target);
     void SpawnDefendVfx(Vector2 origin, Vector2 target);
     void SpawnHealVfx(Vector2 origin, Vector2 target);
 

@@ -1,5 +1,6 @@
 #include "vfxManager.h"
 
+#include "battleEntity.h"
 #include "battleResources.h"
 #include "cardVfx.h"
 
@@ -51,15 +52,16 @@ void VfxManager::InitTextureManager(BattleResources* resources)
 }
 
 
-void VfxManager::SpawnCardVfx(Vector2 casterPos, float casterHeight)
+void VfxManager::SpawnCardVfx(Vector2 casterPos, float casterHeight, BattleEntity& target)
 {
     if (!_resources)
     {
         return;
     }
 
+    const Rectangle targetRect = target.getSprite().getRect();
     float casterYPosCalc = casterPos.y + (casterHeight / 2);
-    Add(std::make_unique<CardVfx>((Vector2){casterPos.x + 40, casterYPosCalc}, 10.0f, 0.0f, _resources->CardVFXTexture()));
+    Add(std::make_unique<CardVfx>((Vector2){casterPos.x + 40, casterYPosCalc}, 10.0f, 0.0f, _resources->CardVFXTexture(), targetRect));
 }
 
 void VfxManager::SpawnDefendVfx(Vector2 origin, Vector2 target)

@@ -15,6 +15,8 @@ private:
 
     Rectangle _rect = {_position.x, _position.y, _size.x, _size.y};
 
+    float _alpha = 1.0f;
+
     void UpdateRect()
     {
         _rect.x = _position.x;
@@ -159,6 +161,16 @@ public:
     }
 
     /**
+     * @brief Set the Alpha of object
+     * 
+     * @param alpha 
+     */
+    void SetAlpha(float alpha)
+    {
+        _alpha = alpha;
+    }
+
+    /**
      * @brief Draw the texture
      *
      */
@@ -170,7 +182,7 @@ public:
         Rectangle dest = {_position.x, _position.y, _size.x, _size.y};
         Vector2 origin = {0, 0};
 
-        DrawTexturePro(*_texture, src, dest, origin, _rotation, WHITE);
+        DrawTexturePro(*_texture, src, dest, origin, _rotation, Fade(WHITE, _alpha));
 
         if (_drawHitboxes) 
         {

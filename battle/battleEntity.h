@@ -45,6 +45,11 @@ public:
         return sprite;
     }
 
+    const Sprite& getSprite() const
+    {
+        return sprite;
+    }
+
     // battle actions
     void Heal(int amount);
     void Damage(int amount);

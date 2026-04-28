@@ -11,7 +11,6 @@ void BattleState::HandleInput()
             _character->selected = false;
 
             const Vector2 casterPos = _character->getSprite().getPosition();
-            const Vector2 targetPos = _enemy->getSprite().getPosition();
             const std::string abilityName = clickedAbility->getName();
 
             const float casterHeight = _character->getSprite().getRect().height;
@@ -22,7 +21,7 @@ void BattleState::HandleInput()
                  * TODO: maybe we should pass _character itself
                  * 
                  */
-                _vfxManager.SpawnCardVfx(casterPos, casterHeight);
+                _vfxManager.SpawnCardVfx(casterPos, casterHeight, *_enemy);
             }
 
             clickedAbility->Execute(*_character, *_enemy);
@@ -54,12 +53,10 @@ void BattleState::Draw()
 {
     ClearBackground(RED);
 
-    // РЕНДЕР: сначала фон и сущности.
     _background.Draw();
     _character->Draw();
     _enemy->Draw();
 
-    // РЕНДЕР: затем рисуем активные эффекты поверх.
     _vfxManager.Draw();
 
     _abilityPanel.Draw();
@@ -69,12 +66,10 @@ void BattleState::Draw()
 
 void BattleState::Update(float dt)
 {
-    // UI-ЛОГИКА: панель умений следует за игроком и видна только при выборе.
     _abilityPanel.SetVisible(_character->selected);
     _abilityPanel.SetAnchor(_character->getSprite().getPosition());
     _abilityPanel.Update();
 
-    // ЛОГИКА АНИМАЦИЙ: обновляем таймеры и положение эффектов.
     _vfxManager.Update(dt);
 }
 
