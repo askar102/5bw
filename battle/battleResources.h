@@ -17,6 +17,7 @@ public:
 
     // cardGuy
     Texture2D* CardAttackTexture();
+    Texture2D* CardGuyAtlasTexture();
     
 private:
     Texture2D _backgroundTexture = {};
@@ -29,6 +30,7 @@ private:
 
     // cardGuy
     Texture2D _cardAttackTexture = {};
+    Texture2D _cardGuyAtlasTexture = {};
 
     bool _loaded = false;
 };

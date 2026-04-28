@@ -13,7 +13,8 @@ void SpawnCardAttack(BattleResources& resManager, VfxManager& vfxManager, Battle
         casterPos.y + (caster.getSprite().getSize().y / 2)
     };
 
-    caster.getSprite().setTexture(resManager.CardAttackTexture());
+    caster.getSprite().setTexture(resManager.CardGuyAtlasTexture());
+    caster.getSprite().setCostume(1); // second costume from 3-part atlas
 
     // up
     vfxManager.SpawnCardVfx(cardPostion, 5.0f, -10.0f, target);
@@ -25,11 +26,13 @@ void SpawnCardAttack(BattleResources& resManager, VfxManager& vfxManager, Battle
     vfxManager.SpawnCardVfx(cardPostion, 5.0f, 10.0f, target);
 }
 
-void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
+void SpawnCardHeal(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
 {
     (void)vfxManager;
-    (void)caster;
     (void)target;
+
+    caster.getSprite().setTexture(resManager.CardGuyAtlasTexture());
+    caster.getSprite().setCostume(2);
 }
 
 void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster)

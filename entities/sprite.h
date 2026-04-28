@@ -3,6 +3,14 @@
 
 class Sprite {
 private:
+    struct Costume {
+        bool enabled = false;
+        int index = 0;
+        int width = 88;
+        int height = 128;
+        int total = 3;
+    };
+
     Vector2 _position{0, 0};
     Texture2D* _texture = nullptr;
     float _rotation = 0.0f;
@@ -14,6 +22,7 @@ private:
     bool _canDrawHitboxes = true;
 
     Rectangle _rect = {_position.x, _position.y, _size.x, _size.y};
+    Costume _costume;
 
     float _alpha = 1.0f;
 
@@ -53,6 +62,8 @@ public:
     void setTexture(Texture2D* texture) 
     {
         this->_texture = texture;
+        _costume.enabled = false;
+        _costume.index = 0;
 
         if (_texture) {
             _size = {(float)_texture->width, (float)_texture->height};
@@ -60,6 +71,42 @@ public:
             _rect.height = _size.y;
             UpdateRect();
         }
+    }
+
+    void setCostume(int costumeIndex)
+    {
+        if (!_texture || _costume.total <= 0) {
+            return;
+        }
+
+        if (costumeIndex < 0) {
+            costumeIndex = 0;
+        }
+        if (costumeIndex >= _costume.total) {
+            costumeIndex = _costume.total - 1;
+        }
+
+        _costume.enabled = true;
+        _costume.index = costumeIndex;
+
+        _size = {(float)_costume.width, (float)_costume.height};
+        _rect.width = _size.x;
+        _rect.height = _size.y;
+        UpdateRect();
+    }
+
+    void disableCostume()
+    {
+        if (!_texture) {
+            return;
+        }
+
+        _costume.enabled = false;
+        _costume.index = 0;
+        _size = {(float)_texture->width, (float)_texture->height};
+        _rect.width = _size.x;
+        _rect.height = _size.y;
+        UpdateRect();
     }
 
     /**
@@ -179,6 +226,12 @@ public:
         if (!_texture) return;
 
         Rectangle src = {0, 0, (float)_texture->width, (float)_texture->height};
+        if (_costume.enabled) {
+            src.x = (float)(_costume.index * _costume.width);
+            src.y = 0;
+            src.width = (float)_costume.width;
+            src.height = (float)_costume.height;
+        }
         Rectangle dest = {_position.x, _position.y, _size.x, _size.y};
         Vector2 origin = {0, 0};
 

@@ -16,6 +16,7 @@ void BattleResources::Load()
 
     // cardGuy
     _cardAttackTexture = LoadTexture("resources/cardAttack.png");
+    _cardGuyAtlasTexture = LoadTexture("resources/cardGuy_atlas.png");
 
     _loaded = true;
 }
@@ -36,6 +37,7 @@ void BattleResources::Unload()
 
     // cardGuy
     UnloadTexture(_cardAttackTexture);
+    UnloadTexture(_cardGuyAtlasTexture);
 
     _loaded = false;
 }
@@ -71,4 +73,9 @@ Texture2D* BattleResources::CardVFXTexture()
 Texture2D* BattleResources::CardAttackTexture()
 {
     return &_cardAttackTexture;
+}
+
+Texture2D* BattleResources::CardGuyAtlasTexture()
+{
+    return &_cardGuyAtlasTexture;
 }
