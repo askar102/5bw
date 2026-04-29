@@ -15,7 +15,21 @@ void BattleState::HandleInput()
 
             if (abilityName == "CardAttack")
             {
-                AbilityManager::CardGuy::SpawnCardAttack(_resources, _vfxManager, *_character, *_enemy);
+                AbilityManager::CardGuy::SpawnCardAttack(
+                    _resources,
+                    _vfxManager,
+                    *_character,
+                    *_enemy,
+                    clickedAbility->getDamage()
+                );
+                /**
+                 * @ref we damage enemy at cardVfx.cpp, ~35 line
+                 * 
+                 */
+                clickedAbility->Execute(*_character, *_enemy, true);
+                _character->actionText.Add(TextFormat("Used %s", clickedAbility->getName().c_str()), YELLOW);
+                _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->getName().c_str()), ORANGE);
+                return;
             }
 
             if (abilityName == "CardHeal")
@@ -93,6 +107,7 @@ void BattleState::OnEnter()
     _enemy->getSprite().setPosition({600, 300});
     _enemy->getSprite().setTexture(_resources.EnemyTexture());
     _enemy->canSelected = false;
+    _enemy->isEnemy = true;
     _enemy->getSprite().setSize(100, 100);
     _enemy->getSprite().changeSizeOfRect({100 , 100});
 

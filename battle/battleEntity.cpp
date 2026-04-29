@@ -2,6 +2,7 @@
 
 void BattleEntity::Draw() 
 {
+    UpdateEnemyWhirl();
     sprite.Draw();
     RefreshActionText();
     actionText.Draw();
@@ -62,8 +63,50 @@ void BattleEntity::RefreshActionText()
     this->hp = std::min(hp + amount, maxHp);
  }
 
+
+ /**
+  * @brief снять хп у юнита
+  * @details вначале минусуем хп, потом  
+  * чекаем, если это противник + анимация еще не активна
+  * то двигаем его на -15.0f назад, потом записываем время, когда анимация пропадет
+  * 
+  *
+  * @param amount 
+  */
  void BattleEntity::Damage(int amount)
  {
+    if (amount < 0) 
+        return;
+
     this->hp = std::max(hp - amount, 0);
+
+    if (isEnemy && !_enemyWhirlActive) 
+    {
+        Vector2 position = sprite.getPosition();
+        position.x += ENEMY_WHIRL_PUSH_X;
+        sprite.setPosition(position);
+        _enemyWhirlActive = true;
+    }
+
+    _enemyWhirlResetAt = GetTime() + ENEMY_WHIRL_DURATION;
  }
+
+
+/**
+ * @brief чекаем не завершилась ли анимация попадания
+ * 
+ */
+void BattleEntity::UpdateEnemyWhirl()
+{
+    if (!_enemyWhirlActive || GetTime() < _enemyWhirlResetAt) 
+    {
+        return;
+    }
+
+    Vector2 position = sprite.getPosition();
+    position.x -= ENEMY_WHIRL_PUSH_X;
+    sprite.setPosition(position);
+
+    _enemyWhirlActive = false;
+}
 

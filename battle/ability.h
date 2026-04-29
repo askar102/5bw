@@ -16,7 +16,9 @@ public:
 
     virtual ~Ability() = default;
 
-    virtual void Execute(BattleEntity& caster, BattleEntity& target);
+    virtual void Execute(BattleEntity& caster, BattleEntity& target, bool skipDamageAction = false);
 
     std::string getName() const;
+    int getDamage() const;
+    int getHeal() const;
 };

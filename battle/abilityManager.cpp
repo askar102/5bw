@@ -3,9 +3,9 @@
 namespace AbilityManager {
 namespace CardGuy {
 
-void SpawnCardAttack(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
+void SpawnCardAttack(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage)
 {
-    const Rectangle targetRect = target.getSprite().getRect();
+    target.Damage(damage);
 
     Vector2 casterPos = caster.getSprite().getPosition();
     Vector2 cardPostion = {
