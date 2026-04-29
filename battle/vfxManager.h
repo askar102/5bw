@@ -19,7 +19,7 @@ public:
     void Clear();
 
     // Temporary per-ability hooks. Keep these empty for now.
-    void SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target);
+    void SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target, bool peaceful = true);
     void SpawnDefendVfx(Vector2 origin, Vector2 target);
     void SpawnHealVfx(Vector2 origin, Vector2 target);
 

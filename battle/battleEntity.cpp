@@ -65,12 +65,8 @@ void BattleEntity::RefreshActionText()
 
 
  /**
-  * @brief снять хп у юнита
-  * @details вначале минусуем хп, потом  
-  * чекаем, если это противник + анимация еще не активна
-  * то двигаем его на -15.0f назад, потом записываем время, когда анимация пропадет
+  * @brief снять хп у юнита & анимация попадания
   * 
-  *
   * @param amount 
   */
  void BattleEntity::Damage(int amount)
@@ -79,21 +75,11 @@ void BattleEntity::RefreshActionText()
         return;
 
     this->hp = std::max(hp - amount, 0);
-
-    if (isEnemy && !_enemyWhirlActive) 
-    {
-        Vector2 position = sprite.getPosition();
-        position.x += ENEMY_WHIRL_PUSH_X;
-        sprite.setPosition(position);
-        _enemyWhirlActive = true;
-    }
-
-    _enemyWhirlResetAt = GetTime() + ENEMY_WHIRL_DURATION;
  }
 
 
 /**
- * @brief чекаем не завершилась ли анимация попадания
+ * @brief чекаем не завершилась ли анимация попадания, и есть ли она вообще
  * 
  */
 void BattleEntity::UpdateEnemyWhirl()
@@ -110,3 +96,20 @@ void BattleEntity::UpdateEnemyWhirl()
     _enemyWhirlActive = false;
 }
 
+/**
+ * если это противник + анимация еще не активна
+  * то двигаем его на -15.0f назад, потом записываем время, когда анимация пропадет
+ * 
+ */
+void BattleEntity::EnemyHitAnimation()
+{
+    if (isEnemy && !_enemyWhirlActive) 
+    {
+        Vector2 position = sprite.getPosition();
+        position.x += ENEMY_WHIRL_PUSH_X;
+        sprite.setPosition(position);
+        _enemyWhirlActive = true;
+    }
+
+    _enemyWhirlResetAt = GetTime() + ENEMY_WHIRL_DURATION;
+}

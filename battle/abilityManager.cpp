@@ -5,8 +5,6 @@ namespace CardGuy {
 
 void SpawnCardAttack(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage)
 {
-    target.Damage(damage);
-
     Vector2 casterPos = caster.getSprite().getPosition();
     Vector2 cardPostion = {
         casterPos.x + 40,
@@ -17,13 +15,13 @@ void SpawnCardAttack(BattleResources& resManager, VfxManager& vfxManager, Battle
     caster.getSprite().setCostume(1, 1.0f); // second costume from 3-part atlas
 
     // up
-    vfxManager.SpawnCardVfx(cardPostion, 5.0f, -10.0f, target);
+    vfxManager.SpawnCardVfx(cardPostion, 5.0f, -10.0f, target, false);
 
     // mid
-    vfxManager.SpawnCardVfx(cardPostion, 5.0f, 0.0f, target);
+    vfxManager.SpawnCardVfx(cardPostion, 5.0f, 0.0f, target, false);
 
     // down
-    vfxManager.SpawnCardVfx(cardPostion, 5.0f, 10.0f, target);
+    vfxManager.SpawnCardVfx(cardPostion, 5.0f, 10.0f, target, false);
 }
 
 void SpawnCardHeal(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)

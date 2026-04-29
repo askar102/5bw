@@ -51,15 +51,23 @@ void VfxManager::InitTextureManager(BattleResources* resources)
     _resources = resources;
 }
 
-
-void VfxManager::SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target)
+/**
+ * @brief card vfx spawn
+ * 
+ * @param position postion of vfx
+ * @param lifetime lifetime of vfx
+ * @param rotation rotation of vfx
+ * @param target target of vfx
+ * @param peaceful will use EnemyHitAnimation or not? default value: true
+ */
+void VfxManager::SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target, bool peaceful)
 {
     if (!_resources)
     {
         return;
     }
 
-    Add(std::make_unique<CardVfx>(position, lifetime, rotation, _resources->CardVFXTexture(), target));
+    Add(std::make_unique<CardVfx>(position, lifetime, rotation, _resources->CardVFXTexture(), target, peaceful));
 }
 
 void VfxManager::SpawnDefendVfx(Vector2 origin, Vector2 target)

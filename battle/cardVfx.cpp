@@ -1,8 +1,8 @@
 #include "cardVfx.h"
 #include "battleEntity.h"
 
-CardVfx::CardVfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, BattleEntity& target)
-    : Vfx(position, lifetime, rotation, texture, WHITE), _target(&target)
+CardVfx::CardVfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, BattleEntity& target, bool peaceful)
+    : Vfx(position, lifetime, rotation, texture, WHITE), _target(&target), _peaceful(peaceful)
 {
 }
 
@@ -32,6 +32,8 @@ void CardVfx::Update(float dt)
 
     if (_target && CheckCollisionRecs(_sprite.getRect(), _target->getSprite().getRect()))
     {
+        if (!_peaceful)
+            _target->EnemyHitAnimation();
         _hitTarget = true;
     }
 

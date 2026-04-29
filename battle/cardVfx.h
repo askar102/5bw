@@ -5,7 +5,17 @@
 
 class CardVfx : public Vfx {
 public:
-    CardVfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, BattleEntity& target);
+    /**
+     * @brief Construct a new Card Vfx object
+     * 
+     * @param position position of object
+     * @param lifetime lifetime of object
+     * @param rotation rotation of object
+     * @param texture texture
+     * @param target target object
+     * @param _peaceful will use EnemyHitAnimation or not? default value: true
+     */
+    CardVfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, BattleEntity& target, bool _peaceful = true);
 
     void OnEnter() override;
     void Update(float dt) override;
@@ -20,5 +30,12 @@ private:
     BattleEntity* _target;
     bool _hitTarget = false;
     bool _leftScreen = false;
+
+    /**
+     * @brief will use EnemyHitAnimation or not?
+     * 
+     * @ref cardVfx.cpp, line ~35
+     */
+    bool _peaceful = true;
 };
     

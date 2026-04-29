@@ -64,5 +64,9 @@ public:
     // battle actions
     void Heal(int amount);
     void Damage(int amount);
+
+    // Enemy actions
     void UpdateEnemyWhirl();
+    void EnemyHitAnimation();
+
 };
