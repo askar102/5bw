@@ -58,10 +58,11 @@ void CardVfx::Update(float dt)
 
 void CardVfx::Draw()
 {
-    // float t = _elapsed / _lifetime;   // 0 → 1
-    // float alpha = 1.0f - t;           // 1 → 0
+    // card alpha system
+    float t = _elapsed / _lifetime;   // 0 → 1
+    float alpha = 1.0f - t;           // 1 → 0
 
-    // _sprite.SetAlpha(alpha);
+    _sprite.SetAlpha(alpha);
     _sprite.Draw();
 }
 

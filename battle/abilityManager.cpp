@@ -25,16 +25,7 @@ namespace AbilityManager {
 
         void SpawnCardHeal(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
         {
-            Vector2 casterPos = caster.getSprite().getPosition();
-            Vector2 cardPostion = {
-                casterPos.x + 40,
-                casterPos.y + 100
-            };
-
-            caster.getSprite().setTexture(resManager.CardGuyAtlasTexture());
-            caster.getSprite().setCostume(2, 1.0f);
-
-            vfxManager.SpawnCardVfx(cardPostion, 3.0f, -90.0f, target, true);
+            // TODO: next.
         }   
 
         void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster)
