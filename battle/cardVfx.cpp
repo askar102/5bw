@@ -33,7 +33,14 @@ void CardVfx::Update(float dt)
     if (_target && CheckCollisionRecs(_sprite.getRect(), _target->getSprite().getRect()))
     {
         if (!_peaceful)
+        {
             _target->EnemyHitAnimation();
+            /**
+             * TODO: make the damage take place in a different place
+             * 
+             */
+            _target->Damage(_DAMAGE_OF_ONE_CARD);
+        }  
         _hitTarget = true;
     }
 

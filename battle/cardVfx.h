@@ -22,13 +22,14 @@ public:
     void Draw() override;
     bool IsFinished() const override;
 
+    bool Hitted();
+
 private:
     /**
      * TODO: change _target type to std::weak_ptr
      * 
      */
     BattleEntity* _target;
-    bool _hitTarget = false;
     bool _leftScreen = false;
 
     /**
@@ -37,5 +38,12 @@ private:
      * @ref cardVfx.cpp, line ~35
      */
     bool _peaceful = true;
+
+    /**
+     * @ref cardVfx.cpp line ~42
+     * 
+     * TODO: Make it in different place
+     */
+     const int _DAMAGE_OF_ONE_CARD = 2;
 };
     

@@ -21,10 +21,14 @@ public:
     void SetLifetime(float lifetime);
     void SetColor(Color color);
 
+    bool Hitted();
+
 protected:
     Sprite _sprite;
     float _speed = 0.0f;
     float _lifetime = 0.0f;
     float _elapsed = 0.0f; // времени истекло
     Color _color = WHITE;
+
+    bool _hitTarget = false;
 };

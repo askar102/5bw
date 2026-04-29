@@ -45,3 +45,8 @@ void Vfx::SetColor(Color color)
 {
     _color = color;
 }
+
+bool Vfx::Hitted()
+{
+    return _hitTarget;
+}
