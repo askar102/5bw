@@ -6,6 +6,9 @@
 #include "battleResources.h"
 #include "vfxManager.h"
 
+#include <cmath>
+#include <random>
+
 namespace AbilityManager {
     namespace CardGuy {
         void SpawnCardAttack(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage);

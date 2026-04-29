@@ -94,6 +94,8 @@ public:
     void setTexture(Texture2D* texture) 
     {
         this->_texture = texture;
+        _costume.enabled = false;
+        _costume.index = 0;
         _hasTimedCostume = false;
         _previousCostumeEnabled = false;
         _previousCostumeIndex = 0;
@@ -139,15 +141,22 @@ public:
             return;
         }
 
-        _previousCostumeEnabled = _costume.enabled;
-        _previousCostumeIndex = _costume.index;
-        
-        const bool looksLikeCostumeAtlas =
-            _texture->width == (_costume.width * _costume.total) &&
-            _texture->height == _costume.height;
-        if (!_previousCostumeEnabled && looksLikeCostumeAtlas) {
-            _previousCostumeEnabled = true;
-            _previousCostumeIndex = 0;
+        // If a timed costume is already active, keep its original revert target.
+        // This allows repeated casts of the same skill to extend duration
+        // without "locking" into the current costume forever.
+        const bool shouldCapturePrevious =
+            !_hasTimedCostume || GetTime() >= _costumeRevertAt;
+        if (shouldCapturePrevious) {
+            _previousCostumeEnabled = _costume.enabled;
+            _previousCostumeIndex = _costume.index;
+            
+            const bool looksLikeCostumeAtlas =
+                _texture->width == (_costume.width * _costume.total) &&
+                _texture->height == _costume.height;
+            if (!_previousCostumeEnabled && looksLikeCostumeAtlas) {
+                _previousCostumeEnabled = true;
+                _previousCostumeIndex = 0;
+            }
         }
         ApplyCostumeState(true, costumeIndex);
 

@@ -75,6 +75,7 @@ void BattleState::Draw()
     _abilityPanel.Draw();
 
     DrawText("currentState: battle", 0, 0, 20, WHITE);
+    DrawText(TextFormat("mX: %d, mY: %d", GetMouseX(), GetMouseY()), 0, 30, 20, WHITE);
 }
 
 void BattleState::Update(float dt)
