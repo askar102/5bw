@@ -25,7 +25,26 @@ namespace AbilityManager {
 
         void SpawnCardHeal(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
         {
+            const int countOfClones = 25;
+
             // TODO: next.
+            caster.getSprite().setTexture(resManager.CardGuyAtlasTexture());
+            caster.getSprite().setCostume(2, 1.0f);
+
+            Vector2 casterPos = caster.getSprite().getPosition();
+
+            for (int i = 0; i < countOfClones; ++i)
+            {
+                float xOffset = (float)(GetRandomValue(0, 180));
+
+                Vector2 cardPostion = {
+                    casterPos.x + xOffset,
+                    casterPos.y + 200
+                };
+
+                vfxManager.SpawnCardVfx(cardPostion, 1.0f, -90.0f, target, true);
+            }
+            
         }   
 
         void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster)
