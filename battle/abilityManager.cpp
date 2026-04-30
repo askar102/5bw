@@ -25,7 +25,7 @@ namespace AbilityManager {
 
         void SpawnCardHeal(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
         {
-            const int countOfClones = 25;
+            const int countOfClones = 15;
 
             // TODO: next.
             caster.getSprite().setTexture(resManager.CardGuyAtlasTexture());
@@ -35,11 +35,12 @@ namespace AbilityManager {
 
             for (int i = 0; i < countOfClones; ++i)
             {
-                float xOffset = (float)(GetRandomValue(0, 180));
+                float xOffset = (float)(GetRandomValue(-30, 220));
+                float yOffset = (float)(GetRandomValue(120, 320));
 
                 Vector2 cardPostion = {
                     casterPos.x + xOffset,
-                    casterPos.y + 200
+                    casterPos.y + yOffset
                 };
 
                 vfxManager.SpawnCardVfx(cardPostion, 1.0f, -90.0f, target, true);
