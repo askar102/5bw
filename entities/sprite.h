@@ -28,6 +28,11 @@ private:
     int _previousCostumeIndex = 0;
     double _costumeRevertAt = 0.0;
 
+    bool _isMirror = false;
+    bool _hasTimedMirror = false;
+    bool _previousMirrorState = false;
+    double _mirrorRevertAt = 0.0;
+
     float _alpha = 1.0f;
 
     void UpdateRect()
@@ -100,6 +105,10 @@ public:
         _previousCostumeEnabled = false;
         _previousCostumeIndex = 0;
         _costumeRevertAt = 0.0;
+        _isMirror = false;
+        _hasTimedMirror = false;
+        _previousMirrorState = false;
+        _mirrorRevertAt = 0.0;
 
         if (_texture) {
             _size = {(float)_texture->width, (float)_texture->height};
@@ -188,6 +197,28 @@ public:
     void setRotation(float rotation)
     {
         _rotation = rotation;
+    }
+
+    void setMirror(bool isMirror)
+    {
+        _hasTimedMirror = false;
+        _isMirror = isMirror;
+    }
+
+    void setMirror(bool isMirror, float lifetime)
+    {
+        if (lifetime <= 0.0f) {
+            setMirror(isMirror);
+            return;
+        }
+
+        if (!_hasTimedMirror || GetTime() >= _mirrorRevertAt) {
+            _previousMirrorState = _isMirror;
+        }
+
+        _isMirror = isMirror;
+        _hasTimedMirror = true;
+        _mirrorRevertAt = GetTime() + lifetime;
     }
 
     float getRotation() const
@@ -293,6 +324,10 @@ public:
             ApplyCostumeState(_previousCostumeEnabled, _previousCostumeIndex);
             _hasTimedCostume = false;
         }
+        if (_hasTimedMirror && GetTime() >= _mirrorRevertAt) {
+            _isMirror = _previousMirrorState;
+            _hasTimedMirror = false;
+        }
 
         Rectangle src = {0, 0, (float)_texture->width, (float)_texture->height};
         if (_costume.enabled) {
@@ -300,6 +335,10 @@ public:
             src.y = 0;
             src.width = (float)_costume.width;
             src.height = (float)_costume.height;
+        }
+        if (_isMirror) {
+            src.x += src.width;
+            src.width *= -1.0f;
         }
         Rectangle dest = {_position.x, _position.y, _size.x, _size.y};
         Vector2 origin = {0, 0};

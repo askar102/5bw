@@ -27,7 +27,7 @@ public:
     * @param target target of vfx
     * @param peaceful will use EnemyHitAnimation or not? default value: true
     */
-    void SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target, bool peaceful = true);
+    void SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target, bool peaceful = true, bool animated = true);
     void SpawnDefendVfx(Vector2 origin, Vector2 target);
     void SpawnHealVfx(Vector2 origin, Vector2 target);
 

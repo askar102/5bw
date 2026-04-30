@@ -15,7 +15,7 @@ public:
      * @param target target object
      * @param _peaceful will use EnemyHitAnimation or not? default value: true
      */
-    CardVfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, BattleEntity& target, bool _peaceful = true);
+    CardVfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, BattleEntity& target, bool _peaceful = true, bool animated = true);
 
     void OnEnter() override;
     void Update(float dt) override;
@@ -45,5 +45,7 @@ private:
      * TODO: Make it in different place
      */
      const int _DAMAGE_OF_ONE_CARD = 2;
+
+    bool _animated = true;
 };
     

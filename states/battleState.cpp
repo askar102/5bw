@@ -35,6 +35,12 @@ void BattleState::HandleInput()
             if (abilityName == "CardHeal")
             {
                 AbilityManager::CardGuy::SpawnCardHeal(_resources, _vfxManager, *_character, *_enemy);
+                clickedAbility->Execute(*_character, *_enemy);
+            }
+
+            if (abilityName == "CardBlock")
+            {
+                AbilityManager::CardGuy::SpawnCardBlock(_resources, _vfxManager, *_character, *_enemy);
             }
 
             clickedAbility->Execute(*_character, *_enemy);
@@ -92,9 +98,10 @@ void BattleState::OnEnter()
     _character = std::make_unique<BattleEntity>();
     _enemy = std::make_unique<BattleEntity>();
 
+    // abiityName, damage, heal
     _character->abilities.push_back(std::make_unique<Ability>("CardAttack", 10, 0));
-    _character->abilities.push_back(std::make_unique<Ability>("CardHeal"));
-    _character->abilities.push_back(std::make_unique<Ability>("Heal", 0, 10));
+    _character->abilities.push_back(std::make_unique<Ability>("CardHeal", 0, 25));
+    _character->abilities.push_back(std::make_unique<Ability>("CardBlock", 0, 10));
 
     _resources.Load();
 

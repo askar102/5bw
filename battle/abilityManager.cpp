@@ -27,7 +27,6 @@ namespace AbilityManager {
         {
             const int countOfClones = 15;
 
-            // TODO: next.
             caster.getSprite().setTexture(resManager.CardGuyAtlasTexture());
             caster.getSprite().setCostume(2, 1.0f);
 
@@ -48,10 +47,21 @@ namespace AbilityManager {
             
         }   
 
-        void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster)
+        void SpawnCardBlock(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
         {
-            (void)vfxManager;
-            (void)caster;
+            caster.getSprite().setTexture(resManager.CardGuyAtlasTexture());
+            caster.getSprite().setCostume(2, 1.0f);
+
+            caster.getSprite().setMirror(true);
+
+            Vector2 casterPos = caster.getSprite().getPosition();
+
+            Vector2 cardPostion = {
+                casterPos.x + 40,
+                casterPos.y + 100
+            };
+
+            vfxManager.SpawnCardVfx(cardPostion, 1.0f, -90.0f, target, true, false);
         }
 
     } // namespace CardGuy

@@ -51,14 +51,14 @@ void VfxManager::InitTextureManager(BattleResources* resources)
     _resources = resources;
 }
 
-void VfxManager::SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target, bool peaceful)
+void VfxManager::SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target, bool peaceful, bool animated)
 {
     if (!_resources)
     {
         return;
     }
 
-    Add(std::make_unique<CardVfx>(position, lifetime, rotation, _resources->CardVFXTexture(), target, peaceful));
+    Add(std::make_unique<CardVfx>(position, lifetime, rotation, _resources->CardVFXTexture(), target, peaceful, animated));
 }
 
 void VfxManager::SpawnDefendVfx(Vector2 origin, Vector2 target)
