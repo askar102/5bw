@@ -49,15 +49,18 @@ namespace AbilityManager {
 
         void SpawnCardBlock(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
         {
+            /**
+             * TODO: bug, sprite dont change costume, fix later
+             * 
+             */
             caster.getSprite().setTexture(resManager.CardGuyAtlasTexture());
             caster.getSprite().setCostume(2, 1.0f);
-
-            caster.getSprite().setMirror(true);
+            caster.getSprite().setMirror(true, 1.0f);
 
             Vector2 casterPos = caster.getSprite().getPosition();
 
             Vector2 cardPostion = {
-                casterPos.x + 40,
+                casterPos.x + 100,
                 casterPos.y + 100
             };
 
