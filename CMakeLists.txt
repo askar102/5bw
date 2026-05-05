@@ -8,7 +8,8 @@ add_executable(5bw12
     main.cpp
 
     core/Game.cpp
-    core/stateMachine.cpp
+    core/stateManager.cpp
+    core/resourceManager.cpp
 
     states/menuState.cpp
     states/mapState.cpp

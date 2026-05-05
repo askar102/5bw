@@ -2,7 +2,7 @@
 
 #include "../core/state.h"
 #include "../raylib/raylib.h"
-#include "../core/stateMachine.h"
+#include "../core/stateManager.h"
 
 #include "battleState.h"
 #include "../entities/sprite.h"

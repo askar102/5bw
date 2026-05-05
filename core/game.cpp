@@ -1,55 +1,83 @@
-#include "game.h"
-#include "../raylib/raylib.h"
-#include "../states/menuState.h"
+/**
+ * @file game.cpp
+ * @author askar102
+ * @brief Initializing and creating a game window
+ * @date 2026-05-03
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
 
-Game::Game(int width, int height, const char* title)
-    : screenWidth(width),
-      screenHeight(height),
-      windowTitle(title),
-      running(true) {}
+ #include "game.h"
 
-Game::~Game() {
-    Shutdown();
-}
-
-void Game::Init() {
-    InitWindow(screenWidth, screenHeight, windowTitle);
-    SetTargetFPS(60);
-
-    stateMachine.ChangeState(std::make_unique<MenuState>());
-}
-
-void Game::Run() {
-    Init();
-
-    while (!WindowShouldClose() && running) {
-        Update();
-        Draw();
-    }
-
-    Shutdown();
-}
-
-void Game::Update() {
-    float dt = GetFrameTime();
-
-    stateMachine.HandleInput();
-    stateMachine.Update(dt);
-}
-
-void Game::Draw() {
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
-
-    stateMachine.Draw();
-
-    EndDrawing();
-}
-
-void Game::Shutdown() {
-    CloseWindow();
-}
-
-void Game::ChangeState(std::unique_ptr<State> newState) {
-    stateMachine.ChangeState(std::move(newState));
-}
+ #include "../states/menuState.h"
+ 
+ ResourceManager Game::_resourceManager;
+ 
+ Game::Game(int width, int height, const char* title)
+     : _screenWidth(width),
+       _screenHeight(height),
+       _windowTitle(title),
+       _running(true) 
+ {}
+ 
+ Game::~Game() 
+ {
+     Shutdown();
+ }
+ 
+ void Game::Init() 
+ {
+     InitWindow(_screenWidth, _screenHeight, _windowTitle);
+     SetTargetFPS(60);
+ 
+     _resourceManager.Load();
+ 
+     _stateMachine.ChangeState(std::make_unique<MenuState>());
+ }
+ 
+ void Game::Run() 
+ {
+     Init();
+ 
+     while (!WindowShouldClose() && _running) 
+     {
+         Update();
+         Draw();
+     }
+ }
+ 
+ void Game::Update() 
+ {
+     float dt = GetFrameTime();
+ 
+     _stateMachine.HandleInput();
+     _stateMachine.Update(dt);
+ }
+ 
+ void Game::Draw() 
+ {
+     BeginDrawing();
+     ClearBackground(RAYWHITE);
+ 
+     _stateMachine.Draw();
+ 
+     EndDrawing();
+ }
+ 
+ void Game::Shutdown() 
+ {
+     Game::GetResources().Unload();
+     CloseWindow();
+ }
+ 
+ void Game::ChangeState(std::unique_ptr<State> newState) 
+ {
+     _stateMachine.ChangeState(std::move(newState));
+ }
+ 
+ ResourceManager& Game::GetResources()
+ {
+     return _resourceManager;
+ }
+ 
