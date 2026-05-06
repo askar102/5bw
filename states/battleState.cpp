@@ -48,7 +48,7 @@ void BattleState::HandleInput()
             return;
         }
 
-        if (CheckCollisionPointRec(mouse, _character->getSprite().getRect()))
+        if (CheckCollisionPointRec(mouse, _character->getSprite().GetRect()))
         {
             if (_character->canSelected)
             {
@@ -86,7 +86,7 @@ void BattleState::Draw()
 void BattleState::Update(float dt)
 {
     _abilityPanel.SetVisible(_character->selected);
-    _abilityPanel.SetAnchor(_character->getSprite().getPosition());
+    _abilityPanel.SetAnchor(_character->getSprite().GetPosition());
     _abilityPanel.Update();
 
     _vfxManager.Update(dt);
@@ -105,19 +105,20 @@ void BattleState::OnEnter()
 
     InitBackground();
 
-    _character->getSprite().setPosition({50, 300});
-    _character->getSprite().setTexture(&Game::GetResources().Get(TextureID::Player).texture);
+    _character->getSprite().SetPosition({50, 300});
+    _character->getSprite().SetResource(&Game::GetResources().Get(TextureID::CardGuyAtlas));
+    _character->getSprite().SetFrame(0);
 
-    _enemy->getSprite().setPosition({600, 300});
-    _enemy->getSprite().setTexture(&Game::GetResources().Get(TextureID::Enemy).texture);
+    _enemy->getSprite().SetPosition({600, 300});
+    _enemy->getSprite().SetResource(&Game::GetResources().Get(TextureID::Enemy));
     _enemy->canSelected = false;
     _enemy->isEnemy = true;
-    _enemy->getSprite().setSize(100, 100);
-    _enemy->getSprite().changeSizeOfRect({100 , 100});
+    _enemy->getSprite().SetSize({100, 100});
+    _enemy->getSprite().SetRectSize({100 , 100});
 
     _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon).texture);
     _abilityPanel.SetAbilities(_character->abilities);
-    _abilityPanel.SetAnchor(_character->getSprite().getPosition());
+    _abilityPanel.SetAnchor(_character->getSprite().GetPosition());
     _abilityPanel.SetVisible(false);
     _abilityPanel.Update();
 }

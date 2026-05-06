@@ -10,7 +10,7 @@ void BattleEntity::Draw()
 
 void BattleEntity::DrawAbilities() 
 {
-    Vector2 pos = sprite.getPosition();
+    Vector2 pos = sprite.GetPosition();
     Vector2 newPos{pos.x + 50, pos.y};
 
     for (const auto& ability : abilities) 
@@ -38,7 +38,7 @@ void BattleEntity::UpdateAbilities()
 
 void BattleEntity::RefreshActionText()
 {
-    Vector2 pos = sprite.getPosition();
+    Vector2 pos = sprite.GetPosition();
     actionText.SetAnchor(pos);
 
     actionText.SetLine(0, TextFormat("HP: %d", hp));
@@ -89,9 +89,9 @@ void BattleEntity::UpdateEnemyWhirl()
         return;
     }
 
-    Vector2 position = sprite.getPosition();
+    Vector2 position = sprite.GetPosition();
     position.x -= ENEMY_WHIRL_PUSH_X;
-    sprite.setPosition(position);
+    sprite.SetPosition(position);
 
     _enemyWhirlActive = false;
 }
@@ -105,9 +105,9 @@ void BattleEntity::EnemyHitAnimation()
 {
     if (isEnemy && !_enemyWhirlActive) 
     {
-        Vector2 position = sprite.getPosition();
+        Vector2 position = sprite.GetPosition();
         position.x += ENEMY_WHIRL_PUSH_X;
-        sprite.setPosition(position);
+        sprite.SetPosition(position);
         _enemyWhirlActive = true;
     }
 

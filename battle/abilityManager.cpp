@@ -4,14 +4,13 @@ namespace AbilityManager {
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage)
         {
-            Vector2 casterPos = caster.getSprite().getPosition();
+            Vector2 casterPos = caster.getSprite().GetPosition();
             Vector2 cardPostion = {
                 casterPos.x + 40,
-                casterPos.y + (caster.getSprite().getSize().y / 2)
+                casterPos.y + (caster.getSprite().GetSize().y / 2)
             };
 
-            caster.getSprite().setTexture(&Game::GetResources().Get(TextureID::CardGuyAtlas).texture);
-            caster.getSprite().setCostume(1, 1.0f); // second costume from 3-part atlas
+            caster.getSprite().SetFrame(1);
 
             // up
             vfxManager.SpawnCardVfx(cardPostion, 5.0f, -10.0f, target, false);
@@ -27,10 +26,9 @@ namespace AbilityManager {
         {
             const int countOfClones = 15;
 
-            caster.getSprite().setTexture(&Game::GetResources().Get(TextureID::CardGuyAtlas).texture);
-            caster.getSprite().setCostume(2, 1.0f);
+            caster.getSprite().SetFrame(2);
 
-            Vector2 casterPos = caster.getSprite().getPosition();
+            Vector2 casterPos = caster.getSprite().GetPosition();
 
             for (int i = 0; i < countOfClones; ++i)
             {
@@ -53,11 +51,10 @@ namespace AbilityManager {
              * TODO: bug, sprite dont change costume, fix later
              * 
              */
-            caster.getSprite().setTexture(&Game::GetResources().Get(TextureID::CardGuyAtlas).texture);
-            caster.getSprite().setCostume(2, 1.0f);
-            caster.getSprite().setMirror(true, 1.0f);
+            caster.getSprite().SetFrame(2);
+            // caster.getSprite().setMirror(true, 1.0f);
 
-            Vector2 casterPos = caster.getSprite().getPosition();
+            Vector2 casterPos = caster.getSprite().GetPosition();
 
             Vector2 cardPostion = {
                 casterPos.x + 100,

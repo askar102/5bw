@@ -32,7 +32,7 @@ void CardVfx::Update(float dt)
 
         _sprite.setPosition(nextPosition);
 
-        if (_target && CheckCollisionRecs(_sprite.getRect(), _target->getSprite().getRect()))
+        if (_target && CheckCollisionRecs(_sprite.getRect(), _target->getSprite().GetRect()))
         {
             if (!_peaceful)
             {

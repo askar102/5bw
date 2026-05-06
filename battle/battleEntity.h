@@ -4,6 +4,7 @@
 #include "actionText.h"
 
 #include "../entities/sprite.h"
+#include "../entities/spriteV2.h"
 
 #include <string>
 #include <vector>
@@ -24,7 +25,7 @@ public:
     int hp = maxHp;
     
     
-    Sprite sprite;
+    SpriteV2 sprite;
     ActionText actionText;
 
     bool selected = false;
@@ -51,12 +52,12 @@ public:
     void UpdateAbilities();
     void RefreshActionText();
 
-    Sprite& getSprite() 
+    SpriteV2& getSprite() 
     {
         return sprite;
     }
 
-    const Sprite& getSprite() const
+    const SpriteV2& getSprite() const
     {
         return sprite;
     }
