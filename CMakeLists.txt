@@ -18,6 +18,8 @@ add_executable(5bw12
     entities/player.cpp
     entities/sprite.cpp
 
+    entities/spriteV2.cpp
+
     misc/mapGenerator.cpp
 
     battle/battleSystem.cpp

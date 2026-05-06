@@ -5,7 +5,10 @@
 #include "../core/stateManager.h"
 
 #include "battleState.h"
+
 #include "../entities/sprite.h"
+#include "../entities/spriteV2.h"
+
 #include "../entities/player.h"
 
 #include "../misc/mapGenerator.h"
@@ -21,7 +24,7 @@ class MapState : public State {
         Player player;
         Vector2 playerPos;
 
-        Sprite tree;
+        SpriteV2 tree;
 
         bool startBattle = false;
 

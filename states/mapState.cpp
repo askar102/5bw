@@ -8,7 +8,7 @@ void MapState::HandleInput() {
 
 void MapState::Draw() {
     ClearBackground(GREEN);
-    // tree.Draw();
+    tree.Draw();
 
     for (auto& tree : trees) {
         tree->Draw();
@@ -37,6 +37,7 @@ void MapState::Update(float dt) {
     if (IsKeyPressed(KEY_H))
     {
         Sprite::SetDrawHitboxes(!Sprite::GetDrawHitboxes());
+        SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
     }
 }
 
@@ -45,7 +46,7 @@ void MapState::OnEnter() {
 
     player.getSprite().setPosition({400, 300});
 
-    tree.setPosition({0, 0});
+    tree.SetPosition({200, 200});
 
     LoadTile();
 }
@@ -55,7 +56,9 @@ void MapState::OnExit() {}
 void MapState::LoadResources() {
     player.getSprite().setTexture(&Game::GetResources().Get(TextureID::Player).texture);
 
-    tree.setTexture(&Game::GetResources().Get(TextureID::Tree).texture);
+    tree.SetResource(&Game::GetResources().Get(TextureID::Tree));
+    tree.SetSize({100, 100});
+    tree.SetRectSize({90, 60});
 }
 
 void MapState::MapRotationCheck() {
@@ -106,6 +109,12 @@ void MapState::LoadTile() {
 }
 
 bool MapState::CheckCollision(Rectangle playerRect) {
+    if (tree.IsCollide()) {
+        if (CheckCollisionRecs(playerRect, tree.GetRect())) {
+            return true;
+        }
+    }
+
     for (auto& tree : trees) {
         if (tree->getSolid()) {
             if (CheckCollisionRecs(playerRect, tree->getRect())) {
