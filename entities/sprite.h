@@ -1,3 +1,9 @@
+/**
+ * @file sprite.h
+ * @deprecated Now we using spriteV2 instead
+ * 
+ */
+
 #pragma once
 #include "../raylib/raylib.h"
 
