@@ -106,11 +106,11 @@ void BattleState::OnEnter()
 
     InitBackground();
 
-    _character->getSprite().SetPosition({50, 300});
+    _character->getSprite().SetPosition({120, 400});
     _character->getSprite().SetResource(&Game::GetResources().Get(TextureID::CardGuyAtlas));
     _character->getSprite().SetFrame(0);
 
-    _enemy->getSprite().SetPosition({600, 300});
+    _enemy->getSprite().SetPosition({570, 400});
     _enemy->getSprite().SetResource(&Game::GetResources().Get(TextureID::Enemy));
     _enemy->canSelected = false;
     _enemy->isEnemy = true;

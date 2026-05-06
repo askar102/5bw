@@ -28,6 +28,6 @@ private:
     Vector2 _anchor = {0.0f, 0.0f};
     int _fontSize = 10;
     float _lineSpacing = 10.0f;
-    float _topOffset = 60.0f;
+    float _topOffset = 70.0f;
     std::size_t _maxLines = 10;
 };

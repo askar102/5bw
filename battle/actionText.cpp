@@ -60,12 +60,14 @@ void ActionText::Draw() const
         {
             continue;
         }
+        
+        int textWidth = MeasureText(entry.text.c_str(), _fontSize);
 
-        float y = _anchor.y - _topOffset - static_cast<float>(i) * _lineSpacing;
+        float y =  _anchor.y - _topOffset - static_cast<float>(i) * _lineSpacing;
 
         DrawText(
             entry.text.c_str(),
-            static_cast<int>(_anchor.x),
+            static_cast<int>(_anchor.x - textWidth / 2),
             static_cast<int>(y),
             _fontSize,
             entry.color
