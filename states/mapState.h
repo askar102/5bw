@@ -28,7 +28,7 @@ class MapState : public State {
 
         bool startBattle = false;
 
-        std::vector<std::unique_ptr<Sprite>> trees;
+        std::vector<std::unique_ptr<SpriteV2>> trees;
                                                                                        
         unsigned int currentTileX = 600;
         unsigned int currentTileY = 600;

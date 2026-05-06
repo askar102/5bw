@@ -2,9 +2,9 @@
 
 using json = nlohmann::json;
 
-std::vector<std::unique_ptr<Sprite>> MapGenerator::GenerateTile(const std::string& path, int tileX, int tileY, Texture2D* treeTexture) 
+std::vector<std::unique_ptr<SpriteV2>> MapGenerator::GenerateTile(const std::string& path, int tileX, int tileY, TextureResource* treeResource) 
 {
-    std::vector<std::unique_ptr<Sprite>> result;
+    std::vector<std::unique_ptr<SpriteV2>> result;
 
     std::ifstream file(path);
     if (!file.is_open()) {
@@ -37,18 +37,18 @@ std::vector<std::unique_ptr<Sprite>> MapGenerator::GenerateTile(const std::strin
 
                     if (tileType == 1) 
                     {
-                        auto sprite = std::make_unique<Sprite>();
+                        auto sprite = std::make_unique<SpriteV2>();
 
-                        sprite->setTexture(treeTexture);
-                        sprite->setSize(tileSize, tileSize);
-                        sprite->setPosition({
-                            (float)tx * tileSize,
-                            (float)ty * tileSize
+                        sprite->SetResource(treeResource);
+                        sprite->SetSize({tileSize, tileSize});
+                        sprite->SetPosition({
+                            (float)tx * tileSize + tileSize / 2.0f,
+                            (float)ty * tileSize + tileSize / 2.0f
                         });
 
-                        sprite->setSolid(true);
+                        sprite->SetCollide(true);
                         // width, height
-                        sprite->changeSizeOfRect({90, 60});
+                        // sprite->SetRectSize({90, 30});
 
                         result.push_back(std::move(sprite));
                     }

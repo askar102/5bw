@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../entities/sprite.h"
+#include "../entities/spriteV2.h"
+
 #include "../raylib/raylib.h"
 #include "../external/json.h"
 
@@ -11,10 +13,10 @@
 
 class MapGenerator {
 public:
-    static std::vector<std::unique_ptr<Sprite>> GenerateTile(
+    static std::vector<std::unique_ptr<SpriteV2>> GenerateTile(
         const std::string& path,
         int tileX,
         int tileY,
-        Texture2D* treeTexture
+        TextureResource* treeResource
     );
 };

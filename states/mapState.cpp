@@ -104,7 +104,7 @@ void MapState::LoadTile() {
         "config.json",
         currentTileX,
         currentTileY,
-        &Game::GetResources().Get(TextureID::Tree).texture
+        &Game::GetResources().Get(TextureID::Tree)
     );
 }
 
@@ -116,8 +116,8 @@ bool MapState::CheckCollision(Rectangle playerRect) {
     }
 
     for (auto& tree : trees) {
-        if (tree->getSolid()) {
-            if (CheckCollisionRecs(playerRect, tree->getRect())) {
+        if (tree->IsCollide()) {
+            if (CheckCollisionRecs(playerRect, tree->GetRect())) {
                 return true;
             }
         }
