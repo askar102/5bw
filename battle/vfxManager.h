@@ -1,7 +1,7 @@
 #pragma once
 
 #include "vfx.h"
-#include "battleResources.h"
+#include "../core/game.h"
 
 #include "../raylib/raylib.h"
 
@@ -31,9 +31,6 @@ public:
     void SpawnDefendVfx(Vector2 origin, Vector2 target);
     void SpawnHealVfx(Vector2 origin, Vector2 target);
 
-    void InitTextureManager(BattleResources* resources);
-
 private:
     std::vector<std::unique_ptr<Vfx>> _effects;
-    BattleResources* _resources = nullptr;
 };

@@ -2,7 +2,7 @@
 
 namespace AbilityManager {
     namespace CardGuy {
-        void SpawnCardAttack(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage)
+        void SpawnCardAttack(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage)
         {
             Vector2 casterPos = caster.getSprite().getPosition();
             Vector2 cardPostion = {
@@ -10,7 +10,7 @@ namespace AbilityManager {
                 casterPos.y + (caster.getSprite().getSize().y / 2)
             };
 
-            caster.getSprite().setTexture(resManager.CardGuyAtlasTexture());
+            caster.getSprite().setTexture(&Game::GetResources().Get(TextureID::CardGuyAtlas).texture);
             caster.getSprite().setCostume(1, 1.0f); // second costume from 3-part atlas
 
             // up
@@ -23,11 +23,11 @@ namespace AbilityManager {
             vfxManager.SpawnCardVfx(cardPostion, 5.0f, 10.0f, target, false);
         }
 
-        void SpawnCardHeal(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
+        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
         {
             const int countOfClones = 15;
 
-            caster.getSprite().setTexture(resManager.CardGuyAtlasTexture());
+            caster.getSprite().setTexture(&Game::GetResources().Get(TextureID::CardGuyAtlas).texture);
             caster.getSprite().setCostume(2, 1.0f);
 
             Vector2 casterPos = caster.getSprite().getPosition();
@@ -47,13 +47,13 @@ namespace AbilityManager {
             
         }   
 
-        void SpawnCardBlock(BattleResources& resManager, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
+        void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
         {
             /**
              * TODO: bug, sprite dont change costume, fix later
              * 
              */
-            caster.getSprite().setTexture(resManager.CardGuyAtlasTexture());
+            caster.getSprite().setTexture(&Game::GetResources().Get(TextureID::CardGuyAtlas).texture);
             caster.getSprite().setCostume(2, 1.0f);
             caster.getSprite().setMirror(true, 1.0f);
 

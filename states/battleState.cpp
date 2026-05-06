@@ -16,7 +16,6 @@ void BattleState::HandleInput()
             if (abilityName == "CardAttack")
             {
                 AbilityManager::CardGuy::SpawnCardAttack(
-                    _resources,
                     _vfxManager,
                     *_character,
                     *_enemy,
@@ -34,13 +33,13 @@ void BattleState::HandleInput()
 
             if (abilityName == "CardHeal")
             {
-                AbilityManager::CardGuy::SpawnCardHeal(_resources, _vfxManager, *_character, *_enemy);
+                AbilityManager::CardGuy::SpawnCardHeal( _vfxManager, *_character, *_enemy);
                 clickedAbility->Execute(*_character, *_enemy);
             }
 
             if (abilityName == "CardBlock")
             {
-                AbilityManager::CardGuy::SpawnCardBlock(_resources, _vfxManager, *_character, *_enemy);
+                AbilityManager::CardGuy::SpawnCardBlock(_vfxManager, *_character, *_enemy);
             }
 
             clickedAbility->Execute(*_character, *_enemy);
@@ -103,23 +102,20 @@ void BattleState::OnEnter()
     _character->abilities.push_back(std::make_unique<Ability>("CardHeal", 0, 25));
     _character->abilities.push_back(std::make_unique<Ability>("CardBlock", 0, 10));
 
-    _resources.Load();
 
     InitBackground();
 
-    _vfxManager.InitTextureManager(&_resources);
-
     _character->getSprite().setPosition({50, 300});
-    _character->getSprite().setTexture(_resources.CharacterTexture());
+    _character->getSprite().setTexture(&Game::GetResources().Get(TextureID::Player).texture);
 
     _enemy->getSprite().setPosition({600, 300});
-    _enemy->getSprite().setTexture(_resources.EnemyTexture());
+    _enemy->getSprite().setTexture(&Game::GetResources().Get(TextureID::Enemy).texture);
     _enemy->canSelected = false;
     _enemy->isEnemy = true;
     _enemy->getSprite().setSize(100, 100);
     _enemy->getSprite().changeSizeOfRect({100 , 100});
 
-    _abilityPanel.SetIconTexture(_resources.AbilityIconTexture());
+    _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon).texture);
     _abilityPanel.SetAbilities(_character->abilities);
     _abilityPanel.SetAnchor(_character->getSprite().getPosition());
     _abilityPanel.SetVisible(false);
@@ -129,12 +125,11 @@ void BattleState::OnEnter()
 void BattleState::OnExit()
 {
     _vfxManager.Clear();
-    _resources.Unload();
 }
 
 void BattleState::InitBackground()
 {
-    _background.setTexture(_resources.BackgroundTexture());
+    _background.setTexture(&Game::GetResources().Get(TextureID::BattleBg).texture);
     _background.setSize(800, 600);
     _background.SetCanDrawHiboxes(false);
 }

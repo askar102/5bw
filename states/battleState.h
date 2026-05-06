@@ -12,7 +12,6 @@
 class BattleState : public State {
 private:
     Sprite _background;
-    BattleResources _resources;
 
     // Temporary single-character test setup.
     std::unique_ptr<BattleEntity> _character;
