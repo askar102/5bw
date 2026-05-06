@@ -64,6 +64,7 @@ void BattleState::HandleInput()
     if (IsKeyPressed(KEY_H))
     {
         Sprite::SetDrawHitboxes(!Sprite::GetDrawHitboxes());
+        SpriteV2::SetDrawHitboxes(!Sprite::GetDrawHitboxes());
     }
 }
 
@@ -116,7 +117,7 @@ void BattleState::OnEnter()
     _enemy->getSprite().SetSize({100, 100});
     _enemy->getSprite().SetRectSize({100 , 100});
 
-    _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon).texture);
+    _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon));
     _abilityPanel.SetAbilities(_character->abilities);
     _abilityPanel.SetAnchor(_character->getSprite().GetPosition());
     _abilityPanel.SetVisible(false);

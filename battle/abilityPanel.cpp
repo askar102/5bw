@@ -1,12 +1,11 @@
 #include "abilityPanel.h"
+#include <sys/stat.h>
 
-#include <algorithm>
-
-void AbilityPanel::SetIconTexture(Texture2D* texture)
+void AbilityPanel::SetIconTexture(TextureResource* newTextureResource)
 {
     for (auto& slot : _slots)
     {
-        slot.icon.setTexture(texture);
+        slot.icon.SetResource(newTextureResource);
     }
 }
 
@@ -41,8 +40,12 @@ void AbilityPanel::Update()
 {
     for (size_t i = 0; i < _activeSlots; ++i)
     {
-        _slots[i].pos = {_anchor.x + 90.0f, _anchor.y + static_cast<float>(i) * 50.0f};
-        _slots[i].icon.setPosition(_slots[i].pos);
+        _slots[i].pos = {
+            _anchor.x + 150.0f, 
+            // - 100 чтобы чуть чуть повыше анчора был
+            _anchor.y + static_cast<float>(i) * 50.0f - 100.0f,
+        };
+        _slots[i].icon.SetPosition(_slots[i].pos);
     }
 }
 
@@ -60,10 +63,11 @@ void AbilityPanel::Draw()
 
         if (slot.ability)
         {
+            // TODO: текст спавниться немного криво, но я думаю мы пофиксим это когда будет более обширно делать gui
             DrawText(
                 slot.ability->getName().c_str(),
-                static_cast<int>(slot.pos.x + 10.0f),
-                static_cast<int>(slot.pos.y + 10.0f),
+                static_cast<int>(slot.pos.x),
+                static_cast<int>(slot.pos.y),
                 20,
                 WHITE
             );
@@ -82,7 +86,7 @@ Ability* AbilityPanel::GetAbilityAt(Vector2 mouse) const
     {
         const auto& slot = _slots[i];
 
-        if (slot.ability && CheckCollisionPointRec(mouse, slot.icon.getRect()))
+        if (slot.ability && CheckCollisionPointRec(mouse, slot.icon.GetRect()))
         {
             return slot.ability;
         }

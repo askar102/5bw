@@ -1,17 +1,21 @@
 #pragma once
 
 #include "../entities/sprite.h"
+
+#include "../entities/spriteV2.h"
+
 #include "ability.h"
 
 #include <array>
 #include <memory>
 #include <vector>
+#include <algorithm>
 
 class AbilityPanel {
 public:
     static constexpr size_t kMaxAbilities = 3;
 
-    void SetIconTexture(Texture2D* texture);
+    void SetIconTexture(TextureResource* newTextureResource);
     void SetAbilities(const std::vector<std::unique_ptr<Ability>>& abilities);
     void SetAnchor(Vector2 anchor);
     void SetVisible(bool visible);
@@ -21,7 +25,7 @@ public:
 
 private:
     struct Slot {
-        Sprite icon;
+        SpriteV2 icon;
         Vector2 pos = {0.0f, 0.0f};
         Ability* ability = nullptr;
     };
