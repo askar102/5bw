@@ -11,6 +11,7 @@
 #include <string>
 #include <fstream>
 
+// todo: make the Tree class
 class MapGenerator {
 public:
     static std::vector<std::unique_ptr<SpriteV2>> GenerateTile(

@@ -3,12 +3,13 @@
 #include "../raylib/raylib.h"
 
 #include "sprite.h"
+#include "spriteV2.h"
 
 class MapState;
 
 class Player {
 private:
-    Sprite _sprite;
+    SpriteV2 _sprite;
     float _speed = 200.0f;
 
 public:
@@ -17,7 +18,7 @@ public:
      * 
      * @return Sprite& 
      */
-    Sprite& getSprite() 
+    SpriteV2& getSprite() 
     {
         return _sprite;
     }

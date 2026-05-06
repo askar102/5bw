@@ -25,7 +25,7 @@ void MapState::Draw() {
 
 void MapState::Update(float dt) {
     player.Update(dt, this);
-    playerPos  = player.getSprite().getPosition();
+    playerPos  = player.getSprite().GetPosition();
 
     MapRotationCheck();
 
@@ -44,7 +44,7 @@ void MapState::Update(float dt) {
 void MapState::OnEnter() {
     this->LoadResources();
 
-    player.getSprite().setPosition({400, 300});
+    player.getSprite().SetPosition({400, 300});
 
     tree.SetPosition({200, 200});
 
@@ -54,7 +54,7 @@ void MapState::OnEnter() {
 void MapState::OnExit() {}
 
 void MapState::LoadResources() {
-    player.getSprite().setTexture(&Game::GetResources().Get(TextureID::Player).texture);
+    player.getSprite().SetResource(&Game::GetResources().Get(TextureID::Player));
 
     tree.SetResource(&Game::GetResources().Get(TextureID::Tree));
     tree.SetSize({100, 100});
@@ -62,13 +62,13 @@ void MapState::LoadResources() {
 }
 
 void MapState::MapRotationCheck() {
-    // up
+    // up   
     if (playerPos.y+100 < 0) {
         currentTileY += 1;
     
         LoadTile();
     
-        player.getSprite().setPosition({playerPos.x, (float)SCREEN_HEIGHT});
+        player.getSprite().SetPosition({playerPos.x, (float)SCREEN_HEIGHT});
     }
 
     // down
@@ -77,7 +77,7 @@ void MapState::MapRotationCheck() {
     
         LoadTile();
     
-        player.getSprite().setPosition({playerPos.x, 0});
+        player.getSprite().SetPosition({playerPos.x, 0});
     }
 
     // left
@@ -86,7 +86,7 @@ void MapState::MapRotationCheck() {
     
         LoadTile();
     
-        player.getSprite().setPosition({(float)SCREEN_WIDTH, playerPos.y});
+        player.getSprite().SetPosition({(float)SCREEN_WIDTH, playerPos.y});
     }
 
     // right
@@ -95,7 +95,7 @@ void MapState::MapRotationCheck() {
     
         LoadTile();
     
-        player.getSprite().setPosition({0-100, playerPos.y});
+        player.getSprite().SetPosition({0-100, playerPos.y});
     }
 }
 

@@ -8,7 +8,7 @@ void Player::Update(float dt, MapState* map)
     }
 
     float playerSpeed = this->getSpeed();
-    Vector2 playerPosition = this->_sprite.getPosition();
+    Vector2 playerPosition = this->_sprite.GetPosition();
 
     Vector2 velocity = {0, 0};
 
@@ -19,14 +19,9 @@ void Player::Update(float dt, MapState* map)
 
     Vector2 newPosition = playerPosition;
 
-    newPosition.x += velocity.x;
+    newPosition.x += velocity.x;    
 
-    Rectangle rectX = {
-        newPosition.x,
-        playerPosition.y,
-        _sprite.getSize().x,
-        _sprite.getSize().y
-    };
+    Rectangle rectX = _sprite.GetWorldRect({newPosition.x, newPosition.y});
 
     if (!map->CheckCollision(rectX)) {
         playerPosition.x = newPosition.x;
@@ -35,18 +30,13 @@ void Player::Update(float dt, MapState* map)
     newPosition = playerPosition;
     newPosition.y += velocity.y;
 
-    Rectangle rectY = {
-        playerPosition.x,
-        newPosition.y,
-        _sprite.getSize().x,
-        _sprite.getSize().y
-    };
+    Rectangle rectY = _sprite.GetWorldRect({playerPosition.x, newPosition.y});
 
     if (!map->CheckCollision(rectY)) {
         playerPosition.y = newPosition.y;
     }
 
-    _sprite.setPosition(playerPosition);
+    _sprite.SetPosition(playerPosition);
 
 }
 
