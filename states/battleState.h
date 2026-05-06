@@ -2,7 +2,10 @@
 
 #include "../core/state.h"
 #include "../raylib/raylib.h"
+
 #include "../entities/sprite.h"
+#include "../entities/spriteV2.h"
+
 
 #include "../battle/abilityPanel.h"
 #include "../battle/battleEntity.h"
@@ -11,7 +14,7 @@
 
 class BattleState : public State {
 private:
-    Sprite _background;
+    SpriteV2 _background;
 
     // Temporary single-character test setup.
     std::unique_ptr<BattleEntity> _character;
