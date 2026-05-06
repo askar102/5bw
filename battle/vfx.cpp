@@ -1,14 +1,14 @@
 #include "vfx.h"
 
-Vfx::Vfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, Color color)
+Vfx::Vfx(Vector2 position, float lifetime, float rotation, TextureResource* textureResource, Color color)
     : _lifetime(lifetime), _color(color)
 {
-    if (texture) {
-        _sprite.setTexture(texture);
-    }
+    
+    _sprite.SetResource(textureResource);
+    
 
-    _sprite.setPosition(position);
-    _sprite.setRotation(rotation);
+    _sprite.SetPosition(position);
+    _sprite.SetRotation(rotation);
     
 }
 
@@ -23,7 +23,7 @@ void Vfx::Update(float dt)
 
 void Vfx::Draw()
 {
-    DrawCircleV(_sprite.getPosition(), 4.0f, _color);
+    DrawCircleV(_sprite.GetPosition(), 4.0f, _color);
 }
 
 bool Vfx::IsFinished() const

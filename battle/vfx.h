@@ -5,11 +5,12 @@
 #include "../raylib/raylib.h"
 
 #include "../entities/sprite.h"
+#include "../entities/spriteV2.h"
 
 class Vfx {
 public:
     Vfx() = default;
-    Vfx(Vector2 position, float lifetime, float rotation, Texture2D* texture, Color color = WHITE);
+    Vfx(Vector2 position, float lifetime, float rotation, TextureResource* textureResource, Color color = WHITE);
     virtual ~Vfx() = default;
 
     virtual void OnEnter();
@@ -24,7 +25,7 @@ public:
     bool Hitted();
 
 protected:
-    Sprite _sprite;
+    SpriteV2 _sprite;
     float _speed = 0.0f;
     float _lifetime = 0.0f;
     float _elapsed = 0.0f; // времени истекло

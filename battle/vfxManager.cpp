@@ -46,7 +46,7 @@ void VfxManager::Clear()
 
 void VfxManager::SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target, bool peaceful, bool animated)
 {
-    Add(std::make_unique<CardVfx>(position, lifetime, rotation, &Game::GetResources().Get(TextureID::CardVFX).texture, target, peaceful, animated));
+    Add(std::make_unique<CardVfx>(position, lifetime, rotation, &Game::GetResources().Get(TextureID::CardVFX), target, peaceful, animated));
 }
 
 void VfxManager::SpawnDefendVfx(Vector2 origin, Vector2 target)

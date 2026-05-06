@@ -6,8 +6,8 @@ namespace AbilityManager {
         {
             Vector2 casterPos = caster.getSprite().GetPosition();
             Vector2 cardPostion = {
-                casterPos.x + 40,
-                casterPos.y + (caster.getSprite().GetSize().y / 2)
+                casterPos.x,
+                casterPos.y
             };
 
             caster.getSprite().SetFrame(1);
@@ -57,8 +57,8 @@ namespace AbilityManager {
             Vector2 casterPos = caster.getSprite().GetPosition();
 
             Vector2 cardPostion = {
-                casterPos.x + 100,
-                casterPos.y + 100
+                casterPos.x + 50.0f,
+                casterPos.y
             };
 
             vfxManager.SpawnCardVfx(cardPostion, 1.0f, -90.0f, target, true, false);
