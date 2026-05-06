@@ -10,6 +10,8 @@
 
 #include "../misc/mapGenerator.h"
 
+#include "../core/game.h"
+
 #include <vector>
 #include <memory>
 #include <format>
@@ -19,15 +21,12 @@ class MapState : public State {
         Player player;
         Vector2 playerPos;
 
-        Texture2D treeTexture;
-        Texture2D playerTexture;
-
         Sprite tree;
 
         bool startBattle = false;
 
         std::vector<std::unique_ptr<Sprite>> trees;
-
+                                                                                       
         unsigned int currentTileX = 600;
         unsigned int currentTileY = 600;
         
@@ -44,7 +43,6 @@ class MapState : public State {
         void OnExit() override;
 
         void LoadResources();
-        void UnloadResources();
         
         void MapRotationCheck();
         void LoadTile();

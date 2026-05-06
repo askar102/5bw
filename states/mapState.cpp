@@ -50,21 +50,12 @@ void MapState::OnEnter() {
     LoadTile();
 }
 
-void MapState::OnExit() {
-    this->UnloadResources();
-}
+void MapState::OnExit() {}
 
 void MapState::LoadResources() {
-    playerTexture = LoadTexture("resources/player.png");
-    player.getSprite().setTexture(&playerTexture);
+    player.getSprite().setTexture(&Game::GetResources().Get(TextureID::Player).texture);
 
-    treeTexture = LoadTexture("resources/tree.png");
-    tree.setTexture(&treeTexture);
-}
-
-void MapState::UnloadResources() {
-    UnloadTexture(treeTexture);
-    UnloadTexture(playerTexture);
+    tree.setTexture(&Game::GetResources().Get(TextureID::Tree).texture);
 }
 
 void MapState::MapRotationCheck() {
@@ -110,7 +101,7 @@ void MapState::LoadTile() {
         "config.json",
         currentTileX,
         currentTileY,
-        &treeTexture
+        &Game::GetResources().Get(TextureID::Tree).texture
     );
 }
 
