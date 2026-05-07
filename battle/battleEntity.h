@@ -1,15 +1,24 @@
+/**
+ * @file battleEntity.h
+ * @author askar102
+ * @brief Battle entity type
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #pragma once
-
-#include "ability.h"
-#include "actionText.h"
-
-#include "../entities/sprite.h"
-#include "../entities/spriteV2.h"
 
 #include <string>
 #include <vector>
 #include <memory>
 #include <algorithm>
+
+#include "../entities/spriteV2.h"
+
+#include "ability.h"
+#include "actionText.h"
 
 class Ability;
 
@@ -24,7 +33,6 @@ public:
     int maxHp = 100;
     int hp = maxHp;
     
-    
     SpriteV2 sprite;
     ActionText actionText;
 
@@ -34,13 +42,6 @@ public:
 
     std::vector<std::unique_ptr<Ability>> abilities;
     Texture2D abilityTexture;
-
-private:
-    bool _enemyWhirlActive = false;
-    double _enemyWhirlResetAt = 0.0;
-
-public:
-    
 
     bool Alive() const
     {
@@ -62,7 +63,7 @@ public:
         return sprite;
     }
 
-    // battle actions
+    // Battle actions
     void Heal(int amount);
     void Damage(int amount);
 
@@ -70,4 +71,7 @@ public:
     void UpdateEnemyWhirl();
     void EnemyHitAnimation();
 
+private:
+    bool _enemyWhirlActive = false;
+    double _enemyWhirlResetAt = 0.0;
 };

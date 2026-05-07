@@ -1,3 +1,13 @@
+/**
+ * @file battleEntity.cpp
+ * @author askar102
+ * @brief Battle entity type
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "battleEntity.h"
 
 void BattleEntity::Draw() 
@@ -21,7 +31,7 @@ void BattleEntity::DrawAbilities()
 
         // только текст
         DrawText(
-            ability->getName().c_str(),
+            ability->GetName().c_str(),
             newPos.x,
             newPos.y,
             20,
