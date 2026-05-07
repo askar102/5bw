@@ -28,6 +28,7 @@
      void ChangeState(std::unique_ptr<State> newState);
  
      static ResourceManager& GetResources();
+     
  private:
      void Init();
      void Update();
