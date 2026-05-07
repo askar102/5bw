@@ -1,5 +1,14 @@
+/**
+ * @file cardVfx.cpp
+ * @author askar102
+ * @brief Card bullet vfx
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "cardVfx.h"
-#include "battleEntity.h"
 
 CardVfx::CardVfx(Vector2 position, float lifetime, float rotation, TextureResource* textureResource, BattleEntity& target, bool peaceful, bool animated)
     : Vfx(position, lifetime, rotation, textureResource, WHITE), _target(&target), _peaceful(peaceful), _animated(animated)

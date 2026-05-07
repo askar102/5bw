@@ -1,3 +1,13 @@
+/**
+ * @file vfx.cpp
+ * @author askar102
+ * @brief Default vfx type
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "vfx.h"
 
 Vfx::Vfx(Vector2 position, float lifetime, float rotation, TextureResource* textureResource, Color color)

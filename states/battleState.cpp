@@ -1,5 +1,14 @@
+/**
+ * @file battleState.cpp
+ * @author askar102
+ * @brief Battle scene
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "battleState.h"
-#include "../battle/abilityManager.h"
 
 void BattleState::HandleInput()
 {
@@ -11,7 +20,7 @@ void BattleState::HandleInput()
         {
             _character->selected = false;
 
-            const std::string abilityName = clickedAbility->getName();
+            const std::string abilityName = clickedAbility->GetName();
 
             if (abilityName == "CardAttack")
             {
@@ -19,15 +28,15 @@ void BattleState::HandleInput()
                     _vfxManager,
                     *_character,
                     *_enemy,
-                    clickedAbility->getDamage()
+                    clickedAbility->GetDamage()
                 );
                 /**
                  * @ref we damage enemy at cardVfx.cpp, ~35 line
                  * 
                  */
                 clickedAbility->Execute(*_character, *_enemy, true);
-                _character->actionText.Add(TextFormat("Used %s", clickedAbility->getName().c_str()), YELLOW);
-                _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->getName().c_str()), ORANGE);
+                _character->actionText.Add(TextFormat("Used %s", clickedAbility->GetName().c_str()), YELLOW);
+                _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
                 return;
             }
 
@@ -43,8 +52,8 @@ void BattleState::HandleInput()
             }
 
             clickedAbility->Execute(*_character, *_enemy);
-            _character->actionText.Add(TextFormat("Used %s", clickedAbility->getName().c_str()), YELLOW);
-            _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->getName().c_str()), ORANGE);
+            _character->actionText.Add(TextFormat("Used %s", clickedAbility->GetName().c_str()), YELLOW);
+            _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
             return;
         }
 
@@ -63,8 +72,7 @@ void BattleState::HandleInput()
 
     if (IsKeyPressed(KEY_H))
     {
-        Sprite::SetDrawHitboxes(!Sprite::GetDrawHitboxes());
-        SpriteV2::SetDrawHitboxes(!Sprite::GetDrawHitboxes());
+        SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
     }
 }
 

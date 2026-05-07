@@ -1,5 +1,14 @@
+/**
+ * @file menuState.cpp
+ * @author askar102
+ * @brief Menu scene
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "menuState.h"
-#include "mapState.h"
 
 void MenuState::HandleInput() {
     if (IsKeyPressed(KEY_ENTER)) {

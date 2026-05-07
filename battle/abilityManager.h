@@ -2,7 +2,7 @@
  * @file abilityManager.h
  * @author askar102
  * @brief Directly calling characters' abilities
- * @date 2026-07-05
+ * @date 2026-05-07
  * 
  * @copyright Copyright (c) 2026, askar102
  * 
@@ -18,7 +18,6 @@
 #include "../core/game.h"
 
 #include "battleEntity.h"
-#include "battleResources.h"
 #include "vfxManager.h"
 
 

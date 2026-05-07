@@ -1,3 +1,13 @@
+/**
+ * @file mapState.cpp
+ * @author askar102
+ * @brief Map(world) scene
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "mapState.h"
 
 void MapState::HandleInput() {
@@ -36,7 +46,6 @@ void MapState::Update(float dt) {
 
     if (IsKeyPressed(KEY_H))
     {
-        Sprite::SetDrawHitboxes(!Sprite::GetDrawHitboxes());
         SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
     }
 }

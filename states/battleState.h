@@ -1,28 +1,27 @@
+/**
+ * @file battleState.h
+ * @author askar102
+ * @brief Battle scene
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #pragma once
 
-#include "../core/state.h"
 #include "../raylib/raylib.h"
 
-#include "../entities/sprite.h"
-#include "../entities/spriteV2.h"
+#include "../core/state.h"
 
+#include "../entities/spriteV2.h"
 
 #include "../battle/abilityPanel.h"
 #include "../battle/battleEntity.h"
-#include "../battle/battleResources.h"
+#include "../battle/abilityManager.h"
 #include "../battle/vfxManager.h"
 
 class BattleState : public State {
-private:
-    SpriteV2 _background;
-
-    // Temporary single-character test setup.
-    std::unique_ptr<BattleEntity> _character;
-    std::unique_ptr<BattleEntity> _enemy;
-
-    AbilityPanel _abilityPanel;
-    VfxManager _vfxManager;
-
 public:
     void HandleInput() override;
     void Update(float dt) override;
@@ -32,4 +31,14 @@ public:
     void OnExit() override;
 
     void InitBackground();
+
+private:
+    SpriteV2 _background;
+
+    // Temporary single-character test setup.
+    std::unique_ptr<BattleEntity> _character;
+    std::unique_ptr<BattleEntity> _enemy;
+
+    AbilityPanel _abilityPanel;
+    VfxManager _vfxManager;
 };

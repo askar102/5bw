@@ -1,3 +1,13 @@
+/**
+ * @file cardVfx.h
+ * @author askar102
+ * @brief Card bullet vfx
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #pragma once
 
 #include "battleEntity.h"
@@ -5,17 +15,14 @@
 
 class CardVfx : public Vfx {
 public:
-    /**
-     * @brief Construct a new Card Vfx object
-     * 
-     * @param position position of object
-     * @param lifetime lifetime of object
-     * @param rotation rotation of object
-     * @param texture texture
-     * @param target target object
-     * @param _peaceful will use EnemyHitAnimation or not? default value: true
-     */
-    CardVfx(Vector2 position, float lifetime, float rotation, TextureResource* textureResource, BattleEntity& target, bool _peaceful = true, bool animated = true);
+    CardVfx(Vector2 position, 
+            float lifetime, 
+            float rotation, 
+            TextureResource* textureResource, 
+            BattleEntity& target, 
+            // peaceful - will use EnemyHitAnimation or not?
+            bool peaceful = true, 
+            bool animated = true);
 
     void OnEnter() override;
     void Update(float dt) override;

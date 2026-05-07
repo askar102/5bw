@@ -16,17 +16,14 @@ add_executable(5bw12
     states/battleState.cpp
 
     entities/player.cpp
-    entities/sprite.cpp
 
     entities/spriteV2.cpp
 
     misc/mapGenerator.cpp
 
-    battle/battleSystem.cpp
     battle/battleEntity.cpp
     battle/actionText.cpp
     battle/abilityPanel.cpp
-    battle/battleResources.cpp
     battle/party.cpp
     battle/ability.cpp
     battle/abilityManager.cpp

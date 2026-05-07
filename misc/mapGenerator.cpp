@@ -1,3 +1,13 @@
+/**
+ * @file mapGenerator.cpp
+ * @author askar102
+ * @brief Map generator helper
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "mapGenerator.h"
 
 using json = nlohmann::json;

@@ -2,7 +2,7 @@
  * @file abilityManager.cpp
  * @author askar102
  * @brief Directly calling characters' abilities
- * @date 2026-05-03
+ * @date 2026-05-07
  * 
  * @copyright Copyright (c) 2026, askar102
  * 

@@ -1,15 +1,24 @@
+/**
+ * @file mapGenerator.h
+ * @author askar102
+ * @brief Map generator helper
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #pragma once
-
-#include "../entities/sprite.h"
-#include "../entities/spriteV2.h"
-
-#include "../raylib/raylib.h"
-#include "../external/json.h"
 
 #include <vector>
 #include <memory>
 #include <string>
 #include <fstream>
+
+#include "../raylib/raylib.h"
+#include "../external/json.h"
+
+#include "../entities/spriteV2.h"
 
 // todo: make the Tree class
 class MapGenerator {
