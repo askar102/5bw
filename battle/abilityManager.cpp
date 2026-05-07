@@ -1,3 +1,13 @@
+/**
+ * @file abilityManager.cpp
+ * @author askar102
+ * @brief Directly calling characters' abilities
+ * @date 2026-05-03
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "abilityManager.h"
 
 namespace AbilityManager {

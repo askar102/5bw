@@ -1,15 +1,26 @@
+/**
+ * @file abilityManager.h
+ * @author askar102
+ * @brief Directly calling characters' abilities
+ * @date 2026-07-05
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #pragma once
 
+#include <cmath>
+#include <random>
+
 #include "../raylib/raylib.h"
+
+#include "../core/game.h"
 
 #include "battleEntity.h"
 #include "battleResources.h"
 #include "vfxManager.h"
 
-#include "../core/game.h"
-
-#include <cmath>
-#include <random>
 
 namespace AbilityManager {
     namespace CardGuy {

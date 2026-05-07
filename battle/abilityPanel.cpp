@@ -1,3 +1,13 @@
+/**
+ * @file abilityPanel.cpp
+ * @author askar102
+ * @brief Creating ability buttons in front of a character
+ * @date 2026-05-03
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "abilityPanel.h"
 #include <sys/stat.h>
 
@@ -65,7 +75,7 @@ void AbilityPanel::Draw()
         {
             // TODO: текст спавниться немного криво, но я думаю мы пофиксим это когда будет более обширно делать gui
             DrawText(
-                slot.ability->getName().c_str(),
+                slot.ability->GetName().c_str(),
                 static_cast<int>(slot.pos.x),
                 static_cast<int>(slot.pos.y),
                 20,
