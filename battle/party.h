@@ -15,8 +15,17 @@
 
 #include "battleEntity.h"
 
+#include "../misc/configReader.h"
+
 class Party {
 public:
+    Party() 
+    {
+        Init();
+    }
+
+    void Init();
+
     void Add(std::unique_ptr<BattleEntity> character, size_t index);
     void Remove(size_t index);
     

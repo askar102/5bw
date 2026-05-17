@@ -1,4 +1,12 @@
 {
+    "playerParty": [
+        "cardGuy",
+        null,
+        null,
+        null
+    ],
+
+
     "map": 
     [
         {

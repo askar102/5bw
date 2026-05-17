@@ -10,6 +10,20 @@
 
 #include "party.h"
 
+void Party::Init()
+{
+    std::array<std::string, 4> configParty = ConfigReader::GetPartyFromConfig();
+    
+    for (std::string str : configParty)
+    {
+        if (!str.empty())
+        {
+            // todo
+        }
+    }
+
+}
+
 void Party::Add(std::unique_ptr<BattleEntity> character, size_t index) 
 {
     if (index >= 4) return;
