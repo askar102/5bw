@@ -103,8 +103,23 @@ void BattleState::Update(float dt)
 
 void BattleState::OnEnter()
 {
-    _character = std::make_unique<BattleEntity>();
-    _enemy = std::make_unique<BattleEntity>();
+    Party& playerParty = Game::GetPlayerParty();
+    for (size_t i = 0; i < 4; ++i)
+    {
+        BattleEntity* character = playerParty.Get(i);
+
+        if (character)
+        {
+            TraceLog(LOG_INFO, "[PARTY] character: %s", character->name.c_str());
+        }
+        else
+        {      
+            TraceLog(LOG_INFO, "[PARTY] empty slot");
+        }
+    }   
+
+    _character = std::make_unique<BattleEntity>("lol", 100);
+    _enemy = std::make_unique<BattleEntity>("pizda", 100);
 
     // abiityName, damage, heal
     _character->abilities.push_back(std::make_unique<Ability>("CardAttack", 10, 0));

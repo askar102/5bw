@@ -10,6 +10,9 @@
 
 #include "battleEntity.h"
 
+BattleEntity::BattleEntity(std::string _name, int _maxHp)
+    : name(_name), maxHp(_maxHp) {}
+
 void BattleEntity::Draw() 
 {
     UpdateEnemyWhirl();

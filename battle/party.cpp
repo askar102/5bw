@@ -13,12 +13,14 @@
 void Party::Init()
 {
     std::array<std::string, 4> configParty = ConfigReader::GetPartyFromConfig();
-    
-    for (std::string str : configParty)
+
+    for (size_t i = 0; i < configParty.size(); ++i)
     {
+        std::string str = configParty[i];
+
         if (!str.empty())
         {
-            // todo
+            Add(std::make_unique<BattleEntity>(str, 100), i);
         }
     }
 

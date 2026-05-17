@@ -13,6 +13,7 @@
  #include "../states/menuState.h"
  
  ResourceManager Game::_resourceManager;
+ Party Game::_playerParty;
  
  Game::Game(int width, int height, const char* title)
      : _screenWidth(width),
@@ -81,3 +82,7 @@
      return _resourceManager;
  }
  
+ Party& Game::GetPlayerParty()
+ {
+    return _playerParty;
+ }

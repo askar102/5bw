@@ -20,6 +20,7 @@ add_executable(5bw12
     entities/spriteV2.cpp
 
     misc/mapGenerator.cpp
+    misc/configReader.cpp
 
     battle/battleEntity.cpp
     battle/actionText.cpp

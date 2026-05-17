@@ -28,6 +28,8 @@ public:
     static constexpr float ENEMY_WHIRL_PUSH_X = 15.0f;
     static constexpr float ENEMY_WHIRL_DURATION = 0.1f;
 
+    BattleEntity(std::string _name, int _maxHp);
+
     std::string name;
     
     int maxHp = 100;
