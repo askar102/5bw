@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(5bw12
     main.cpp
 
-    core/Game.cpp
+    core/game.cpp
     core/stateManager.cpp
     core/resourceManager.cpp
 
@@ -37,10 +37,19 @@ target_include_directories(5bw12 PRIVATE
     ${CMAKE_SOURCE_DIR}
 )
 
-# raylib (если установлен в системе)
-target_link_libraries(5bw12
-    raylib
-    opengl32
-    gdi32
-    winmm
-)
+if (WIN32)
+    target_link_libraries(5bw12
+        raylib
+        opengl32
+        gdi32
+        winmm
+    )
+
+elseif (UNIX)
+    target_link_libraries(5bw12
+        raylib
+        m
+        pthread
+        dl
+    )
+endif()

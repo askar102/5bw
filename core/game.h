@@ -43,7 +43,7 @@
      bool _running;
  
      StateManager _stateMachine;
- 
+
      static ResourceManager _resourceManager;
  };
  

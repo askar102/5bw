@@ -18,11 +18,11 @@
 //     return 0;
 // }
 
-
 #include "core/game.h"
 
 int main() {
-    Game game(800, 600, "5bw12");
-    game.Run();
-    return 0;
+  Game game(800, 600, "5bw12");
+  game.Run();
+
+  return 0;
 }
