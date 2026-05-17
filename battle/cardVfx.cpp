@@ -29,7 +29,7 @@ void CardVfx::Update(float dt) {
     // DEG2RAD is PI / 180.0f
     float rad = _sprite.GetRotation() * DEG2RAD;
 
-    Vector2 direction = {std::cosh(rad), std::sinh(rad)};
+    Vector2 direction = {std::cos(rad), std::sin(rad)};
 
     Vector2 nextPosition = {position.x + direction.x * _speed * dt,
                             position.y + direction.y * _speed * dt};
