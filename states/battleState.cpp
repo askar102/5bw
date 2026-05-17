@@ -111,6 +111,12 @@ void BattleState::OnEnter()
         if (character)
         {
             TraceLog(LOG_INFO, "[PARTY] character: %s", character->name.c_str());
+
+            for (const auto& ab : character->abilities)
+            {
+                TraceLog(LOG_INFO, "---characterAbilities: %s", ab->GetName().c_str());
+            }
+            
         }
         else
         {      
@@ -118,8 +124,8 @@ void BattleState::OnEnter()
         }
     }   
 
-    _character = std::make_unique<BattleEntity>("lol", 100);
-    _enemy = std::make_unique<BattleEntity>("pizda", 100);
+    _character = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, false, {}});
+    _enemy = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, false, {}});
 
     // abiityName, damage, heal
     _character->abilities.push_back(std::make_unique<Ability>("CardAttack", 10, 0));

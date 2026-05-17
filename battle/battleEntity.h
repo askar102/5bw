@@ -29,6 +29,7 @@ public:
     static constexpr float ENEMY_WHIRL_DURATION = 0.1f;
 
     BattleEntity(std::string _name, int _maxHp, bool _isEnemy, bool _canSelected, std::vector<Ability> _abilities);
+    BattleEntity();
 
     std::string name;
     

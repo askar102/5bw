@@ -20,7 +20,7 @@ void Party::Init()
 
         if (!str.empty())
         {
-            Add(std::make_unique<BattleEntity>(str, 100), i);
+            Add(std::make_unique<BattleEntity>(ConfigReader::GetCharacterFromConfig(str)), i);
         }
     }
 
