@@ -12,7 +12,7 @@
 
 class ConfigReader {
 public:
-    static std::array<std::string, 4> GetPartyFromConfig();
+    static std::array<std::string, 4> GetPlayerPartyFromConfig();
 
     static BattleEntity GetCharacterFromConfig(std::string name);
 };

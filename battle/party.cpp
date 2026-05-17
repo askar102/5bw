@@ -12,7 +12,7 @@
 
 void Party::Init()
 {
-    std::array<std::string, 4> configParty = ConfigReader::GetPartyFromConfig();
+    std::array<std::string, 4> configParty = ConfigReader::GetPlayerPartyFromConfig();
 
     for (size_t i = 0; i < configParty.size(); ++i)
     {

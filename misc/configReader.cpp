@@ -2,7 +2,7 @@
 
 using json = nlohmann::json;
 
-std::array<std::string, 4> ConfigReader::GetPartyFromConfig()
+std::array<std::string, 4> ConfigReader::GetPlayerPartyFromConfig()
 {
     std::array<std::string, 4> party = { "", "", "", "" };
 
