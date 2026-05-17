@@ -10,8 +10,13 @@
 
 #include "battleEntity.h"
 
-BattleEntity::BattleEntity(std::string _name, int _maxHp)
-    : name(_name), maxHp(_maxHp) {}
+BattleEntity::BattleEntity(std::string _name, int _maxHp, bool _isEnemy, bool _canSelected, std::vector<Ability> _abilities)
+    : name(_name), maxHp(_maxHp), isEnemy(_isEnemy), canSelected(_canSelected) {
+        for (Ability ab : _abilities)
+        {
+            abilities.push_back(std::make_unique<Ability>(ab));
+        }
+    }
 
 void BattleEntity::Draw() 
 {

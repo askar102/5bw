@@ -37,3 +37,68 @@ std::array<std::string, 4> ConfigReader::GetPartyFromConfig()
 
     return party;
 }
+
+
+BattleEntity ConfigReader::GetCharacterFromConfig(std::string name)
+{
+    BattleEntity character(name, 100, false, false, {});
+
+    std::ifstream file("config.json");
+
+    if (!file.is_open())
+    {
+        TraceLog(LOG_WARNING, "[configReader] I cant open config.json!!!!!");
+        return character;
+    }
+
+    json config;
+    file >> config;
+
+    if (!config.contains("characters") || !config["characters"].is_array())
+    {
+        TraceLog(LOG_WARNING, "[configReader] I dont see characters-list or is not array");
+        return character;
+    }
+
+    const json& charactersList = config["characters"];
+
+    for (size_t i = 0; i < charactersList.size(); ++i)
+    {
+        const auto& characterInfo = charactersList[i];
+
+        if (!characterInfo.contains("name") || !characterInfo["name"].is_string())
+            continue;
+
+        std::string characterName = characterInfo["name"];
+
+        if (characterName != name)
+            continue;
+
+        character = BattleEntity(
+            characterName,
+            characterInfo.value("maxHp", 100),
+            characterInfo.value("isEnemy", false),
+            characterInfo.value("canSelected", true),
+            {}
+        );
+
+        if (characterInfo.contains("abilities") && characterInfo["abilities"].is_array())
+        {
+            for (const auto& ab : characterInfo["abilities"])
+            {
+                character.abilities.push_back(
+                    std::make_unique<Ability>(
+                        ab.value("name", ""),
+                        ab.value("damage", 0),
+                        ab.value("heal", 0)
+                    )
+                );
+            }
+        }
+
+        return character;
+    }
+
+    TraceLog(LOG_WARNING, "[configReader] I cant find this character: %s", name.c_str());
+    return character;
+}

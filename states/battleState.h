@@ -12,6 +12,7 @@
 
 #include "../raylib/raylib.h"
 
+#include "../core/game.h"
 #include "../core/state.h"
 
 #include "../entities/spriteV2.h"
