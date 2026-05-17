@@ -16,6 +16,7 @@ void AbilityPanel::SetIconTexture(TextureResource* newTextureResource)
     for (auto& slot : _slots)
     {
         slot.icon.SetResource(newTextureResource);
+        slot.icon.SetSize({200, 40});
     }
 }
 

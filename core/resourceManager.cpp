@@ -28,7 +28,7 @@
  
      _textures[TextureID::BattleBg] = 
      {
-         LoadTexture("resources/battle.png"),
+         LoadTexture("resources/battleBG.png"),
          {}
      };
  
@@ -71,7 +71,7 @@
  
      _textures[TextureID::CardGuyAtlas] =
      {
-         LoadTexture("resources/cardGuy_atlas.png"),
+         LoadTexture("resources/cardGuy.png"),
          MakeGrid(88, 128, 3)
      };
  
@@ -79,7 +79,8 @@
      {
          if (res.texture.id == 0)
          {
-             TraceLog(LOG_WARNING, "[resourceManager] Cannot find texture");
+            res.texture = LoadTexture("resources/textureError.png");
+            TraceLog(LOG_WARNING, "[resourceManager] Cannot find texture");
          }
      }
  }

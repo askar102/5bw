@@ -16,7 +16,11 @@ CardVfx::CardVfx(Vector2 position, float lifetime, float rotation,
     : Vfx(position, lifetime, rotation, textureResource, WHITE),
       _target(&target), _peaceful(peaceful), _animated(animated) {}
 
-void CardVfx::OnEnter() { SetSpeed(400.0f); }
+void CardVfx::OnEnter() 
+{ 
+    SetSpeed(400.0f); 
+    _sprite.SetSize({50, 50});
+}
 
 void CardVfx::Update(float dt) {
   if (_animated) {
