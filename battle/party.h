@@ -39,6 +39,8 @@ public:
 
     Vector2 GetPositionByIndex(size_t index);
 
+    BattleEntity* GetSelectedCharacter();
+
 private:
     std::array<std::unique_ptr<BattleEntity>, 4> characters;
 };

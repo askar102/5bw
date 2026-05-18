@@ -32,14 +32,14 @@ void Party::Init()
 
 void Party::Add(std::unique_ptr<BattleEntity> character, size_t index) 
 {
-    if (index >= 4) return;
+    if (index >= characters.size()) return;
 
     characters[index] = std::move(character);
 }
 
 void Party::Remove(size_t index)
 {
-    if (index >= 4) return;
+    if (index >= characters.size()) return;
 
     characters[index].reset();
 }
@@ -53,7 +53,7 @@ void Party::Clear()
 
 BattleEntity* Party::Get(size_t index) 
 {
-    if (index >= 4) return nullptr;
+    if (index >= characters.size()) return nullptr;
     return characters[index].get();
 }
 
@@ -64,5 +64,19 @@ Vector2 Party::GetPositionByIndex(size_t index)
         case 1: return {180, 350};
         case 2: return {90, 490};
         case 3: return {85, 450};
+        default: return {0, 0};
     };
+}
+
+BattleEntity* Party::GetSelectedCharacter()
+{
+    for (auto& character : characters)
+    {
+        if (character && character->selected)
+        {
+            return character.get();
+        }
+    }
+
+    return nullptr;
 }

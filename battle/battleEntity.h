@@ -53,6 +53,9 @@ public:
 
     void Draw();
     void DrawAbilities();
+
+    void Update();
+    
     void UpdateAbilities();
     void RefreshActionText();
 
