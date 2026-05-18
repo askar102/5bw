@@ -22,6 +22,8 @@ void Party::Init()
         {
             auto character = std::make_unique<BattleEntity>(ConfigReader::GetCharacterFromConfig(str));
 
+            character->getSprite().SetPosition(this->GetPositionByIndex(i));
+
             Add(std::move(character), i);
         }
     }
@@ -49,7 +51,18 @@ void Party::Clear()
     }
 }
 
-BattleEntity* Party::Get(size_t index) {
+BattleEntity* Party::Get(size_t index) 
+{
     if (index >= 4) return nullptr;
     return characters[index].get();
+}
+
+Vector2 Party::GetPositionByIndex(size_t index)
+{
+    switch (index) {
+        case 0: return {200, 480};
+        case 1: return {180, 350};
+        case 2: return {90, 490};
+        case 3: return {85, 450};
+    };
 }

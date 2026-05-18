@@ -95,6 +95,8 @@ void BattleState::Draw()
         }
     }   
 
+    // TODO: add character position by index in party list
+
     _vfxManager.Draw();
 
     _abilityPanel.Draw();
@@ -137,8 +139,8 @@ void BattleState::OnEnter()
         }
     }   
 
-    _character = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, false, {}});
-    _enemy = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, false, {}});
+    _character = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, true, {}});
+    _enemy = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, true, {}});
 
     // abiityName, damage, heal
     _character->abilities.push_back(std::make_unique<Ability>("CardAttack", 10, 0));

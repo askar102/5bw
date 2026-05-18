@@ -21,6 +21,8 @@
 
 class Party {
 public:
+    Vector2 FIRST_POSITION = {};
+
     Party() 
     {
         Init();
@@ -34,6 +36,8 @@ public:
     void Clear();
     
     BattleEntity* Get(size_t index);
+
+    Vector2 GetPositionByIndex(size_t index);
 
 private:
     std::array<std::unique_ptr<BattleEntity>, 4> characters;
