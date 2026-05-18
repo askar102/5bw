@@ -18,13 +18,13 @@ BattleEntity::BattleEntity(std::string _name, int _maxHp, bool _isEnemy, bool _c
         }
     }
 
-void BattleEntity::Draw() 
+void BattleEntity::Draw()
 {
-    UpdateEnemyWhirl();
     sprite.Draw();
+    // dont move this function!
     RefreshActionText();
     actionText.Draw();
-}   
+}
 
 void BattleEntity::DrawAbilities() 
 {
@@ -130,4 +130,29 @@ void BattleEntity::EnemyHitAnimation()
     }
 
     _enemyWhirlResetAt = GetTime() + ENEMY_WHIRL_DURATION;
+}
+
+
+void BattleEntity::Update(float dt)
+{
+    UpdateEnemyWhirl();
+    
+    UpdateSelection();
+    UpdateAbilities();
+}
+
+void BattleEntity::UpdateSelection()
+{
+    if (!canSelected)
+        return;
+
+    Vector2 mouse = GetMousePosition();
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+    {
+        if (CheckCollisionPointRec(mouse, sprite.GetRect()))
+        {
+            selected = !selected;
+        }
+    }
 }

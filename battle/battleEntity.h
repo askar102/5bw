@@ -51,11 +51,15 @@ public:
         return hp > 0; 
     }
 
+    // Draw logic
     void Draw();
     void DrawAbilities();
 
-    void Update();
-    
+    // Update logic
+    void Update(float dt);
+
+    void UpdateSelection();
+
     void UpdateAbilities();
     void RefreshActionText();
 
