@@ -84,6 +84,17 @@ void BattleState::Draw()
     _character->Draw();
     _enemy->Draw();
 
+    Party& playerParty = Game::GetPlayerParty();
+    for (size_t i = 0; i < 4; ++i)
+    {
+        BattleEntity* character = playerParty.Get(i);
+
+        if (character)
+        {
+            character->Draw();
+        }
+    }   
+
     _vfxManager.Draw();
 
     _abilityPanel.Draw();
@@ -112,11 +123,13 @@ void BattleState::OnEnter()
         {
             TraceLog(LOG_INFO, "[PARTY] character: %s", character->name.c_str());
 
+            character->getSprite().SetResource(&Game::GetResources().Get(character->name));
+
             for (const auto& ab : character->abilities)
             {
                 TraceLog(LOG_INFO, "---characterAbilities: %s", ab->GetName().c_str());
             }
-            
+
         }
         else
         {      
@@ -136,7 +149,7 @@ void BattleState::OnEnter()
     InitBackground();
 
     _character->getSprite().SetPosition({120, 400});
-    _character->getSprite().SetResource(&Game::GetResources().Get(TextureID::CardGuyAtlas));
+    _character->getSprite().SetResource(&Game::GetResources().Get(TextureID::CardGuy));
     _character->getSprite().SetFrame(0);
 
     _enemy->getSprite().SetPosition({570, 400});

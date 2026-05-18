@@ -12,6 +12,7 @@
 
  #include <vector>
  #include <unordered_map>
+ #include <string>
  
  #include "../raylib/raylib.h"
  
@@ -23,7 +24,9 @@
      AbilityIcon,
      CardVFX,
      CardAttack,
-     CardGuyAtlas
+     CardGuy,
+
+     ErrorTexture
  };
  
  struct TextureResource {
@@ -34,6 +37,8 @@
  class ResourceManager {
  private:
      std::unordered_map<TextureID, TextureResource> _textures;
+     
+     std::unordered_map<std::string, TextureResource> _customTextures;
  
      std::vector<Rectangle> MakeGrid(int w, int h, int cols);
  public:
@@ -43,6 +48,8 @@
      void Load();
  
      TextureResource& Get(TextureID id);
+     TextureResource& Get(std::string name);
+
      void Unload();
  };
  

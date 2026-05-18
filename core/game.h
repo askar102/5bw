@@ -19,6 +19,8 @@
 
  #include "../raylib/raylib.h"
  
+class Party;
+
  class Game {
  public:
      Game(int width, int height, const char* title);

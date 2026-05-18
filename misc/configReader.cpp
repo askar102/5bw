@@ -96,6 +96,8 @@ BattleEntity ConfigReader::GetCharacterFromConfig(std::string name)
             }
         }
 
+        
+
         return character;
     }
 

@@ -15,6 +15,8 @@
 
 #include "battleEntity.h"
 
+#include "../core/game.h"
+
 #include "../misc/configReader.h"
 
 class Party {

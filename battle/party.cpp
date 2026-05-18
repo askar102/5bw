@@ -20,7 +20,9 @@ void Party::Init()
 
         if (!str.empty())
         {
-            Add(std::make_unique<BattleEntity>(ConfigReader::GetCharacterFromConfig(str)), i);
+            auto character = std::make_unique<BattleEntity>(ConfigReader::GetCharacterFromConfig(str));
+
+            Add(std::move(character), i);
         }
     }
 

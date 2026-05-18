@@ -8,7 +8,8 @@
 
     "characters": [
         {
-            "name": "cardGuy", 
+            "name": "cardGuy",
+            "texturePath": "../resources/cardGuy.png", 
             "maxHp": 100,
             "isEnemy": false,
             "canSelected": true,
