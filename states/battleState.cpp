@@ -12,67 +12,40 @@
 
 void BattleState::HandleInput()
 {
+    Party& party = Game::GetPlayerParty();
+
+    BattleEntity* selectedCharacter = party.GetSelectedCharacter();
+
     Vector2 mouse = GetMousePosition();
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
-        if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
+        if (selectedCharacter)
         {
-            _character->selected = false;
-
-            const std::string abilityName = clickedAbility->GetName();
-
-            if (abilityName == "CardAttack")
+            if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
             {
-                AbilityManager::CardGuy::SpawnCardAttack(
+                const std::string abilityName = clickedAbility->GetName();
+
+                AbilityManager::SpawnAbility(
+                    *clickedAbility,
                     _vfxManager,
-                    *_character,
-                    *_enemy,
-                    clickedAbility->GetDamage()
+                    *selectedCharacter,
+                    *_enemy
                 );
-                /**
-                 * @ref we damage enemy at cardVfx.cpp, ~35 line
-                 * 
-                 */
-                clickedAbility->Execute(*_character, *_enemy, true);
-                _character->actionText.Add(TextFormat("Used %s", clickedAbility->GetName().c_str()), YELLOW);
+
+                selectedCharacter->actionText.Add(TextFormat("Used %s", clickedAbility->GetName().c_str()), YELLOW);
+                // todo: change
                 _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
+
                 return;
-            }
-
-            if (abilityName == "CardHeal")
-            {
-                AbilityManager::CardGuy::SpawnCardHeal( _vfxManager, *_character, *_enemy);
-                clickedAbility->Execute(*_character, *_enemy);
-            }
-
-            if (abilityName == "CardBlock")
-            {
-                AbilityManager::CardGuy::SpawnCardBlock(_vfxManager, *_character, *_enemy);
-            }
-
-            clickedAbility->Execute(*_character, *_enemy);
-            _character->actionText.Add(TextFormat("Used %s", clickedAbility->GetName().c_str()), YELLOW);
-            _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
-            return;
+            } 
         }
+        party.UpdateSelection();
 
-        if (CheckCollisionPointRec(mouse, _character->getSprite().GetRect()))
+        if (IsKeyPressed(KEY_H))
         {
-            if (_character->canSelected)
-            {
-                _character->selected = !_character->selected;
-            }
+            SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
         }
-        else
-        {
-            _character->selected = false;
-        }
-    }
-
-    if (IsKeyPressed(KEY_H))
-    {
-        SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
     }
 }
 
@@ -81,7 +54,6 @@ void BattleState::Draw()
     ClearBackground(RED);
 
     _background.Draw();
-    _character->Draw();
     _enemy->Draw();
 
     Party& playerParty = Game::GetPlayerParty();
@@ -95,8 +67,6 @@ void BattleState::Draw()
         }
     }   
 
-    // TODO: add character position by index in party list
-
     _vfxManager.Draw();
 
     _abilityPanel.Draw();
@@ -107,10 +77,41 @@ void BattleState::Draw()
 
 void BattleState::Update(float dt)
 {
-    _abilityPanel.SetVisible(_character->selected);
-    _abilityPanel.SetAnchor(_character->getSprite().GetPosition());
+    Party& party = Game::GetPlayerParty();
+
+    BattleEntity* selected =
+        party.GetSelectedCharacter();
+
+    // update party characters
+
+    for (size_t i = 0; i < 4; ++i)
+    {
+        BattleEntity* character = party.Get(i);
+
+        if (character)
+        {
+            character->Update(dt);
+        }
+    }
+
+    // ability panel
+
+    if (selected)
+    {
+        _abilityPanel.SetVisible(true);
+
+        _abilityPanel.SetAnchor(selected->getSprite().GetPosition());
+
+        _abilityPanel.SetAbilities(selected->abilities);
+    }
+    else
+    {
+        _abilityPanel.SetVisible(false);
+    }
+
     _abilityPanel.Update();
 
+    _enemy->Update(dt);
     _vfxManager.Update(dt);
 }
 

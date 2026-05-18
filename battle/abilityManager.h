@@ -12,6 +12,7 @@
 
 #include <cmath>
 #include <random>
+#include <string>
 
 #include "../raylib/raylib.h"
 
@@ -22,6 +23,8 @@
 
 
 namespace AbilityManager {
+    void SpawnAbilityByName(Ability& clickedAblity, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage);
+
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage);
         void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target);

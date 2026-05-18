@@ -11,6 +11,41 @@
 #include "abilityManager.h"
 
 namespace AbilityManager {
+    void SpawnAbility(Ability& clickedAblity, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
+    {
+        std::string abilityName = clickedAblity.GetName();
+
+        if (abilityName == "CardAttack")
+            {
+                AbilityManager::CardGuy::SpawnCardAttack(
+                    vfxManager,
+                    caster,
+                    target,
+                    clickedAbility.GetDamage();
+                );
+                /**
+                 * @ref we damage enemy at cardVfx.cpp, ~35 line
+                 * 
+                 */
+                clickedAbility.Execute(caster, target, true);
+                caster.actionText.Add(TextFormat("Used %s", clickedAbility->GetName().c_str()), YELLOW);
+                caster.actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
+                return;
+            }
+
+            if (abilityName == "CardHeal")
+            {
+                AbilityManager::CardGuy::SpawnCardHeal(vfxManager, caster, target);
+                clickedAbility.Execute(caster, target);
+            }
+
+            if (abilityName == "CardBlock")
+            {
+                AbilityManager::CardGuy::SpawnCardBlock(vfxManager, caster, target);
+            }
+    }
+
+
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage)
         {
