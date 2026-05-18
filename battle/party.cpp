@@ -80,3 +80,42 @@ BattleEntity* Party::GetSelectedCharacter()
 
     return nullptr;
 }
+
+void Party::DeselectAll()
+{
+    for (auto& character : characters)
+    {
+        if (character)
+        {
+            character->selected = false;
+        }
+    }
+}
+
+void Party::UpdateSelection()
+{
+    Vector2 mouse = GetMousePosition();
+
+    for (auto& character : characters)
+    {
+        if (!character)
+            continue;
+
+        if (!character->canSelected)
+            continue;
+
+        if (CheckCollisionPointRec(
+            mouse,
+            character->getSprite().GetRect()
+        ))
+        {
+            DeselectAll();
+
+            character->selected = true;
+
+            return;
+        }
+    }
+
+    DeselectAll();
+}

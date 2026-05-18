@@ -41,6 +41,9 @@ public:
 
     BattleEntity* GetSelectedCharacter();
 
+    void UpdateSelection();
+    void DeselectAll();
+
 private:
     std::array<std::unique_ptr<BattleEntity>, 4> characters;
 };

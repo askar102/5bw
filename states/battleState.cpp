@@ -40,12 +40,12 @@ void BattleState::HandleInput()
                 return;
             } 
         }
-        party.UpdateSelection();
+        party.UpdateSelection();  
+    }
 
-        if (IsKeyPressed(KEY_H))
-        {
-            SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
-        }
+    if (IsKeyPressed(KEY_H))
+    {
+        SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
     }
 }
 
@@ -128,9 +128,10 @@ void BattleState::OnEnter()
 
             character->getSprite().SetResource(&Game::GetResources().Get(character->name));
 
+            TraceLog(LOG_INFO, "[PARTY] character: %s", character->name.c_str());
             for (const auto& ab : character->abilities)
             {
-                TraceLog(LOG_INFO, "---characterAbilities: %s", ab->GetName().c_str());
+                TraceLog(LOG_INFO, "[PARTY] ---characterAbilities: %s", ab->GetName().c_str());
             }
 
         }
@@ -140,20 +141,9 @@ void BattleState::OnEnter()
         }
     }   
 
-    _character = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, true, {}});
     _enemy = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, true, {}});
 
-    // abiityName, damage, heal
-    _character->abilities.push_back(std::make_unique<Ability>("CardAttack", 10, 0));
-    _character->abilities.push_back(std::make_unique<Ability>("CardHeal", 0, 25));
-    _character->abilities.push_back(std::make_unique<Ability>("CardBlock", 0, 10));
-
-
     InitBackground();
-
-    _character->getSprite().SetPosition({120, 400});
-    _character->getSprite().SetResource(&Game::GetResources().Get(TextureID::CardGuy));
-    _character->getSprite().SetFrame(0);
 
     _enemy->getSprite().SetPosition({570, 400});
     _enemy->getSprite().SetResource(&Game::GetResources().Get(TextureID::Enemy));
@@ -163,8 +153,6 @@ void BattleState::OnEnter()
     _enemy->getSprite().SetRectSize({100 , 100});
 
     _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon));
-    _abilityPanel.SetAbilities(_character->abilities);
-    _abilityPanel.SetAnchor(_character->getSprite().GetPosition());
     _abilityPanel.SetVisible(false);
     _abilityPanel.Update();
 }

@@ -23,7 +23,7 @@
 
 
 namespace AbilityManager {
-    void SpawnAbilityByName(Ability& clickedAblity, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage);
+    void SpawnAbility(Ability& clickedAblity, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target);
 
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage);
