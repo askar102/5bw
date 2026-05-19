@@ -83,6 +83,7 @@ BattleEntity* Party::GetSelectedCharacter()
 
 void Party::DeselectAll()
 {
+    TraceLog(LOG_INFO, "DESELECT ALL");
     for (auto& character : characters)
     {
         if (character)
@@ -104,18 +105,20 @@ void Party::UpdateSelection()
         if (!character->canSelected)
             continue;
 
-        if (CheckCollisionPointRec(
-            mouse,
-            character->getSprite().GetRect()
-        ))
+        if (CheckCollisionPointRec(mouse, character->getSprite().GetRect()))
         {
-            DeselectAll();
 
-            character->selected = true;
+            if (!character->selected)
+            {
+                TraceLog(LOG_INFO, "SELECT %s", character->name.c_str());
+
+                DeselectAll();
+                character->selected = true;
+            }
 
             return;
         }
     }
 
-    DeselectAll();
+    // DeselectAll();
 }

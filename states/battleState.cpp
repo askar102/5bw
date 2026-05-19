@@ -14,12 +14,12 @@ void BattleState::HandleInput()
 {
     Party& party = Game::GetPlayerParty();
 
-    BattleEntity* selectedCharacter = party.GetSelectedCharacter();
-
     Vector2 mouse = GetMousePosition();
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
+        BattleEntity* selectedCharacter = party.GetSelectedCharacter();
+
         if (selectedCharacter)
         {
             if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
@@ -37,10 +37,13 @@ void BattleState::HandleInput()
                 // todo: change
                 _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
 
+                party.DeselectAll();
+
                 return;
             } 
         }
-        party.UpdateSelection();  
+
+        party.UpdateSelection();
     }
 
     if (IsKeyPressed(KEY_H))

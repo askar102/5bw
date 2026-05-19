@@ -137,22 +137,5 @@ void BattleEntity::Update(float dt)
 {
     UpdateEnemyWhirl();
     
-    UpdateSelection();
     UpdateAbilities();
-}
-
-void BattleEntity::UpdateSelection()
-{
-    if (!canSelected)
-        return;
-
-    Vector2 mouse = GetMousePosition();
-
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-    {
-        if (CheckCollisionPointRec(mouse, sprite.GetRect()))
-        {
-            selected = !selected;
-        }
-    }
 }

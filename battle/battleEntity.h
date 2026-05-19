@@ -58,8 +58,6 @@ public:
     // Update logic
     void Update(float dt);
 
-    void UpdateSelection();
-
     void UpdateAbilities();
     void RefreshActionText();
 
