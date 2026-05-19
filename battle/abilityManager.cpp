@@ -15,7 +15,7 @@ namespace AbilityManager {
     {
         std::string abilityName = clickedAbility.GetName();
 
-        if (abilityName == "CardAttack")
+        if (abilityName == "cardAttack")
             {
                 AbilityManager::CardGuy::SpawnCardAttack(
                     vfxManager,
@@ -33,13 +33,13 @@ namespace AbilityManager {
                 return;
             }
 
-            if (abilityName == "CardHeal")
+            if (abilityName == "cardHeal")
             {
                 AbilityManager::CardGuy::SpawnCardHeal(vfxManager, caster, target);
                 clickedAbility.Execute(caster, target);
             }
 
-            if (abilityName == "CardBlock")
+            if (abilityName == "cardBlock")
             {
                 AbilityManager::CardGuy::SpawnCardBlock(vfxManager, caster, target);
             }
