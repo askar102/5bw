@@ -2,7 +2,7 @@
 
 #include "party.h"
 
-class EnemyParty : Party {
+class EnemyParty : public Party {
     EnemyParty();
 
     void Init() override;

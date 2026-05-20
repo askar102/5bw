@@ -15,7 +15,7 @@
  #include "state.h"
  #include "stateManager.h"
  #include "resourceManager.h"
- #include "../battle/party.h"
+ #include "../battle/playerParty.h"
 
  #include "../raylib/raylib.h"
  
@@ -32,8 +32,7 @@ class Party;
  
      static ResourceManager& GetResources();
 
-     static Party& GetPlayerParty();
-     static Party& GetEnemyParty();
+     static PlayerParty& GetPlayerParty();
 
  private:
      void Init();
@@ -52,7 +51,6 @@ class Party;
 
      static ResourceManager _resourceManager;
 
-     static Party _playerParty;
-     static Party _enemyParty;
+     static PlayerParty _playerParty;
  };
  

@@ -1,8 +1,10 @@
-void EnemyParty::Init() override {
+#include "enemyParty.h"
+
+void EnemyParty::Init() {
     // stub
-    auto character = std::make_unique<BattleEntity>(ConfigReader::GetCharacterFormConfig("o_o"));
+    auto character = std::make_unique<BattleEntity>(ConfigReader::GetCharacterFromConfig("o_o"));
     character->getSprite().SetPosition(this->GetPositionByIndex(0));
-    Add(std::move(character), i);
+    Add(std::move(character), 0);
 
 }
 

@@ -12,7 +12,7 @@
 
 void BattleState::HandleInput()
 {
-    Party& party = Game::GetPlayerParty();
+    PlayerParty& party = Game::GetPlayerParty();
 
     Vector2 mouse = GetMousePosition();
 
@@ -59,7 +59,7 @@ void BattleState::Draw()
     _background.Draw();
     _enemy->Draw();
 
-    Party& playerParty = Game::GetPlayerParty();
+    PlayerParty& playerParty = Game::GetPlayerParty();
     for (size_t i = 0; i < 4; ++i)
     {
         BattleEntity* character = playerParty.Get(i);
@@ -80,7 +80,7 @@ void BattleState::Draw()
 
 void BattleState::Update(float dt)
 {
-    Party& party = Game::GetPlayerParty();
+    PlayerParty& party = Game::GetPlayerParty();
 
     BattleEntity* selected =
         party.GetSelectedCharacter();
@@ -120,7 +120,7 @@ void BattleState::Update(float dt)
 
 void BattleState::OnEnter()
 {
-    Party& playerParty = Game::GetPlayerParty();
+    PlayerParty& playerParty = Game::GetPlayerParty();
     for (size_t i = 0; i < 4; ++i)
     {
         BattleEntity* character = playerParty.Get(i);

@@ -15,17 +15,12 @@
 
 #include "battleEntity.h"
 
-#include "../core/game.h"
 
 #include "../misc/configReader.h"
 
 class Party {
 public:
-    Party() 
-    {
-        // Yes, I know that is bad.
-        Init();
-    }
+    Party() = default;
 
     void Add(std::unique_ptr<BattleEntity> character, size_t index);
     void Remove(size_t index);

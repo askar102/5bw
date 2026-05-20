@@ -25,7 +25,11 @@ add_executable(5bw12
     battle/battleEntity.cpp
     battle/actionText.cpp
     battle/abilityPanel.cpp
+    
     battle/party.cpp
+    battle/playerParty.cpp
+    battle/enemyParty.cpp
+
     battle/ability.cpp
     battle/abilityManager.cpp
     battle/vfx.cpp

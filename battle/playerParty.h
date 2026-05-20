@@ -1,8 +1,14 @@
 #pragma once
 
+#include <array>
+#include <memory>
+
 #include "party.h"
 
-class PlayerParty : Party {
+#include "../misc/configReader.h"
+
+class PlayerParty : public Party {
+public:
     PlayerParty();
 
     void Init() override;

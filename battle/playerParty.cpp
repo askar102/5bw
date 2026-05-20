@@ -1,4 +1,6 @@
-void PlayerParty::Init() override {
+#include "playerParty.h"
+
+void PlayerParty::Init() {
     std::array<std::string, 4> configParty = ConfigReader::GetPlayerPartyFromConfig();
 
     for (size_t i = 0; i < configParty.size(); ++i)

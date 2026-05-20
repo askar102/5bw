@@ -15,8 +15,7 @@
  #include "../states/menuState.h"
  
  ResourceManager Game::_resourceManager;
- Party Game::_playerParty;
- Party Game::_enemyParty;
+ PlayerParty Game::_playerParty;
  
  Game::Game(int width, int height, const char* title)
      : _screenWidth(width),
@@ -44,6 +43,7 @@
  void Game::Run() 
  {
      Init();
+     _playerParty.Init();
  
      while (!WindowShouldClose() && _running) 
      {
@@ -86,7 +86,7 @@
      return _resourceManager;
  }
  
- Party& Game::GetPlayerParty()
+PlayerParty& Game::GetPlayerParty()
  {
     return _playerParty;
  }
