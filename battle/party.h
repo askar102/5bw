@@ -23,10 +23,9 @@ class Party {
 public:
     Party() 
     {
+        // Yes, I know that is bad.
         Init();
     }
-
-    void Init();
 
     void Add(std::unique_ptr<BattleEntity> character, size_t index);
     void Remove(size_t index);
@@ -41,6 +40,9 @@ public:
 
     void UpdateSelection();
     void DeselectAll();
+
+protected:
+    virtual void Init();
 
 private:
     std::array<std::unique_ptr<BattleEntity>, 4> characters;
