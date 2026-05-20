@@ -21,8 +21,6 @@
 
 class Party {
 public:
-    Vector2 FIRST_POSITION = {};
-
     Party() 
     {
         Init();

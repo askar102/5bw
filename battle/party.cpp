@@ -63,7 +63,7 @@ Vector2 Party::GetPositionByIndex(size_t index)
         case 0: return {200, 480};
         case 1: return {180, 350};
         case 2: return {90, 490};
-        case 3: return {85, 450};
+        case 3: return {50, 340};
         default: return {0, 0};
     };
 }
@@ -83,7 +83,7 @@ BattleEntity* Party::GetSelectedCharacter()
 
 void Party::DeselectAll()
 {
-    TraceLog(LOG_INFO, "DESELECT ALL");
+    TraceLog(LOG_INFO, "[PARTY] DESELECT ALL");
     for (auto& character : characters)
     {
         if (character)
@@ -110,7 +110,7 @@ void Party::UpdateSelection()
 
             if (!character->selected)
             {
-                TraceLog(LOG_INFO, "SELECT %s", character->name.c_str());
+                TraceLog(LOG_INFO, "[PARTY] SELECT %s", character->name.c_str());
 
                 DeselectAll();
                 character->selected = true;

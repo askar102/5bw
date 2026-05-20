@@ -1,9 +1,9 @@
 {
     "playerParty": [
         "cardGuy",
-        null,
-        null,
-        null
+        "cardGuy",
+        "cardGuy",
+        "cardGuy"
     ],
 
     "characters": [
