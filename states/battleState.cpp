@@ -30,12 +30,12 @@ void BattleState::HandleInput()
                     *clickedAbility,
                     _vfxManager,
                     *selectedCharacter,
-                    *_enemy
+                    *_enemyParty.Get(0)
                 );
 
                 selectedCharacter->actionText.Add(TextFormat("Used %s", clickedAbility->GetName().c_str()), YELLOW);
                 // todo: change
-                _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
+                _enemyParty.Get(0)->actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
 
                 party.DeselectAll();
 
@@ -57,7 +57,7 @@ void BattleState::Draw()
     ClearBackground(RED);
 
     _background.Draw();
-    _enemy->Draw();
+    _enemyParty.Get(0)->Draw();
 
     PlayerParty& playerParty = Game::GetPlayerParty();
     for (size_t i = 0; i < 4; ++i)
@@ -114,7 +114,7 @@ void BattleState::Update(float dt)
 
     _abilityPanel.Update();
 
-    _enemy->Update(dt);
+    _enemyParty.Get(0)->Update(dt);
     _vfxManager.Update(dt);
 }
 
@@ -144,16 +144,18 @@ void BattleState::OnEnter()
         }
     }   
 
-    _enemy = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, true, {}});
+    // _enemy = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, true, {}});
 
     InitBackground();
 
-    _enemy->getSprite().SetPosition({570, 400});
-    _enemy->getSprite().SetResource(&Game::GetResources().Get(TextureID::Enemy));
-    _enemy->canSelected = false;
-    _enemy->isEnemy = true;
-    _enemy->getSprite().SetSize({100, 100});
-    _enemy->getSprite().SetRectSize({100 , 100});
+    _enemyParty.Init();
+
+    // _enemy->getSprite().SetPosition({570, 400});
+    // _enemy->getSprite().SetResource(&Game::GetResources().Get(TextureID::Enemy));
+    // _enemy->canSelected = false;
+    // _enemy->isEnemy = true;
+    // _enemy->getSprite().SetSize({100, 100});
+    // _enemy->getSprite().SetRectSize({100 , 100});
 
     _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon));
     _abilityPanel.SetVisible(false);
