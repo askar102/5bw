@@ -31,8 +31,10 @@ class Party;
      void ChangeState(std::unique_ptr<State> newState);
  
      static ResourceManager& GetResources();
+
      static Party& GetPlayerParty();
-     
+     static Party& GetEnemyParty();
+
  private:
      void Init();
      void Update();
@@ -51,5 +53,6 @@ class Party;
      static ResourceManager _resourceManager;
 
      static Party _playerParty;
+     static Party _enemyParty;
  };
  

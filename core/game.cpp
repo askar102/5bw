@@ -16,6 +16,7 @@
  
  ResourceManager Game::_resourceManager;
  Party Game::_playerParty;
+ Party Game::_enemyParty;
  
  Game::Game(int width, int height, const char* title)
      : _screenWidth(width),
