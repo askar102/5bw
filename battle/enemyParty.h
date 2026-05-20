@@ -8,4 +8,6 @@ public:
 
     void Init() override;
 
+    Vector2 GetPositionByIndex(size_t index) override;
+
 };

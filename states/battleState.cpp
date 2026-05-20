@@ -14,6 +14,9 @@ void BattleState::HandleInput()
 {
     PlayerParty& party = Game::GetPlayerParty();
 
+    //todo: temp
+    BattleEntity* enemy = _enemyParty.Get(0);
+
     Vector2 mouse = GetMousePosition();
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
@@ -30,7 +33,7 @@ void BattleState::HandleInput()
                     *clickedAbility,
                     _vfxManager,
                     *selectedCharacter,
-                    *_enemyParty.Get(0)
+                    *enemy
                 );
 
                 selectedCharacter->actionText.Add(TextFormat("Used %s", clickedAbility->GetName().c_str()), YELLOW);
@@ -142,13 +145,27 @@ void BattleState::OnEnter()
         {      
             TraceLog(LOG_INFO, "[PARTY] empty slot");
         }
-    }   
-
+    } 
+    
+    
     // _enemy = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, true, {}});
 
     InitBackground();
 
     _enemyParty.Init();
+
+    // todo: change
+    BattleEntity* enemy = _enemyParty.Get(0);
+
+    if (enemy)
+    {
+        enemy->getSprite().SetResource(
+            &Game::GetResources().Get("cardGuy")
+        );
+
+        enemy->getSprite().SetSize({100, 100});
+        enemy->getSprite().SetRectSize({100 , 100});
+    }
 
     // _enemy->getSprite().SetPosition({570, 400});
     // _enemy->getSprite().SetResource(&Game::GetResources().Get(TextureID::Enemy));

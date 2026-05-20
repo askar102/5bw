@@ -29,7 +29,7 @@ public:
     
     BattleEntity* Get(size_t index);
 
-    Vector2 GetPositionByIndex(size_t index);
+    virtual Vector2 GetPositionByIndex(size_t index);
 
     BattleEntity* GetSelectedCharacter();
 
