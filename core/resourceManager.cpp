@@ -21,14 +21,22 @@
  
  void ResourceManager::Load()
  {
+    TraceLog(LOG_INFO, "[resourceManager] loading textures...");
+
      if (!_textures.empty())
      {
          return;
      }
- 
+     
+     _textures[TextureID::ErrorTexture] =
+     {
+        LoadTexture("resources/textureError.png"),
+        {}
+     };
+
      _textures[TextureID::BattleBg] = 
      {
-         LoadTexture("resources/battle.png"),
+         LoadTexture("resources/battleBG.png"),
          {}
      };
  
@@ -69,9 +77,9 @@
          {}
      };
  
-     _textures[TextureID::CardGuyAtlas] =
+     _textures[TextureID::CardGuy] =
      {
-         LoadTexture("resources/cardGuy_atlas.png"),
+         LoadTexture("resources/cardGuy.png"),
          MakeGrid(88, 128, 3)
      };
  
@@ -79,7 +87,8 @@
      {
          if (res.texture.id == 0)
          {
-             TraceLog(LOG_WARNING, "[resourceManager] Cannot find texture");
+            res.texture = Get(TextureID::ErrorTexture).texture;
+            TraceLog(LOG_WARNING, "[resourceManager] Cannot find texture");
          }
      }
  }
@@ -92,12 +101,44 @@
              UnloadTexture(res.texture);
      }
      _textures.clear();
+
+     for (auto& [id, res] : _customTextures)
+     {
+         if (res.texture.id != 0)
+             UnloadTexture(res.texture);
+     }
+
+     _customTextures.clear();
+
  }
  
  
  TextureResource& ResourceManager::Get(TextureID id)
  {
      return _textures.at(id);
+ }
+
+ TextureResource& ResourceManager::Get(std::string name)
+ {
+    if (_customTextures.find(name) != _customTextures.end())
+        return _customTextures[name];
+    
+    TraceLog(LOG_INFO, "[resourceManager] Loading custom texture %s...", name.c_str());
+
+    Texture2D tex = LoadTexture(("resources/" + name + ".png").c_str());
+
+    if (tex.id == 0)
+    {
+        TraceLog(LOG_WARNING, "[resourceManager] Cannot find texture name: %s", name.c_str());
+        tex = Get(TextureID::ErrorTexture).texture;
+    }
+
+    _customTextures[name] = {
+        tex,
+        MakeGrid(88, 128, 3)
+    };
+
+    return _customTextures[name];
  }
  
  std::vector<Rectangle> ResourceManager::MakeGrid(int w, int h, int cols)
@@ -110,4 +151,3 @@
  
      return frames;
  }
- 

@@ -1,12 +1,30 @@
+/**
+ * @file battleEntity.cpp
+ * @author askar102
+ * @brief Battle entity type
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "battleEntity.h"
 
-void BattleEntity::Draw() 
+BattleEntity::BattleEntity(std::string _name, int _maxHp, bool _isEnemy, bool _canSelected, std::vector<Ability> _abilities)
+    : name(_name), maxHp(_maxHp), isEnemy(_isEnemy), canSelected(_canSelected) {
+        for (Ability ab : _abilities)
+        {
+            abilities.push_back(std::make_unique<Ability>(ab));
+        }
+    }
+
+void BattleEntity::Draw()
 {
-    UpdateEnemyWhirl();
     sprite.Draw();
+    // dont move this function!
     RefreshActionText();
     actionText.Draw();
-}   
+}
 
 void BattleEntity::DrawAbilities() 
 {
@@ -21,7 +39,7 @@ void BattleEntity::DrawAbilities()
 
         // только текст
         DrawText(
-            ability->getName().c_str(),
+            ability->GetName().c_str(),
             newPos.x,
             newPos.y,
             20,
@@ -112,4 +130,12 @@ void BattleEntity::EnemyHitAnimation()
     }
 
     _enemyWhirlResetAt = GetTime() + ENEMY_WHIRL_DURATION;
+}
+
+
+void BattleEntity::Update(float dt)
+{
+    UpdateEnemyWhirl();
+    
+    UpdateAbilities();
 }

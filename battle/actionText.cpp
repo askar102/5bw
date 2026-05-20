@@ -1,6 +1,14 @@
-#include "actionText.h"
+/**
+ * @file actionText.cpp
+ * @author askar102
+ * @brief Creating debug text over a character
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
 
-#include <cstddef>
+#include "actionText.h"
 
 void ActionText::SetAnchor(Vector2 anchor)
 {

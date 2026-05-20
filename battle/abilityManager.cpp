@@ -1,6 +1,51 @@
+/**
+ * @file abilityManager.cpp
+ * @author askar102
+ * @brief Directly calling characters' abilities
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "abilityManager.h"
 
 namespace AbilityManager {
+    void SpawnAbility(Ability& clickedAbility, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
+    {
+        std::string abilityName = clickedAbility.GetName();
+
+        if (abilityName == "cardAttack")
+            {
+                AbilityManager::CardGuy::SpawnCardAttack(
+                    vfxManager,
+                    caster,
+                    target,
+                    clickedAbility.GetDamage()
+                );
+                /**
+                 * @ref we damage enemy at cardVfx.cpp, ~35 line
+                 * 
+                 */
+                clickedAbility.Execute(caster, target, true);
+                caster.actionText.Add(TextFormat("Used %s", clickedAbility.GetName().c_str()), YELLOW);
+                caster.actionText.Add(TextFormat("Hit by %s", clickedAbility.GetName().c_str()), ORANGE);
+                return;
+            }
+
+            if (abilityName == "cardHeal")
+            {
+                AbilityManager::CardGuy::SpawnCardHeal(vfxManager, caster, target);
+                clickedAbility.Execute(caster, target);
+            }
+
+            if (abilityName == "cardBlock")
+            {
+                AbilityManager::CardGuy::SpawnCardBlock(vfxManager, caster, target);
+            }
+    }
+
+
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage)
         {

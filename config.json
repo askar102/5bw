@@ -1,4 +1,38 @@
 {
+    "playerParty": [
+        "cardGuy",
+        "cardGuy",
+        "cardGuy",
+        "cardGuy"
+    ],
+
+    "characters": [
+        {
+            "name": "cardGuy",
+            "texturePath": "../resources/cardGuy.png", 
+            "maxHp": 100,
+            "isEnemy": false,
+            "canSelected": true,
+            "abilities": [
+                {
+                    "name": "cardAttack",
+                    "damage": 10,
+                    "heal": 0
+                },
+                {
+                    "name": "cardHeal",
+                    "damage": 0,
+                    "heal": 20
+                },
+                {
+                    "name": "cardBlock",
+                    "damage": 0,
+                    "heal": 0
+                }
+            ]
+        }
+    ],
+
     "map": 
     [
         {

@@ -1,10 +1,20 @@
-#pragma once
+/**
+ * @file actionText.cpp
+ * @author askar102
+ * @brief Creating debug text over a character
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
 
-#include "../raylib/raylib.h"
+#pragma once
 
 #include <cstddef>
 #include <string>
 #include <vector>
+
+#include "../raylib/raylib.h"
 
 class ActionText {
 public:

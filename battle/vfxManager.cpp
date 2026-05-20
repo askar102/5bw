@@ -1,7 +1,14 @@
-#include "vfxManager.h"
+/**
+ * @file vfxManager.cpp
+ * @author askar102
+ * @brief Vfx spawner
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
 
-#include "battleEntity.h"
-#include "cardVfx.h"
+#include "vfxManager.h"
 
 void VfxManager::Update(float dt)
 {

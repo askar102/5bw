@@ -1,4 +1,15 @@
+/**
+ * @file player.cpp
+ * @author askar102
+ * @brief Map player type
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "player.h"
+
 #include "../states/mapState.h"
 
 void Player::Update(float dt, MapState* map) 

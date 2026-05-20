@@ -10,9 +10,12 @@
 
  #include "game.h"
 
+#include "../battle/party.h"
+
  #include "../states/menuState.h"
  
  ResourceManager Game::_resourceManager;
+ Party Game::_playerParty;
  
  Game::Game(int width, int height, const char* title)
      : _screenWidth(width),
@@ -28,6 +31,7 @@
  
  void Game::Init() 
  {
+    TraceLog(LOG_INFO, "[core] Creating window BLYAT :( .....");
      InitWindow(_screenWidth, _screenHeight, _windowTitle);
      SetTargetFPS(60);
  
@@ -81,3 +85,7 @@
      return _resourceManager;
  }
  
+ Party& Game::GetPlayerParty()
+ {
+    return _playerParty;
+ }

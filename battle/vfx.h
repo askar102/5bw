@@ -1,10 +1,19 @@
+/**
+ * @file vfx.h
+ * @author askar102
+ * @brief Default vfx type
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #pragma once
 
 #include <cmath>
 
 #include "../raylib/raylib.h"
 
-#include "../entities/sprite.h"
 #include "../entities/spriteV2.h"
 
 class Vfx {

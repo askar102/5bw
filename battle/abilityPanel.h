@@ -1,15 +1,23 @@
+/**
+ * @file abilityPanel.h
+ * @author askar102
+ * @brief Creating ability buttons in front of a character
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #pragma once
-
-#include "../entities/sprite.h"
-
-#include "../entities/spriteV2.h"
-
-#include "ability.h"
 
 #include <array>
 #include <memory>
 #include <vector>
 #include <algorithm>
+
+#include "../entities/spriteV2.h"
+
+#include "ability.h"
 
 class AbilityPanel {
 public:

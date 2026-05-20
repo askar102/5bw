@@ -1,55 +1,64 @@
+/**
+ * @file mapState.h
+ * @author askar102
+ * @brief Map(world) scene
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #pragma once
-
-#include "../core/state.h"
-#include "../raylib/raylib.h"
-#include "../core/stateManager.h"
-
-#include "battleState.h"
-
-#include "../entities/sprite.h"
-#include "../entities/spriteV2.h"
-
-#include "../entities/player.h"
-
-#include "../misc/mapGenerator.h"
-
-#include "../core/game.h"
 
 #include <vector>
 #include <memory>
 #include <format>
 
+#include "../raylib/raylib.h"
+
+#include "../core/state.h"
+#include "../core/game.h"
+#include "../core/stateManager.h"
+
+#include "../entities/spriteV2.h"
+#include "../entities/player.h"
+
+#include "../misc/mapGenerator.h"
+
+#include "battleState.h"
+
 class MapState : public State {
-    private:
-        Player player;
-        Vector2 playerPos;
+public:
+    void HandleInput() override;
+    void Update(float dt) override;
+    void Draw() override;
 
-        SpriteV2 tree;
+    void OnEnter() override;
+    void OnExit() override;
 
-        bool startBattle = false;
+    void LoadResources();
+        
+    void MapRotationCheck();
+    void LoadTile();
 
-        std::vector<std::unique_ptr<SpriteV2>> trees;
+    bool CheckCollision(Rectangle playerRect);
+
+
+private:
+    Player player;
+    Vector2 playerPos;
+
+    SpriteV2 tree;
+
+    bool startBattle = false;
+
+    std::vector<std::unique_ptr<SpriteV2>> trees;
                                                                                        
-        unsigned int currentTileX = 600;
-        unsigned int currentTileY = 600;
+    unsigned int currentTileX = 600;
+    unsigned int currentTileY = 600;
         
-        // todo: change to more safe method
-        const int SCREEN_WIDTH = 800;
-        const int SCREEN_HEIGHT = 600;
-
-    public:
-        void HandleInput() override;
-        void Update(float dt) override;
-        void Draw() override;
-
-        void OnEnter() override;
-        void OnExit() override;
-
-        void LoadResources();
-        
-        void MapRotationCheck();
-        void LoadTile();
-
-        bool CheckCollision(Rectangle playerRect);
+    // todo: change to more safe method
+    const int SCREEN_WIDTH = 800;
+    const int SCREEN_HEIGHT = 600;
 
 };

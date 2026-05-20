@@ -15,9 +15,12 @@
  #include "state.h"
  #include "stateManager.h"
  #include "resourceManager.h"
- 
+ #include "../battle/party.h"
+
  #include "../raylib/raylib.h"
  
+class Party;
+
  class Game {
  public:
      Game(int width, int height, const char* title);
@@ -28,6 +31,8 @@
      void ChangeState(std::unique_ptr<State> newState);
  
      static ResourceManager& GetResources();
+     static Party& GetPlayerParty();
+     
  private:
      void Init();
      void Update();
@@ -42,7 +47,9 @@
      bool _running;
  
      StateManager _stateMachine;
- 
+
      static ResourceManager _resourceManager;
+
+     static Party _playerParty;
  };
  

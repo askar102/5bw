@@ -1,70 +1,54 @@
+/**
+ * @file battleState.cpp
+ * @author askar102
+ * @brief Battle scene
+ * @date 2026-05-07
+ * 
+ * @copyright Copyright (c) 2026, askar102
+ * 
+ */
+
 #include "battleState.h"
-#include "../battle/abilityManager.h"
 
 void BattleState::HandleInput()
 {
+    Party& party = Game::GetPlayerParty();
+
     Vector2 mouse = GetMousePosition();
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
-        if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
+        BattleEntity* selectedCharacter = party.GetSelectedCharacter();
+
+        if (selectedCharacter)
         {
-            _character->selected = false;
-
-            const std::string abilityName = clickedAbility->getName();
-
-            if (abilityName == "CardAttack")
+            if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
             {
-                AbilityManager::CardGuy::SpawnCardAttack(
+                const std::string abilityName = clickedAbility->GetName();
+
+                AbilityManager::SpawnAbility(
+                    *clickedAbility,
                     _vfxManager,
-                    *_character,
-                    *_enemy,
-                    clickedAbility->getDamage()
+                    *selectedCharacter,
+                    *_enemy
                 );
-                /**
-                 * @ref we damage enemy at cardVfx.cpp, ~35 line
-                 * 
-                 */
-                clickedAbility->Execute(*_character, *_enemy, true);
-                _character->actionText.Add(TextFormat("Used %s", clickedAbility->getName().c_str()), YELLOW);
-                _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->getName().c_str()), ORANGE);
+
+                selectedCharacter->actionText.Add(TextFormat("Used %s", clickedAbility->GetName().c_str()), YELLOW);
+                // todo: change
+                _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
+
+                party.DeselectAll();
+
                 return;
-            }
-
-            if (abilityName == "CardHeal")
-            {
-                AbilityManager::CardGuy::SpawnCardHeal( _vfxManager, *_character, *_enemy);
-                clickedAbility->Execute(*_character, *_enemy);
-            }
-
-            if (abilityName == "CardBlock")
-            {
-                AbilityManager::CardGuy::SpawnCardBlock(_vfxManager, *_character, *_enemy);
-            }
-
-            clickedAbility->Execute(*_character, *_enemy);
-            _character->actionText.Add(TextFormat("Used %s", clickedAbility->getName().c_str()), YELLOW);
-            _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->getName().c_str()), ORANGE);
-            return;
+            } 
         }
 
-        if (CheckCollisionPointRec(mouse, _character->getSprite().GetRect()))
-        {
-            if (_character->canSelected)
-            {
-                _character->selected = !_character->selected;
-            }
-        }
-        else
-        {
-            _character->selected = false;
-        }
+        party.UpdateSelection();
     }
 
     if (IsKeyPressed(KEY_H))
     {
-        Sprite::SetDrawHitboxes(!Sprite::GetDrawHitboxes());
-        SpriteV2::SetDrawHitboxes(!Sprite::GetDrawHitboxes());
+        SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
     }
 }
 
@@ -73,8 +57,18 @@ void BattleState::Draw()
     ClearBackground(RED);
 
     _background.Draw();
-    _character->Draw();
     _enemy->Draw();
+
+    Party& playerParty = Game::GetPlayerParty();
+    for (size_t i = 0; i < 4; ++i)
+    {
+        BattleEntity* character = playerParty.Get(i);
+
+        if (character)
+        {
+            character->Draw();
+        }
+    }   
 
     _vfxManager.Draw();
 
@@ -86,29 +80,73 @@ void BattleState::Draw()
 
 void BattleState::Update(float dt)
 {
-    _abilityPanel.SetVisible(_character->selected);
-    _abilityPanel.SetAnchor(_character->getSprite().GetPosition());
+    Party& party = Game::GetPlayerParty();
+
+    BattleEntity* selected =
+        party.GetSelectedCharacter();
+
+    // update party characters
+
+    for (size_t i = 0; i < 4; ++i)
+    {
+        BattleEntity* character = party.Get(i);
+
+        if (character)
+        {
+            character->Update(dt);
+        }
+    }
+
+    // ability panel
+
+    if (selected)
+    {
+        _abilityPanel.SetVisible(true);
+
+        _abilityPanel.SetAnchor(selected->getSprite().GetPosition());
+
+        _abilityPanel.SetAbilities(selected->abilities);
+    }
+    else
+    {
+        _abilityPanel.SetVisible(false);
+    }
+
     _abilityPanel.Update();
 
+    _enemy->Update(dt);
     _vfxManager.Update(dt);
 }
 
 void BattleState::OnEnter()
 {
-    _character = std::make_unique<BattleEntity>();
-    _enemy = std::make_unique<BattleEntity>();
+    Party& playerParty = Game::GetPlayerParty();
+    for (size_t i = 0; i < 4; ++i)
+    {
+        BattleEntity* character = playerParty.Get(i);
 
-    // abiityName, damage, heal
-    _character->abilities.push_back(std::make_unique<Ability>("CardAttack", 10, 0));
-    _character->abilities.push_back(std::make_unique<Ability>("CardHeal", 0, 25));
-    _character->abilities.push_back(std::make_unique<Ability>("CardBlock", 0, 10));
+        if (character)
+        {
+            TraceLog(LOG_INFO, "[PARTY] character: %s", character->name.c_str());
 
+            character->getSprite().SetResource(&Game::GetResources().Get(character->name));
+
+            TraceLog(LOG_INFO, "[PARTY] character: %s", character->name.c_str());
+            for (const auto& ab : character->abilities)
+            {
+                TraceLog(LOG_INFO, "[PARTY] ---characterAbilities: %s", ab->GetName().c_str());
+            }
+
+        }
+        else
+        {      
+            TraceLog(LOG_INFO, "[PARTY] empty slot");
+        }
+    }   
+
+    _enemy = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, true, {}});
 
     InitBackground();
-
-    _character->getSprite().SetPosition({120, 400});
-    _character->getSprite().SetResource(&Game::GetResources().Get(TextureID::CardGuyAtlas));
-    _character->getSprite().SetFrame(0);
 
     _enemy->getSprite().SetPosition({570, 400});
     _enemy->getSprite().SetResource(&Game::GetResources().Get(TextureID::Enemy));
@@ -118,8 +156,6 @@ void BattleState::OnEnter()
     _enemy->getSprite().SetRectSize({100 , 100});
 
     _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon));
-    _abilityPanel.SetAbilities(_character->abilities);
-    _abilityPanel.SetAnchor(_character->getSprite().GetPosition());
     _abilityPanel.SetVisible(false);
     _abilityPanel.Update();
 }
