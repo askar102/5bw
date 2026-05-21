@@ -30,6 +30,20 @@
                     "heal": 0
                 }
             ]
+        },
+        {
+            "name": "o_o",
+            "texturePath": "../resources/cardGuy.png", 
+            "maxHp": 100,
+            "isEnemy": true,
+            "canSelected": false,
+            "abilities": [
+                {
+                    "name": "cardAttack",
+                    "damage": 10,
+                    "heal": 0
+                }
+            ]
         }
     ],
 

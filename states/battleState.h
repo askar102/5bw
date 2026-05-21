@@ -22,6 +22,8 @@
 #include "../battle/abilityManager.h"
 #include "../battle/vfxManager.h"
 
+#include "../battle/enemyParty.h"
+
 class BattleState : public State {
 public:
     void HandleInput() override;
@@ -35,6 +37,8 @@ public:
 
 private:
     SpriteV2 _background;
+
+    EnemyParty _enemyParty;
 
     // Temporary single-character test setup.
     std::unique_ptr<BattleEntity> _character;

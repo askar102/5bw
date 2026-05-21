@@ -15,18 +15,12 @@
 
 #include "battleEntity.h"
 
-#include "../core/game.h"
 
 #include "../misc/configReader.h"
 
 class Party {
 public:
-    Party() 
-    {
-        Init();
-    }
-
-    void Init();
+    Party() = default;
 
     void Add(std::unique_ptr<BattleEntity> character, size_t index);
     void Remove(size_t index);
@@ -35,12 +29,15 @@ public:
     
     BattleEntity* Get(size_t index);
 
-    Vector2 GetPositionByIndex(size_t index);
+    virtual Vector2 GetPositionByIndex(size_t index);
 
     BattleEntity* GetSelectedCharacter();
 
     void UpdateSelection();
     void DeselectAll();
+
+protected:
+    virtual void Init();
 
 private:
     std::array<std::unique_ptr<BattleEntity>, 4> characters;

@@ -15,7 +15,7 @@
  #include "state.h"
  #include "stateManager.h"
  #include "resourceManager.h"
- #include "../battle/party.h"
+ #include "../battle/playerParty.h"
 
  #include "../raylib/raylib.h"
  
@@ -31,8 +31,9 @@ class Party;
      void ChangeState(std::unique_ptr<State> newState);
  
      static ResourceManager& GetResources();
-     static Party& GetPlayerParty();
-     
+
+     static PlayerParty& GetPlayerParty();
+
  private:
      void Init();
      void Update();
@@ -50,6 +51,6 @@ class Party;
 
      static ResourceManager _resourceManager;
 
-     static Party _playerParty;
+     static PlayerParty _playerParty;
  };
  

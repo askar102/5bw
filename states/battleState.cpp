@@ -12,7 +12,10 @@
 
 void BattleState::HandleInput()
 {
-    Party& party = Game::GetPlayerParty();
+    PlayerParty& party = Game::GetPlayerParty();
+
+    //todo: temp
+    BattleEntity* enemy = _enemyParty.Get(0);
 
     Vector2 mouse = GetMousePosition();
 
@@ -30,12 +33,12 @@ void BattleState::HandleInput()
                     *clickedAbility,
                     _vfxManager,
                     *selectedCharacter,
-                    *_enemy
+                    *enemy
                 );
 
                 selectedCharacter->actionText.Add(TextFormat("Used %s", clickedAbility->GetName().c_str()), YELLOW);
                 // todo: change
-                _enemy->actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
+                _enemyParty.Get(0)->actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
 
                 party.DeselectAll();
 
@@ -57,9 +60,9 @@ void BattleState::Draw()
     ClearBackground(RED);
 
     _background.Draw();
-    _enemy->Draw();
+    _enemyParty.Get(0)->Draw();
 
-    Party& playerParty = Game::GetPlayerParty();
+    PlayerParty& playerParty = Game::GetPlayerParty();
     for (size_t i = 0; i < 4; ++i)
     {
         BattleEntity* character = playerParty.Get(i);
@@ -80,7 +83,7 @@ void BattleState::Draw()
 
 void BattleState::Update(float dt)
 {
-    Party& party = Game::GetPlayerParty();
+    PlayerParty& party = Game::GetPlayerParty();
 
     BattleEntity* selected =
         party.GetSelectedCharacter();
@@ -114,13 +117,13 @@ void BattleState::Update(float dt)
 
     _abilityPanel.Update();
 
-    _enemy->Update(dt);
+    _enemyParty.Get(0)->Update(dt);
     _vfxManager.Update(dt);
 }
 
 void BattleState::OnEnter()
 {
-    Party& playerParty = Game::GetPlayerParty();
+    PlayerParty& playerParty = Game::GetPlayerParty();
     for (size_t i = 0; i < 4; ++i)
     {
         BattleEntity* character = playerParty.Get(i);
@@ -142,18 +145,34 @@ void BattleState::OnEnter()
         {      
             TraceLog(LOG_INFO, "[PARTY] empty slot");
         }
-    }   
-
-    _enemy = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, true, {}});
+    } 
+    
+    
+    // _enemy = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, true, {}});
 
     InitBackground();
 
-    _enemy->getSprite().SetPosition({570, 400});
-    _enemy->getSprite().SetResource(&Game::GetResources().Get(TextureID::Enemy));
-    _enemy->canSelected = false;
-    _enemy->isEnemy = true;
-    _enemy->getSprite().SetSize({100, 100});
-    _enemy->getSprite().SetRectSize({100 , 100});
+    _enemyParty.Init();
+
+    // todo: change
+    BattleEntity* enemy = _enemyParty.Get(0);
+
+    if (enemy)
+    {
+        enemy->getSprite().SetResource(
+            &Game::GetResources().Get(TextureID::Enemy)
+        );
+
+        enemy->getSprite().SetSize({100, 100});
+        enemy->getSprite().SetRectSize({100 , 100});
+    }
+
+    // _enemy->getSprite().SetPosition({570, 400});
+    // _enemy->getSprite().SetResource(&Game::GetResources().Get(TextureID::Enemy));
+    // _enemy->canSelected = false;
+    // _enemy->isEnemy = true;
+    // _enemy->getSprite().SetSize({100, 100});
+    // _enemy->getSprite().SetRectSize({100 , 100});
 
     _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon));
     _abilityPanel.SetVisible(false);
