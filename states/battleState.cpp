@@ -160,7 +160,7 @@ void BattleState::OnEnter()
     if (enemy)
     {
         enemy->getSprite().SetResource(
-            &Game::GetResources().Get("cardGuy")
+            &Game::GetResources().Get(TextureID::Enemy)
         );
 
         enemy->getSprite().SetSize({100, 100});
