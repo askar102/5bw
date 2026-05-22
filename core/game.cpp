@@ -43,6 +43,7 @@
  void Game::Run() 
  {
      Init();
+     // Init only here
      _playerParty.Init();
  
      while (!WindowShouldClose() && _running) 

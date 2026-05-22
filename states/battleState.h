@@ -22,7 +22,7 @@
 #include "../battle/abilityManager.h"
 #include "../battle/vfxManager.h"
 
-#include "../battle/enemyParty.h"
+#include "../battle/partyManager.h"
 
 class BattleState : public State {
 public:
@@ -33,12 +33,14 @@ public:
     void OnEnter() override;
     void OnExit() override;
 
-    void InitBackground();
+    
 
 private:
     SpriteV2 _background;
 
-    EnemyParty _enemyParty;
+    void InitBackground();
+    void InitEnemyParty();
+    void InitPlayerParty();
 
     // Temporary single-character test setup.
     std::unique_ptr<BattleEntity> _character;
@@ -46,4 +48,6 @@ private:
 
     AbilityPanel _abilityPanel;
     VfxManager _vfxManager;
+
+    PartyManager _partyManager;
 };

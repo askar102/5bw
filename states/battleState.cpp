@@ -12,41 +12,40 @@
 
 void BattleState::HandleInput()
 {
-    PlayerParty& party = Game::GetPlayerParty();
-
-    //todo: temp
-    BattleEntity* enemy = _enemyParty.Get(0);
-
     Vector2 mouse = GetMousePosition();
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
-        BattleEntity* selectedCharacter = party.GetSelectedCharacter();
+        BattleEntity* selectedCharacter = _partyManager.GetSelectedCharacter();
 
         if (selectedCharacter)
         {
             if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
             {
-                const std::string abilityName = clickedAbility->GetName();
+                BattleEntity* target = _partyManager.GetEnemy(0);
 
-                AbilityManager::SpawnAbility(
-                    *clickedAbility,
-                    _vfxManager,
-                    *selectedCharacter,
-                    *enemy
-                );
+                if (target)
+                {
+                    AbilityManager::SpawnAbility(
+                        *clickedAbility,
+                        _vfxManager,
+                        *selectedCharacter,
+                        *target
+                    );
+                } 
 
-                selectedCharacter->actionText.Add(TextFormat("Used %s", clickedAbility->GetName().c_str()), YELLOW);
+                
+                selectedCharacter->actionText.Add(TextFormat("Uzanulo %s", clickedAbility->GetName().c_str()), YELLOW);
                 // todo: change
-                _enemyParty.Get(0)->actionText.Add(TextFormat("Hit by %s", clickedAbility->GetName().c_str()), ORANGE);
+                target->actionText.Add(TextFormat("Pizdanulo by %s", clickedAbility->GetName().c_str()), ORANGE);
 
-                party.DeselectAll();
+                _partyManager.DeselectAll();
 
                 return;
             } 
         }
 
-        party.UpdateSelection();
+        _partyManager.UpdateSelection();
     }
 
     if (IsKeyPressed(KEY_H))
@@ -60,21 +59,8 @@ void BattleState::Draw()
     ClearBackground(RED);
 
     _background.Draw();
-    _enemyParty.Get(0)->Draw();
-
-    PlayerParty& playerParty = Game::GetPlayerParty();
-    for (size_t i = 0; i < 4; ++i)
-    {
-        BattleEntity* character = playerParty.Get(i);
-
-        if (character)
-        {
-            character->Draw();
-        }
-    }   
-
+    _partyManager.Draw(); 
     _vfxManager.Draw();
-
     _abilityPanel.Draw();
 
     DrawText("currentState: battle", 0, 0, 20, WHITE);
@@ -83,31 +69,14 @@ void BattleState::Draw()
 
 void BattleState::Update(float dt)
 {
-    PlayerParty& party = Game::GetPlayerParty();
+    _partyManager.Update(dt);
 
-    BattleEntity* selected =
-        party.GetSelectedCharacter();
-
-    // update party characters
-
-    for (size_t i = 0; i < 4; ++i)
-    {
-        BattleEntity* character = party.Get(i);
-
-        if (character)
-        {
-            character->Update(dt);
-        }
-    }
-
-    // ability panel
+    BattleEntity* selected = _partyManager.GetSelectedCharacter();
 
     if (selected)
     {
         _abilityPanel.SetVisible(true);
-
         _abilityPanel.SetAnchor(selected->getSprite().GetPosition());
-
         _abilityPanel.SetAbilities(selected->abilities);
     }
     else
@@ -116,63 +85,17 @@ void BattleState::Update(float dt)
     }
 
     _abilityPanel.Update();
-
-    _enemyParty.Get(0)->Update(dt);
     _vfxManager.Update(dt);
 }
 
 void BattleState::OnEnter()
 {
-    PlayerParty& playerParty = Game::GetPlayerParty();
-    for (size_t i = 0; i < 4; ++i)
-    {
-        BattleEntity* character = playerParty.Get(i);
-
-        if (character)
-        {
-            TraceLog(LOG_INFO, "[PARTY] character: %s", character->name.c_str());
-
-            character->getSprite().SetResource(&Game::GetResources().Get(character->name));
-
-            TraceLog(LOG_INFO, "[PARTY] character: %s", character->name.c_str());
-            for (const auto& ab : character->abilities)
-            {
-                TraceLog(LOG_INFO, "[PARTY] ---characterAbilities: %s", ab->GetName().c_str());
-            }
-
-        }
-        else
-        {      
-            TraceLog(LOG_INFO, "[PARTY] empty slot");
-        }
-    } 
-    
-    
-    // _enemy = std::make_unique<BattleEntity>((BattleEntity){"name", 100, false, true, {}});
-
     InitBackground();
 
-    _enemyParty.Init();
+    _partyManager.Init();
 
-    // todo: change
-    BattleEntity* enemy = _enemyParty.Get(0);
-
-    if (enemy)
-    {
-        enemy->getSprite().SetResource(
-            &Game::GetResources().Get(TextureID::Enemy)
-        );
-
-        enemy->getSprite().SetSize({100, 100});
-        enemy->getSprite().SetRectSize({100 , 100});
-    }
-
-    // _enemy->getSprite().SetPosition({570, 400});
-    // _enemy->getSprite().SetResource(&Game::GetResources().Get(TextureID::Enemy));
-    // _enemy->canSelected = false;
-    // _enemy->isEnemy = true;
-    // _enemy->getSprite().SetSize({100, 100});
-    // _enemy->getSprite().SetRectSize({100 , 100});
+    InitPlayerParty();
+    InitEnemyParty();
 
     _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon));
     _abilityPanel.SetVisible(false);
@@ -190,4 +113,34 @@ void BattleState::InitBackground()
     _background.SetSize({800, 600});
     _background.SetPosition({(float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2});
     _background.SetCanDrawHiboxes(false);
+}
+
+void BattleState::InitPlayerParty()
+{
+    for (size_t i = 0; i < 4; ++i)
+    {
+        BattleEntity* character = _partyManager.GetPlayer(i);
+
+        if (!character) continue;
+
+        TraceLog(LOG_INFO, "[PARTY] character: %s", character->name.c_str());
+        character->getSprite().SetResource(&Game::GetResources().Get(character->name));
+
+        for (const auto& ab : character->abilities)
+            TraceLog(LOG_INFO, "[PARTY] ---ability: %s", ab->GetName().c_str());
+    }
+}
+
+void BattleState::InitEnemyParty()
+{
+    for (size_t i = 0; i < 4; ++i)
+    {
+        BattleEntity* enemy = _partyManager.GetEnemy(i);
+        if (!enemy) continue;
+
+        TraceLog(LOG_INFO, "[ENEMY PARTY] enemy: %s", enemy->name.c_str());
+        enemy->getSprite().SetResource(&Game::GetResources().Get(TextureID::Enemy));
+        enemy->getSprite().SetSize({100, 100});
+        enemy->getSprite().SetRectSize({100, 100});
+    }
 }
