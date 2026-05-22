@@ -8,14 +8,14 @@
 
     "characters": [
         {
-            "name": "cardGuy",
-            "texturePath": "../resources/cardGuy.png", 
+            "name": "cardGuy", 
             "maxHp": 100,
             "isEnemy": false,
             "canSelected": true,
             "abilities": [
                 {
                     "name": "cardAttack",
+                    "type": "bullet",
                     "damage": 10,
                     "heal": 0
                 },
@@ -32,14 +32,14 @@
             ]
         },
         {
-            "name": "o_o",
-            "texturePath": "../resources/cardGuy.png", 
+            "name": "enemy",
             "maxHp": 100,
             "isEnemy": true,
             "canSelected": false,
             "abilities": [
                 {
                     "name": "cardAttack",
+                    "type": "bullet",
                     "damage": 10,
                     "heal": 0
                 }
