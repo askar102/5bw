@@ -22,17 +22,25 @@
 
 class Ability;
 
+enum class FacingDirection {
+    Left,
+    Right
+};
+
 class BattleEntity {
 public:
     static constexpr float ENEMY_WHIRL_EFFECT = 50.0f;
     static constexpr float ENEMY_WHIRL_PUSH_X = 15.0f;
     static constexpr float ENEMY_WHIRL_DURATION = 0.1f;
 
-    BattleEntity(std::string _name, int _maxHp, bool _isEnemy, bool _canSelected, std::vector<Ability> _abilities);
+    BattleEntity(std::string _name, int _maxHp, bool _isEnemy, bool _canSelected,
+         std::vector<Ability> _abilities, FacingDirection _facingDirection = FacingDirection::Right);
     BattleEntity();
 
     std::string name;
     
+    FacingDirection facing;
+
     int maxHp = 100;
     int hp = maxHp;
     

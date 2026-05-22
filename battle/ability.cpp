@@ -10,8 +10,8 @@
 
 #include "ability.h"
 
-Ability::Ability(const std::string& abilityName, int abilityDamage, int abilityHeal)
-    : _name(abilityName), _damage(abilityDamage), _heal(abilityHeal) {}
+Ability::Ability(const std::string& abilityName, int abilityDamage, int abilityHeal, AbilityType abilityType)
+    : _name(abilityName), _damage(abilityDamage), _heal(abilityHeal), _type(abilityType) {}
 
 void Ability::Execute(BattleEntity& caster, BattleEntity& target, bool skipDamageAction)
 {

@@ -90,17 +90,27 @@ BattleEntity ConfigReader::GetCharacterFromConfig(std::string name)
                     std::make_unique<Ability>(
                         ab.value("name", ""),
                         ab.value("damage", 0),
-                        ab.value("heal", 0)
+                        ab.value("heal", 0),
+                        ParseAbilityType(ab.value("type", ""))
                     )
                 );
             }
         }
-
-        
 
         return character;
     }
 
     TraceLog(LOG_WARNING, "[configReader] I cant find this character: %s", name.c_str());
     return character;
+}
+
+AbilityType ConfigReader::ParseAbilityType(const std::string& type)
+{
+    if (type == "bullet")
+        return AbilityType::Bullet;
+
+    if (type == "unique")
+        return AbilityType::Unique;
+
+    return AbilityType::Melee;
 }

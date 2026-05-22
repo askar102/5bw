@@ -16,4 +16,7 @@ public:
     static std::array<std::string, 4> GetPlayerPartyFromConfig();
 
     static BattleEntity GetCharacterFromConfig(std::string name);
+
+private:
+    static AbilityType ParseAbilityType(const std::string& type);
 };

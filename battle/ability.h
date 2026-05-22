@@ -16,11 +16,18 @@
 
 class BattleEntity;
 
+enum class AbilityType {
+  Melee,
+  Bullet,
+  Unique
+};
+
+
 class Ability {
 public:
   Ability() = default;
-  Ability(const std::string &abilityName, int abilityDamage = 0,
-          int abilityHeal = 0);
+  Ability(const std::string &abilityName, int abilityDamage = 0, 
+          int abilityHeal = 0, AbilityType abilityType = AbilityType::Melee);
 
   virtual ~Ability() = default;
 
@@ -33,6 +40,7 @@ public:
 
 private:
   std::string _name;
+  AbilityType _type = AbilityType::Melee;
   int _damage = 0;
   int _heal = 0;
 };

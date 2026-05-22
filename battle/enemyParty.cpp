@@ -3,9 +3,10 @@
 void EnemyParty::Init() {
     for (size_t i = 0; i < 4; ++i) {
         auto character = std::make_unique<BattleEntity>(
-            ConfigReader::GetCharacterFromConfig("o_o")
+            ConfigReader::GetCharacterFromConfig("enemy")
         );
         character->getSprite().SetPosition(this->GetPositionByIndex(i));
+        character->facing = FacingDirection::Left;
         Add(std::move(character), i);
     }
 }

@@ -21,11 +21,13 @@
                 },
                 {
                     "name": "cardHeal",
+                    "type": "unique",
                     "damage": 0,
                     "heal": 20
                 },
                 {
                     "name": "cardBlock",
+                    "type": "unique",
                     "damage": 0,
                     "heal": 0
                 }
