@@ -30,6 +30,8 @@ add_executable(5bw12
     battle/playerParty.cpp
     battle/enemyParty.cpp
 
+    battle/partyManager.cpp
+
     battle/ability.cpp
     battle/abilityManager.cpp
     battle/vfx.cpp
