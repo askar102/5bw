@@ -58,7 +58,7 @@ void MenuState::InitNewGui()
     auto newGameButton = std::make_unique<Button>(
         Vector2{150, 300},
         Vector2{300, 50},
-        "Start",
+        "New game",
         &Game::GetResources().Get("blackButton"),
         [this]() {
             //  stateMachine->ChangeState(std::make_unique<MapState>());
@@ -72,6 +72,8 @@ void MenuState::InitNewGui()
     btnPtr->SetOnTouch([btnPtr]() {
         btnPtr->SetTextColor(GREEN);
     });
+    // for non-mouse action
+    btnPtr->GetSprite().SetRectSize({0, 0});
 
     buttons->Add(std::move(newGameButton));
 
@@ -92,8 +94,32 @@ void MenuState::InitNewGui()
     btnPtr->SetOnTouch([btnPtr]() {
         btnPtr->SetTextColor(GREEN);
     });
+    // for non-mouse action
+    btnPtr->GetSprite().SetRectSize({0, 0});
 
     buttons->Add(std::move(continueButton));
+
+    auto modsButton = std::make_unique<Button>(
+        Vector2{150, 300},
+        Vector2{300, 50},
+        "Mods",
+        &Game::GetResources().Get("blackButton"),
+        [this]() {
+            //  stateMachine->ChangeState(std::make_unique<MapState>());
+            startPressed = true;
+        },
+        PositionType::Left
+    );
+
+    btnPtr = modsButton.get();
+
+    btnPtr->SetOnTouch([btnPtr]() {
+        btnPtr->SetTextColor(GREEN);
+    });
+    // for non-mouse action
+    btnPtr->GetSprite().SetRectSize({0, 0});
+
+    buttons->Add(std::move(modsButton));
 
     _gui.Add(std::move(buttons));
 }
