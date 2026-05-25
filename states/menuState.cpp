@@ -28,7 +28,9 @@ void MenuState::Draw() {
 
 void MenuState::Update(float dt) {
     if (startPressed) {
+        startPressed = false;
         stateMachine->ChangeState(std::make_unique<MapState>());
+        return;
     }
 
     _gui.Update();
@@ -49,16 +51,38 @@ void MenuState::OnExit() {
 void MenuState::InitGui() {
     std::vector<TextureID> names = { TextureID::GuiNewGameButton, TextureID::GuiContinueButton, TextureID::GuiTradesButton };
 
+    // 150 - screen start pos
     
     _gui.Add(std::make_unique<Button>(
-        Vector2{400, 300},
+        Vector2{150, 300},
         Vector2{300, 50},
-        "Start",
+        "New game",
         &Game::GetResources().Get(names[0]),
         [this]() {
-             stateMachine->ChangeState(std::make_unique<MapState>());
+            //  stateMachine->ChangeState(std::make_unique<MapState>());
+            startPressed = true;
         }
     ));
 
-    
+    _gui.Add(std::make_unique<Button>(
+        Vector2{150, 360}, // y+60
+        Vector2{300, 50},
+        "Continue",
+        &Game::GetResources().Get(names[1]),
+        [this]() {
+             // stub
+        }
+    ));
+
+    _gui.Add(std::make_unique<Button>(
+        Vector2{150, 420}, // y+60
+        Vector2{300, 50},
+        "Continue",
+        &Game::GetResources().Get(names[2]),
+        [this]() {
+             // stub
+        }
+    ));
+
+     
 }
