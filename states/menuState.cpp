@@ -9,7 +9,7 @@
  */
 
 #include "menuState.h"
-#include <cstdint>
+#include <memory>
 
 void MenuState::HandleInput() {
     if (IsKeyPressed(KEY_ENTER)) {
@@ -53,6 +53,14 @@ void MenuState::InitGui() {
 
     // 150 - screen start pos
     
+    auto menuBackground = std::make_unique<Gui>();
+
+    Gui* bg = menuBackground.get();
+    bg->SetResource(&Game::GetResources().Get(TextureID::MenuBackground));
+    bg->SetPosition({400, 300});
+
+    _gui.Add(std::move(menuBackground));
+
     auto newGameButton = std::make_unique<Button>(
         Vector2{150, 300},
         Vector2{300, 50},

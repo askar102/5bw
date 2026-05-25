@@ -30,6 +30,8 @@
      GuiContinueButton,
      GuiTradesButton,
 
+     MenuBackground,
+
 
      ErrorTexture
  };

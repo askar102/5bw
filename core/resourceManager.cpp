@@ -77,6 +77,12 @@
          MakeGrid(88, 128, 3)
      };
 
+     _textures[TextureID::MenuBackground] =
+     {
+         LoadTexture("resources/menuBackground.png"),
+         {}
+     };
+
      _textures[TextureID::GuiButton] =
      {
          LoadTexture("resources/button.png"),
