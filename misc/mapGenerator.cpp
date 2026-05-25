@@ -12,9 +12,9 @@
 
 using json = nlohmann::json;
 
-std::vector<std::unique_ptr<SpriteV2>> MapGenerator::GenerateTile(const std::string& path, int tileX, int tileY, TextureResource* treeResource) 
+std::vector<std::unique_ptr<Tree>> MapGenerator::GenerateTile(const std::string& path, int tileX, int tileY, TextureResource* treeResource) 
 {
-    std::vector<std::unique_ptr<SpriteV2>> result;
+    std::vector<std::unique_ptr<Tree>> result;
 
     std::ifstream file(path);
     if (!file.is_open()) {
@@ -47,10 +47,8 @@ std::vector<std::unique_ptr<SpriteV2>> MapGenerator::GenerateTile(const std::str
 
                     if (tileType == 1) 
                     {
-                        auto sprite = std::make_unique<SpriteV2>();
+                        auto sprite = std::make_unique<Tree>(treeResource, (Vector2){tileSize, tileSize});
 
-                        sprite->SetResource(treeResource);
-                        sprite->SetSize({tileSize, tileSize});
                         sprite->SetPosition({
                             (float)tx * tileSize + tileSize / 2.0f,
                             (float)ty * tileSize + tileSize / 2.0f

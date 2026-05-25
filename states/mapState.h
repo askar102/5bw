@@ -22,6 +22,8 @@
 
 #include "../entities/spriteV2.h"
 #include "../entities/player.h"
+#include "../entities/mapEntity.h"
+#include "../entities/tree.h"
 
 #include "../misc/mapGenerator.h"
 
@@ -52,7 +54,7 @@ private:
 
     bool startBattle = false;
 
-    std::vector<std::unique_ptr<SpriteV2>> trees;
+    std::vector<std::unique_ptr<Tree>> trees;
                                                                                        
     unsigned int currentTileX = 600;
     unsigned int currentTileY = 600;

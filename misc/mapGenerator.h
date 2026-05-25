@@ -18,12 +18,15 @@
 #include "../raylib/raylib.h"
 #include "../external/json.h"
 
+#include "../core/game.h"
+
 #include "../entities/spriteV2.h"
+#include "../entities/tree.h"
 
 // todo: make the Tree class
 class MapGenerator {
 public:
-    static std::vector<std::unique_ptr<SpriteV2>> GenerateTile(
+    static std::vector<std::unique_ptr<Tree>> GenerateTile(
         const std::string& path,
         int tileX,
         int tileY,
