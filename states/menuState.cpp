@@ -9,6 +9,7 @@
  */
 
 #include "menuState.h"
+#include <cstdint>
 
 void MenuState::HandleInput() {
     if (IsKeyPressed(KEY_ENTER)) {
@@ -31,6 +32,11 @@ void MenuState::Update(float dt) {
     }
 
     _gui.Update();
+
+    if (IsKeyPressed(KEY_H))
+    {
+        SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
+    }
 }
 void MenuState::OnEnter() {
     InitGui();
@@ -41,13 +47,18 @@ void MenuState::OnExit() {
 }
 
 void MenuState::InitGui() {
+    std::vector<TextureID> names = { TextureID::GuiNewGameButton, TextureID::GuiContinueButton, TextureID::GuiTradesButton };
+
+    
     _gui.Add(std::make_unique<Button>(
         Vector2{400, 300},
-        Vector2{100, 100},
+        Vector2{300, 50},
         "Start",
-        &Game::GetResources().Get(TextureID::GuiNewGameButton),
+        &Game::GetResources().Get(names[0]),
         [this]() {
-            stateMachine->ChangeState(std::make_unique<MapState>());
+             stateMachine->ChangeState(std::make_unique<MapState>());
         }
     ));
+
+    
 }

@@ -17,9 +17,9 @@ Button::Button(Vector2 pos, Vector2 size, std::string label, std::function<void(
 Button::Button(Vector2 pos, Vector2 size, std::string label, TextureResource* resource, std::function<void()> onClick)
     : _label(label), _onClick(onClick)
 {
+    SetResource(resource);
     GetSprite().SetSize(size);
     GetSprite().SetPosition(pos);
-    SetResource(resource);
 }
 
 void Button::SetLabel(const std::string& text) {
