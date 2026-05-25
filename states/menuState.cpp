@@ -45,6 +45,7 @@ void MenuState::InitGui() {
         Vector2{400, 300},
         Vector2{100, 100},
         "Start",
+        &Game::GetResources().Get(TextureID::GuiNewGameButton),
         [this]() {
             stateMachine->ChangeState(std::make_unique<MapState>());
         }

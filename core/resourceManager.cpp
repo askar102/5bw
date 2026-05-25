@@ -82,6 +82,25 @@
          LoadTexture("resources/button.png"),
          {}
      };
+
+     _textures[TextureID::GuiNewGameButton] =
+     {
+         LoadTexture("resources/newGameButton.png"),
+         {}
+     };
+
+     _textures[TextureID::GuiContinueButton] =
+     {
+         LoadTexture("resources/continueButton.png"),
+         {}
+     };
+
+     _textures[TextureID::GuiTradesButton] =
+     {
+         LoadTexture("resources/tradesButton.png"),
+         {}
+     };
+
  
      for (auto& [id, res] : _textures)
      {

@@ -26,6 +26,9 @@
      CardGuy,
 
      GuiButton,
+     GuiNewGameButton,
+     GuiContinueButton,
+     GuiTradesButton,
 
 
      ErrorTexture
