@@ -11,6 +11,8 @@ public:
     void SetVisible(bool visible);
     virtual void Draw();
 
+    SpriteV2& GetSprite();
+
 protected:
     SpriteV2 _sprite;
     bool _visible = true;

@@ -22,3 +22,8 @@ void Gui::Draw()
         _sprite.Draw();
     }
 }
+
+SpriteV2& Gui::GetSprite()
+{
+    return _sprite;
+}

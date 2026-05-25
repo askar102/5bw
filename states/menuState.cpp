@@ -35,6 +35,9 @@ void MenuState::Update(float dt) {
 void MenuState::OnEnter() {
     _startButton.SetLabel("Start");
     _startButton.SetPosition({400, 300});
+
+    _startButton.GetSprite().SetSize({100, 100});
+
     _startButton.SetOnClick([this]() {
         stateMachine->ChangeState(std::make_unique<MapState>());
     }); 
