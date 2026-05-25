@@ -22,7 +22,7 @@ void MenuState::Draw() {
     // todo: delete this in future
     DrawText("NOTE: press Enter", 0, 30, 20, WHITE);
 
-    _startButton.Draw();
+    _gui.Draw(); 
 }
 
 void MenuState::Update(float dt) {
@@ -30,15 +30,23 @@ void MenuState::Update(float dt) {
         stateMachine->ChangeState(std::make_unique<MapState>());
     }
 
-    _startButton.Update();
+    _gui.Update();
 }
 void MenuState::OnEnter() {
-    _startButton.SetLabel("Start");
-    _startButton.SetPosition({400, 300});
+    InitGui();
+}
 
-    _startButton.GetSprite().SetSize({100, 100});
+void MenuState::OnExit() {
+    _gui.Clear();
+}
 
-    _startButton.SetOnClick([this]() {
-        stateMachine->ChangeState(std::make_unique<MapState>());
-    }); 
+void MenuState::InitGui() {
+    _gui.Add(std::make_unique<Button>(
+        Vector2{400, 300},
+        Vector2{100, 100},
+        "Start",
+        [this]() {
+            stateMachine->ChangeState(std::make_unique<MapState>());
+        }
+    ));
 }

@@ -10,6 +10,7 @@ public:
     void SetPosition(Vector2 position);
     void SetVisible(bool visible);
     virtual void Draw();
+    virtual void Update();
 
     SpriteV2& GetSprite();
 

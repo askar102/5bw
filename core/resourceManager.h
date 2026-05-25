@@ -23,9 +23,8 @@
      Enemy,
      AbilityIcon,
      CardVFX,
-     CardAttack,
      CardGuy,
-    
+
      GuiButton,
 
 

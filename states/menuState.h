@@ -16,6 +16,7 @@
 #include "../core/stateManager.h"
 
 #include "../gui/button.h"
+#include "../gui/guiManager.h"
 
 #include "mapState.h"
 
@@ -25,9 +26,14 @@ public:
     void Update(float dt) override;
     void Draw() override;
     void OnEnter() override;
+    void OnExit() override;
+
+    void InitGui();
 
 private:
     bool startPressed = false;
 
     Button _startButton;
+
+    GuiManager _gui;
 };

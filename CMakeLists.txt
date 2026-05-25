@@ -22,6 +22,7 @@ add_executable(5bw12
 
     gui/gui.cpp
     gui/button.cpp
+    gui/guiManager.cpp
 
     misc/mapGenerator.cpp
     misc/configReader.cpp

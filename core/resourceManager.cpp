@@ -71,12 +71,6 @@
          {}
      };
  
-     _textures[TextureID::CardAttack] = 
-     {
-         LoadTexture("resources/cardAttack.png"),
-         {}
-     };
- 
      _textures[TextureID::CardGuy] =
      {
          LoadTexture("resources/cardGuy.png"),

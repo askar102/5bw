@@ -11,6 +11,15 @@ Button::Button(Vector2 pos, Vector2 size, std::string label, std::function<void(
 {
     GetSprite().SetSize(size);
     GetSprite().SetPosition(pos);
+    SetResource(&Game::GetResources().Get(TextureID::GuiButton));
+}
+
+Button::Button(Vector2 pos, Vector2 size, std::string label, TextureResource* resource, std::function<void()> onClick)
+    : _label(label), _onClick(onClick)
+{
+    GetSprite().SetSize(size);
+    GetSprite().SetPosition(pos);
+    SetResource(resource);
 }
 
 void Button::SetLabel(const std::string& text) {
@@ -48,8 +57,8 @@ void Button::Draw() {
     
     DrawText(
         _label.c_str(),
-        static_cast<int>(pos.x - textWidth / 2),
-        static_cast<int>(pos.y - fontSize / 2),
+        static_cast<int>(pos.x - (float)textWidth / 2),
+        static_cast<int>(pos.y - (float)fontSize / 2),
         fontSize,
         WHITE
     );

@@ -23,6 +23,12 @@ void Gui::Draw()
     }
 }
 
+void Gui::Update()
+{
+    // I dont know
+    return;
+}
+
 SpriteV2& Gui::GetSprite()
 {
     return _sprite;
