@@ -33,8 +33,6 @@ public:
     void OnEnter() override;
     void OnExit() override;
 
-    
-
 private:
     SpriteV2 _background;
 
