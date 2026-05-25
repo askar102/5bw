@@ -28,6 +28,9 @@
      // effects
      float _alpha = 1.0f;
      float _brightness = 1.0f;
+     static Shader _brightnessShader;
+     static int _brightnessLoc;
+     static bool _shaderLoaded;  
  
      // atlas
      Rectangle _frame{0.0f, 0.0f, 0.0f, 0.0f};
@@ -64,7 +67,9 @@
      void SetAlpha(float newAlpha);
 
      float GetBrightness() const;
-     void SetBrightness(float value);
+    void SetBrightness(float newBrightness);
+    static void LoadBrightnessShader();
+    static void UnloadBrightnessShader();
  
      // atlas
      void SetFrame(size_t index);

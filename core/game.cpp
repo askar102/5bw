@@ -34,10 +34,14 @@
     TraceLog(LOG_INFO, "[core] Creating window BLYAT :( .....");
      InitWindow(_screenWidth, _screenHeight, _windowTitle);
      SetTargetFPS(60);
+
+     SpriteV2::LoadBrightnessShader();
  
      _resourceManager.Load();
  
      _stateMachine.ChangeState(std::make_unique<MenuState>());
+
+      
  }
  
  void Game::Run() 
@@ -73,7 +77,9 @@
  
  void Game::Shutdown() 
  {
+    SpriteV2::UnloadBrightnessShader();
      Game::GetResources().Unload();
+
      CloseWindow();
  }
  

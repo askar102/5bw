@@ -12,6 +12,10 @@
 
  bool SpriteV2::_drawHitboxes = false;
  
+ Shader SpriteV2::_brightnessShader = {};
+ int SpriteV2::_brightnessLoc = 0;
+ bool SpriteV2::_shaderLoaded = false;
+
  /**
   * 
   * Resources
@@ -107,15 +111,23 @@
  }
 
  // brightness
- float SpriteV2::GetBrightness() const
-{
-    return _brightness;
-}
-
-void SpriteV2::SetBrightness(float value)
-{
-    _brightness = value;
-}
+ void SpriteV2::LoadBrightnessShader()
+ {
+     _brightnessShader = LoadShader(nullptr, "resources/shaders/brightness.fs");
+     _brightnessLoc = GetShaderLocation(_brightnessShader, "brightness");
+     _shaderLoaded = true;
+ }
+ 
+ void SpriteV2::UnloadBrightnessShader()
+ {
+     if (_shaderLoaded)
+         UnloadShader(_brightnessShader);
+     _shaderLoaded = false;
+ }
+ 
+ float SpriteV2::GetBrightness() const { return _brightness; }
+ 
+ void SpriteV2::SetBrightness(float newBrightness) { _brightness = newBrightness; }
 
  
  /**
@@ -202,12 +214,20 @@ void SpriteV2::SetBrightness(float value)
   
       Rectangle dest = {_position.x, _position.y, _size.x, _size.y};
       Vector2 origin = {_size.x * 0.5f, _size.y * 0.5f};
-    
-      Color color = Fade(WHITE, _alpha);
-      color = ColorManager::ApplyBrightness(color, _brightness);
 
-      DrawTexturePro(_resource->texture, GetSource(), dest, origin, _rotation, color);
-  
+      bool useBrightness = _shaderLoaded && (_brightness != 1.0f);
+
+      if (useBrightness)
+     {
+        BeginShaderMode(_brightnessShader);
+        SetShaderValue(_brightnessShader, _brightnessLoc, &_brightness, SHADER_UNIFORM_FLOAT);
+     }
+
+      DrawTexturePro(_resource->texture, GetSource(), dest, origin, _rotation, Fade(WHITE, _alpha));
+     
+      if (useBrightness)
+        EndShaderMode();
+
       if (_drawHitboxes && _canDrawHitboxes)
       {
           Vector2 rectOrigin = {_rect.width * 0.5f, _rect.height * 0.5f};

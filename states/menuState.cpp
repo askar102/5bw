@@ -71,7 +71,7 @@ void MenuState::InitGui() {
     Button* btnPtr = newGameButton.get();
 
     btnPtr->SetOnTouch([btnPtr]() {
-        btnPtr->GetSprite().SetBrightness(0.1f);
+        btnPtr->GetSprite().SetBrightness(1.5f);
     });
 
     _gui.Add(std::move(newGameButton));
