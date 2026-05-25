@@ -54,17 +54,18 @@ namespace AbilityManager {
                 casterPos.x,
                 casterPos.y
             };
+            float baseAngle = (caster.facing == FacingDirection::Right) ? 0.0f : 180.0f;
 
             caster.getSprite().SetFrame(1);
 
             // up
-            vfxManager.SpawnCardVfx(cardPostion, 5.0f, -10.0f, target, false);
+            vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle -10.0f, target, false);
 
             // mid
             vfxManager.SpawnCardVfx(cardPostion, 5.0f, 0.0f, target, false);
 
             // down
-            vfxManager.SpawnCardVfx(cardPostion, 5.0f, 10.0f, target, false);
+            vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle + 10.0f, target, false);
         }
 
         void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
