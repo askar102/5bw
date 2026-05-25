@@ -22,12 +22,24 @@ Button::Button(Vector2 pos, Vector2 size, std::string label, TextureResource* re
     GetSprite().SetPosition(pos);
 }
 
+Button::Button(Vector2 pos, Vector2 size, std::string label, TextureResource* resource, std::function<void()> onClick, std::function<void()> onTouch)
+    : _label(label), _onClick(onClick), _onTouch(onTouch)
+{
+    SetResource(resource);
+    GetSprite().SetSize(size);
+    GetSprite().SetPosition(pos);
+}
+
 void Button::SetLabel(const std::string& text) {
     _label = text;
 }
 
 void Button::SetOnClick(std::function<void()> callback) {
     _onClick = callback;
+}
+
+void Button::SetOnTouch(std::function<void()> callback) {
+    _onTouch = callback;
 }
 
 void Button::Update() {
@@ -41,6 +53,11 @@ void Button::Update() {
         && _onClick)  // проверяем что callback задан
     {
         _onClick();
+    }
+
+    if (CheckCollisionPointRec(mouse, rect) && _onTouch)
+    {
+        _onTouch();
     }
 }
 

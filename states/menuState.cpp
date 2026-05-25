@@ -61,6 +61,9 @@ void MenuState::InitGui() {
         [this]() {
             //  stateMachine->ChangeState(std::make_unique<MapState>());
             startPressed = true;
+        },
+        [this](){
+            TraceLog(LOG_INFO, "Hello");
         }
     ));
 
