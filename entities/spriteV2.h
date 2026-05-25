@@ -65,9 +65,9 @@
      void SetAlpha(float newAlpha);
 
      float GetBrightness() const;
-    void SetBrightness(float newBrightness);
-    static void LoadBrightnessShader();
-    static void UnloadBrightnessShader();
+     void SetBrightness(float newBrightness);
+     static void LoadBrightnessShader();
+     static void UnloadBrightnessShader();
  
      // atlas
      void SetFrame(size_t index);

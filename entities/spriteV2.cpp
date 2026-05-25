@@ -124,10 +124,14 @@
          UnloadShader(_brightnessShader);
      _shaderLoaded = false;
  }
+
+float SpriteV2::GetBrightness() const {
+    return _brightness; 
+}
  
- float SpriteV2::GetBrightness() const { return _brightness; }
- 
- void SpriteV2::SetBrightness(float newBrightness) { _brightness = newBrightness; }
+void SpriteV2::SetBrightness(float newBrightness) {
+    _brightness = newBrightness; 
+}
 
  
  /**
@@ -217,7 +221,7 @@
 
       bool useBrightness = _shaderLoaded && (_brightness != 1.0f);
 
-      if (useBrightness)
+    if (useBrightness)
      {
         BeginShaderMode(_brightnessShader);
         SetShaderValue(_brightnessShader, _brightnessLoc, &_brightness, SHADER_UNIFORM_FLOAT);
@@ -226,7 +230,10 @@
       DrawTexturePro(_resource->texture, GetSource(), dest, origin, _rotation, Fade(WHITE, _alpha));
      
       if (useBrightness)
+      {
         EndShaderMode();
+      }
+        
 
       if (_drawHitboxes && _canDrawHitboxes)
       {
