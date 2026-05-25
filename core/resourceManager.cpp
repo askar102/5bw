@@ -82,6 +82,12 @@
          LoadTexture("resources/cardGuy.png"),
          MakeGrid(88, 128, 3)
      };
+
+     _textures[TextureID::GuiButton] =
+     {
+         LoadTexture("resources/button.png"),
+         {}
+     };
  
      for (auto& [id, res] : _textures)
      {
@@ -91,6 +97,7 @@
             TraceLog(LOG_WARNING, "[resourceManager] Cannot find texture");
          }
      }
+
  }
  
  void ResourceManager::Unload()

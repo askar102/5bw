@@ -25,6 +25,9 @@
      CardVFX,
      CardAttack,
      CardGuy,
+    
+     GuiButton,
+
 
      ErrorTexture
  };
