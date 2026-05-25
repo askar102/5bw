@@ -45,6 +45,9 @@ void Button::SetOnTouch(std::function<void()> callback) {
 void Button::Update() {
     if (!_visible) return;
 
+    // default value
+    GetSprite().SetBrightness(1.0f);
+
     Vector2 mouse = GetMousePosition();
     Rectangle rect = _sprite.GetRect();
 
@@ -58,6 +61,12 @@ void Button::Update() {
     if (CheckCollisionPointRec(mouse, rect) && _onTouch)
     {
         _onTouch();
+    }
+    
+    // default, without onTouch init
+    if (CheckCollisionPointRec(mouse, rect) && !_onTouch)
+    {
+        GetSprite().SetBrightness(1.5f);
     }
 }
 

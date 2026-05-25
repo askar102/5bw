@@ -61,18 +61,15 @@ void MenuState::InitGui() {
         [this]() {
             //  stateMachine->ChangeState(std::make_unique<MapState>());
             startPressed = true;
-        },
-        [this](){
-            
-           // stub
         }
     );
 
-    Button* btnPtr = newGameButton.get();
+    // EXAMPLE OF BUTTON MANIPULATION:
+    // Button* btnPtr = newGameButton.get();
 
-    btnPtr->SetOnTouch([btnPtr]() {
-        btnPtr->GetSprite().SetBrightness(1.5f);
-    });
+    // btnPtr->SetOnTouch([btnPtr]() {
+    //     btnPtr->GetSprite().SetBrightness(1.5f);
+    // });
 
     _gui.Add(std::move(newGameButton));
 
@@ -90,7 +87,7 @@ void MenuState::InitGui() {
     _gui.Add(std::make_unique<Button>(
         Vector2{150, 420}, // y+60
         Vector2{300, 50},
-        "Continue",
+        "Trades",
         &Game::GetResources().Get(names[2]),
         [this]() {
              // stub

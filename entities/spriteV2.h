@@ -12,8 +12,6 @@
 
  #include "../raylib/raylib.h"
  #include "../core/resourceManager.h"
-
- #include "../misc/colorManager.h"
  
  class SpriteV2 {
  private:
