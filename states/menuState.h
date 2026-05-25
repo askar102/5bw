@@ -32,6 +32,7 @@ public:
 
     void InitGui();
     void InitNewGui();
+    void InitGui_newGame();
 
 private:
     bool startPressed = false;

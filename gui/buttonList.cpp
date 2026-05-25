@@ -71,6 +71,11 @@ void ButtonList::Add(std::unique_ptr<Button> newButton)
 
 }
 
+void ButtonList::SetIndex(int index)
+{
+    _selectedIndex = index;
+}
+
 void ButtonList::Clear() 
 {
     _buttons.clear();

@@ -16,6 +16,7 @@ public:
     void Clear();
 
     int GetSelectedIndex() const { return _selectedIndex; }
+    void SetIndex(int index);
 
 private:
     std::vector<std::unique_ptr<Button>> _buttons;
