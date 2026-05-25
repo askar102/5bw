@@ -88,6 +88,14 @@
      _rotation = newRotation;
  }
  
+
+/**
+ * effects
+ * 
+ *  
+ */
+
+ // alpha
  float SpriteV2::GetAlpha() const
  {
      return _alpha;
@@ -97,6 +105,18 @@
  {
      _alpha = newAlpha;
  }
+
+ // brightness
+ float SpriteV2::GetBrightness() const
+{
+    return _brightness;
+}
+
+void SpriteV2::SetBrightness(float value)
+{
+    _brightness = value;
+}
+
  
  /**
   * 
@@ -182,8 +202,11 @@
   
       Rectangle dest = {_position.x, _position.y, _size.x, _size.y};
       Vector2 origin = {_size.x * 0.5f, _size.y * 0.5f};
-  
-      DrawTexturePro(_resource->texture, GetSource(), dest, origin, _rotation, Fade(WHITE, _alpha));
+    
+      Color color = Fade(WHITE, _alpha);
+      color = ColorManager::ApplyBrightness(color, _brightness);
+
+      DrawTexturePro(_resource->texture, GetSource(), dest, origin, _rotation, color);
   
       if (_drawHitboxes && _canDrawHitboxes)
       {

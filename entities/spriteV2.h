@@ -12,6 +12,8 @@
 
  #include "../raylib/raylib.h"
  #include "../core/resourceManager.h"
+
+ #include "../misc/colorManager.h"
  
  class SpriteV2 {
  private:
@@ -22,7 +24,10 @@
      Vector2 _position{0.0f, 0.0f};
      Vector2 _size{0.0f, 0.0f};
      float _rotation = 0.0f;
+
+     // effects
      float _alpha = 1.0f;
+     float _brightness = 1.0f;
  
      // atlas
      Rectangle _frame{0.0f, 0.0f, 0.0f, 0.0f};
@@ -57,6 +62,9 @@
  
      float GetAlpha() const;
      void SetAlpha(float newAlpha);
+
+     float GetBrightness() const;
+     void SetBrightness(float value);
  
      // atlas
      void SetFrame(size_t index);

@@ -64,15 +64,15 @@ void MenuState::InitGui() {
         },
         [this](){
             
-            TraceLog(LOG_INFO, "Hello");
+           // stub
         }
     );
 
-    // Button* btnPtr = newGameButton.get();
+    Button* btnPtr = newGameButton.get();
 
-    // btnPtr->SetOnTouch([btnPtr]() {
-    //     btnPtr->GetSprite().SetSize({300, 50});
-    // });
+    btnPtr->SetOnTouch([btnPtr]() {
+        btnPtr->GetSprite().SetBrightness(0.1f);
+    });
 
     _gui.Add(std::move(newGameButton));
 
