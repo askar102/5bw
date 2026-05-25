@@ -20,6 +20,9 @@ add_executable(5bw12
     entities/tree.cpp
     entities/mapEntity.cpp
 
+    gui/gui.cpp
+    gui/button.cpp
+
     misc/mapGenerator.cpp
     misc/configReader.cpp
 

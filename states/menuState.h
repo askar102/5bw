@@ -15,6 +15,8 @@
 #include "../core/state.h"
 #include "../core/stateManager.h"
 
+#include "../gui/button.h"
+
 #include "mapState.h"
 
 class MenuState : public State {
@@ -22,7 +24,10 @@ public:
     void HandleInput() override;
     void Update(float dt) override;
     void Draw() override;
+    void OnEnter() override;
 
 private:
     bool startPressed = false;
+
+    Button _startButton;
 };

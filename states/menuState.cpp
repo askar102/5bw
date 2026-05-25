@@ -21,10 +21,21 @@ void MenuState::Draw() {
     DrawText("currentState: menu", 0, 0, 20, WHITE);
     // todo: delete this in future
     DrawText("NOTE: press Enter", 0, 30, 20, WHITE);
+
+    _startButton.Draw();
 }
 
 void MenuState::Update(float dt) {
     if (startPressed) {
         stateMachine->ChangeState(std::make_unique<MapState>());
     }
+
+    _startButton.Update();
+}
+void MenuState::OnEnter() {
+    _startButton.SetLabel("Start");
+    _startButton.SetPosition({400, 300});
+    _startButton.SetOnClick([this]() {
+        stateMachine->ChangeState(std::make_unique<MapState>());
+    }); 
 }
