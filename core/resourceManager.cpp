@@ -117,6 +117,10 @@
          }
      }
 
+     if (_mainFont.texture.id == 0)
+     {
+         _mainFont = LoadFont("resources/fonts/arial.ttf");
+     }
  }
  
  void ResourceManager::Unload()
@@ -136,6 +140,11 @@
 
      _customTextures.clear();
 
+     if (_mainFont.texture.id != 0)
+     {
+         UnloadFont(_mainFont);
+         _mainFont = { 0 };
+     }
  }
  
  
@@ -165,6 +174,11 @@
     };
 
     return _customTextures[name];
+ }
+
+ Font& ResourceManager::GetFont()
+ {
+     return _mainFont;
  }
  
  std::vector<Rectangle> ResourceManager::MakeGrid(int w, int h, int cols)

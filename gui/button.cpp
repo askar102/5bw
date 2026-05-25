@@ -6,24 +6,24 @@ Button::Button() {
     SetResource(&Game::GetResources().Get(TextureID::GuiButton));
 }
 
-Button::Button(Vector2 pos, Vector2 size, std::string label, std::function<void()> onClick) 
-    : _label(label), _onClick(onClick)
+Button::Button(Vector2 pos, Vector2 size, std::string label, std::function<void()> onClick, PositionType textPositionType) 
+    : _label(label), _onClick(onClick), _textPositionType(textPositionType)
 {
     GetSprite().SetSize(size);
     GetSprite().SetPosition(pos);
     SetResource(&Game::GetResources().Get(TextureID::GuiButton));
 }
 
-Button::Button(Vector2 pos, Vector2 size, std::string label, TextureResource* resource, std::function<void()> onClick)
-    : _label(label), _onClick(onClick)
+Button::Button(Vector2 pos, Vector2 size, std::string label, TextureResource* resource, std::function<void()> onClick, PositionType textPositionType)
+    : _label(label), _onClick(onClick), _textPositionType(textPositionType)
 {
     SetResource(resource);
     GetSprite().SetSize(size);
     GetSprite().SetPosition(pos);
 }
 
-Button::Button(Vector2 pos, Vector2 size, std::string label, TextureResource* resource, std::function<void()> onClick, std::function<void()> onTouch)
-    : _label(label), _onClick(onClick), _onTouch(onTouch)
+Button::Button(Vector2 pos, Vector2 size, std::string label, TextureResource* resource, std::function<void()> onClick, std::function<void()> onTouch, PositionType textPositionType)
+    : _label(label), _onClick(onClick), _onTouch(onTouch), _textPositionType(textPositionType)
 {
     SetResource(resource);
     GetSprite().SetSize(size);
@@ -56,6 +56,16 @@ void Button::UseOnTouch()
     {
         _onTouch();
     } 
+}
+
+void Button::SetTextColor(Color newColor)
+{
+    _textColor = newColor;
+}
+
+void Button::SetTextPositionType(PositionType newType)
+{
+    _textPositionType = newType;
 }
 
 void Button::Update() {
@@ -94,14 +104,29 @@ void Button::Draw() {
     // текст по центру кнопки
     Vector2 pos = _sprite.GetPosition();
     Vector2 size = _sprite.GetSize();
-    int fontSize = 16;
-    int textWidth = MeasureText(_label.c_str(), fontSize);
+    int textWidth = MeasureText(_label.c_str(), _textFontSize);
+    constexpr float textPadding = 10.0f;
+    float textX = pos.x - (float)textWidth / 2.0f;
+
+    switch (_textPositionType)
+    {
+        case PositionType::Left:
+            textX = pos.x - size.x / 2.0f + textPadding;
+            break;
+        case PositionType::Right:
+            textX = pos.x + size.x / 2.0f - (float)textWidth - textPadding;
+            break;
+        case PositionType::Center:
+        default:
+            break;
+    }
     
-    DrawText(
+    DrawTextEx(
+        Game::GetResources().GetFont(),
         _label.c_str(),
-        static_cast<int>(pos.x - (float)textWidth / 2),
-        static_cast<int>(pos.y - (float)fontSize / 2),
-        fontSize,
-        WHITE
+        (Vector2){ textX, pos.y - (float)_textFontSize / 2},
+        _textFontSize,
+        2,
+        _textColor
     );
 }

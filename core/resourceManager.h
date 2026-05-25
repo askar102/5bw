@@ -57,6 +57,11 @@
      TextureResource& Get(TextureID id);
      TextureResource& Get(std::string name);
 
+     Font& GetFont();
+
      void Unload();
+
+ private:
+     Font _mainFont = { 0 };
  };
  

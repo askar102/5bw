@@ -56,28 +56,42 @@ void MenuState::InitNewGui()
     buttons->SetPosition({200, 300});
 
     auto newGameButton = std::make_unique<Button>(
-        Vector2{200, 300},
+        Vector2{150, 300},
         Vector2{300, 50},
         "Start",
         &Game::GetResources().Get("blackButton"),
         [this]() {
             //  stateMachine->ChangeState(std::make_unique<MapState>());
             startPressed = true;
-        }
+        },
+        PositionType::Left
     );
+
+    Button* btnPtr = newGameButton.get();
+
+    btnPtr->SetOnTouch([btnPtr]() {
+        btnPtr->SetTextColor(GREEN);
+    });
 
     buttons->Add(std::move(newGameButton));
 
     auto continueButton = std::make_unique<Button>(
-        Vector2{200, 300},
+        Vector2{150, 300},
         Vector2{300, 50},
         "Continue",
         &Game::GetResources().Get("blackButton"),
         [this]() {
             //  stateMachine->ChangeState(std::make_unique<MapState>());
             startPressed = true;
-        }
+        },
+        PositionType::Left
     );
+
+    btnPtr = continueButton.get();
+
+    btnPtr->SetOnTouch([btnPtr]() {
+        btnPtr->SetTextColor(GREEN);
+    });
 
     buttons->Add(std::move(continueButton));
 
