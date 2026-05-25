@@ -53,7 +53,7 @@ void MenuState::InitGui() {
 
     // 150 - screen start pos
     
-    _gui.Add(std::make_unique<Button>(
+    auto newGameButton = std::make_unique<Button>(
         Vector2{150, 300},
         Vector2{300, 50},
         "New game",
@@ -63,9 +63,19 @@ void MenuState::InitGui() {
             startPressed = true;
         },
         [this](){
+            
             TraceLog(LOG_INFO, "Hello");
         }
-    ));
+    );
+
+    // Button* btnPtr = newGameButton.get();
+
+    // btnPtr->SetOnTouch([btnPtr]() {
+    //     btnPtr->GetSprite().SetSize({300, 50});
+    // });
+
+    _gui.Add(std::move(newGameButton));
+
 
     _gui.Add(std::make_unique<Button>(
         Vector2{150, 360}, // y+60
