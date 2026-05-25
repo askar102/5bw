@@ -21,6 +21,9 @@ class Button : public Gui {
         void SetLabel(const std::string& text);
         void SetOnClick(std::function<void()> callback);
         void SetOnTouch(std::function<void()> callback);
+
+        void UseOnClick();
+        void UseOnTouch();
         
         void Update() override;  // проверяет мышку
         void Draw() override;

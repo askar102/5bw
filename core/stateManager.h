@@ -23,5 +23,10 @@
      void Draw();
  
  private:
+     void ApplyStateChange(std::unique_ptr<State> newState);
+     void ApplyPendingState();
+
      std::unique_ptr<State> currentState;
+     std::unique_ptr<State> pendingState;
+     bool dispatchingState = false;
  };

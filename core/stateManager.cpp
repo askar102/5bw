@@ -12,6 +12,17 @@
 
  void StateManager::ChangeState(std::unique_ptr<State> newState) 
  {
+     if (dispatchingState)
+     {
+         pendingState = std::move(newState);
+         return;
+     }
+
+     ApplyStateChange(std::move(newState));
+ }
+
+ void StateManager::ApplyStateChange(std::unique_ptr<State> newState)
+ {
      if (currentState) 
      {
          currentState->OnExit();
@@ -29,12 +40,23 @@
          currentState->OnEnter();
      }
  }
+
+ void StateManager::ApplyPendingState()
+ {
+     if (pendingState)
+     {
+         ApplyStateChange(std::move(pendingState));
+     }
+ }
  
  void StateManager::HandleInput() 
  {
      if (currentState) 
      {
+         dispatchingState = true;
          currentState->HandleInput();
+         dispatchingState = false;
+         ApplyPendingState();
      }
  }
  
@@ -42,7 +64,10 @@
  {
      if (currentState) 
      {
+         dispatchingState = true;
          currentState->Update(dt);
+         dispatchingState = false;
+         ApplyPendingState();
      }
  }
  

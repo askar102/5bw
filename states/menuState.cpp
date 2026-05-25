@@ -18,7 +18,7 @@ void MenuState::HandleInput() {
 }
 
 void MenuState::Draw() {
-    ClearBackground(BLUE);
+    ClearBackground(BLACK);
     DrawText("currentState: menu", 0, 0, 20, WHITE);
     // todo: delete this in future
     DrawText("NOTE: press Enter", 0, 30, 20, WHITE);
@@ -41,12 +41,50 @@ void MenuState::Update(float dt) {
     }
 }
 void MenuState::OnEnter() {
-    InitGui();
+    InitNewGui();
 }
+    
 
 void MenuState::OnExit() {
     _gui.Clear();
 }
+
+
+void MenuState::InitNewGui()
+{
+    auto buttons = std::make_unique<ButtonList>();
+    buttons->SetPosition({200, 300});
+
+    auto newGameButton = std::make_unique<Button>(
+        Vector2{200, 300},
+        Vector2{300, 50},
+        "Start",
+        &Game::GetResources().Get("blackButton"),
+        [this]() {
+            //  stateMachine->ChangeState(std::make_unique<MapState>());
+            startPressed = true;
+        }
+    );
+
+    buttons->Add(std::move(newGameButton));
+
+    auto continueButton = std::make_unique<Button>(
+        Vector2{200, 300},
+        Vector2{300, 50},
+        "Continue",
+        &Game::GetResources().Get("blackButton"),
+        [this]() {
+            //  stateMachine->ChangeState(std::make_unique<MapState>());
+            startPressed = true;
+        }
+    );
+
+    buttons->Add(std::move(continueButton));
+
+    _gui.Add(std::move(buttons));
+}
+
+
 
 void MenuState::InitGui() {
     std::vector<TextureID> names = { TextureID::GuiNewGameButton, TextureID::GuiContinueButton, TextureID::GuiTradesButton };

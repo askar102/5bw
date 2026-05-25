@@ -42,6 +42,22 @@ void Button::SetOnTouch(std::function<void()> callback) {
     _onTouch = callback;
 }
 
+void Button::UseOnClick()
+{
+    if (_onClick)
+    {
+        _onClick();
+    } 
+}
+
+void Button::UseOnTouch()
+{
+    if (_onTouch)
+    {
+        _onTouch();
+    } 
+}
+
 void Button::Update() {
     if (!_visible) return;
 

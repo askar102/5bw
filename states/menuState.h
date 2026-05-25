@@ -16,9 +16,11 @@
 #include "../core/stateManager.h"
 
 #include "../gui/button.h"
+#include "../gui/buttonList.h"
 #include "../gui/guiManager.h"
 
 #include "mapState.h"
+#include <memory>
 
 class MenuState : public State {
 public:
@@ -29,6 +31,7 @@ public:
     void OnExit() override;
 
     void InitGui();
+    void InitNewGui();
 
 private:
     bool startPressed = false;
