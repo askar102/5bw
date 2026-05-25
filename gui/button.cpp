@@ -6,6 +6,13 @@ Button::Button() {
     SetResource(&Game::GetResources().Get(TextureID::GuiButton));
 }
 
+Button::Button(Vector2 pos, Vector2 size, std::string label, std::function<void()> onClick) 
+    : _label(label), _onClick(onClick)
+{
+    GetSprite().SetSize(size);
+    GetSprite().SetPosition(pos);
+}
+
 void Button::SetLabel(const std::string& text) {
     _label = text;
 }
