@@ -163,8 +163,6 @@ namespace AbilityManager {
                 });
 
             });
-            
-            
         }
     }
 } // namespace AbilityManager
