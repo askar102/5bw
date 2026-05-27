@@ -154,6 +154,14 @@ void BattleEntity::MoveTo(float targetX, float speed, std::function<void()> onSt
     _onStop = onStop;
 }
 
+void BattleEntity::MoveTo(BattleEntity& target, float speed, std::function<void()> onStop)
+{
+    _moveTargetX = target.getSprite().GetPosition().x;
+    _moveSpeed = speed;
+    _moving = true;
+    _onStop = onStop;
+}
+
 void BattleEntity::UpdateMove(float dt)
 {
     if (!_moving) return;

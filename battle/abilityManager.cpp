@@ -151,8 +151,9 @@ namespace AbilityManager {
             caster.getSprite().SetFrame(2);
             // caster.returnToStart = true;
             caster.trail.SetEnabled(true);
-            caster.MoveTo(prevPos.x + 700.0f, 1000.0f, [&caster] () {
+            caster.MoveTo(prevPos.x + 800.0f, 1000.0f, [&caster] () {
                 caster.getSprite().SetPosition(caster.startPosition);
+                caster.getSprite().SetFrame(0);
             });
             
             

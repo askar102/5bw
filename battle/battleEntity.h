@@ -95,6 +95,7 @@ public:
 
     // Movement actions
     void MoveTo(float targetX, float speed = 300.0f, std::function<void()> onStop = nullptr);
+    void MoveTo(BattleEntity& target, float speed = 300.0f, std::function<void()> onStop = nullptr);
     void UpdateMove(float dt);
 
 private:
