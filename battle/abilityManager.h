@@ -41,10 +41,6 @@ namespace AbilityManager {
     }
 
     namespace AngryGuy {
-        void SpawnSpeedDash(VfxManager& vfxManager,
-            BattleEntity& caster,
-            BattleEntity& target,
-            const Ability& ability,
-            PartyManager& partyManager);
+        void SpawnSpeedDash(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager);
     }
 }   
