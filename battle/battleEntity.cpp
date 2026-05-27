@@ -187,3 +187,43 @@ void BattleEntity::UpdateMove(float dt)
     sprite.SetPosition(pos);
 }
 
+void BattleEntity::SetOnTouch(std::function<void(BattleEntity&)> onTouch)
+{
+    _onTouch = std::move(onTouch);
+}
+
+void BattleEntity::ClearOnTouch()
+{
+    _onTouch = nullptr;
+    _touchedEntities.clear();
+}
+
+void BattleEntity::ResetTouchTracking()
+{
+    _touchedEntities.clear();
+}
+
+void BattleEntity::CheckTouch(BattleEntity* const* others, size_t count)
+{
+    if (!_onTouch)
+        return;
+
+    const Rectangle myRect = sprite.GetRect();
+
+    for (size_t i = 0; i < count; ++i)
+    {
+        BattleEntity* other = others[i];
+        if (!other || other == this || !other->Alive())
+            continue;
+
+        if (_touchedEntities.contains(other))
+            continue;
+
+        if (!CheckCollisionRecs(myRect, other->getSprite().GetRect()))
+            continue;
+
+        _touchedEntities.insert(other);
+        _onTouch(*other);
+    }
+}
+

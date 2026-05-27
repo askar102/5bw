@@ -1,5 +1,7 @@
 #include "partyManager.h"
 
+#include <array>
+
 void PartyManager::Init()
 {
     _enemyParty.Init();
@@ -102,6 +104,14 @@ BattleEntity* PartyManager::GetPlayer(size_t index)
 
 void PartyManager::Update(float dt)
 {
+    std::array<BattleEntity*, 8> allEntities{};
+
+    for (size_t i = 0; i < 4; ++i)
+    {
+        allEntities[i] = _playerParty.Get(i);
+        allEntities[i + 4] = _enemyParty.Get(i);
+    }
+
     for (size_t i = 0; i < 4; ++i)
     {
         BattleEntity* character = _playerParty.Get(i);
@@ -112,6 +122,12 @@ void PartyManager::Update(float dt)
     {
         BattleEntity* enemy = _enemyParty.Get(i);
         if (enemy) enemy->Update(dt);
+    }
+
+    for (BattleEntity* entity : allEntities)
+    {
+        if (entity)
+            entity->CheckTouch(allEntities.data(), allEntities.size());
     }
 }
 

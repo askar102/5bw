@@ -15,6 +15,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <unordered_set>
 
 #include "../entities/spriteV2.h"
 
@@ -98,6 +99,11 @@ public:
     void MoveTo(BattleEntity& target, float speed = 300.0f, std::function<void()> onStop = nullptr);
     void UpdateMove(float dt);
 
+    void SetOnTouch(std::function<void(BattleEntity&)> onTouch);
+    void ClearOnTouch();
+    void ResetTouchTracking();
+    void CheckTouch(BattleEntity* const* others, size_t count);
+
 private:
     bool _enemyWhirlActive = false;
     float _whirlPushApplied = 0.0f;
@@ -108,5 +114,8 @@ private:
     float _moveSpeed = 300.0f;
 
     std::function<void()> _onStop;
+
+    std::function<void(BattleEntity&)> _onTouch;
+    std::unordered_set<BattleEntity*> _touchedEntities;
 };
 
