@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(5bw12)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 
 # исходники
 add_executable(5bw12

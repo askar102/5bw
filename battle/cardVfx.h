@@ -13,6 +13,7 @@
 #include "ability.h"
 #include "battleEntity.h"
 #include "vfx.h"
+#include <unordered_set>
 
 class PartyManager;
 
@@ -37,7 +38,8 @@ public:
     bool Hitted();
 
 private:
-    void ApplyHitDamage();
+    void ApplyDefaultHitDamage();
+    void ApplySplashHitDamage();
     bool CheckHitCollision() const;
 
     BattleEntity* _target;
@@ -47,6 +49,8 @@ private:
     bool _leftScreen = false;
     bool _peaceful = true;
     bool _animated = true;
+
+    std::unordered_set<BattleEntity*> _touchedEnemies;
 
     static constexpr int SPLASH_ENEMY_COUNT = 4;
     static constexpr int CARD_ATTACK_PROJECTILE_COUNT = 3;
