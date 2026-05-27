@@ -51,9 +51,27 @@ void VfxManager::Clear()
     _effects.clear();
 }
 
-void VfxManager::SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target, bool peaceful, bool animated)
+void VfxManager::SpawnCardVfx(Vector2 position,
+                              float lifetime,
+                              float rotation,
+                              BattleEntity& target,
+                              AbilityType bulletType,
+                              int abilityDamage,
+                              PartyManager* partyManager,
+                              bool peaceful,
+                              bool animated)
 {
-    Add(std::make_unique<CardVfx>(position, lifetime, rotation, &Game::GetResources().Get(TextureID::CardVFX), target, peaceful, animated));
+    Add(std::make_unique<CardVfx>(
+        position,
+        lifetime,
+        rotation,
+        &Game::GetResources().Get(TextureID::CardVFX),
+        target,
+        bulletType,
+        abilityDamage,
+        partyManager,
+        peaceful,
+        animated));
 }
 
 void VfxManager::SpawnDefendVfx(Vector2 origin, Vector2 target)

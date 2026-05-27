@@ -18,7 +18,8 @@ class BattleEntity;
 
 enum class AbilityType {
   Melee,
-  Bullet,
+  BulletDefault,
+  BulletSplash,
   Unique
 };
 
@@ -35,6 +36,7 @@ public:
                        bool skipDamageAction = false);
 
   std::string GetName() const;
+  AbilityType GetType() const;
   int GetDamage() const;
   int GetHeal() const;
 

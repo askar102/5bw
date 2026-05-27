@@ -10,11 +10,19 @@
 
 #include "cardVfx.h"
 
+#include "partyManager.h"
+
 CardVfx::CardVfx(Vector2 position, float lifetime, float rotation,
                  TextureResource *textureResource, BattleEntity &target,
-                 bool peaceful, bool animated)
+                 AbilityType bulletType, int abilityDamage,
+                 PartyManager *partyManager, bool peaceful, bool animated)
     : Vfx(position, lifetime, rotation, textureResource, WHITE),
-      _target(&target), _peaceful(peaceful), _animated(animated) {}
+      _target(&target),
+      _partyManager(partyManager),
+      _bulletType(bulletType),
+      _abilityDamage(abilityDamage),
+      _peaceful(peaceful),
+      _animated(animated) {}
 
 void CardVfx::OnEnter() 
 { 
@@ -22,11 +30,73 @@ void CardVfx::OnEnter()
     _sprite.SetSize({50, 50});
 }
 
+void CardVfx::ApplyHitDamage()
+{
+    if (_peaceful || _abilityDamage <= 0)
+        return;
+
+    if (_bulletType == AbilityType::BulletSplash)
+    {
+        if (!_partyManager)
+            return;
+
+        const int perEnemy = _abilityDamage / SPLASH_ENEMY_COUNT;
+        if (perEnemy <= 0)
+            return;
+
+        for (size_t i = 0; i < SPLASH_ENEMY_COUNT; ++i)
+        {
+            BattleEntity* enemy = _partyManager->GetEnemy(i);
+            if (!enemy)
+                continue;
+
+            enemy->EnemyHitAnimation();
+            enemy->Damage(perEnemy);
+        }
+
+        return;
+    }
+
+    if (_bulletType == AbilityType::BulletDefault && _target)
+    {
+        const int perTarget = _abilityDamage / CARD_ATTACK_PROJECTILE_COUNT;
+        if (perTarget <= 0)
+            return;
+
+        _target->EnemyHitAnimation();
+        _target->Damage(perTarget);
+    }
+}
+
+bool CardVfx::CheckHitCollision() const
+{
+    const Rectangle projectileRect = _sprite.GetRect();
+
+    if (_bulletType == AbilityType::BulletSplash && _partyManager)
+    {
+        for (size_t i = 0; i < SPLASH_ENEMY_COUNT; ++i)
+        {
+            BattleEntity* enemy = _partyManager->GetEnemy(i);
+            if (!enemy)
+                continue;
+
+            if (CheckCollisionRecs(projectileRect, enemy->getSprite().GetRect()))
+                return true;
+        }
+
+        return false;
+    }
+
+    if (_target)
+        return CheckCollisionRecs(projectileRect, _target->getSprite().GetRect());
+
+    return false;
+}
+
 void CardVfx::Update(float dt) {
   if (_animated) {
     const Vector2 position = _sprite.GetPosition();
 
-    // DEG2RAD is PI / 180.0f
     float rad = _sprite.GetRotation() * DEG2RAD;
 
     Vector2 direction = {std::cos(rad), std::sin(rad)};
@@ -36,16 +106,8 @@ void CardVfx::Update(float dt) {
 
     _sprite.SetPosition(nextPosition);
 
-    if (_target &&
-        CheckCollisionRecs(_sprite.GetRect(), _target->getSprite().GetRect())) {
-      if (!_peaceful) {
-        _target->EnemyHitAnimation();
-        /**
-         * TODO: make the damage take place in a different place
-         *
-         */
-        _target->Damage(_DAMAGE_OF_ONE_CARD);
-      }
+    if (!_hitTarget && CheckHitCollision()) {
+      ApplyHitDamage();
       _hitTarget = true;
     }
 
@@ -62,9 +124,8 @@ void CardVfx::Update(float dt) {
 }
 
 void CardVfx::Draw() {
-  // card alpha system
-  float t = _elapsed / _lifetime; // 0 → 1
-  float alpha = 1.0f - t;         // 1 → 0
+  float t = _elapsed / _lifetime;
+  float alpha = 1.0f - t;
 
   _sprite.SetAlpha(alpha);
   _sprite.Draw();
@@ -72,4 +133,9 @@ void CardVfx::Draw() {
 
 bool CardVfx::IsFinished() const {
   return _hitTarget || _leftScreen || Vfx::IsFinished();
+}
+
+bool CardVfx::Hitted()
+{
+    return _hitTarget;
 }

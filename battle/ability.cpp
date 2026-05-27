@@ -25,6 +25,11 @@ std::string Ability::GetName() const
     return _name;
 }
 
+AbilityType Ability::GetType() const
+{
+    return _type;
+}
+
 int Ability::GetDamage() const
 {
     return _damage;

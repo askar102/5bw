@@ -11,43 +11,53 @@
 #include "abilityManager.h"
 
 namespace AbilityManager {
-    void SpawnAbility(Ability& clickedAbility, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
+    void SpawnAbility(Ability& clickedAbility,
+                      VfxManager& vfxManager,
+                      BattleEntity& caster,
+                      BattleEntity& target,
+                      PartyManager& partyManager)
     {
-        std::string abilityName = clickedAbility.GetName();
+        const AbilityType abilityType = clickedAbility.GetType();
 
-        if (abilityName == "cardAttack")
-            {
-                AbilityManager::CardGuy::SpawnCardAttack(
-                    vfxManager,
-                    caster,
-                    target,
-                    clickedAbility.GetDamage()
-                );
-                /**
-                 * @ref we damage enemy at cardVfx.cpp, ~35 line
-                 * 
-                 */
-                clickedAbility.Execute(caster, target, true);
-                caster.actionText.Add(TextFormat("Used %s", clickedAbility.GetName().c_str()), YELLOW);
-                caster.actionText.Add(TextFormat("Hit by %s", clickedAbility.GetName().c_str()), ORANGE);
-                return;
-            }
+        if (abilityType == AbilityType::BulletDefault ||
+            abilityType == AbilityType::BulletSplash)
+        {
+            AbilityManager::CardGuy::SpawnCardAttack(
+                vfxManager,
+                caster,
+                target,
+                clickedAbility,
+                partyManager
+            );
+            /**
+             * @ref damage is applied in cardVfx.cpp
+             */
+            clickedAbility.Execute(caster, target, true);
+            caster.actionText.Add(TextFormat("Used %s", clickedAbility.GetName().c_str()), YELLOW);
+            target.actionText.Add(TextFormat("Hit by %s", clickedAbility.GetName().c_str()), ORANGE);
+            return;
+        }
 
-            if (abilityName == "cardHeal")
-            {
-                AbilityManager::CardGuy::SpawnCardHeal(vfxManager, caster, target);
-                clickedAbility.Execute(caster, target);
-            }
+        if (clickedAbility.GetName() == "cardHeal")
+        {
+            AbilityManager::CardGuy::SpawnCardHeal(vfxManager, caster, target, partyManager);
+            clickedAbility.Execute(caster, target);
+            return;
+        }
 
-            if (abilityName == "cardBlock")
-            {
-                AbilityManager::CardGuy::SpawnCardBlock(vfxManager, caster, target);
-            }
+        if (clickedAbility.GetName() == "cardBlock")
+        {
+            AbilityManager::CardGuy::SpawnCardBlock(vfxManager, caster, target, partyManager);
+        }
     }
 
 
     namespace CardGuy {
-        void SpawnCardAttack(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage)
+        void SpawnCardAttack(VfxManager& vfxManager,
+                             BattleEntity& caster,
+                             BattleEntity& target,
+                             const Ability& ability,
+                             PartyManager& partyManager)
         {
             Vector2 casterPos = caster.getSprite().GetPosition();
             Vector2 cardPostion = {
@@ -58,17 +68,15 @@ namespace AbilityManager {
 
             caster.getSprite().SetFrame(1);
 
-            // up
-            vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle -10.0f, target, false);
+            const AbilityType bulletType = ability.GetType();
+            const int abilityDamage = ability.GetDamage();
 
-            // mid
-            vfxManager.SpawnCardVfx(cardPostion, 5.0f, 0.0f, target, false);
-
-            // down
-            vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle + 10.0f, target, false);
+            vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle - 10.0f, target, bulletType, abilityDamage, &partyManager, false);
+            vfxManager.SpawnCardVfx(cardPostion, 5.0f, 0.0f, target, bulletType, abilityDamage, &partyManager, false);
+            vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle + 10.0f, target, bulletType, abilityDamage, &partyManager, false);
         }
 
-        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
+        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager)
         {
             const int countOfClones = 15;
 
@@ -86,19 +94,22 @@ namespace AbilityManager {
                     casterPos.y + yOffset
                 };
 
-                vfxManager.SpawnCardVfx(cardPostion, 1.0f, -90.0f, target, true);
+                vfxManager.SpawnCardVfx(
+                    cardPostion,
+                    1.0f,
+                    -90.0f,
+                    target,
+                    AbilityType::BulletDefault,
+                    0,
+                    &partyManager,
+                    true
+                );
             }
-            
         }   
 
-        void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target)
+        void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager)
         {
-            /**
-             * TODO: bug, sprite dont change costume, fix later
-             * 
-             */
             caster.getSprite().SetFrame(2);
-            // caster.getSprite().setMirror(true, 1.0f);
 
             Vector2 casterPos = caster.getSprite().GetPosition();
 
@@ -107,7 +118,17 @@ namespace AbilityManager {
                 casterPos.y
             };
 
-            vfxManager.SpawnCardVfx(cardPostion, 1.0f, -90.0f, target, true, false);
+            vfxManager.SpawnCardVfx(
+                cardPostion,
+                1.0f,
+                -90.0f,
+                target,
+                AbilityType::BulletDefault,
+                0,
+                &partyManager,
+                true,
+                false
+            );
         }
 
     } // namespace CardGuy

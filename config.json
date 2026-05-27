@@ -15,7 +15,7 @@
             "abilities": [
                 {
                     "name": "cardAttack",
-                    "type": "bullet",
+                    "type": "bullet_splash",
                     "damage": 10,
                     "heal": 0
                 },
@@ -41,7 +41,7 @@
             "abilities": [
                 {
                     "name": "cardAttack",
-                    "type": "bullet",
+                    "type": "bullet_splash",
                     "damage": 10,
                     "heal": 0
                 }

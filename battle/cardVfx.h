@@ -10,8 +10,11 @@
 
 #pragma once
 
+#include "ability.h"
 #include "battleEntity.h"
 #include "vfx.h"
+
+class PartyManager;
 
 class CardVfx : public Vfx {
 public:
@@ -19,8 +22,10 @@ public:
             float lifetime, 
             float rotation, 
             TextureResource* textureResource, 
-            BattleEntity& target, 
-            // peaceful - will use EnemyHitAnimation or not?
+            BattleEntity& target,
+            AbilityType bulletType,
+            int abilityDamage,
+            PartyManager* partyManager,
             bool peaceful = true, 
             bool animated = true);
 
@@ -32,27 +37,18 @@ public:
     bool Hitted();
 
 private:
-    /**
-     * TODO: change _target type to std::weak_ptr
-     * 
-     */
+    void ApplyHitDamage();
+    bool CheckHitCollision() const;
+
     BattleEntity* _target;
+    PartyManager* _partyManager = nullptr;
+    AbilityType _bulletType = AbilityType::BulletDefault;
+    int _abilityDamage = 0;
     bool _leftScreen = false;
-
-    /**
-     * @brief will use EnemyHitAnimation or not?
-     * 
-     * @ref cardVfx.cpp, line ~35
-     */
     bool _peaceful = true;
-
-    /**
-     * @ref cardVfx.cpp line ~42
-     * 
-     * TODO: Make it in different place
-     */
-     const int _DAMAGE_OF_ONE_CARD = 2;
-
     bool _animated = true;
+
+    static constexpr int SPLASH_ENEMY_COUNT = 4;
+    static constexpr int CARD_ATTACK_PROJECTILE_COUNT = 3;
 };
     

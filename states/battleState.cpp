@@ -30,14 +30,13 @@ void BattleState::HandleInput()
                         *clickedAbility,
                         _vfxManager,
                         *selectedCharacter,
-                        *target
+                        *target,
+                        _partyManager
                     );
-                } 
 
-                
-                selectedCharacter->actionText.Add(TextFormat("Uzanulo %s", clickedAbility->GetName().c_str()), YELLOW);
-                // todo: change
-                target->actionText.Add(TextFormat("Pizdanulo by %s", clickedAbility->GetName().c_str()), ORANGE);
+                    selectedCharacter->actionText.Add(TextFormat("Uzanulo %s", clickedAbility->GetName().c_str()), YELLOW);
+                    target->actionText.Add(TextFormat("Pizdanulo by %s", clickedAbility->GetName().c_str()), ORANGE);
+                }
 
                 _partyManager.DeselectAll();
 

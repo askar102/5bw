@@ -106,8 +106,11 @@ BattleEntity ConfigReader::GetCharacterFromConfig(std::string name)
 
 AbilityType ConfigReader::ParseAbilityType(const std::string& type)
 {
-    if (type == "bullet")
-        return AbilityType::Bullet;
+    if (type == "bullet_default" || type == "bullet")
+        return AbilityType::BulletDefault;
+
+    if (type == "bullet_splash")
+        return AbilityType::BulletSplash;
 
     if (type == "unique")
         return AbilityType::Unique;

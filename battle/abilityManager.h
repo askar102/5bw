@@ -19,15 +19,24 @@
 #include "../core/game.h"
 
 #include "battleEntity.h"
+#include "partyManager.h"
 #include "vfxManager.h"
 
 
 namespace AbilityManager {
-    void SpawnAbility(Ability& clickedAblity, VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target);
+    void SpawnAbility(Ability& clickedAbility,
+                      VfxManager& vfxManager,
+                      BattleEntity& caster,
+                      BattleEntity& target,
+                      PartyManager& partyManager);
 
     namespace CardGuy {
-        void SpawnCardAttack(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, int damage);
-        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target);
-        void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target);
+        void SpawnCardAttack(VfxManager& vfxManager,
+                             BattleEntity& caster,
+                             BattleEntity& target,
+                             const Ability& ability,
+                             PartyManager& partyManager);
+        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);
+        void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);
     }
 }

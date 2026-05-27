@@ -18,9 +18,11 @@
 
 #include "vfx.h"
 #include "battleEntity.h"
+#include "ability.h"
 #include "cardVfx.h"
 
 class BattleEntity;
+class PartyManager;
 
 class VfxManager {
 public:
@@ -30,7 +32,15 @@ public:
     void Add(std::unique_ptr<Vfx> vfx);
     void Clear();
 
-    void SpawnCardVfx(Vector2 position, float lifetime, float rotation, BattleEntity& target, bool peaceful = true, bool animated = true);
+    void SpawnCardVfx(Vector2 position,
+                      float lifetime,
+                      float rotation,
+                      BattleEntity& target,
+                      AbilityType bulletType,
+                      int abilityDamage,
+                      PartyManager* partyManager,
+                      bool peaceful = true,
+                      bool animated = true);
     void SpawnDefendVfx(Vector2 origin, Vector2 target);
     void SpawnHealVfx(Vector2 origin, Vector2 target);
 
