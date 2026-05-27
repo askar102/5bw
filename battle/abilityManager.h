@@ -39,4 +39,12 @@ namespace AbilityManager {
         void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);
         void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);
     }
-}
+
+    namespace AngryGuy {
+        void SpawnSpeedDash(VfxManager& vfxManager,
+            BattleEntity& caster,
+            BattleEntity& target,
+            const Ability& ability,
+            PartyManager& partyManager);
+    }
+}   

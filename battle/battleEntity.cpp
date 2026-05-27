@@ -137,5 +137,34 @@ void BattleEntity::Update(float dt)
 {
     UpdateEnemyWhirl();
     
+    UpdateMove(dt);
+
     UpdateAbilities();
 }
+
+void BattleEntity::MoveTo(float targetX, float speed)
+{
+    _moveTargetX = targetX;
+    _moveSpeed = speed;
+    _moving = true;
+}
+
+void BattleEntity::UpdateMove(float dt)
+{
+    if (!_moving) return;
+
+    Vector2 pos = sprite.GetPosition();
+    float dir = (_moveTargetX > pos.x) ? 1.0f : -1.0f;
+
+    pos.x += dir * _moveSpeed * dt;
+
+    if ((dir > 0 && pos.x >= _moveTargetX) ||
+        (dir < 0 && pos.x <= _moveTargetX))
+    {
+        pos.x = _moveTargetX;
+        _moving = false;
+    }
+
+    sprite.SetPosition(pos);
+}
+

@@ -51,6 +51,13 @@ namespace AbilityManager {
         {
             AbilityManager::CardGuy::SpawnCardBlock(vfxManager, caster, target, partyManager);
         }
+
+        // AngryGuy
+        if (clickedAbility.GetName() == "speedDash")
+        {
+            AbilityManager::AngryGuy::SpawnSpeedDash(vfxManager, caster, target, clickedAbility, partyManager);
+        }
+        
     }
 
 
@@ -135,4 +142,10 @@ namespace AbilityManager {
         }
 
     } // namespace CardGuy
+
+    namespace AngryGuy {
+        void SpawnSpeedDash(VfxManager &vfxManager, BattleEntity &caster, BattleEntity &target, const Ability &ability, PartyManager &partyManager) {
+            caster.MoveTo(caster.getSprite().GetPosition().x + 40.0f); 
+        }
+    }
 } // namespace AbilityManager

@@ -87,8 +87,16 @@ public:
     void UpdateEnemyWhirl();
     void EnemyHitAnimation();
 
+    // Movement actions
+    void MoveTo(float targetX, float speed = 300.0f);\
+    void UpdateMove(float dt);
+
 private:
     bool _enemyWhirlActive = false;
     float _whirlPushApplied = 0.0f;
     double _enemyWhirlResetAt = 0.0;
+
+    bool _moving = false;
+    float _moveTargetX = 0.0f;
+    float _moveSpeed = 300.0f;
 };
