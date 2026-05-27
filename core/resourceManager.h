@@ -24,6 +24,7 @@
      AbilityIcon,
      CardVFX,
      CardGuy,
+     AngryGuy,
 
      GuiButton,
      GuiNewGameButton,

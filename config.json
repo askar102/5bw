@@ -1,7 +1,7 @@
 {
     "playerParty": [
         "cardGuy",
-        "cardGuy",
+        "angryGuy",
         "cardGuy",
         "cardGuy"
     ],
@@ -15,7 +15,7 @@
             "abilities": [
                 {
                     "name": "cardAttack",
-                    "type": "bullet_default",
+                    "type": "bullet_splash",
                     "damage": 10,
                     "heal": 0
                 },
@@ -34,6 +34,20 @@
             ]
         },
         {
+            "name": "angryGuy", 
+            "maxHp": 100,
+            "isEnemy": false,
+            "canSelected": true,
+            "abilities": [
+                {
+                    "name": "speedDash",
+                    "type": "melee",
+                    "damage": 10,
+                    "heal": 0
+                }
+            ]
+        },
+        {
             "name": "enemy",
             "maxHp": 100,
             "isEnemy": true,
@@ -42,6 +56,12 @@
                 {
                     "name": "cardAttack",
                     "type": "bullet",
+                    "damage": 10,
+                    "heal": 0
+                },
+                {
+                    "name": "cardHeal",
+                    "type": "unique",
                     "damage": 10,
                     "heal": 0
                 }

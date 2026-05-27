@@ -10,8 +10,12 @@ public:
     EnemyParty& GetEnemyParty();
     PlayerParty& GetPlayerParty();
 
+    // какого хуя у нас 2 индетичных метода сука
+    // todo: check
     BattleEntity* GetSelectedCharacter();
     BattleEntity* GetSelectedEntity();
+    // какого хуя это тут делает
+    //todo: check
     BattleEntity* GetAbilityTarget(const BattleEntity& caster);
     BattleEntity* GetEnemy(size_t index = 0);
 
@@ -24,6 +28,7 @@ public:
     void UpdateSelection();
 
 private:
+    //todo: check
     BattleEntity* FindEntityAtMouse();
     BattleEntity* FindFirstAlive(bool enemies);
 

@@ -77,6 +77,7 @@ void BattleState::Update(float dt)
         const float panelOffset = (selected->facing == FacingDirection::Left) ? -150.0f : 150.0f;
 
         _abilityPanel.SetVisible(true);
+        //то есть теперь мы принимаем оффсет положения стороны перса
         _abilityPanel.SetAnchor(selected->getSprite().GetPosition(), panelOffset);
         _abilityPanel.SetAbilities(selected->abilities);
     }

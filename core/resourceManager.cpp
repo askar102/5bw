@@ -107,6 +107,12 @@
          {}
      };
 
+     _textures[TextureID::AngryGuy] =
+     {
+         LoadTexture("resources/angryGuy.png"),
+         {}
+     };
+
  
      for (auto& [id, res] : _textures)
      {

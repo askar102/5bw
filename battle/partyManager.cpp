@@ -15,6 +15,12 @@ PlayerParty& PartyManager::GetPlayerParty()
     return _playerParty;
 }
 
+/**
+ * Эти 2 функции были сделаны нейродауном, видимо он пожелел токены на замену фукнции везде, и сделал
+ * просто абстракцию. TODO: refactor
+ * 
+ */
+
 BattleEntity* PartyManager::GetSelectedCharacter()
 {
     return GetSelectedEntity();
@@ -27,7 +33,10 @@ BattleEntity* PartyManager::GetSelectedEntity()
 
     return _enemyParty.GetSelectedCharacter();
 }
+ 
+// end
 
+// проверяем есть ли под мышкой любой энтити
 BattleEntity* PartyManager::FindEntityAtMouse()
 {
     const Vector2 mouse = GetMousePosition();
