@@ -89,5 +89,6 @@ public:
 
 private:
     bool _enemyWhirlActive = false;
+    float _whirlPushApplied = 0.0f;
     double _enemyWhirlResetAt = 0.0;
 };

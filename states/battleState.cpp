@@ -16,32 +16,32 @@ void BattleState::HandleInput()
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
-        BattleEntity* selectedCharacter = _partyManager.GetSelectedCharacter();
-
-        if (selectedCharacter)
+        if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
         {
-            if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
+            BattleEntity* selected = _partyManager.GetSelectedEntity();
+
+            if (selected)
             {
-                BattleEntity* target = _partyManager.GetEnemy(0);
+                BattleEntity* target = _partyManager.GetAbilityTarget(*selected);
 
                 if (target)
                 {
                     AbilityManager::SpawnAbility(
                         *clickedAbility,
                         _vfxManager,
-                        *selectedCharacter,
+                        *selected,
                         *target,
                         _partyManager
                     );
 
-                    selectedCharacter->actionText.Add(TextFormat("Uzanulo %s", clickedAbility->GetName().c_str()), YELLOW);
+                    selected->actionText.Add(TextFormat("Uzanulo %s", clickedAbility->GetName().c_str()), YELLOW);
                     target->actionText.Add(TextFormat("Pizdanulo by %s", clickedAbility->GetName().c_str()), ORANGE);
                 }
 
                 _partyManager.DeselectAll();
+            }
 
-                return;
-            } 
+            return;
         }
 
         _partyManager.UpdateSelection();
@@ -70,12 +70,14 @@ void BattleState::Update(float dt)
 {
     _partyManager.Update(dt);
 
-    BattleEntity* selected = _partyManager.GetSelectedCharacter();
+    BattleEntity* selected = _partyManager.GetSelectedEntity();
 
     if (selected)
     {
+        const float panelOffset = (selected->facing == FacingDirection::Left) ? -150.0f : 150.0f;
+
         _abilityPanel.SetVisible(true);
-        _abilityPanel.SetAnchor(selected->getSprite().GetPosition());
+        _abilityPanel.SetAnchor(selected->getSprite().GetPosition(), panelOffset);
         _abilityPanel.SetAbilities(selected->abilities);
     }
     else
@@ -124,6 +126,8 @@ void BattleState::InitPlayerParty()
 
         TraceLog(LOG_INFO, "[PARTY] character: %s", character->name.c_str());
         character->getSprite().SetResource(&Game::GetResources().Get(character->name));
+        character->getSprite().SetSize({88.0f, 128.0f});
+        character->getSprite().SetRectSize({88.0f, 128.0f});
 
         for (const auto& ab : character->abilities)
             TraceLog(LOG_INFO, "[PARTY] ---ability: %s", ab->GetName().c_str());

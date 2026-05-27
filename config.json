@@ -15,7 +15,7 @@
             "abilities": [
                 {
                     "name": "cardAttack",
-                    "type": "bullet",
+                    "type": "bullet_default",
                     "damage": 10,
                     "heal": 0
                 },
@@ -37,11 +37,11 @@
             "name": "enemy",
             "maxHp": 100,
             "isEnemy": true,
-            "canSelected": false,
+            "canSelected": true,
             "abilities": [
                 {
                     "name": "cardAttack",
-                    "type": "bullet_splash",
+                    "type": "bullet",
                     "damage": 10,
                     "heal": 0
                 }

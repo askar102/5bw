@@ -19,6 +19,7 @@
 #include "vfx.h"
 #include "battleEntity.h"
 #include "ability.h"
+#include "battleSide.h"
 #include "cardVfx.h"
 
 class BattleEntity;
@@ -35,10 +36,10 @@ public:
     void SpawnCardVfx(Vector2 position,
                       float lifetime,
                       float rotation,
-                      BattleEntity& target,
                       AbilityType bulletType,
                       int abilityDamage,
                       PartyManager* partyManager,
+                      DamageableSide damageSide,
                       bool peaceful = true,
                       bool animated = true);
     void SpawnDefendVfx(Vector2 origin, Vector2 target);

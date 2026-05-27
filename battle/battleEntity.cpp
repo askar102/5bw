@@ -108,23 +108,23 @@ void BattleEntity::UpdateEnemyWhirl()
     }
 
     Vector2 position = sprite.GetPosition();
-    position.x -= ENEMY_WHIRL_PUSH_X;
+    position.x -= _whirlPushApplied;
     sprite.SetPosition(position);
 
     _enemyWhirlActive = false;
+    _whirlPushApplied = 0.0f;
 }
 
-/**
- * если это противник + анимация еще не активна
-  * то двигаем его на -15.0f назад, потом записываем время, когда анимация пропадет
- * 
- */
 void BattleEntity::EnemyHitAnimation()
 {
-    if (isEnemy && !_enemyWhirlActive) 
+    if (!_enemyWhirlActive)
     {
+        _whirlPushApplied = (facing == FacingDirection::Left)
+            ? ENEMY_WHIRL_PUSH_X
+            : -ENEMY_WHIRL_PUSH_X;
+
         Vector2 position = sprite.GetPosition();
-        position.x += ENEMY_WHIRL_PUSH_X;
+        position.x += _whirlPushApplied;
         sprite.SetPosition(position);
         _enemyWhirlActive = true;
     }

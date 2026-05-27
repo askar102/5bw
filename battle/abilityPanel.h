@@ -22,10 +22,11 @@
 class AbilityPanel {
 public:
     static constexpr size_t kMaxAbilities = 3;
+    static constexpr Vector2 kIconSize = {150.0f, 40.0f};
 
     void SetIconTexture(TextureResource* newTextureResource);
     void SetAbilities(const std::vector<std::unique_ptr<Ability>>& abilities);
-    void SetAnchor(Vector2 anchor);
+    void SetAnchor(Vector2 anchor, float horizontalOffset = 150.0f);
     void SetVisible(bool visible);
     void Update();
     void Draw();
@@ -41,5 +42,6 @@ private:
     std::array<Slot, kMaxAbilities> _slots;
     size_t _activeSlots = 0;
     Vector2 _anchor = {0.0f, 0.0f};
+    float _horizontalOffset = 150.0f;
     bool _visible = false;
 };

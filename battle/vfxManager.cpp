@@ -54,10 +54,10 @@ void VfxManager::Clear()
 void VfxManager::SpawnCardVfx(Vector2 position,
                               float lifetime,
                               float rotation,
-                              BattleEntity& target,
                               AbilityType bulletType,
                               int abilityDamage,
                               PartyManager* partyManager,
+                              DamageableSide damageSide,
                               bool peaceful,
                               bool animated)
 {
@@ -66,10 +66,10 @@ void VfxManager::SpawnCardVfx(Vector2 position,
         lifetime,
         rotation,
         &Game::GetResources().Get(TextureID::CardVFX),
-        target,
         bulletType,
         abilityDamage,
         partyManager,
+        damageSide,
         peaceful,
         animated));
 }

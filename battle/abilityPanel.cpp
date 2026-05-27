@@ -2,21 +2,21 @@
  * @file abilityPanel.cpp
  * @author askar102
  * @brief Creating ability buttons in front of a character
- * @date 2026-05-03
+ * @date 2026-05-07
  * 
  * @copyright Copyright (c) 2026, askar102
  * 
  */
 
 #include "abilityPanel.h"
-#include <sys/stat.h>
 
 void AbilityPanel::SetIconTexture(TextureResource* newTextureResource)
 {
     for (auto& slot : _slots)
     {
         slot.icon.SetResource(newTextureResource);
-        slot.icon.SetSize({200, 40});
+        slot.icon.SetSize(kIconSize);
+        slot.icon.SetRectSize(kIconSize);
     }
 }
 
@@ -37,9 +37,10 @@ void AbilityPanel::SetAbilities(const std::vector<std::unique_ptr<Ability>>& abi
     }
 }
 
-void AbilityPanel::SetAnchor(Vector2 anchor)
+void AbilityPanel::SetAnchor(Vector2 anchor, float horizontalOffset)
 {
     _anchor = anchor;
+    _horizontalOffset = horizontalOffset;
 }
 
 void AbilityPanel::SetVisible(bool visible)
@@ -52,7 +53,7 @@ void AbilityPanel::Update()
     for (size_t i = 0; i < _activeSlots; ++i)
     {
         _slots[i].pos = {
-            _anchor.x + 150.0f, 
+            _anchor.x + _horizontalOffset,
             // - 100 чтобы чуть чуть повыше анчора был
             _anchor.y + static_cast<float>(i) * 50.0f - 100.0f,
         };

@@ -10,6 +10,8 @@
 
 #include "abilityManager.h"
 
+#include "battleSide.h"
+
 namespace AbilityManager {
     void SpawnAbility(Ability& clickedAbility,
                       VfxManager& vfxManager,
@@ -59,21 +61,22 @@ namespace AbilityManager {
                              const Ability& ability,
                              PartyManager& partyManager)
         {
+            (void)target;
+
             Vector2 casterPos = caster.getSprite().GetPosition();
-            Vector2 cardPostion = {
-                casterPos.x,
-                casterPos.y
-            };
+            Vector2 cardPostion = {casterPos.x, casterPos.y};
             float baseAngle = (caster.facing == FacingDirection::Right) ? 0.0f : 180.0f;
+
+            const DamageableSide damageSide = DamageSideForCaster(caster.isEnemy);
 
             caster.getSprite().SetFrame(1);
 
             const AbilityType bulletType = ability.GetType();
             const int abilityDamage = ability.GetDamage();
 
-            vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle - 10.0f, target, bulletType, abilityDamage, &partyManager, false);
-            vfxManager.SpawnCardVfx(cardPostion, 5.0f, 0.0f, target, bulletType, abilityDamage, &partyManager, false);
-            vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle + 10.0f, target, bulletType, abilityDamage, &partyManager, false);
+            vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle - 10.0f, bulletType, abilityDamage, &partyManager, damageSide, false);
+            vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle, bulletType, abilityDamage, &partyManager, damageSide, false);
+            vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle + 10.0f, bulletType, abilityDamage, &partyManager, damageSide, false);
         }
 
         void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager)
@@ -98,10 +101,10 @@ namespace AbilityManager {
                     cardPostion,
                     1.0f,
                     -90.0f,
-                    target,
                     AbilityType::BulletDefault,
                     0,
                     &partyManager,
+                    DamageSideForCaster(caster.isEnemy),
                     true
                 );
             }
@@ -122,10 +125,10 @@ namespace AbilityManager {
                 cardPostion,
                 1.0f,
                 -90.0f,
-                target,
                 AbilityType::BulletDefault,
                 0,
                 &partyManager,
+                DamageSideForCaster(caster.isEnemy),
                 true,
                 false
             );

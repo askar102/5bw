@@ -11,6 +11,8 @@ public:
     PlayerParty& GetPlayerParty();
 
     BattleEntity* GetSelectedCharacter();
+    BattleEntity* GetSelectedEntity();
+    BattleEntity* GetAbilityTarget(const BattleEntity& caster);
     BattleEntity* GetEnemy(size_t index = 0);
 
     BattleEntity* GetPlayer(size_t index = 0);
@@ -22,6 +24,10 @@ public:
     void UpdateSelection();
 
 private:
+    BattleEntity* FindEntityAtMouse();
+    BattleEntity* FindFirstAlive(bool enemies);
+
     EnemyParty _enemyParty;
     PlayerParty& _playerParty = Game::GetPlayerParty();
+    BattleEntity* _abilityTarget = nullptr;
 };
