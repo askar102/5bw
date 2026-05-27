@@ -60,7 +60,7 @@
                     "heal": 0
                 },
                 {
-                    "name": "cardHeal",
+                    "name": "speedDash",
                     "type": "unique",
                     "damage": 10,
                     "heal": 0

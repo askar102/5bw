@@ -146,14 +146,22 @@ namespace AbilityManager {
     namespace AngryGuy {
         void SpawnSpeedDash(VfxManager &vfxManager, BattleEntity &caster, BattleEntity &target, const Ability &ability, PartyManager &partyManager) {
             // todo: fix frames
-            Vector2 prevPos = caster.getSprite().GetPosition();
-
             caster.getSprite().SetFrame(2);
-            // caster.returnToStart = true;
+            
+            const float dashDir = (caster.facing == FacingDirection::Right) ? 1.0f : -1.0f;
+            float offX = (caster.facing == FacingDirection::Right) ? -100.0f : (float)GetScreenWidth() + 100.0f;
+
             caster.trail.SetEnabled(true);
-            caster.MoveTo(prevPos.x + 800.0f, 1000.0f, [&caster] () {
-                caster.getSprite().SetPosition(caster.startPosition);
-                caster.getSprite().SetFrame(0);
+            // was startPos + 800.0f
+            caster.MoveTo(caster.startPosition.x + dashDir * 800.0f, 1000.0f, [&caster, offX] () {
+                // caster.getSprite().SetPosition(caster.startPosition);
+                // caster.getSprite().SetFrame(0);
+
+                caster.getSprite().SetPosition({offX, caster.startPosition.y});
+                caster.MoveTo(caster.startPosition.x, 1000.0f, [&caster] () {
+                    caster.getSprite().SetFrame(0);
+                });
+
             });
             
             
