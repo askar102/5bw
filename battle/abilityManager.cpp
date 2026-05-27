@@ -145,7 +145,17 @@ namespace AbilityManager {
 
     namespace AngryGuy {
         void SpawnSpeedDash(VfxManager &vfxManager, BattleEntity &caster, BattleEntity &target, const Ability &ability, PartyManager &partyManager) {
-            caster.MoveTo(caster.getSprite().GetPosition().x + 40.0f); 
+            // todo: fix frames
+            Vector2 prevPos = caster.getSprite().GetPosition();
+
+            caster.getSprite().SetFrame(2);
+            // caster.returnToStart = true;
+            caster.trail.SetEnabled(true);
+            caster.MoveTo(prevPos.x + 700.0f, 1000.0f, [&caster] () {
+                caster.getSprite().SetPosition(caster.startPosition);
+            });
+            
+            
         }
     }
 } // namespace AbilityManager

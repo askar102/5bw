@@ -86,7 +86,11 @@
  
      bool IsCollide() const;
      void SetCollide(bool isCollide);
-     
+    
+    // misc
+    bool IsSpriteOnScreen();
+
+
      // core
      void Draw();
  };

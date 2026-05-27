@@ -205,6 +205,23 @@ void SpriteV2::SetBrightness(float newBrightness) {
      _collision = isCollide;
  }
  
+/**
+ * 
+ * Misc 
+ *
+ */
+
+ bool SpriteV2::IsSpriteOnScreen()
+ {
+    Rectangle rect = this->GetRect();
+
+    return rect.x >= 0 &&
+           rect.y >= 0 &&
+           rect.x + rect.width <= GetScreenWidth() &&
+           rect.y + rect.height <= GetScreenHeight();
+ }
+
+
  /**
   *  
   * Core

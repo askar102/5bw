@@ -12,6 +12,7 @@ void PlayerParty::Init() {
             auto character = std::make_unique<BattleEntity>(ConfigReader::GetCharacterFromConfig(str));
 
             character->getSprite().SetPosition(this->GetPositionByIndex(i));
+            character->startPosition = GetPositionByIndex(i);
 
             Add(std::move(character), i);
         }

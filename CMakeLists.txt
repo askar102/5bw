@@ -28,6 +28,8 @@ add_executable(5bw12
     misc/mapGenerator.cpp
     misc/configReader.cpp
 
+    misc/ghostTrail.cpp
+
     battle/battleEntity.cpp
     battle/actionText.cpp
     battle/abilityPanel.cpp

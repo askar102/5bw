@@ -15,12 +15,14 @@ BattleEntity::BattleEntity(std::string _name, int _maxHp, bool _isEnemy, bool _c
         for (Ability ab : _abilities)
         {
             abilities.push_back(std::make_unique<Ability>(ab));
+            trail.Init(6, 4.0f, 0.01f);
         }
     }
 
 void BattleEntity::Draw()
 {
     sprite.Draw();
+    trail.Draw(this->getSprite());
     // dont move this function!
     RefreshActionText();
     actionText.Draw();
@@ -136,17 +138,20 @@ void BattleEntity::EnemyHitAnimation()
 void BattleEntity::Update(float dt)
 {
     UpdateEnemyWhirl();
-    
+
     UpdateMove(dt);
 
     UpdateAbilities();
+
+    trail.Update(dt, this->getSprite());
 }
 
-void BattleEntity::MoveTo(float targetX, float speed)
+void BattleEntity::MoveTo(float targetX, float speed, std::function<void()> onStop)
 {
     _moveTargetX = targetX;
     _moveSpeed = speed;
     _moving = true;
+    _onStop = onStop;
 }
 
 void BattleEntity::UpdateMove(float dt)
@@ -163,6 +168,12 @@ void BattleEntity::UpdateMove(float dt)
     {
         pos.x = _moveTargetX;
         _moving = false;
+        sprite.SetPosition(pos);
+        if (_onStop)
+        {
+            _onStop();
+        }
+        return;
     }
 
     sprite.SetPosition(pos);

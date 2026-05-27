@@ -6,6 +6,7 @@ void EnemyParty::Init() {
             ConfigReader::GetCharacterFromConfig("enemy")
         );
         character->getSprite().SetPosition(this->GetPositionByIndex(i));
+        character->startPosition = GetPositionByIndex(i);
         character->facing = FacingDirection::Left;
         Add(std::move(character), i);
     }

@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include <functional>
 #include <string>
 #include <vector>
 #include <memory>
@@ -19,6 +20,8 @@
 
 #include "ability.h"
 #include "actionText.h"
+
+#include "../misc/ghostTrail.h"
 
 class Ability;
 
@@ -46,6 +49,9 @@ public:
     
     SpriteV2 sprite;
     ActionText actionText;
+    GhostTrail trail;
+
+    Vector2 startPosition;
 
     bool selected = false;
     bool canSelected = true;
@@ -88,7 +94,7 @@ public:
     void EnemyHitAnimation();
 
     // Movement actions
-    void MoveTo(float targetX, float speed = 300.0f);\
+    void MoveTo(float targetX, float speed = 300.0f, std::function<void()> onStop = nullptr);
     void UpdateMove(float dt);
 
 private:
@@ -99,4 +105,7 @@ private:
     bool _moving = false;
     float _moveTargetX = 0.0f;
     float _moveSpeed = 300.0f;
+
+    std::function<void()> _onStop;
 };
+
