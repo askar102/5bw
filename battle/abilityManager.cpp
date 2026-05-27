@@ -57,6 +57,10 @@ namespace AbilityManager {
         {
             AbilityManager::AngryGuy::SpawnSpeedDash(vfxManager, caster, target, clickedAbility, partyManager);
         }
+        if (clickedAbility.GetName() == "toss")
+        {
+            AbilityManager::AngryGuy::SpawnToss(vfxManager, caster, target, clickedAbility, partyManager);
+        }
         
     }
 
@@ -178,6 +182,11 @@ namespace AbilityManager {
             });
 
             caster.actionText.Add(TextFormat("Used %s", ability.GetName().c_str()), YELLOW);
+        }
+
+        void SpawnToss(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        {
+            printf("SpawnToss called\n");
         }
     } // namespace AngryGuy
 } // namespace AbilityManager

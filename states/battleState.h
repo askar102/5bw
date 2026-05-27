@@ -48,4 +48,7 @@ private:
     VfxManager _vfxManager;
 
     PartyManager _partyManager;
+
+    Ability* _pendingAbility = nullptr;
+    BattleEntity* _pendingCaster = nullptr;
 };

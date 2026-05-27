@@ -20,7 +20,8 @@ enum class AbilityType {
   Melee,
   BulletDefault,
   BulletSplash,
-  Unique
+  Unique,
+  Target
 };
 
 

@@ -44,6 +44,12 @@
                     "type": "melee",
                     "damage": 10,
                     "heal": 0
+                },
+                {
+                    "name": "toss",
+                    "type": "target",
+                    "damage": 0,
+                    "heal": 0
                 }
             ]
         },

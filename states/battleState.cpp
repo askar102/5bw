@@ -16,9 +16,50 @@ void BattleState::HandleInput()
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
+        // target flow
+        if (_pendingAbility)
+        {
+            auto tryClick = [&](BattleEntity* unit) -> bool {
+                if (!unit || !unit->Alive()) return false;
+                if (!CheckCollisionPointRec(mouse, unit->getSprite().GetRect())) return false;
+            
+                AbilityManager::SpawnAbility(
+                    *_pendingAbility,
+                    _vfxManager,
+                    *_pendingCaster,
+                    *unit,
+                    _partyManager
+                );
+            
+                _pendingAbility = nullptr;
+                _pendingCaster = nullptr;
+                _partyManager.DeselectAll();
+                return true;
+            };
+            
+            for (size_t i = 0; i < 4; ++i)
+                if (tryClick(_partyManager.GetPlayer(i))) return;
+            
+            for (size_t i = 0; i < 4; ++i)
+                if (tryClick(_partyManager.GetEnemy(i))) return;
+
+            return;
+        }
+
+
+        // default flow
         if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
         {
             BattleEntity* selected = _partyManager.GetSelectedEntity();
+            if (!selected) return;
+
+            if (clickedAbility->GetType() == AbilityType::Target)
+            {
+                _pendingAbility = clickedAbility;
+                _pendingCaster = selected;
+                return;
+            }
+
 
             if (selected)
             {
