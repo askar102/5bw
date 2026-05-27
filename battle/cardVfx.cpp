@@ -59,27 +59,46 @@ void CardVfx::ApplySplashHitDamage()
 
 void CardVfx::ApplyDefaultHitDamage()
 {
-    if (_peaceful || _abilityDamage <= 0 || !_target)
+    if (_peaceful || _abilityDamage <= 0 || !_partyManager || _hitTarget)
         return;
 
     const int perTarget = _abilityDamage / CARD_ATTACK_PROJECTILE_COUNT;
     if (perTarget <= 0)
         return;
 
-    _target->EnemyHitAnimation();
-    _target->Damage(perTarget);
+    const Rectangle projectileRect = _sprite.GetRect();
+
+    for (size_t i = 0; i < SPLASH_ENEMY_COUNT; ++i)
+    {
+        BattleEntity* enemy = _partyManager->GetEnemy(i);
+        if (!enemy)
+            continue;
+
+        if (!CheckCollisionRecs(projectileRect, enemy->getSprite().GetRect()))
+            continue;
+
+        enemy->EnemyHitAnimation();
+        enemy->Damage(perTarget);
+        _hitTarget = true;
+        return;
+    }
 }
 
 bool CardVfx::CheckHitCollision() const
 {
     const Rectangle projectileRect = _sprite.GetRect();
 
-    if (_bulletType == AbilityType::BulletSplash && _partyManager)
+    if (_partyManager &&
+        (_bulletType == AbilityType::BulletSplash ||
+         _bulletType == AbilityType::BulletDefault))
     {
         for (size_t i = 0; i < SPLASH_ENEMY_COUNT; ++i)
         {
             BattleEntity* enemy = _partyManager->GetEnemy(i);
-            if (!enemy || _touchedEnemies.contains(enemy))
+            if (!enemy)
+                continue;
+
+            if (_bulletType == AbilityType::BulletSplash && _touchedEnemies.contains(enemy))
                 continue;
 
             if (CheckCollisionRecs(projectileRect, enemy->getSprite().GetRect()))
@@ -110,11 +129,7 @@ void CardVfx::Update(float dt) {
 
     if (_bulletType == AbilityType::BulletDefault)
     {
-      if (!_hitTarget && CheckHitCollision())
-      {
-        ApplyDefaultHitDamage();
-        _hitTarget = true;
-      }
+      ApplyDefaultHitDamage();
     }
     else if (_bulletType == AbilityType::BulletSplash)
     {
