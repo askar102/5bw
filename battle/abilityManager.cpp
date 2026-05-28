@@ -249,12 +249,21 @@ namespace AbilityManager {
 
 
     namespace ForestEnemies {
+        // todo: шейдер почему то не хавает текстуру врага
         void SpawnEnemyDash(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {
             caster.getSprite().SetFrame(1);
             const int dashDamage = ability.GetDamage();
 
+            // todo: hardcore, fix later
+            if (caster.name == "enemy") {
+                caster.getSprite().SetAlphaFlashing(true);
+            }
+            
             caster.getSprite().SetBrighteningUp(4.0f, [&caster, dashDamage] () {
+                caster.getSprite().SetBrightness(1.0f);
+
+                caster.getSprite().SetAlphaFlashing(false);
                 
                 caster.ResetTouchTracking();
                 caster.SetOnTouch([&caster, dashDamage](BattleEntity& touched) {

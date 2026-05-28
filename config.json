@@ -72,7 +72,7 @@
                     "heal": 0
                 },
                 {
-                    "name": "speedDash",
+                    "name": "enemyDash",
                     "type": "unique",
                     "damage": 10,
                     "heal": 0

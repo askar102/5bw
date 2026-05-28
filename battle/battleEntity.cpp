@@ -28,7 +28,7 @@ void BattleEntity::Draw()
     actionText.Draw();
 
     effectLabel.Draw(sprite.GetPosition(), sprite.GetSize());
-    effectIcon.Draw(getSprite());
+    effectIcons.Draw(getSprite());
 }
 
 void BattleEntity::DrawAbilities() 
@@ -154,7 +154,7 @@ void BattleEntity::Update(float dt)
     UpdateWeaknessEffect(dt);
     UpdateScreamEffect(dt);
     effectLabel.Update(dt); 
-    effectIcon.Update(dt);
+    effectIcons.Update(dt);
 
     // Abilities
     UpdateAbilities();
@@ -302,7 +302,7 @@ void BattleEntity::SetWeaknessEffect(int amount, float duration, std::function<v
     _weaknessOnDone = std::move(onDone);
     // visual
     effectLabel.Show("weaknessEffect", 1.0f);
-    effectIcon.Show("weaknessIcon", duration);
+    effectIcons.Show("weaknessIcon", duration);
 }
 
 
@@ -338,7 +338,7 @@ void BattleEntity::SetScreamEffect(float duration, std::function<void()> onDone)
     _screamOnDone = std::move(onDone);
     // visual
     effectLabel.Show("screamEffect", 1.0f);
-    effectIcon.Show("screamIcon", duration);
+    effectIcons.Show("screamIcon", duration);
 
     getSprite().SetShaking(true, _screamDuration);
 }

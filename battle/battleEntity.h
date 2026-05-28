@@ -20,6 +20,7 @@
 #include "../entities/spriteV2.h"
 #include "effectLabel.h"
 #include "effectIcon.h"
+#include "effectIconList.h"
 
 #include "ability.h"
 #include "actionText.h"
@@ -64,7 +65,7 @@ public:
     Texture2D abilityTexture;
 
     EffectLabel effectLabel;
-    EffectIcon effectIcon;
+    EffectIconList effectIcons;
 
     bool Alive() const
     {
