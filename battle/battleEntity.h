@@ -18,6 +18,7 @@
 #include <unordered_set>
 
 #include "../entities/spriteV2.h"
+#include "effectLabel.h"
 
 #include "ability.h"
 #include "actionText.h"
@@ -60,6 +61,8 @@ public:
 
     std::vector<std::unique_ptr<Ability>> abilities;
     Texture2D abilityTexture;
+
+    EffectLabel effectLabel;
 
     bool Alive() const
     {
@@ -110,7 +113,7 @@ public:
     // Effect actions
     // waekness effect - под battleEntity появляется лейбл weaknessEffect.png,
     // накладывается эффект, который уменьшает урон всех скиллов на amount, на время duration
-    void SetWeaknessEffect(int amount, float duration);
+    void SetWeaknessEffect(int amount, float duration, std::function<void()> onDone = nullptr);
     int GetWeaknessEffect();
     void UpdateWeaknessEffect(float dt);
     // void SetScreamEffect();
@@ -138,10 +141,11 @@ private:
     std::unordered_set<BattleEntity*> _touchedEntities;
 
     // effects
+
+    // weakness
     int _weaknessAmount = 0;
     float _weaknessDuration = 0.0f;
     bool _weaknessActive = false;   
-
-    float LABEL_SHOW_DURATION = 2.0f;
+    std::function<void()> _weaknessOnDone;
 };
 

@@ -26,6 +26,8 @@ void BattleEntity::Draw()
     // dont move this function!
     RefreshActionText();
     actionText.Draw();
+
+    effectLabel.Draw(sprite.GetPosition(), sprite.GetSize());
 }
 
 void BattleEntity::DrawAbilities() 
@@ -149,6 +151,7 @@ void BattleEntity::Update(float dt)
 
     // logic effects
     UpdateWeaknessEffect(dt);
+    effectLabel.Update(dt); 
 
     // Abilities
     UpdateAbilities();
@@ -284,21 +287,24 @@ void BattleEntity::UpdateTurn(float dt)
 }
 
 /**
- * EFFECTS
+ * LOGIC EFFECTS
  * 
  */
 
-void BattleEntity::SetWeaknessEffect(int amount, float duration)
+void BattleEntity::SetWeaknessEffect(int amount, float duration, std::function<void()> onDone)
 {
     _weaknessAmount   = amount;
     _weaknessDuration = duration;
     _weaknessActive   = true;
+    _weaknessOnDone = std::move(onDone);
+    // visual
+    effectLabel.Show("weaknessEffect", 2.0f);
 }
 
 
 int BattleEntity::GetWeaknessEffect() 
 {
-    return _weaknessAmount;
+    return _weaknessActive ? _weaknessAmount : 0;
 }
 
 void BattleEntity::UpdateWeaknessEffect(float dt)
@@ -312,5 +318,11 @@ void BattleEntity::UpdateWeaknessEffect(float dt)
         _weaknessDuration = 0.0f;
         _weaknessAmount   = 0;
         _weaknessActive   = false;
+
+        if (_weaknessOnDone)
+        {
+            _weaknessOnDone();
+            _weaknessOnDone = nullptr;
+        }
     }
 }
