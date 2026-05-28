@@ -30,9 +30,9 @@
      float _alpha = 1.0f;
      float _brightness = 1.0f;
 
-     bool _flashing = false;
-     float _flashTimer = 0.0f;
-     static constexpr float FLASH_PERIOD = 0.1f;
+     bool _alphaFlashing = false;
+     float _alphaFlashTimer = 0.0f;
+     static constexpr float ALPHA_FLASH_PERIOD = 0.1f;
 
      static Shader _brightnessShader;
      static int _brightnessLoc;
@@ -90,8 +90,8 @@
      static void LoadBrightnessShader();
      static void UnloadBrightnessShader();
 
-     void SetFlashing(bool flashing);
-     void UpdateFlashing(float dt);
+     void SetAlphaFlashing(bool flashing);
+     void UpdateAlphaFlashing(float dt);
 
      void SetShaking(bool shaking, float duration = 0.3f, float intensity = 4.0f);
     void UpdateShaking(float dt);

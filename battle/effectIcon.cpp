@@ -29,7 +29,7 @@ void EffectIcon::Draw(SpriteV2& unit)
     if (_timer < 0.5f) 
     {
         alpha = _timer / 0.5f;
-        _sprite.SetFlashing(true);
+        _sprite.SetAlphaFlashing(true);
     } 
     else 
     {
