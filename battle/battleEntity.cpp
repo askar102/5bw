@@ -140,6 +140,7 @@ void BattleEntity::Update(float dt)
     UpdateEnemyWhirl();
 
     UpdateMove(dt);
+    UpdateTurn(dt); 
 
     UpdateAbilities();
 
@@ -227,3 +228,59 @@ void BattleEntity::CheckTouch(BattleEntity* const* others, size_t count)
     }
 }
 
+void BattleEntity::TurnDegrees(float degrees, float speed, int times, std::function<void()> onDone)
+{
+    if (times <= 0 || speed <= 0.0f) return;
+
+    _turning           = true;
+    _turnDegreesPerPass = degrees;
+    _turnSpeed         = speed;
+    _turnTimesLeft     = times;
+    _onTurnDone        = onDone;
+
+    //cтартуем первый проход
+    _turnDelta  = degrees;
+    _turnTarget = sprite.GetRotation() + degrees;
+}
+
+void BattleEntity::UpdateTurn(float dt)
+{
+    if (!_turning) return;
+
+    float step = _turnSpeed * dt;
+
+    // двигаемся в сторону цели
+    if (_turnDelta > 0.0f)
+    {
+        float moved = std::min(step, _turnDelta);
+        sprite.SetRotation(sprite.GetRotation() + moved);
+        _turnDelta -= moved;
+    }
+    else if (_turnDelta < 0.0f)
+    {
+        float moved = std::max(-step, _turnDelta);
+        sprite.SetRotation(sprite.GetRotation() + moved);
+        _turnDelta -= moved;
+    }
+
+    // проход завершён?
+    if (std::abs(_turnDelta) < 0.001f)
+    {
+        sprite.SetRotation(_turnTarget); // выравниваем точно
+        _turnTimesLeft--;
+
+        if (_turnTimesLeft > 0)
+        {
+            // начинаем следующий проход
+            _turnDelta  = _turnDegreesPerPass;
+            _turnTarget = sprite.GetRotation() + _turnDegreesPerPass;
+        }
+        else
+        {
+            // все
+            _turning = false;
+            if (_onTurnDone)
+                _onTurnDone();
+        }
+    }
+}

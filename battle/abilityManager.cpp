@@ -57,9 +57,9 @@ namespace AbilityManager {
         {
             AbilityManager::AngryGuy::SpawnSpeedDash(vfxManager, caster, target, clickedAbility, partyManager);
         }
-        if (clickedAbility.GetName() == "toss")
+        if (clickedAbility.GetName() == "speedSpin")
         {
-            AbilityManager::AngryGuy::SpawnToss(vfxManager, caster, target, clickedAbility, partyManager);
+            AbilityManager::AngryGuy::SpawnSpeedSpin(vfxManager, caster, target, clickedAbility, partyManager);
         }
         
     }
@@ -184,9 +184,14 @@ namespace AbilityManager {
             caster.actionText.Add(TextFormat("Used %s", ability.GetName().c_str()), YELLOW);
         }
 
-        void SpawnToss(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        void SpawnSpeedSpin(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {
-            printf("SpawnToss called\n");
+            printf("SpawnSpin called\n");
+
+            caster.trail.SetEnabled(true);
+            caster.MoveTo(600, 1000.0f);
+            caster.TurnDegrees(360.0f, 720.0f, 8);
+
         }
     } // namespace AngryGuy
 } // namespace AbilityManager

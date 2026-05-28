@@ -16,7 +16,7 @@ void BattleState::HandleInput()
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
-        // target flow
+        // target flow (not working now)
         if (_pendingAbility)
         {
             auto tryClick = [&](BattleEntity* unit) -> bool {

@@ -46,8 +46,8 @@
                     "heal": 0
                 },
                 {
-                    "name": "toss",
-                    "type": "target",
+                    "name": "speedSpin",
+                    "type": "melee",
                     "damage": 0,
                     "heal": 0
                 }

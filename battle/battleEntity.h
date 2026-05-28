@@ -99,6 +99,9 @@ public:
     void MoveTo(BattleEntity& target, float speed = 300.0f, std::function<void()> onStop = nullptr);
     void UpdateMove(float dt);
 
+    void TurnDegrees(float degrees, float speed = 180.0f, int times = 1, std::function<void()> onDone = nullptr);
+    void UpdateTurn(float dt);
+
     void SetOnTouch(std::function<void(BattleEntity&)> onTouch);
     void ClearOnTouch();
     void ResetTouchTracking();
@@ -112,8 +115,15 @@ private:
     bool _moving = false;
     float _moveTargetX = 0.0f;
     float _moveSpeed = 300.0f;
-
     std::function<void()> _onStop;
+
+    bool _turning = false;
+    float _turnTarget = 0.0f;   
+    float _turnDelta = 0.0f;  
+    float _turnSpeed = 180.0f;
+    int   _turnTimesLeft = 0;
+    float _turnDegreesPerPass = 0.0f;
+    std::function<void()> _onTurnDone;
 
     std::function<void(BattleEntity&)> _onTouch;
     std::unordered_set<BattleEntity*> _touchedEntities;
