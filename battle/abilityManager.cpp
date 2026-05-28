@@ -61,6 +61,10 @@ namespace AbilityManager {
         {
             AbilityManager::AngryGuy::SpawnSpeedSpin(vfxManager, caster, target, clickedAbility, partyManager);
         }
+        if (clickedAbility.GetName() == "scream")
+        {
+            AbilityManager::AngryGuy::SpawnScream(vfxManager, caster, target, clickedAbility, partyManager);
+        }
         
     }
 
@@ -219,6 +223,15 @@ namespace AbilityManager {
                 casterPtr->ClearOnTouch();
             });
             
+        }
+
+        void SpawnScream(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        {
+            printf("SpawnScream called\n");
+
+            BattleEntity* casterPtr = &caster;
+
+            casterPtr->getSprite().SetFrame(1);
         }
     } // namespace AngryGuy
 } // namespace AbilityManager
