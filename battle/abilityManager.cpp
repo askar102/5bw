@@ -234,9 +234,10 @@ namespace AbilityManager {
             BattleEntity* casterPtr = &caster;
 
             casterPtr->getSprite().SetShaking(true);
+            target.SetScreamEffect(4.0f);
 
             casterPtr->getSprite().SetFrameTime(2, 0, 2.0f);
-            target.SetWeaknessEffect(10, 4.0f);
+            // target.SetWeaknessEffect(10, 4.0f);
         }
     } // namespace AngryGuy
 } // namespace AbilityManager

@@ -152,6 +152,7 @@ void BattleEntity::Update(float dt)
 
     // logic effects
     UpdateWeaknessEffect(dt);
+    UpdateScreamEffect(dt);
     effectLabel.Update(dt); 
     effectIcon.Update(dt);
 
@@ -326,6 +327,39 @@ void BattleEntity::UpdateWeaknessEffect(float dt)
         {
             _weaknessOnDone();
             _weaknessOnDone = nullptr;
+        }
+    }
+}
+
+void BattleEntity::SetScreamEffect(float duration, std::function<void()> onDone)
+{
+    _screamDuration = duration;
+    _screamActive   = true;
+    _screamOnDone = std::move(onDone);
+    // visual
+    effectLabel.Show("screamEffect", 1.0f);
+    effectIcon.Show("screamIcon", duration);
+
+    getSprite().SetShaking(true, _screamDuration);
+}
+
+void BattleEntity::UpdateScreamEffect(float dt)
+{
+    if (!_screamActive) return;
+
+    _screamDuration -= dt;
+
+    if (_screamDuration <= 0.0f)
+    {
+        _screamDuration = 0.0f;
+        _screamActive   = false;
+
+        getSprite().SetShaking(false);
+
+        if (_screamOnDone)
+        {
+            _screamOnDone();
+            _screamOnDone = nullptr;
         }
     }
 }

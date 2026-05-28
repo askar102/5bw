@@ -118,7 +118,10 @@ public:
     void SetWeaknessEffect(int amount, float duration, std::function<void()> onDone = nullptr);
     int GetWeaknessEffect();
     void UpdateWeaknessEffect(float dt);
-    // void SetScreamEffect();
+
+    // типо нельзя атакаовать во время действия
+    void SetScreamEffect(float duration, std::function<void()> onDone = nullptr);
+    void UpdateScreamEffect(float dt);
     // void SetStunEffect();
 
 private:
@@ -149,5 +152,10 @@ private:
     float _weaknessDuration = 0.0f;
     bool _weaknessActive = false;   
     std::function<void()> _weaknessOnDone;
+
+    // scream
+    float _screamDuration = 0.0f;
+    bool _screamActive = false;
+    std::function<void()> _screamOnDone;
 };
 
