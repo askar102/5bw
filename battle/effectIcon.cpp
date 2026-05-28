@@ -25,7 +25,17 @@ void EffectIcon::Draw(SpriteV2& unit)
     _sprite.SetAlpha(1.0f);
 
     // fade-out в последние 0.5 секунды
-    float alpha = (_timer < 0.5f) ? (_timer / 0.5f) : 0.7f;
+    float alpha; // = (_timer < 0.5f) ? (_timer / 0.5f) : 0.7f;
+    if (_timer < 0.5f) 
+    {
+        alpha = _timer / 0.5f;
+        _sprite.SetFlashing(true);
+    } 
+    else 
+    {
+        alpha = 0.7f;
+    } 
+
     float posY = unit.GetPosition().y;
 
     Rectangle rect = unit.GetWorldRect();

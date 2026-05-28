@@ -133,6 +133,28 @@ void SpriteV2::SetBrightness(float newBrightness) {
     _brightness = newBrightness; 
 }
 
+void SpriteV2::SetFlashing(bool flashing)
+{
+    _flashing = flashing;
+    if (!flashing)
+    {
+        _alpha = 1.0f;
+        _flashTimer = 0.0f;
+    }
+}
+
+
+void SpriteV2::UpdateFlashing(float dt)
+{
+    if (!_flashing) return;
+
+    _flashTimer += dt;
+
+    // пилообразная волна 0..FLASH_PERIOD -> альфа туда-обратно
+    float t = fmod(_flashTimer, FLASH_PERIOD) / FLASH_PERIOD; // 0..1
+    // синус даёт плавное мигание; можно заменить на step если надо резкое
+    _alpha = 0.2f + 0.8f * (0.5f + 0.5f * sinf(t * 2.0f * PI));
+}
  
  /**
   * 
@@ -287,6 +309,8 @@ void SpriteV2::SetFrameTime(size_t frame, size_t returnFrame, float duration, st
 
 void SpriteV2::Update(float dt)
 {
+    UpdateFlashing(dt); 
+
     if (!_frameTimerActive) return;
 
     _frameTimer += dt;
@@ -302,6 +326,9 @@ void SpriteV2::Update(float dt)
         _frameTimerCallback();
         _frameTimerCallback = nullptr;
     }
+
+    
+
 }
  
  /**

@@ -11,6 +11,7 @@
  #pragma once
 
  #include <functional>
+ #include <math.h>
 
  #include "../raylib/raylib.h"
  #include "../core/resourceManager.h"
@@ -28,6 +29,12 @@
      // effects
      float _alpha = 1.0f;
      float _brightness = 1.0f;
+
+     bool _flashing = false;
+     float _flashTimer = 0.0f;
+     static constexpr float FLASH_PERIOD = 0.1f;
+
+
      static Shader _brightnessShader;
      static int _brightnessLoc;
      static bool _shaderLoaded;  
@@ -77,6 +84,9 @@
      void SetBrightness(float newBrightness);
      static void LoadBrightnessShader();
      static void UnloadBrightnessShader();
+
+     void SetFlashing(bool flashing);
+     void UpdateFlashing(float dt);
  
      // atlas
      void SetFrame(size_t index);
