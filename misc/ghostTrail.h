@@ -28,5 +28,5 @@ private:
     float _fadeSpeed = 8.0f;
     float _interval = 0.03f;
     float _timer = 0.0f;
-    bool _enabled = true;
+    bool _enabled = false;
 };
