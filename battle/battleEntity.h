@@ -107,6 +107,15 @@ public:
     void ResetTouchTracking();
     void CheckTouch(BattleEntity* const* others, size_t count);
 
+    // Effect actions
+    // waekness effect - под battleEntity появляется лейбл weaknessEffect.png,
+    // накладывается эффект, который уменьшает урон всех скиллов на amount, на время duration
+    void SetWeaknessEffect(int amount, float duration);
+    int GetWeaknessEffect();
+    void UpdateWeaknessEffect(float dt);
+    // void SetScreamEffect();
+    // void SetStunEffect();
+
 private:
     bool _enemyWhirlActive = false;
     float _whirlPushApplied = 0.0f;
@@ -127,5 +136,12 @@ private:
 
     std::function<void(BattleEntity&)> _onTouch;
     std::unordered_set<BattleEntity*> _touchedEntities;
+
+    // effects
+    int _weaknessAmount = 0;
+    float _weaknessDuration = 0.0f;
+    bool _weaknessActive = false;   
+
+    float LABEL_SHOW_DURATION = 2.0f;
 };
 

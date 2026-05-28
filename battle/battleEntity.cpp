@@ -91,10 +91,12 @@ void BattleEntity::RefreshActionText()
   */
  void BattleEntity::Damage(int amount)
  {
-    if (amount < 0) 
-        return;
+    if (amount < 0) return;
 
-    this->hp = std::max(hp - amount, 0);
+    int reduced = amount - GetWeaknessEffect();
+    if (reduced < 0) reduced = 0;
+
+    this->hp = std::max(hp - reduced, 0);
  }
 
 
@@ -141,11 +143,17 @@ void BattleEntity::Update(float dt)
 
     UpdateEnemyWhirl();
 
+    // Movement actions
     UpdateMove(dt);
-    UpdateTurn(dt); 
+    UpdateTurn(dt);
 
+    // logic effects
+    UpdateWeaknessEffect(dt);
+
+    // Abilities
     UpdateAbilities();
 
+    // visual effects
     trail.Update(dt, this->getSprite());
 }
 
@@ -272,5 +280,37 @@ void BattleEntity::UpdateTurn(float dt)
             if (_onTurnDone)
                 _onTurnDone();
         }
+    }
+}
+
+/**
+ * EFFECTS
+ * 
+ */
+
+void BattleEntity::SetWeaknessEffect(int amount, float duration)
+{
+    _weaknessAmount   = amount;
+    _weaknessDuration = duration;
+    _weaknessActive   = true;
+}
+
+
+int BattleEntity::GetWeaknessEffect() 
+{
+    return _weaknessAmount;
+}
+
+void BattleEntity::UpdateWeaknessEffect(float dt)
+{
+    if (!_weaknessActive) return;
+
+    _weaknessDuration -= dt;
+
+    if (_weaknessDuration <= 0.0f)
+    {
+        _weaknessDuration = 0.0f;
+        _weaknessAmount   = 0;
+        _weaknessActive   = false;
     }
 }
