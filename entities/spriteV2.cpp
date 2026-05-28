@@ -155,6 +155,36 @@ void SpriteV2::UpdateFlashing(float dt)
     // синус даёт плавное мигание; можно заменить на step если надо резкое
     _alpha = 0.2f + 0.8f * (0.5f + 0.5f * sinf(t * 2.0f * PI));
 }
+
+void SpriteV2::SetShaking(bool shaking, float duration, float intensity)
+{
+    _shaking = shaking;
+    _shakeDuration = duration;
+    _shakeTimer = shaking ? duration : 0.0f;
+    _shakeIntensity = intensity;
+    _shakeOffset = {0.0f, 0.0f};
+}
+
+void SpriteV2::UpdateShaking(float dt)
+{
+    if (!_shaking) return;
+
+    _shakeTimer -= dt;
+
+    if (_shakeTimer <= 0.0f)
+    {
+        _shaking = false;
+        _shakeOffset = {0.0f, 0.0f};
+        return;
+    }
+
+    float t = _shakeTimer / _shakeDuration; // 1 -> 0, fade out intensity
+    float mag = _shakeIntensity * t;
+    _shakeOffset = {
+        (float)(GetRandomValue(-100, 100) / 100.0f) * mag,
+        (float)(GetRandomValue(-100, 100) / 100.0f) * mag
+    };
+}
  
  /**
   * 
@@ -274,8 +304,13 @@ void SpriteV2::SetFrameTime(size_t frame, size_t returnFrame, float duration, st
   {
       if (!HasResource())
           return;
+
+      Vector2 drawPos = {
+        _position.x + _shakeOffset.x,
+        _position.y + _shakeOffset.y
+    };
   
-      Rectangle dest = {_position.x, _position.y, _size.x, _size.y};
+      Rectangle dest = {drawPos.x, drawPos.y, _size.x, _size.y};
       Vector2 origin = {_size.x * 0.5f, _size.y * 0.5f};
 
       bool useBrightness = _shaderLoaded && (_brightness != 1.0f);
@@ -310,6 +345,7 @@ void SpriteV2::SetFrameTime(size_t frame, size_t returnFrame, float duration, st
 void SpriteV2::Update(float dt)
 {
     UpdateFlashing(dt); 
+    UpdateShaking(dt);
 
     if (!_frameTimerActive) return;
 

@@ -34,11 +34,16 @@
      float _flashTimer = 0.0f;
      static constexpr float FLASH_PERIOD = 0.1f;
 
-
      static Shader _brightnessShader;
      static int _brightnessLoc;
      static bool _shaderLoaded;  
- 
+
+     bool _shaking = false;
+    float _shakeTimer = 0.0f;
+    float _shakeDuration = 0.0f;
+    float _shakeIntensity = 4.0f;
+    Vector2 _shakeOffset{0.0f, 0.0f};
+
      // atlas
      Rectangle _frame{0.0f, 0.0f, 0.0f, 0.0f};
      size_t _frameIndex = 0;
@@ -87,6 +92,9 @@
 
      void SetFlashing(bool flashing);
      void UpdateFlashing(float dt);
+
+     void SetShaking(bool shaking, float duration = 0.3f, float intensity = 4.0f);
+    void UpdateShaking(float dt);
  
      // atlas
      void SetFrame(size_t index);

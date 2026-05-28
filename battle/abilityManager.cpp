@@ -233,6 +233,8 @@ namespace AbilityManager {
 
             BattleEntity* casterPtr = &caster;
 
+            casterPtr->getSprite().SetShaking(true);
+
             casterPtr->getSprite().SetFrameTime(2, 0, 2.0f);
             target.SetWeaknessEffect(10, 4.0f);
         }
