@@ -137,6 +137,8 @@ void BattleEntity::EnemyHitAnimation()
 
 void BattleEntity::Update(float dt)
 {
+    sprite.Update(dt);
+
     UpdateEnemyWhirl();
 
     UpdateMove(dt);

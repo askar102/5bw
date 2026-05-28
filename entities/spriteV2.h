@@ -10,6 +10,8 @@
 
  #pragma once
 
+ #include <functional>
+
  #include "../raylib/raylib.h"
  #include "../core/resourceManager.h"
  
@@ -46,6 +48,13 @@
      bool HasAtlas() const;
      Rectangle GetSource() const;
      void SyncSizeWithSource();
+
+     // frame timer
+    int _timerReturnFrame = 0;
+    float _frameTimer = 0.0f;
+    float _frameTimerDuration = 0.0f;
+    bool _frameTimerActive = false;
+    std::function<void()> _frameTimerCallback;
  
  public:
      // resources
@@ -71,6 +80,8 @@
  
      // atlas
      void SetFrame(size_t index);
+     void SetFrameTime(size_t frame, float duration, std::function<void()> onDone = nullptr);
+     void SetFrameTime(size_t frame, size_t returnFrame, float duration, std::function<void()> onDone = nullptr);
  
      // hitbox visual
      static void SetDrawHitboxes(bool value);
@@ -93,5 +104,6 @@
 
      // core
      void Draw();
+     void Update(float dt);
  };
  

@@ -231,7 +231,7 @@ namespace AbilityManager {
 
             BattleEntity* casterPtr = &caster;
 
-            casterPtr->getSprite().SetFrame(1);
+            casterPtr->getSprite().SetFrameTime(1, 0, 2.0f);
         }
     } // namespace AngryGuy
 } // namespace AbilityManager

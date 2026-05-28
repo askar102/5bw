@@ -156,6 +156,26 @@ void SpriteV2::SetBrightness(float newBrightness) {
      _frame = _resource->frames[_frameIndex];
      SyncSizeWithSource();
  }
+
+ void SpriteV2::SetFrameTime(size_t frame, float duration, std::function<void()> onDone)
+{
+    SetFrame(frame);
+    _frameTimerDuration = duration;
+    _frameTimer = 0.0f;
+    _frameTimerActive = true;
+    _timerReturnFrame = -1; // нет возврата
+    _frameTimerCallback = std::move(onDone);
+}
+
+void SpriteV2::SetFrameTime(size_t frame, size_t returnFrame, float duration, std::function<void()> onDone)
+{
+    SetFrame(frame);
+    _frameTimerDuration = duration;
+    _frameTimer = 0.0f;
+    _frameTimerActive = true;
+    _timerReturnFrame = static_cast<int>(returnFrame);
+    _frameTimerCallback = std::move(onDone);
+}
  
  /**
   * 
@@ -264,6 +284,25 @@ void SpriteV2::SetBrightness(float newBrightness) {
           );
       }
   }
+
+void SpriteV2::Update(float dt)
+{
+    if (!_frameTimerActive) return;
+
+    _frameTimer += dt;
+    if (_frameTimer < _frameTimerDuration) return;
+
+    _frameTimerActive = false;
+
+    if (_timerReturnFrame >= 0)
+        SetFrame(static_cast<size_t>(_timerReturnFrame));
+
+    if (_frameTimerCallback)
+    {
+        _frameTimerCallback();
+        _frameTimerCallback = nullptr;
+    }
+}
  
  /**
   * 
