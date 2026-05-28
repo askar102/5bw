@@ -20,7 +20,7 @@ void EffectLabel::Draw(Vector2 anchorPos, Vector2 anchorSize)
 
     TextureResource& tex = Game::GetResources().Get(_textureName);
     _sprite.SetResource(&tex);
-    _sprite.SetSize({100, 100});
+    _sprite.SetSize({100, 50});
 
     float labelW = static_cast<float>(tex.texture.width);
 
@@ -28,7 +28,7 @@ void EffectLabel::Draw(Vector2 anchorPos, Vector2 anchorSize)
     float alpha = (_timer < 0.5f) ? (_timer / 0.5f) : 1.0f;
 
     _sprite.SetAlpha(alpha);
-    _sprite.SetPosition({(anchorPos.x - labelW * 0.5f), (anchorPos.y + anchorSize.y * 0.5f + 4.0f)});
+    _sprite.SetPosition({(anchorPos.x), (anchorPos.y + 100.0f)});
 
     _sprite.Draw();
 }
