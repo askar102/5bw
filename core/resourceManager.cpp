@@ -164,6 +164,8 @@
     // hardcore, fix it later
     if (name == "angryGuy")
         return _textures[TextureID::AngryGuy];
+    if (name == "cardGuy")
+        return _textures[TextureID::CardGuy];
 
     if (_customTextures.find(name) != _customTextures.end())
         return _customTextures[name];
@@ -180,7 +182,7 @@
 
     _customTextures[name] = {
         tex,
-        MakeGrid(88, 128, 3)
+        {}
     };
 
     return _customTextures[name];
