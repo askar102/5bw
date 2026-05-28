@@ -156,7 +156,7 @@ namespace AbilityManager {
         {
             // todo: add effect
             // todo: fix frames
-            caster.getSprite().SetFrame(2);
+            caster.getSprite().SetFrame(1);
 
             const int dashDamage = ability.GetDamage();
             caster.ResetTouchTracking();
@@ -231,7 +231,7 @@ namespace AbilityManager {
 
             BattleEntity* casterPtr = &caster;
 
-            casterPtr->getSprite().SetFrameTime(1, 0, 2.0f);
+            casterPtr->getSprite().SetFrameTime(2, 0, 2.0f);
         }
     } // namespace AngryGuy
 } // namespace AbilityManager

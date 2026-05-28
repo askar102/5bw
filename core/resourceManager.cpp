@@ -110,7 +110,7 @@
      _textures[TextureID::AngryGuy] =
      {
          LoadTexture("resources/angryGuy.png"),
-         {}
+         MakeGrid(133, 128, 3)
      };
 
  
@@ -161,6 +161,10 @@
 
  TextureResource& ResourceManager::Get(std::string name)
  {
+    // hardcore, fix it later
+    if (name == "angryGuy")
+        return _textures[TextureID::AngryGuy];
+
     if (_customTextures.find(name) != _customTextures.end())
         return _customTextures[name];
     
