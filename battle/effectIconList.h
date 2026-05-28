@@ -37,8 +37,6 @@
      };
  
      std::vector<Entry> _icons;
-     
-     float cursorX = 0;
  
      static constexpr float ICON_SIZE    = 28.0f; // размер одной иконки
      static constexpr float ICON_SPACING = 4.0f;  // зазор между иконками

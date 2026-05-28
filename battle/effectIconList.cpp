@@ -50,11 +50,12 @@
      if (_icons.empty()) return;
  
      Rectangle unitRect = unit.GetWorldRect();
- 
-
+    
+     float cursorX = 0.0f;
 
      for (auto& entry : _icons)
      {
-        entry.icon.Draw(unit);
+        entry.icon.Draw(unit, cursorX);
+        cursorX += 50;
      }
  }

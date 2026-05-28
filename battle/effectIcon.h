@@ -10,7 +10,7 @@ public:
     // textureName - имя текстуры из ResourceManager::Get(string)
     void Show(const std::string& textureName, float duration);
     void Update(float dt);
-    void Draw(SpriteV2& unit);
+    void Draw(SpriteV2& unit, float posX = 0);
 
     bool IsVisible() const { return _timer > 0.0f; }
 

@@ -15,7 +15,7 @@ void EffectIcon::Update(float dt)
         _timer -= dt;
 }
 
-void EffectIcon::Draw(SpriteV2& unit)
+void EffectIcon::Draw(SpriteV2& unit, float posX)
 {
     if (_timer <= 0.0f) return;
 
@@ -39,7 +39,15 @@ void EffectIcon::Draw(SpriteV2& unit)
     float posY = unit.GetPosition().y;
 
     Rectangle rect = unit.GetWorldRect();
-    Vector2 topLeft = { rect.x, rect.y };
+
+    Vector2 topLeft;
+
+    if (posX == 0) {
+        topLeft = { rect.x, rect.y };
+    }
+    else {
+        topLeft = { rect.x + posX, rect.y };
+    }
 
     _sprite.SetAlpha(alpha);
     _sprite.SetPosition(topLeft);
