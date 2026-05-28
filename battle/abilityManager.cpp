@@ -166,6 +166,7 @@ namespace AbilityManager {
 
                 touched.Damage(dashDamage);
                 touched.EnemyHitAnimation();
+                touched.SetWeaknessEffect(10, 4.0f);
                 touched.actionText.Add(TextFormat("Hit by %s", "speedDash"), ORANGE);
             });
             
