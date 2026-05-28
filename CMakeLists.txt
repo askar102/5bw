@@ -47,6 +47,7 @@ add_executable(5bw12
     battle/vfxManager.cpp
 
     battle/effectLabel.cpp
+    battle/effectIcon.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)
