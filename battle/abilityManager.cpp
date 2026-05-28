@@ -193,6 +193,7 @@ namespace AbilityManager {
             printf("SpawnSpin called\n");
 
             BattleEntity* casterPtr = &caster;
+            const float dashDir = (casterPtr->facing == FacingDirection::Right) ? 1.0f : -1.0f;
 
             // damage section
             const int spinDamage = ability.GetDamage();
@@ -210,7 +211,7 @@ namespace AbilityManager {
 
             // animation
             casterPtr->trail.SetEnabled(true);
-            casterPtr->MoveTo(600, 1000.0f, [casterPtr] () {
+            casterPtr->MoveTo(casterPtr->startPosition.x + dashDir * 600.0f, 1000.0f, [casterPtr] () {
                 casterPtr->MoveTo(casterPtr->startPosition.x, 1000.0f);
             });
             casterPtr->TurnDegrees(360.0f, 720.0f, 3, [casterPtr]() {
