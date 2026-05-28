@@ -65,6 +65,12 @@ namespace AbilityManager {
         {
             AbilityManager::AngryGuy::SpawnScream(vfxManager, caster, target, clickedAbility, partyManager);
         }
+
+        // forest enemies
+        if (clickedAbility.GetName() == "enemyDash")
+        {
+            AbilityManager::ForestEnemies::SpawnEnemyDash(vfxManager, caster, target, clickedAbility, partyManager);
+        }
         
     }
 
@@ -240,4 +246,43 @@ namespace AbilityManager {
             // target.SetWeaknessEffect(10, 4.0f);
         }
     } // namespace AngryGuy
+
+
+    namespace ForestEnemies {
+        void SpawnEnemyDash(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        {
+            caster.getSprite().SetFrame(1);
+            const int dashDamage = ability.GetDamage();
+
+            caster.getSprite().SetBrighteningUp(4.0f, [&caster, dashDamage] () {
+                
+                caster.ResetTouchTracking();
+                caster.SetOnTouch([&caster, dashDamage](BattleEntity& touched) {
+                    if (touched.isEnemy == caster.isEnemy)
+                        return;
+
+                    touched.Damage(dashDamage);
+                    touched.EnemyHitAnimation();
+                    // touched.SetWeaknessEffect(10, 4.0f);
+                    touched.actionText.Add(TextFormat("Hit by %s", "speedDash"), ORANGE);
+                });
+            
+                // left / right check
+                const float dashDir = (caster.facing == FacingDirection::Right) ? 1.0f : -1.0f;
+                float offX = (caster.facing == FacingDirection::Right) ? -100.0f : (float)GetScreenWidth() + 100.0f;
+
+                caster.trail.SetEnabled(true);
+                // was startPos + 800.0f
+                caster.MoveTo(caster.startPosition.x + dashDir * 800.0f, 1000.0f, [&caster, offX] () {
+                    caster.getSprite().SetPosition({offX, caster.startPosition.y});
+                    caster.MoveTo(caster.startPosition.x, 1000.0f, [&caster] () {
+                        caster.getSprite().SetFrame(0);
+                        caster.trail.SetEnabled(false);
+                        caster.ClearOnTouch();
+                    });
+
+                });
+            }); 
+        }
+    }
 } // namespace AbilityManager

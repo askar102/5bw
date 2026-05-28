@@ -347,6 +347,9 @@ void SpriteV2::Update(float dt)
     UpdateAlphaFlashing(dt); 
     UpdateShaking(dt);
 
+    UpdateBrightnessFlashing(dt);  
+    UpdateBrighteningUp(dt);       
+
     if (!_frameTimerActive) return;
 
     _frameTimer += dt;
@@ -411,3 +414,73 @@ void SpriteV2::Update(float dt)
      };
  }
  
+
+ void SpriteV2::SetBrightnessFlashing(bool flag, float duration, std::function<void()> onDone)
+{
+    _brightnessFlashing = flag;
+    _brightnessFlashDuration = duration;
+    _brightnessFlashTimer = flag ? duration : 0.0f;
+    _brightnessFlashOnDone = std::move(onDone);
+
+    if (!flag)
+        _brightness = 1.0f;
+}
+
+void SpriteV2::UpdateBrightnessFlashing(float dt)
+{
+    if (!_brightnessFlashing) return;
+
+    _brightnessFlashTimer -= dt;
+
+    if (_brightnessFlashTimer <= 0.0f)
+    {
+        _brightnessFlashing = false;
+        _brightness = 1.0f;
+
+        if (_brightnessFlashOnDone)
+        {
+            _brightnessFlashOnDone();
+            _brightnessFlashOnDone = nullptr;
+        }
+        return;
+    }
+
+    // пилообразное мигание: 1.0 <-> BRIGHTNESS_MAX
+    float t = fmod(_brightnessFlashTimer, BRIGHTNESS_FLASH_PERIOD) / BRIGHTNESS_FLASH_PERIOD;
+    _brightness = 1.0f + (BRIGHTNESS_MAX - 1.0f) * (0.5f + 0.5f * sinf(t * 2.0f * PI));
+}
+
+void SpriteV2::SetBrighteningUp(float duration, std::function<void()> onDone)
+{
+    _brighteningUp = true;
+    _brightenDuration = duration;
+    _brightenTimer = 0.0f;
+    _brightenOnDone = std::move(onDone);
+    _brightness = 1.0f;
+}
+
+void SpriteV2::UpdateBrighteningUp(float dt)
+{
+    if (!_brighteningUp) return;
+
+    _brightenTimer += dt;
+
+    float t = _brightenTimer / _brightenDuration; // 0 -> 1
+
+    if (t >= 1.0f)
+    {
+        t = 1.0f;
+        _brighteningUp = false;
+        _brightness = BRIGHTNESS_MAX;
+
+        if (_brightenOnDone)
+        {
+            _brightenOnDone();
+            _brightenOnDone = nullptr;
+        }
+        return;
+    }
+
+    // плавно нарастает 1.0 -> BRIGHTNESS_MAX
+    _brightness = 1.0f + (BRIGHTNESS_MAX - 1.0f) * t;
+}

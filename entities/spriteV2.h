@@ -44,6 +44,20 @@
     float _shakeIntensity = 4.0f;
     Vector2 _shakeOffset{0.0f, 0.0f};
 
+    // brightness flashing
+    bool _brightnessFlashing = false;
+    float _brightnessFlashTimer = 0.0f;
+    float _brightnessFlashDuration = 0.0f;
+    std::function<void()> _brightnessFlashOnDone;
+    static constexpr float BRIGHTNESS_FLASH_PERIOD = 0.15f;
+
+    // brightening up
+    bool _brighteningUp = false;
+    float _brightenTimer = 0.0f;
+    float _brightenDuration = 0.0f;
+    std::function<void()> _brightenOnDone;
+    static constexpr float BRIGHTNESS_MAX = 2.5f;
+
      // atlas
      Rectangle _frame{0.0f, 0.0f, 0.0f, 0.0f};
      size_t _frameIndex = 0;
@@ -95,6 +109,12 @@
 
      void SetShaking(bool shaking, float duration = 0.3f, float intensity = 4.0f);
     void UpdateShaking(float dt);
+
+    void SetBrightnessFlashing(bool flag, float duration = 1.0f, std::function<void()> onDone = nullptr);
+    void UpdateBrightnessFlashing(float dt);
+
+    void SetBrighteningUp(float duration, std::function<void()> onDone = nullptr);
+    void UpdateBrighteningUp(float dt);
  
      // atlas
      void SetFrame(size_t index);
