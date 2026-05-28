@@ -15,7 +15,7 @@ BattleEntity::BattleEntity(std::string _name, int _maxHp, bool _isEnemy, bool _c
         for (Ability ab : _abilities)
         {
             abilities.push_back(std::make_unique<Ability>(ab));
-            trail.Init(6, 4.0f, 0.01f);
+            trail.Init(20, 1.0f, 0.01f);
         }
     }
 
@@ -248,36 +248,24 @@ void BattleEntity::UpdateTurn(float dt)
     if (!_turning) return;
 
     float step = _turnSpeed * dt;
+    float sign = (_turnDelta >= 0.0f) ? 1.0f : -1.0f;
+    float moved = sign * std::min(step, std::abs(_turnDelta));
 
-    // двигаемся в сторону цели
-    if (_turnDelta > 0.0f)
-    {
-        float moved = std::min(step, _turnDelta);
-        sprite.SetRotation(sprite.GetRotation() + moved);
-        _turnDelta -= moved;
-    }
-    else if (_turnDelta < 0.0f)
-    {
-        float moved = std::max(-step, _turnDelta);
-        sprite.SetRotation(sprite.GetRotation() + moved);
-        _turnDelta -= moved;
-    }
+    sprite.SetRotation(sprite.GetRotation() + moved);
+    _turnDelta -= moved;
 
-    // проход завершён?
     if (std::abs(_turnDelta) < 0.001f)
     {
-        sprite.SetRotation(_turnTarget); // выравниваем точно
+        sprite.SetRotation(_turnTarget);
         _turnTimesLeft--;
 
         if (_turnTimesLeft > 0)
         {
-            // начинаем следующий проход
             _turnDelta  = _turnDegreesPerPass;
             _turnTarget = sprite.GetRotation() + _turnDegreesPerPass;
         }
         else
         {
-            // все
             _turning = false;
             if (_onTurnDone)
                 _onTurnDone();

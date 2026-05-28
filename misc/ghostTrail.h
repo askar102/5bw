@@ -5,6 +5,7 @@
 
 struct GhostFrame {
     Vector2 position;
+    float rotation;
     float alpha;
 };
 

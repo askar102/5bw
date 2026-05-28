@@ -188,10 +188,37 @@ namespace AbilityManager {
         {
             printf("SpawnSpin called\n");
 
-            caster.trail.SetEnabled(true);
-            caster.MoveTo(600, 1000.0f);
-            caster.TurnDegrees(360.0f, 720.0f, 8);
+            BattleEntity* casterPtr = &caster;
 
+            // damage section
+            const int spinDamage = ability.GetDamage();
+            casterPtr->ResetTouchTracking();
+            casterPtr->SetOnTouch([casterPtr, spinDamage](BattleEntity& touched) {
+                if (touched.isEnemy == casterPtr->isEnemy)
+                    return;
+
+                touched.Damage(spinDamage);
+                touched.EnemyHitAnimation();
+                touched.actionText.Add(TextFormat("Hit by %s", "spinDash"), ORANGE);
+            });
+
+            casterPtr->getSprite().SetFrame(0);
+
+            // animation
+            casterPtr->trail.SetEnabled(true);
+            casterPtr->MoveTo(600, 1000.0f, [casterPtr] () {
+                casterPtr->MoveTo(casterPtr->startPosition.x, 1000.0f);
+            });
+            casterPtr->TurnDegrees(360.0f, 720.0f, 3, [casterPtr]() {
+                float currentRot = casterPtr->getSprite().GetRotation();
+                float remainder  = std::fmod(currentRot, 360.0f);
+                if (remainder > 0.001f)
+                    casterPtr->TurnDegrees(-remainder, 720.0f, 1);
+            
+                casterPtr->trail.SetEnabled(false);
+                casterPtr->ClearOnTouch();
+            });
+            
         }
     } // namespace AngryGuy
 } // namespace AbilityManager

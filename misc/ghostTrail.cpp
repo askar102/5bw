@@ -19,6 +19,7 @@ void GhostTrail::Update(float dt, const SpriteV2& sprite)
 
         GhostFrame frame;
         frame.position = sprite.GetPosition();
+        frame.rotation = sprite.GetRotation();
         frame.alpha = 0.6f; // начальная прозрачность копии
 
         _frames.push_back(frame);
@@ -48,7 +49,10 @@ void GhostTrail::Draw(const SpriteV2& sprite) const
         // временно меняем позицию и альфу через const_cast — не трогаем оригинал
         SpriteV2 ghost = sprite; // копируем спрайт (дёшево, нет текстур внутри)
         ghost.SetPosition(frame.position);
+        ghost.SetRotation(frame.rotation);
         ghost.SetAlpha(frame.alpha);
+
+        
         ghost.Draw();
     }
 }
