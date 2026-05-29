@@ -29,6 +29,8 @@ void BattleEntity::Draw()
 
     effectLabel.Draw(sprite.GetPosition(), sprite.GetSize());
     effectIcons.Draw(getSprite());
+
+    minigame.Draw(getSprite());
 }
 
 void BattleEntity::DrawAbilities() 
@@ -155,6 +157,8 @@ void BattleEntity::Update(float dt)
     UpdateScreamEffect(dt);
     effectLabel.Update(dt); 
     effectIcons.Update(dt);
+
+    minigame.Update(dt);
 
     // Abilities
     UpdateAbilities();

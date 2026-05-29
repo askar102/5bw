@@ -49,6 +49,8 @@ add_executable(5bw12
     battle/effectLabel.cpp
     battle/effectIcon.cpp
     battle/effectIconList.cpp
+
+    battle/minigame.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)

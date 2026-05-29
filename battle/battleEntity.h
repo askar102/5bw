@@ -25,6 +25,8 @@
 #include "ability.h"
 #include "actionText.h"
 
+#include "minigame.h"
+
 #include "../misc/ghostTrail.h"
 
 class Ability;
@@ -66,6 +68,8 @@ public:
 
     EffectLabel effectLabel;
     EffectIconList effectIcons;
+
+    Minigame minigame;
 
     bool Alive() const
     {
