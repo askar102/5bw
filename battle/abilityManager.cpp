@@ -256,10 +256,18 @@ namespace AbilityManager {
                     target.actionText.Add(TextFormat("-%d BONUS", bonus), RED);
 
                     auto scene = std::make_unique<SceneState>(
-                        3.0f,               // длительность сцены в секундах
-                        []() {},            // onFinish — можно оставить пустым, PopState вызывается внутри Finish()
-                        casterPtr,          // персонаж который стоит в комнате
-                        SceneCameraConfig{} // дефолтная камера
+                        3.0f,               
+                        []() {},            
+                        [] (SceneContext& ctx) {
+                            if (ctx.elapsed < 0.5f)
+                            {
+                                float t = ctx.elapsed / 0.5f; // 0..1
+                                ctx.camera.position.z = 6.0f - t * 2.0f; // 6 → 4
+                                ctx.entity->SetScreamEffect(4.0f);
+                            }                    
+                        },
+                        casterPtr,          
+                        SceneCameraConfig{} 
                     );
 
                     stateManager->PushState(std::move(scene));
