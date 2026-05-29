@@ -85,7 +85,9 @@
  public:
      // resources
      void SetResource(TextureResource* newResource);
- 
+    
+     Rectangle GetSourceRect() const { return _frame; }
+
      // visual
      Vector2 GetPosition() const;
      void SetPosition(Vector2 newPosition);
@@ -109,6 +111,7 @@
 
      void SetShaking(bool shaking, float duration = 0.3f, float intensity = 4.0f);
     void UpdateShaking(float dt);
+    Vector2 GetShakeOffset() const { return _shakeOffset; }
 
     void SetBrightnessFlashing(bool flag, float duration = 1.0f, std::function<void()> onDone = nullptr);
     void UpdateBrightnessFlashing(float dt);

@@ -107,7 +107,9 @@ void MenuState::InitNewGui()
         &Game::GetResources().Get("blackButton"),
         [this]() {
             //  stateMachine->ChangeState(std::make_unique<MapState>());
-            startPressed = true;
+            stateMachine->ChangeState(std::make_unique<SceneState>(10.0f, [] () {
+                printf("pizda");
+            }));
         },
         PositionType::Left
     );

@@ -14,6 +14,7 @@ add_executable(5bw12
     states/menuState.cpp
     states/mapState.cpp
     states/battleState.cpp
+    states/sceneState.cpp
 
     entities/player.cpp
     entities/spriteV2.cpp
