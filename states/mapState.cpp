@@ -11,7 +11,7 @@
 #include "mapState.h"
 
 void MapState::HandleInput() {
-    if (IsKeyPressed(KEY_B)) {
+    if (IsKeyPressed(KEY_B) && !startBattle) {
         startBattle = true;
     }
 }
@@ -41,7 +41,7 @@ void MapState::Update(float dt) {
 
     if (startBattle && stateMachine) {
         startBattle = false;
-        stateMachine->ChangeState(std::make_unique<BattleState>());
+        stateMachine->PushState(std::make_unique<BattleState>());
     }
 
     if (IsKeyPressed(KEY_H))
