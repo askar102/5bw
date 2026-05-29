@@ -39,6 +39,10 @@
      float holeRelativeX = 0.3f;
      // Скорость курсора (px/s)
      float cursorSpeed   = 180.0f;
+
+    float barLifetimeTimer = 0.0f;
+    float barLifetime = 0.5f;
+
      // Сколько секунд показывать результат
      float resultDuration = 0.6f;
      // Клавиша подтверждения внутри миниигры

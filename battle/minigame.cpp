@@ -22,6 +22,8 @@
      _onSuccess   = std::move(onSuccess);
      _onFail      = std::move(onFail);
      _state       = MinigameState::Waiting;
+
+     barLifetimeTimer = 0.0f;
  }
   
  void Minigame::Play(std::function<void()> onSuccess,
@@ -32,6 +34,8 @@
      _cursorX    = 0.0f;
      _cursorDir  = 1.0f;
      _state      = MinigameState::Active;
+
+     barLifetimeTimer = 0.0f;
  }
   
  void Minigame::Reset()
@@ -48,6 +52,7 @@
   
  void Minigame::Update(float dt)
  {
+
      switch (_state)
      {
      case MinigameState::Idle:
@@ -55,6 +60,14 @@
   
      case MinigameState::Waiting:
          // Ждём нажатия клавиши-активатора (например R)
+
+         barLifetimeTimer += dt;
+
+         if (barLifetimeTimer >= barLifetime)
+         {
+             Reset();
+         }
+
          if (IsKeyPressed(_activateKey))
          {
              _cursorX   = barWidth;
