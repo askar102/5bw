@@ -246,11 +246,11 @@ namespace AbilityManager {
                 /* onSuccess */ [casterPtr, &target]() {
                     casterPtr->getSprite().SetShaking(true);
 
-                    casterPtr->getSprite().SetFrameTime(2, 0, 2.0f);
+                    casterPtr->getSprite().SetFrameTime(2, 0, 1.0f);
                     target.SetScreamEffect(4.0f);
                     int bonus = 25;
                     target.Damage(bonus);
-                    target.EnemyHitAnimation();
+                    // target.EnemyHitAnimation();
                     casterPtr->actionText.Add("SCREAM BONUS!", MAGENTA);
                     target.actionText.Add(TextFormat("-%d BONUS", bonus), RED);
                 },
@@ -259,13 +259,14 @@ namespace AbilityManager {
                     target.SetScreamEffect(4.0f);
                     casterPtr->getSprite().SetShaking(true);
 
-                    casterPtr->getSprite().SetFrameTime(2, 0, 2.0f);
+                    casterPtr->getSprite().SetFrameTime(2, 0, 1.0f);
                 },
                 [casterPtr, &target] () {
+                    casterPtr->getSprite().SetFrameTime(2, 0, 1.0f);
+
                     target.SetScreamEffect(4.0f);
                     casterPtr->getSprite().SetShaking(true);
 
-                    casterPtr->getSprite().SetFrameTime(2, 0, 2.0f);
                 }
             );
         

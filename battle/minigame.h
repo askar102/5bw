@@ -20,6 +20,7 @@
  enum class MinigameState {
      Idle,       // не активна
      Waiting,    // ждём нажатия клавиши-активатора (например R во время способности)
+     Hidden,
      Active,     // курсор движется, игрок должен нажать пробел
      Result      // показываем результат короткое время, потом Idle
  };
@@ -63,7 +64,8 @@
      void Arm(KeyboardKey activateKey,
               std::function<void()> onSuccess = nullptr,
               std::function<void()> onFail    = nullptr,
-              std::function<void()> onSkip    = nullptr);
+              std::function<void()> onSkip    = nullptr,
+              float hiddenDuration = 0.1f);
   
      // Напрямую запустить активную фазу (без Waiting)
      void Play(std::function<void()> onSuccess = nullptr,
@@ -108,6 +110,9 @@
 
      SpriteV2 _holeSprite;
      SpriteV2 _cursorSrite;
+
+     float _hiddenTimer = 0.0f;
+     float _hiddenDuration = 0.5f;
  };
   
  

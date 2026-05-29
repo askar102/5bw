@@ -24,7 +24,8 @@ void Minigame::Init()
  void Minigame::Arm(KeyboardKey activateKey,
                     std::function<void()> onSuccess,
                     std::function<void()> onFail,
-                    std::function<void()> onSkip )
+                    std::function<void()> onSkip,
+                    float hiddenDuration)
  {
      _activateKey = activateKey;
 
@@ -32,7 +33,10 @@ void Minigame::Init()
      _onFail      = std::move(onFail);
      _onSkip      = std::move(onSkip);
 
-     _state       = MinigameState::Waiting;
+    _hiddenDuration = hiddenDuration;  // <- этого не было
+    _hiddenTimer    = 0.0f;            // <- и этого
+
+     _state         = MinigameState::Hidden;
 
      Init();
  }
@@ -76,7 +80,25 @@ void Minigame::Init()
      {
      case MinigameState::Idle:
          break;
-  
+        
+    case MinigameState::Hidden:
+         _hiddenTimer += dt;
+     
+         if (IsKeyPressed(_activateKey))
+         {
+             // игрок нашёл секрет — переходим в Waiting (показываем бар)
+             _state = MinigameState::Waiting;
+             barLifetimeTimer = 0.0f;
+             break;
+         }
+     
+         if (_hiddenTimer >= _hiddenDuration)
+         {
+             // время вышло, никто не нажал — тихо пропускаем в onSkip
+             Reset(); // внутри вызовет _onSkip
+         }
+         break;
+
      case MinigameState::Waiting:
          // Ждём нажатия клавиши-активатора (например R)
 
@@ -134,7 +156,7 @@ void Minigame::Init()
   
  void Minigame::Draw(SpriteV2& unit)
  {
-     if (_state == MinigameState::Idle)
+    if (_state == MinigameState::Idle || _state == MinigameState::Hidden)
         return;
   
      Vector2 unitPos  = unit.GetPosition();
