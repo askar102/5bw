@@ -106,7 +106,11 @@ void BattleEntity::RefreshActionText()
     if (finalAmount == 0 || hp <= 0) return;
 
     this->hp = std::max(hp - finalAmount, 0);
-    getSprite().GetText().Show(std::to_string(finalAmount), {getSprite().GetPosition().x - 10.0f, getSprite().GetPosition().y}, 1.0f, RED);
+
+    Rectangle rect = getSprite().GetWorldRect();
+    Vector2 topLeft = {rect.x, rect.y};
+
+    getSprite().GetText().Show(std::to_string(finalAmount), {topLeft.x + 40.0f, topLeft.y}, 1.0f, RED);
  }
 
 
