@@ -91,7 +91,7 @@ namespace AbilityManager {
 
             const DamageableSide damageSide = DamageSideForCaster(caster.isEnemy);
 
-            caster.getSprite().SetFrame(1);
+            caster.getSprite().SetFrameTime(1, 0, 1.0f);
 
             const AbilityType bulletType = ability.GetType();
             const int abilityDamage = ability.GetDamage();
