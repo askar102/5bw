@@ -33,7 +33,7 @@
      // Ширина всей полоски (px)
      float barWidth      = 160.0f;
      // Высота полоски
-     float barHeight     = 18.0f;
+     float barHeight     = 30.0f;
      // Ширина "дырки" (зоны успеха)
      float holeWidth     = 4.0f;
      // Смещение центра дырки от левого края полоски (0..1, дефолт — середина)
@@ -42,7 +42,7 @@
      float cursorSpeed   = 180.0f;
 
     float barLifetimeTimer = 0.0f;
-    float barLifetime = 0.5f;
+    float barLifetime = 0.3f;
 
      // Сколько секунд показывать результат
      float resultDuration = 0.6f;
@@ -62,11 +62,13 @@
      // onSuccess/onFail — вызываются после того как игрок нажал confirmKey
      void Arm(KeyboardKey activateKey,
               std::function<void()> onSuccess = nullptr,
-              std::function<void()> onFail    = nullptr);
+              std::function<void()> onFail    = nullptr,
+              std::function<void()> onSkip    = nullptr);
   
      // Напрямую запустить активную фазу (без Waiting)
      void Play(std::function<void()> onSuccess = nullptr,
-               std::function<void()> onFail    = nullptr);
+               std::function<void()> onFail    = nullptr,
+               std::function<void()> onSkip    = nullptr);
   
      void Update(float dt);
   
@@ -93,6 +95,7 @@
   
      std::function<void()> _onSuccess;
      std::function<void()> _onFail;
+     std::function<void()> _onSkip; 
   
      // helpers
      bool CursorInHole() const;

@@ -23,21 +23,28 @@ void Minigame::Init()
 
  void Minigame::Arm(KeyboardKey activateKey,
                     std::function<void()> onSuccess,
-                    std::function<void()> onFail)
+                    std::function<void()> onFail,
+                    std::function<void()> onSkip )
  {
      _activateKey = activateKey;
+
      _onSuccess   = std::move(onSuccess);
      _onFail      = std::move(onFail);
+     _onSkip      = std::move(onSkip);
+
      _state       = MinigameState::Waiting;
 
      Init();
  }
   
  void Minigame::Play(std::function<void()> onSuccess,
-                     std::function<void()> onFail)
+                     std::function<void()> onFail,
+                     std::function<void()> onSkip )
  {
      _onSuccess  = std::move(onSuccess);
      _onFail     = std::move(onFail);
+     _onSkip      = std::move(onSkip);
+
      _cursorX    = 0.0f;
      _cursorDir  = 1.0f;
      _state      = MinigameState::Active;
@@ -51,6 +58,9 @@ void Minigame::Init()
  {
      _state       = MinigameState::Idle;
      _onSuccess   = nullptr;
+     if (_onSkip) {
+        _onSkip();
+     }
      _onFail      = nullptr;
      _resultTimer = 0.0f;
  }
@@ -125,14 +135,14 @@ void Minigame::Init()
  void Minigame::Draw(SpriteV2& unit)
  {
      if (_state == MinigameState::Idle)
-         return;
+        return;
   
      Vector2 unitPos  = unit.GetPosition();
      Vector2 unitSize = unit.GetSize();
   
      // Левый верхний угол бара — под персонажем по центру
-     float barX = unitPos.x - barWidth * 0.5f + offset.x;
-     float barY = unitPos.y + unitSize.y * 0.5f + offset.y;
+     float barX = unitPos.x - barWidth * 0.5f;
+    float barY = unitPos.y + unitSize.y * 0.5f + 10.0f;
   
     //  // ── Фон бара ──
     //  DrawRectangle(
@@ -146,8 +156,9 @@ void Minigame::Init()
     
     
 
-     _bgSprite.SetPosition({barX + 80.0f, barY + 10.0f});
+     _bgSprite.SetPosition({barX + 80.0f, barY + 15.0f});
      _bgSprite.SetSize({barWidth, barHeight});
+     _bgSprite.SetAlpha(0.7f);
      _bgSprite.Draw();
 
   

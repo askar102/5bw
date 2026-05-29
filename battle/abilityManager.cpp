@@ -239,23 +239,33 @@ namespace AbilityManager {
 
             BattleEntity* casterPtr = &caster;
 
-            casterPtr->getSprite().SetShaking(true);
-            target.SetScreamEffect(4.0f);
-
-            casterPtr->getSprite().SetFrameTime(2, 0, 2.0f);
             // target.SetWeaknessEffect(10, 4.0f);
 
             casterPtr->minigame.Arm(
                 KEY_R,
                 /* onSuccess */ [casterPtr, &target]() {
+                    casterPtr->getSprite().SetShaking(true);
+
+                    casterPtr->getSprite().SetFrameTime(2, 0, 2.0f);
+                    target.SetScreamEffect(4.0f);
                     int bonus = 25;
                     target.Damage(bonus);
                     target.EnemyHitAnimation();
                     casterPtr->actionText.Add("SCREAM BONUS!", MAGENTA);
                     target.actionText.Add(TextFormat("-%d BONUS", bonus), RED);
                 },
-                /* onFail */ [casterPtr]() {
+                /* onFail */ [casterPtr, &target]() {
                     casterPtr->actionText.Add("Missed timing...", GRAY);
+                    target.SetScreamEffect(4.0f);
+                    casterPtr->getSprite().SetShaking(true);
+
+                    casterPtr->getSprite().SetFrameTime(2, 0, 2.0f);
+                },
+                [casterPtr, &target] () {
+                    target.SetScreamEffect(4.0f);
+                    casterPtr->getSprite().SetShaking(true);
+
+                    casterPtr->getSprite().SetFrameTime(2, 0, 2.0f);
                 }
             );
         
