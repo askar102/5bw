@@ -13,6 +13,7 @@
  #include <functional>
   
  #include "../raylib/raylib.h"
+
  #include "../entities/spriteV2.h"
   
  // Состояния миниигры
@@ -53,7 +54,9 @@
      // ──────────────────────────────────────────────
      //  API
      // ──────────────────────────────────────────────
-  
+    
+    void Init();
+
      // Переводит в Waiting — игрок ещё может нажать activateKey чтобы запустить
      // activateKey — клавиша которую нужно нажать ПОКА идёт анимация (например R)
      // onSuccess/onFail — вызываются после того как игрок нажал confirmKey
@@ -96,6 +99,12 @@
      void FireResult();
      float HoleLeft()  const;   // левый край дырки в координатах бара
      float HoleRight() const;   // правый край дырки в координатах бара
+
+     SpriteV2 _bgSprite;
+     TextureResource _bgTex;
+
+     SpriteV2 _holeSprite;
+     SpriteV2 _cursorSrite;
  };
   
  

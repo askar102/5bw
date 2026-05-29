@@ -14,6 +14,13 @@
  //  Public API
  // ──────────────────────────────────────────────────────────────
   
+void Minigame::Init()
+{
+    barLifetimeTimer = 0.0f;
+    _bgTex = {LoadTexture("resources/minigameBackground.png"), {}};
+    _bgSprite.SetResource(&_bgTex);
+}
+
  void Minigame::Arm(KeyboardKey activateKey,
                     std::function<void()> onSuccess,
                     std::function<void()> onFail)
@@ -23,7 +30,7 @@
      _onFail      = std::move(onFail);
      _state       = MinigameState::Waiting;
 
-     barLifetimeTimer = 0.0f;
+     Init();
  }
   
  void Minigame::Play(std::function<void()> onSuccess,
@@ -36,6 +43,8 @@
      _state      = MinigameState::Active;
 
      barLifetimeTimer = 0.0f;
+
+     Init();
  }
   
  void Minigame::Reset()
@@ -125,14 +134,22 @@
      float barX = unitPos.x - barWidth * 0.5f + offset.x;
      float barY = unitPos.y + unitSize.y * 0.5f + offset.y;
   
-     // ── Фон бара ──
-     DrawRectangle(
-         static_cast<int>(barX),
-         static_cast<int>(barY),
-         static_cast<int>(barWidth),
-         static_cast<int>(barHeight),
-         Color{30, 30, 30, 200}
-     );
+    //  // ── Фон бара ──
+    //  DrawRectangle(
+    //      static_cast<int>(barX),
+    //      static_cast<int>(barY),
+    //      static_cast<int>(barWidth),
+    //      static_cast<int>(barHeight),
+    //      Color{30, 30, 30, 200}
+    //  );
+
+    
+    
+
+     _bgSprite.SetPosition({barX + 80.0f, barY + 10.0f});
+     _bgSprite.SetSize({barWidth, barHeight});
+     _bgSprite.Draw();
+
   
      // ── Дырка (зона успеха) ──
      Color holeColor = Color{80, 220, 80, 230};
