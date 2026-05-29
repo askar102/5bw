@@ -30,6 +30,7 @@ add_executable(5bw12
     misc/configReader.cpp
 
     misc/ghostTrail.cpp
+    misc/floatingText.cpp
 
     battle/battleEntity.cpp
     battle/actionText.cpp

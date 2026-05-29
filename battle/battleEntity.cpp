@@ -9,6 +9,7 @@
  */
 
 #include "battleEntity.h"
+#include <string>
 
 BattleEntity::BattleEntity(std::string _name, int _maxHp, bool _isEnemy, bool _canSelected, std::vector<Ability> _abilities, FacingDirection _facingDirection)
     : name(_name), maxHp(_maxHp), isEnemy(_isEnemy), canSelected(_canSelected), facing(_facingDirection) {
@@ -102,6 +103,7 @@ void BattleEntity::RefreshActionText()
     if (reduced < 0) reduced = 0;
 
     this->hp = std::max(hp - reduced, 0);
+    getSprite().GetText().Show(std::to_string(reduced), {getSprite().GetPosition().x - 10.0f, getSprite().GetPosition().y}, 1.0f, RED);
  }
 
 

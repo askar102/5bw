@@ -28,6 +28,7 @@
 #include "minigame.h"
 
 #include "../misc/ghostTrail.h"
+#include "../misc/floatingText.h"
 
 class Ability;
 

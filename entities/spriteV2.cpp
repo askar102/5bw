@@ -305,6 +305,8 @@ void SpriteV2::SetFrameTime(size_t frame, size_t returnFrame, float duration, st
       if (!HasResource())
           return;
 
+     _text.Draw();
+
       Vector2 drawPos = {
         _position.x + _shakeOffset.x,
         _position.y + _shakeOffset.y
@@ -348,7 +350,9 @@ void SpriteV2::Update(float dt)
     UpdateShaking(dt);
 
     UpdateBrightnessFlashing(dt);  
-    UpdateBrighteningUp(dt);       
+    UpdateBrighteningUp(dt);  
+    
+    _text.Update(dt);
 
     if (!_frameTimerActive) return;
 

@@ -263,7 +263,7 @@ namespace AbilityManager {
                             {
                                 float t = ctx.elapsed / 0.5f; // 0..1
                                 ctx.camera.position.z = 6.0f - t * 2.0f; // 6 → 4
-                                ctx.entity->SetScreamEffect(4.0f);
+                                ctx.entity->getSprite().SetShaking(true, 1.0f);
                             }                    
                         },
                         casterPtr,          

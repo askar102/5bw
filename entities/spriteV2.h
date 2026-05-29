@@ -15,6 +15,8 @@
 
  #include "../raylib/raylib.h"
  #include "../core/resourceManager.h"
+
+ #include "../misc/floatingText.h"
  
  class SpriteV2 {
  private:
@@ -57,6 +59,9 @@
     float _brightenDuration = 0.0f;
     std::function<void()> _brightenOnDone;
     static constexpr float BRIGHTNESS_MAX = 2.5f;
+    
+    // floating text
+    FloatingText _text;
 
      // atlas
      Rectangle _frame{0.0f, 0.0f, 0.0f, 0.0f};
@@ -141,7 +146,7 @@
     
     // misc
     bool IsSpriteOnScreen();
-
+    FloatingText& GetText() { return _text; }
 
      // core
      void Draw();
