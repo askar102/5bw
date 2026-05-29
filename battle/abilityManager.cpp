@@ -253,6 +253,15 @@ namespace AbilityManager {
                     // target.EnemyHitAnimation();
                     casterPtr->actionText.Add("SCREAM BONUS!", MAGENTA);
                     target.actionText.Add(TextFormat("-%d BONUS", bonus), RED);
+
+                    auto scene = std::make_unique<SceneState>(
+                        3.0f,               // длительность сцены в секундах
+                        []() {},            // onFinish — можно оставить пустым, PopState вызывается внутри Finish()
+                        casterPtr,          // персонаж который стоит в комнате
+                        SceneCameraConfig{} // дефолтная камера
+                    );
+
+                    stateMachine->PushState(std::move(scene));
                 },
                 /* onFail */ [casterPtr, &target]() {
                     casterPtr->actionText.Add("Missed timing...", GRAY);

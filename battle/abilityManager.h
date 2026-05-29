@@ -17,6 +17,7 @@
 #include "../raylib/raylib.h"
 
 #include "../core/game.h"
+#include "../states/sceneState.h"
 
 #include "battleEntity.h"
 #include "partyManager.h"

@@ -104,14 +104,19 @@
  //  Finish
  // ─────────────────────────────────────────────────────────────
  void SceneState::Finish()
- {
-     if (_finished) return;
-     _finished = true;
+{
+    if (_finished) return;
+    _finished = true;
  
-     if (_onFinish)
-         _onFinish();
- }
+    // Сначала колбек (можно что-то сделать до закрытия сцены)
+    if (_onFinish)
+        _onFinish();
  
+    // Снимаем себя со стека — BattleState под нами получит OnResume()
+    if (stateMachine)
+        stateMachine->PopState();
+}
+
  // ─────────────────────────────────────────────────────────────
  //  DrawRoom  — белая комната
  // ─────────────────────────────────────────────────────────────

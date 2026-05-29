@@ -19,7 +19,10 @@
      // start & stop things
      virtual void OnEnter() {}
      virtual void OnExit() {}
- 
+    
+     virtual void OnPause()  {}
+     virtual void OnResume() {}
+
      // input
      virtual void HandleInput() = 0;
  

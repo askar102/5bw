@@ -10,72 +10,135 @@
 
  #include "stateManager.h"
 
- void StateManager::ChangeState(std::unique_ptr<State> newState) 
- {
-     if (dispatchingState)
-     {
-         pendingState = std::move(newState);
-         return;
-     }
+ void StateManager::ChangeState(std::unique_ptr<State> newState)
+{
+    if (_dispatching)
+    {
+        _pending.kind  = PendingKind::Change;
+        _pending.state = std::move(newState);
+        return;
+    }
+    DoChange(std::move(newState));
+}
+ 
+void StateManager::PushState(std::unique_ptr<State> newState)
+{
+    if (_dispatching)
+    {
+        _pending.kind  = PendingKind::Push;
+        _pending.state = std::move(newState);
+        return;
+    }
+    DoPush(std::move(newState));
+}
+ 
+void StateManager::PopState()
+{
+    if (_dispatching)
+    {
+        _pending.kind  = PendingKind::Pop;
+        _pending.state = nullptr;
+        return;
+    }
+    DoPop();
+}
 
-     ApplyStateChange(std::move(newState));
- }
+ 
+void StateManager::HandleInput()
+{
+    if (State* top = Top())
+    {
+        _dispatching = true;
+        top->HandleInput();
+        _dispatching = false;
+        ApplyPending();
+    }
+}
+ 
+void StateManager::Update(float dt)
+{
+    if (State* top = Top())
+    {
+        _dispatching = true;
+        top->Update(dt);
+        _dispatching = false;
+        ApplyPending();
+    }
+}
+ 
+void StateManager::Draw()
+{
+    // Рисуем весь стек снизу вверх — нижние стейты видны "под" верхними.
+    // Если не нужно (например BattleState не должен просвечивать под SceneState) —
+    // замени на: if (State* top = Top()) top->Draw();
+    for (auto& statePtr : _stack)
+        statePtr->Draw();
+}
 
- void StateManager::ApplyStateChange(std::unique_ptr<State> newState)
- {
-     if (currentState) 
-     {
-         currentState->OnExit();
-     }
- 
-     if (newState) 
-     {
-         newState->SetStateMachine(this);
-     }
- 
-     currentState = std::move(newState);
- 
-     if (currentState) 
-     {   
-         currentState->OnEnter();
-     }
- }
 
- void StateManager::ApplyPendingState()
- {
-     if (pendingState)
-     {
-         ApplyStateChange(std::move(pendingState));
-     }
- }
+ State* StateManager::Top() const
+{
+    if (_stack.empty()) return nullptr;
+    return _stack.back().get();
+}
  
- void StateManager::HandleInput() 
- {
-     if (currentState) 
-     {
-         dispatchingState = true;
-         currentState->HandleInput();
-         dispatchingState = false;
-         ApplyPendingState();
-     }
- }
+void StateManager::DoChange(std::unique_ptr<State> newState)
+{
+    // OnExit всему стеку снизу вверх, потом чистим
+    for (int i = static_cast<int>(_stack.size()) - 1; i >= 0; --i)
+        _stack[i]->OnExit();
  
- void StateManager::Update(float dt) 
- {
-     if (currentState) 
-     {
-         dispatchingState = true;
-         currentState->Update(dt);
-         dispatchingState = false;
-         ApplyPendingState();
-     }
- }
+    _stack.clear();
  
- void StateManager::Draw() 
- {
-     if (currentState) 
-     {
-         currentState->Draw();
-     }
- }
+    if (newState)
+    {
+        newState->SetStateMachine(this);
+        _stack.push_back(std::move(newState));
+        _stack.back()->OnEnter();
+    }
+}
+ 
+void StateManager::DoPush(std::unique_ptr<State> newState)
+{
+    if (!newState) return;
+ 
+    // Текущий верхний стейт уходит на паузу
+    if (State* top = Top())
+        top->OnPause();
+ 
+    newState->SetStateMachine(this);
+    _stack.push_back(std::move(newState));
+    _stack.back()->OnEnter();
+}
+ 
+void StateManager::DoPop()
+{
+    if (_stack.empty()) return;
+ 
+    // Снимаем верхний
+    _stack.back()->OnExit();
+    _stack.pop_back();
+ 
+    // Возобновляем новый верхний
+    if (State* top = Top())
+        top->OnResume();
+}
+ 
+void StateManager::ApplyPending()
+{
+    if (_pending.kind == PendingKind::None) return;
+ 
+    PendingCmd cmd = std::move(_pending);
+    _pending.kind  = PendingKind::None;
+ 
+    switch (cmd.kind)
+    {
+        case PendingKind::Change: DoChange(std::move(cmd.state)); break;
+        case PendingKind::Push:   DoPush  (std::move(cmd.state)); break;
+        case PendingKind::Pop:    DoPop   ();                     break;
+        default: break;
+    }
+}
+ 
+
  
