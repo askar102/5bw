@@ -28,7 +28,8 @@ void BattleState::HandleInput()
                     _vfxManager,
                     *_pendingCaster,
                     *unit,
-                    _partyManager
+                    _partyManager,
+                    stateMachine
                 );
             
                 _pendingAbility = nullptr;
@@ -72,7 +73,8 @@ void BattleState::HandleInput()
                         _vfxManager,
                         *selected,
                         *target,
-                        _partyManager
+                        _partyManager,
+                        stateMachine
                     );
 
                     selected->actionText.Add(TextFormat("Uzanulo %s", clickedAbility->GetName().c_str()), YELLOW);

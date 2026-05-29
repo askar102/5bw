@@ -17,7 +17,8 @@ namespace AbilityManager {
                       VfxManager& vfxManager,
                       BattleEntity& caster,
                       BattleEntity& target,
-                      PartyManager& partyManager)
+                      PartyManager& partyManager,
+                      StateManager* stateManager)
     {
         const AbilityType abilityType = clickedAbility.GetType();
 
@@ -63,7 +64,7 @@ namespace AbilityManager {
         }
         if (clickedAbility.GetName() == "scream")
         {
-            AbilityManager::AngryGuy::SpawnScream(vfxManager, caster, target, clickedAbility, partyManager);
+            AbilityManager::AngryGuy::SpawnScream(vfxManager, caster, target, clickedAbility, partyManager, stateManager);
         }
 
         // forest enemies
@@ -233,7 +234,7 @@ namespace AbilityManager {
             
         }
 
-        void SpawnScream(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        void SpawnScream(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager)
         {
             printf("SpawnScream called\n");
 
@@ -243,7 +244,7 @@ namespace AbilityManager {
 
             casterPtr->minigame.Arm(
                 KEY_R,
-                /* onSuccess */ [casterPtr, &target]() {
+                /* onSuccess */ [casterPtr, &target, stateManager]() {
                     casterPtr->getSprite().SetShaking(true);
 
                     casterPtr->getSprite().SetFrameTime(2, 0, 1.0f);
@@ -261,7 +262,7 @@ namespace AbilityManager {
                         SceneCameraConfig{} // дефолтная камера
                     );
 
-                    stateMachine->PushState(std::move(scene));
+                    stateManager->PushState(std::move(scene));
                 },
                 /* onFail */ [casterPtr, &target]() {
                     casterPtr->actionText.Add("Missed timing...", GRAY);

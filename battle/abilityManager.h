@@ -29,7 +29,8 @@ namespace AbilityManager {
                       VfxManager& vfxManager,
                       BattleEntity& caster,
                       BattleEntity& target,
-                      PartyManager& partyManager);
+                      PartyManager& partyManager,
+                      StateManager* stateManager);
 
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager,
@@ -44,7 +45,7 @@ namespace AbilityManager {
     namespace AngryGuy {
         void SpawnSpeedDash(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager);
         void SpawnSpeedSpin(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager);
-        void SpawnScream(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager);
+        void SpawnScream(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager);
     }
 
     namespace ForestEnemies {
