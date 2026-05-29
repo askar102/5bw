@@ -23,6 +23,8 @@
 #include "partyManager.h"
 #include "vfxManager.h"
 
+#include "../gui/button.h"
+
 
 namespace AbilityManager {
     void SpawnAbility(Ability& clickedAbility,
@@ -40,6 +42,8 @@ namespace AbilityManager {
                              PartyManager& partyManager);
         void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);
         void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);
+
+        void SpawnCardChoose(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);
     }
 
     namespace AngryGuy {

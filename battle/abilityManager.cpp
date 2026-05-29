@@ -156,6 +156,12 @@ namespace AbilityManager {
             );
         }
 
+
+        void SpawnCardChoose(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager)
+        {
+            
+        }
+
     } // namespace CardGuy
 
     namespace AngryGuy {
@@ -171,7 +177,7 @@ namespace AbilityManager {
                 if (touched.isEnemy == caster.isEnemy)
                     return;
 
-                touched.Damage(dashDamage);
+                touched.Damage(dashDamage, &caster);
                 touched.EnemyHitAnimation();
                 touched.SetWeaknessEffect(10, 4.0f);
                 touched.actionText.Add(TextFormat("Hit by %s", "speedDash"), ORANGE);
@@ -250,7 +256,7 @@ namespace AbilityManager {
                     casterPtr->getSprite().SetFrameTime(2, 0, 1.0f);
                     target.SetScreamEffect(4.0f);
                     int bonus = 25;
-                    target.Damage(bonus);
+                    target.Damage(bonus, casterPtr);
                     // target.EnemyHitAnimation();
                     casterPtr->actionText.Add("SCREAM BONUS!", MAGENTA);
                     target.actionText.Add(TextFormat("-%d BONUS", bonus), RED);
@@ -314,7 +320,7 @@ namespace AbilityManager {
                     if (touched.isEnemy == caster.isEnemy)
                         return;
 
-                    touched.Damage(dashDamage);
+                    touched.Damage(dashDamage, &caster);
                     touched.EnemyHitAnimation();
                     // touched.SetWeaknessEffect(10, 4.0f);
                     touched.actionText.Add(TextFormat("Hit by %s", "speedDash"), ORANGE);

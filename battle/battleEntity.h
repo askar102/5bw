@@ -99,7 +99,7 @@ public:
 
     // Battle actions
     void Heal(int amount);
-    void Damage(int amount);
+    void Damage(int amount, BattleEntity* source = nullptr);
 
     // Enemy actions
     void UpdateEnemyWhirl();

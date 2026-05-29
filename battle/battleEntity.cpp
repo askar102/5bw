@@ -95,15 +95,18 @@ void BattleEntity::RefreshActionText()
   * 
   * @param amount 
   */
- void BattleEntity::Damage(int amount)
+ void BattleEntity::Damage(int amount, BattleEntity* source)
  {
-    if (amount < 0) return;
+    int finalAmount = amount;
 
-    int reduced = amount - GetWeaknessEffect();
-    if (reduced < 0) reduced = 0;
+    if (source && source->GetWeaknessEffect() > 0)
+        finalAmount -= source->GetWeaknessEffect();
 
-    this->hp = std::max(hp - reduced, 0);
-    getSprite().GetText().Show(std::to_string(reduced), {getSprite().GetPosition().x - 10.0f, getSprite().GetPosition().y}, 1.0f, RED);
+    if (finalAmount < 0) finalAmount = 0;
+    if (finalAmount == 0 || hp <= 0) return;
+
+    this->hp = std::max(hp - finalAmount, 0);
+    getSprite().GetText().Show(std::to_string(finalAmount), {getSprite().GetPosition().x - 10.0f, getSprite().GetPosition().y}, 1.0f, RED);
  }
 
 
