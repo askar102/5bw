@@ -244,6 +244,21 @@ namespace AbilityManager {
 
             casterPtr->getSprite().SetFrameTime(2, 0, 2.0f);
             // target.SetWeaknessEffect(10, 4.0f);
+
+            casterPtr->minigame.Arm(
+                KEY_R,
+                /* onSuccess */ [casterPtr, &target]() {
+                    int bonus = 25;
+                    target.Damage(bonus);
+                    target.EnemyHitAnimation();
+                    casterPtr->actionText.Add("SCREAM BONUS!", MAGENTA);
+                    target.actionText.Add(TextFormat("-%d BONUS", bonus), RED);
+                },
+                /* onFail */ [casterPtr]() {
+                    casterPtr->actionText.Add("Missed timing...", GRAY);
+                }
+            );
+        
         }
     } // namespace AngryGuy
 
