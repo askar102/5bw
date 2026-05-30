@@ -116,7 +116,7 @@ AbilityType ConfigReader::ParseAbilityType(const std::string& type)
         return AbilityType::Unique;
 
     if (type == "target")
-        return AbilityType::Unique;
+        return AbilityType::Target;
 
     return AbilityType::Melee;
 }

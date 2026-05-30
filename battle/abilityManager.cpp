@@ -88,6 +88,45 @@ namespace AbilityManager {
         
     }
 
+    TargetAbilityDesc MakeTargetDesc(Ability& ability,
+        VfxManager& vfxManager,
+        PartyManager& partyManager,
+        StateManager* stateManager)
+    {
+        TargetAbilityDesc desc;
+
+        // ── cardBlock — глушим выбранного персонажа ───────────────
+        if (ability.GetName() == "cardBlock")
+        {
+            desc.onConfirm = [&vfxManager, &partyManager](BattleEntity& caster, BattleEntity& target){
+                AbilityManager::CardGuy::SpawnCardBlock(vfxManager, caster, target, partyManager);
+                caster.actionText.Add("Used cardBlock", YELLOW);
+                target.actionText.Add("Stunned!", ORANGE);
+            };
+
+            desc.onCancel = []()
+            {
+                TraceLog(LOG_INFO, "[TargetSelector] cardBlock cancelled");
+            };
+
+            return desc;
+        }
+
+        // ── Сюда добавляй новые таргет-абилки ─────────────────────
+        //
+        // if (ability.GetName() == "myNewAbility")
+        // {
+        //     desc.onConfirm = [&](BattleEntity& caster, BattleEntity& target) { ... };
+        //     return desc;
+        // }
+
+        // ── Fallback — просто выполняем базовый Ability::Execute ──
+        desc.onConfirm = [&ability](BattleEntity& caster, BattleEntity& target){
+            ability.Execute(caster, target);
+        };
+
+        return desc;
+    }
 
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager,

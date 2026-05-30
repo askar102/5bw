@@ -24,6 +24,8 @@
 
 #include "../battle/partyManager.h"
 
+#include "../battle/targetSelector.h"
+
 class BattleState : public State {
 public:
     void HandleInput() override;
@@ -49,6 +51,6 @@ private:
 
     PartyManager _partyManager;
 
-    Ability* _pendingAbility = nullptr;
-    BattleEntity* _pendingCaster = nullptr;
+    std::vector<BattleEntity*> GatherAllTargets();
+    TargetSelector _targetSelector;
 };

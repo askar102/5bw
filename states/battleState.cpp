@@ -14,41 +14,16 @@ void BattleState::HandleInput()
 {
     Vector2 mouse = GetMousePosition();
 
+    if (_targetSelector.IsActive())
+    {
+        _targetSelector.HandleInput(mouse);
+        return;
+    }
+
+
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
-        // target flow (not working now)
-        if (_pendingAbility)
-        {
-            auto tryClick = [&](BattleEntity* unit) -> bool {
-                if (!unit || !unit->Alive()) return false;
-                if (!CheckCollisionPointRec(mouse, unit->getSprite().GetRect())) return false;
-            
-                AbilityManager::SpawnAbility(
-                    *_pendingAbility,
-                    _vfxManager,
-                    *_pendingCaster,
-                    *unit,
-                    _partyManager,
-                    stateMachine
-                );
-            
-                _pendingAbility = nullptr;
-                _pendingCaster = nullptr;
-                _partyManager.DeselectAll();
-                return true;
-            };
-            
-            for (size_t i = 0; i < 4; ++i)
-                if (tryClick(_partyManager.GetPlayer(i))) return;
-            
-            for (size_t i = 0; i < 4; ++i)
-                if (tryClick(_partyManager.GetEnemy(i))) return;
-
-            return;
-        }
-
-
-        // default flow
+        // target flow
         if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
         {
             BattleEntity* selected = _partyManager.GetSelectedEntity();
@@ -56,37 +31,40 @@ void BattleState::HandleInput()
 
             if (clickedAbility->GetType() == AbilityType::Target)
             {
-                _pendingAbility = clickedAbility;
-                _pendingCaster = selected;
+                _targetSelector.Arm(
+                    selected,
+                    GatherAllTargets(),
+                    AbilityManager::MakeTargetDesc(
+                        *clickedAbility,
+                        _vfxManager,
+                        _partyManager,
+                        stateMachine
+                    )
+                );
+                _partyManager.DeselectAll();
                 return;
             }
 
-
-            if (selected)
+            BattleEntity* target = _partyManager.GetAbilityTarget(*selected);
+            if (target)
             {
-                BattleEntity* target = _partyManager.GetAbilityTarget(*selected);
-
-                if (target)
-                {
-                    AbilityManager::SpawnAbility(
-                        *clickedAbility,
-                        _vfxManager,
-                        *selected,
-                        *target,
-                        _partyManager,
-                        stateMachine
-                    );
-
-                    selected->actionText.Add(TextFormat("Uzanulo %s", clickedAbility->GetName().c_str()), YELLOW);
-                    target->actionText.Add(TextFormat("Pizdanulo by %s", clickedAbility->GetName().c_str()), ORANGE);
-                }
-
-                _partyManager.DeselectAll();
+                AbilityManager::SpawnAbility(
+                    *clickedAbility,
+                    _vfxManager,
+                    *selected,
+                    *target,
+                    _partyManager,
+                    stateMachine
+                );
+ 
+                selected->actionText.Add(TextFormat("Uzanulo %s", clickedAbility->GetName().c_str()), YELLOW);
+                target->actionText.Add(TextFormat("Pizdanulo by %s", clickedAbility->GetName().c_str()), ORANGE);
             }
 
+            _partyManager.DeselectAll();
             return;
-        }
 
+        }
         _partyManager.UpdateSelection();
     }
 
@@ -104,6 +82,10 @@ void BattleState::Draw()
     _partyManager.Draw(); 
     _vfxManager.Draw();
     _abilityPanel.Draw();
+
+    if (_targetSelector.IsActive())
+        _targetSelector.Draw(GetMousePosition());
+
 
     DrawText("currentState: battle", 0, 0, 20, WHITE);
     DrawText(TextFormat("mX: %d, mY: %d", GetMouseX(), GetMouseY()), 0, 30, 20, WHITE);
@@ -125,7 +107,7 @@ void BattleState::Update(float dt)
         _abilityPanel.SetAbilities(selected->abilities);
     }
     else
-    {
+    {   
         _abilityPanel.SetVisible(false);
     }
 
@@ -150,6 +132,9 @@ void BattleState::OnEnter()
 void BattleState::OnExit()
 {
     _vfxManager.Clear();
+
+    if (_targetSelector.IsActive())
+        _targetSelector.Cancel();
 }
 
 void BattleState::InitBackground()
@@ -190,4 +175,23 @@ void BattleState::InitEnemyParty()
         enemy->getSprite().SetSize({100, 100});
         enemy->getSprite().SetRectSize({100, 100});
     }
+}
+
+std::vector<BattleEntity*> BattleState::GatherAllTargets()
+{
+    std::vector<BattleEntity*> result;
+    result.reserve(8);
+ 
+    for (size_t i = 0; i < 4; ++i)
+    {
+        if (BattleEntity* e = _partyManager.GetPlayer(i))
+            result.push_back(e);
+    }
+    for (size_t i = 0; i < 4; ++i)
+    {
+        if (BattleEntity* e = _partyManager.GetEnemy(i))
+            result.push_back(e);
+    }
+ 
+    return result;
 }

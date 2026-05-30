@@ -23,6 +23,8 @@
 #include "partyManager.h"
 #include "vfxManager.h"
 
+#include "targetSelector.h"
+
 #include "../gui/button.h"
 
 
@@ -33,6 +35,12 @@ namespace AbilityManager {
                       BattleEntity& target,
                       PartyManager& partyManager,
                       StateManager* stateManager);
+
+    TargetAbilityDesc MakeTargetDesc(Ability& ability,
+                        VfxManager& vfxManager,
+                        PartyManager& partyManager,
+                        StateManager* stateManager);
+
 
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager,

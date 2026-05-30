@@ -27,7 +27,7 @@
                 },
                 {
                     "name": "cardBlock",
-                    "type": "unique",
+                    "type": "target",
                     "damage": 0,
                     "heal": 0
                 }
