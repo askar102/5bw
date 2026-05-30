@@ -401,6 +401,7 @@ namespace AbilityManager {
             int damage = ability.GetDamage();
             // todo: fix it later, hardcore
             bullet->SetBulletType(AbilityType::BulletSplash);
+            bullet->TurnDegrees(360.0f, 300.0f, 6);
 
             bullet->SetOnTouched([damage](BulletEntity& caster, BattleEntity& touched) {
                 touched.Damage(damage, caster.GetSource());

@@ -22,7 +22,6 @@
                             bool              peaceful)
      : BattleEntity() 
      , _speed(speed)
-     , _rotation(rotation)
      , _lifetime(lifetime)
      , _bulletType(bulletType)
      , _damageSide(damageSide)
@@ -35,6 +34,7 @@
  
      getSprite().SetResource(textureResource);
      getSprite().SetPosition(position);
+
      getSprite().SetRotation(rotation);
  }
  
@@ -87,9 +87,11 @@
  void BulletEntity::Update(float dt)
  {
      if (IsFinished()) return;
+
+     BattleEntity::Update(dt);
  
      Vector2 pos = getSprite().GetPosition();
-     float   rad = _rotation * DEG2RAD;
+     float   rad = getSprite().GetRotation() * DEG2RAD;
  
      pos.x += std::cos(rad) * _speed * dt;
      pos.y += std::sin(rad) * _speed * dt;

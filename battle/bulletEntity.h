@@ -60,7 +60,6 @@
  
  private:
      float _speed = 400.0f;
-     float _rotation = 0.0f;  
  
      float _lifetime = 5.0f;
      float _elapsed = 0.0f;
