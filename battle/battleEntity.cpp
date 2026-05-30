@@ -86,7 +86,15 @@ void BattleEntity::RefreshActionText()
 
  void BattleEntity::Heal(int amount)
  {
+    if (amount <= 0) return;
+
     this->hp = std::min(hp + amount, maxHp);
+    effectLabel.Show("healEffect", 1.0f);
+
+    Rectangle rect = getSprite().GetWorldRect();
+    Vector2 topLeft = {rect.x, rect.y};
+
+    getSprite().GetText().Show("+" + std::to_string(amount), {topLeft.x + 40.0f, topLeft.y}, 1.0f, GREEN);
  }
 
 
@@ -110,7 +118,7 @@ void BattleEntity::RefreshActionText()
     Rectangle rect = getSprite().GetWorldRect();
     Vector2 topLeft = {rect.x, rect.y};
 
-    getSprite().GetText().Show(std::to_string(finalAmount), {topLeft.x + 40.0f, topLeft.y}, 1.0f, RED);
+    getSprite().GetText().Show("-" + std::to_string(finalAmount), {topLeft.x + 40.0f, topLeft.y}, 1.0f, RED);
  }
 
 

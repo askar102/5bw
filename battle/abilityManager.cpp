@@ -105,7 +105,7 @@ namespace AbilityManager {
         {
             const int countOfClones = 15;
 
-            caster.getSprite().SetFrame(2);
+            caster.getSprite().SetFrameTime(2, 0, 1.0f);
 
             Vector2 casterPos = caster.getSprite().GetPosition();
 
