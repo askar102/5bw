@@ -44,8 +44,11 @@
      void SetSpeed(float speed);
      void SetLifetime(float lifetime);
      void SetPeaceful(bool peaceful);
+     void SetMoving(bool value) { _moving = value; }
 
      void SetBulletType(AbilityType bulletType);
+
+     std::unordered_set<BattleEntity*>& GetTouchedSet() { return _touched; }
 
      void SetSource(BattleEntity* source);
      BattleEntity* GetSource() const;
@@ -64,6 +67,7 @@
      float _speed = 400.0f;
         
      float _startRotation;
+     bool _moving = true;
 
      float _lifetime = 5.0f;
      float _elapsed = 0.0f;

@@ -13,6 +13,8 @@
 #include <cmath>
 #include <random>
 #include <string>
+#include <vector>
+#include <set>
 
 #include "../raylib/raylib.h"
 

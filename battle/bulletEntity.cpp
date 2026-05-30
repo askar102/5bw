@@ -101,10 +101,14 @@
      {  
         rad = _startRotation;
      } 
- 
-     pos.x += std::cos(rad) * _speed * dt;
-     pos.y += std::sin(rad) * _speed * dt;
-     getSprite().SetPosition(pos);
+     
+
+     if (_moving)
+     {
+        pos.x += std::cos(rad) * _speed * dt;
+        pos.y += std::sin(rad) * _speed * dt;
+        getSprite().SetPosition(pos);
+     }
     
      // lifetime
      if (_lifetime > 0.0f)

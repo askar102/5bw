@@ -74,7 +74,7 @@
                 {
                     "name": "penThrow",
                     "type": "melee",
-                    "damage": 0,
+                    "damage": 2,
                     "heal": 0
                 },
                 {

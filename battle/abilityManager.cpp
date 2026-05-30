@@ -12,6 +12,8 @@
 
 #include "ability.h"
 #include "battleSide.h"
+#include <cstdio>
+#include <vector>
 
 namespace AbilityManager {
     void SpawnAbility(Ability& clickedAbility,
@@ -411,7 +413,7 @@ namespace AbilityManager {
         }
         void SpawnPenThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {
-            // то есть летит вперед, когда задела 2-3 игрока, крутит рандом, дает сайланс
+            // то есть летит вперед, когда задела 2-3 игрока, останавливается и крутиться. Она делает сайланс на врагах. Надо ее убить чтобы урать сайланс
             BulletEntity* bullet = vfxManager.SpawnBullet(
                 &Game::GetResources().Get("pen"),
                 caster.getSprite().GetPosition(),
@@ -434,8 +436,9 @@ namespace AbilityManager {
             bullet->TurnDegrees(360.0f, 300.0f, 6);
             bullet->trail.SetEnabled(true);
 
-            bullet->SetOnTouched([damage](BulletEntity& caster, BattleEntity& touched) {
-                touched.Damage(damage, caster.GetSource());
+            bullet->SetOnTouched([damage, bullet](BulletEntity& caster, BattleEntity& touched) {
+                touched.Damage(damage);
+
                 touched.EnemyHitAnimation();
             });
         }
