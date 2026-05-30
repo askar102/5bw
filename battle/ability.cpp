@@ -13,11 +13,13 @@
 Ability::Ability(const std::string& abilityName, int abilityDamage, int abilityHeal, AbilityType abilityType)
     : _name(abilityName), _damage(abilityDamage), _heal(abilityHeal), _type(abilityType) {}
 
-void Ability::Execute(BattleEntity& caster, BattleEntity& target, bool skipDamageAction)
+void Ability::Execute(BattleEntity& caster, BattleEntity& target, bool skipDamageAction, bool skipHealAction)
 {
-    caster.Heal(_heal);
+    if (!skipDamageAction)
+        caster.Heal(_heal);
     if (!skipDamageAction)
         target.Damage(_damage);
+
 }
 
 std::string Ability::GetName() const

@@ -40,7 +40,7 @@ namespace AbilityManager {
                              BattleEntity& target,
                              const Ability& ability,
                              PartyManager& partyManager);
-        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);
+        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability,  PartyManager& partyManager);
         void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);
 
         void SpawnCardChoose(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);

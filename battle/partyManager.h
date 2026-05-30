@@ -27,6 +27,8 @@ public:
     void DeselectAll();
     void UpdateSelection();
 
+    Party& GetParty(bool isEnemy);
+
 private:
     //todo: check
     BattleEntity* FindEntityAtMouse();

@@ -105,3 +105,41 @@ void Party::UpdateSelection()
 
     // DeselectAll();
 }
+
+
+// effects
+void Party::DamageAll(int amount, BattleEntity* source)
+{
+    for (auto& c : characters)
+    {
+        if (!c || !c->Alive()) continue;
+        c->Damage(amount, source);
+    }
+}
+
+void Party::HealAll(int amount)
+{
+    for (auto& c : characters)
+    {
+        if (!c || !c->Alive()) continue;
+        c->Heal(amount);
+    }
+}
+
+void Party::SetWeaknessEffectAll(int amount, float duration, std::function<void()> onDone)
+{
+    for (auto& c : characters)
+    {
+        if (!c || !c->Alive()) continue;
+        c->SetWeaknessEffect(amount, duration, onDone);
+    }
+}
+
+void Party::SetScreamEffectAll(float duration, std::function<void()> onDone)
+{
+    for (auto& c : characters)
+    {
+        if (!c || !c->Alive()) continue;
+        c->SetScreamEffect(duration, onDone);
+    }
+}

@@ -35,7 +35,7 @@ namespace AbilityManager {
             /**
              * @ref damage is applied in cardVfx.cpp
              */
-            clickedAbility.Execute(caster, target, true);
+            clickedAbility.Execute(caster, target,true);
             caster.actionText.Add(TextFormat("Used %s", clickedAbility.GetName().c_str()), YELLOW);
             target.actionText.Add(TextFormat("Hit by %s", clickedAbility.GetName().c_str()), ORANGE);
             return;
@@ -43,8 +43,9 @@ namespace AbilityManager {
 
         if (clickedAbility.GetName() == "cardHeal")
         {
-            AbilityManager::CardGuy::SpawnCardHeal(vfxManager, caster, target, partyManager);
-            clickedAbility.Execute(caster, target);
+            AbilityManager::CardGuy::SpawnCardHeal(vfxManager, caster, target, clickedAbility, partyManager);
+            // we are heal in code
+            clickedAbility.Execute(caster, target, true, true);
             return;
         }
 
@@ -57,20 +58,28 @@ namespace AbilityManager {
         if (clickedAbility.GetName() == "speedDash")
         {
             AbilityManager::AngryGuy::SpawnSpeedDash(vfxManager, caster, target, clickedAbility, partyManager);
+            clickedAbility.Execute(caster, target);
+            return;
         }
         if (clickedAbility.GetName() == "speedSpin")
         {
             AbilityManager::AngryGuy::SpawnSpeedSpin(vfxManager, caster, target, clickedAbility, partyManager);
+            clickedAbility.Execute(caster, target);
+            return;
         }
         if (clickedAbility.GetName() == "scream")
         {
             AbilityManager::AngryGuy::SpawnScream(vfxManager, caster, target, clickedAbility, partyManager, stateManager);
+            clickedAbility.Execute(caster, target);
+            return;
         }
 
         // forest enemies
         if (clickedAbility.GetName() == "enemyDash")
         {
             AbilityManager::ForestEnemies::SpawnEnemyDash(vfxManager, caster, target, clickedAbility, partyManager);
+            clickedAbility.Execute(caster, target);
+            return;
         }
         
     }
@@ -101,13 +110,16 @@ namespace AbilityManager {
             vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle + 10.0f, bulletType, abilityDamage, &partyManager, damageSide, false);
         }
 
-        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager)
+        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {
             const int countOfClones = 15;
 
             caster.getSprite().SetFrameTime(2, 0, 1.0f);
 
             Vector2 casterPos = caster.getSprite().GetPosition();
+
+            Party& party = partyManager.GetParty(caster.isEnemy);
+            party.HealAll(ability.GetHeal());
 
             for (int i = 0; i < countOfClones; ++i)
             {

@@ -34,7 +34,7 @@ public:
   virtual ~Ability() = default;
 
   virtual void Execute(BattleEntity &caster, BattleEntity &target,
-                       bool skipDamageAction = false);
+                       bool skipDamageAction = false, bool skipHealAction = false);
 
   std::string GetName() const;
   AbilityType GetType() const;

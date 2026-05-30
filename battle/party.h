@@ -36,6 +36,14 @@ public:
     void UpdateSelection();
     void DeselectAll();
 
+    // effects
+    void DamageAll(int amount, BattleEntity* source = nullptr);
+    void HealAll(int amount);
+
+    void SetWeaknessEffectAll(int amount, float duration, std::function<void()> onDone = nullptr);
+    void SetScreamEffectAll(float duration, std::function<void()> onDone = nullptr);
+
+
 protected:
     virtual void Init();
 

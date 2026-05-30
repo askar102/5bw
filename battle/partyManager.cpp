@@ -175,3 +175,9 @@ void PartyManager::UpdateSelection()
         hit->selected = true;
     }
 }
+
+Party& PartyManager::GetParty(bool isEnemy)
+{
+    return isEnemy ? static_cast<Party&>(_enemyParty)
+                   : static_cast<Party&>(_playerParty);
+}
