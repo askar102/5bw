@@ -77,6 +77,29 @@ namespace AbilityManager {
             return;
         }
 
+        // sigmaMen
+        if (clickedAbility.GetName() == "pencilThrow")
+        {
+            AbilityManager::SigmaMen::SpawnPencilThrow(vfxManager, caster, target, clickedAbility, partyManager);
+            clickedAbility.Execute(caster, target, true);
+            return;
+        }
+
+        if (clickedAbility.GetName() == "penThrow")
+        {
+            AbilityManager::SigmaMen::SpawnPencilThrow(vfxManager, caster, target, clickedAbility, partyManager);
+            clickedAbility.Execute(caster, target, true);
+            return;
+        }
+
+        if (clickedAbility.GetName() == "timestop")
+        {
+            AbilityManager::SigmaMen::SpawnPencilThrow(vfxManager, caster, target, clickedAbility, partyManager);
+            clickedAbility.Execute(caster, target, true);
+            return;
+        }
+
+
         // forest enemies
         if (clickedAbility.GetName() == "enemyDash")
         {
@@ -85,6 +108,7 @@ namespace AbilityManager {
             clickedAbility.Execute(caster, target, true);
             return;
         }
+
         
     }
 
@@ -356,6 +380,22 @@ namespace AbilityManager {
         
         }
     } // namespace AngryGuy
+
+    namespace SigmaMen {
+        void SpawnPencilThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        {
+            
+        }
+        void SpawnPenThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        {
+
+        }
+        void SpawnTimestop(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        {
+
+        }
+    } // sigmaMen
+
 
 
     namespace ForestEnemies {

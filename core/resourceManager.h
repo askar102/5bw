@@ -23,8 +23,10 @@
      Enemy,
      AbilityIcon,
      CardVFX,
+
      CardGuy,
      AngryGuy,
+     SigmaMen,
 
      GuiButton,
      GuiNewGameButton,

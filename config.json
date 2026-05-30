@@ -2,7 +2,7 @@
     "playerParty": [
         "cardGuy",
         "angryGuy",
-        "cardGuy",
+        "sigmaMen",
         "cardGuy"
     ],
 
@@ -59,6 +59,34 @@
                 }
             ]
         },
+        {
+            "name": "sigmaMen", 
+            "maxHp": 100,
+            "isEnemy": false,
+            "canSelected": true,
+            "abilities": [
+                {
+                    "name": "pencilThrow",
+                    "type": "melee",
+                    "damage": 10,
+                    "heal": 0
+                },
+                {
+                    "name": "penThrow",
+                    "type": "melee",
+                    "damage": 0,
+                    "heal": 0
+                },
+                {
+                    "name": "timestop",
+                    "type": "unique",
+                    "damage": 10,
+                    "heal": 0
+                }
+            ]
+        },
+
+
         {
             "name": "enemy",
             "maxHp": 100,

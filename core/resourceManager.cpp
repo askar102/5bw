@@ -113,6 +113,12 @@
          MakeGrid(133, 128, 3)
      };
 
+     _textures[TextureID::SigmaMen] =
+     {
+         LoadTexture("resources/sigmaMen.png"),
+         MakeGrid(88, 128, 3)
+     };
+
  
      for (auto& [id, res] : _textures)
      {
@@ -166,6 +172,8 @@
         return _textures[TextureID::AngryGuy];
     if (name == "cardGuy")
         return _textures[TextureID::CardGuy];
+    if (name == "sigmaMen")
+        return _textures[TextureID::SigmaMen];
 
     if (_customTextures.find(name) != _customTextures.end())
         return _customTextures[name];
