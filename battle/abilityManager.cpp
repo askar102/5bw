@@ -150,7 +150,7 @@ namespace AbilityManager {
 
         void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager)
         {
-            caster.getSprite().SetFrame(2);
+            caster.getSprite().SetFrameTime(2, 0, 1.0f);
 
             Vector2 casterPos = caster.getSprite().GetPosition();
 
@@ -158,6 +158,8 @@ namespace AbilityManager {
                 casterPos.x + 50.0f,
                 casterPos.y
             };
+
+            target.SetStunEffect(2.0f);
 
             vfxManager.SpawnCardVfx(
                 cardPostion,

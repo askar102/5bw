@@ -92,6 +92,7 @@
      void SetResource(TextureResource* newResource);
     
      Rectangle GetSourceRect() const { return _frame; }
+     size_t GetSourceRectIndex() const { return _frameIndex; }
 
      // visual
      Vector2 GetPosition() const;

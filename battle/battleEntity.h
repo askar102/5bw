@@ -128,7 +128,10 @@ public:
     // типо нельзя атакаовать во время действия
     void SetScreamEffect(float duration, std::function<void()> onDone = nullptr);
     void UpdateScreamEffect(float dt);
-    // void SetStunEffect();
+
+    // противник не может атакавовать, он неуязвим, если атака не inRagdoll
+    void SetStunEffect(float duration, std::function<void()> onDone = nullptr);
+    void UpdateStunEffect(float dt);
 
 private:
     bool _enemyWhirlActive = false;
@@ -163,5 +166,12 @@ private:
     float _screamDuration = 0.0f;
     bool _screamActive = false;
     std::function<void()> _screamOnDone;
+
+    // stun
+    float _stunDuration = 0.0f;
+    bool _stunActive = false;
+    std::function<void()> _stunOnDone;
+
+    size_t _prevFrameIndex;
 };
 

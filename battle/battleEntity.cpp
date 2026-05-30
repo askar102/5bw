@@ -172,6 +172,8 @@ void BattleEntity::Update(float dt)
     // logic effects
     UpdateWeaknessEffect(dt);
     UpdateScreamEffect(dt);
+    UpdateStunEffect(dt);
+
     effectLabel.Update(dt); 
     effectIcons.Update(dt);
 
@@ -384,6 +386,56 @@ void BattleEntity::UpdateScreamEffect(float dt)
         {
             _screamOnDone();
             _screamOnDone = nullptr;
+        }
+    }
+}
+
+void BattleEntity::SetStunEffect(float duration, std::function<void()> onDone)
+{
+    _stunDuration = duration;
+    _stunActive   = true;
+    _stunOnDone = std::move(onDone);
+    // перс не может атаковать
+    canSelected = false;
+    // сохраняем костюм прошлого
+    _prevFrameIndex = getSprite().GetSourceRectIndex();
+
+    // останавливаем суку и еще 3 секунды не может атаковать
+    _moving = false;
+    SetWeaknessEffect(100, _stunDuration + 3.0f);
+
+    // visual
+    effectLabel.Show("stunEffect", 1.0f);
+    effectIcons.Show("stunIcon", duration);
+
+    getSprite().SetFrameTime(2, _prevFrameIndex, _stunDuration);
+    getSprite().SetAlphaFlashing(true);
+    // getSprite().SetShaking(true, _stunDuration);
+}
+
+void BattleEntity::UpdateStunEffect(float dt)
+{
+    if (!_stunActive) return;
+
+    _stunDuration -= dt;
+
+    if (_stunDuration <= 0.0f)
+    {
+        _stunDuration = 0.0f;
+        _stunActive   = false;
+
+        canSelected = true;
+        _moving = true;
+
+        MoveTo(startPosition.x);
+
+        getSprite().SetShaking(false);
+        getSprite().SetAlphaFlashing(false);
+
+        if (_stunOnDone)
+        {
+            _stunOnDone();
+            _stunOnDone = nullptr;
         }
     }
 }
