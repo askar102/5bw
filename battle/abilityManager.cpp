@@ -58,19 +58,22 @@ namespace AbilityManager {
         if (clickedAbility.GetName() == "speedDash")
         {
             AbilityManager::AngryGuy::SpawnSpeedDash(vfxManager, caster, target, clickedAbility, partyManager);
-            clickedAbility.Execute(caster, target);
+            // we do damage in code
+            clickedAbility.Execute(caster, target, true);
             return;
         }
         if (clickedAbility.GetName() == "speedSpin")
         {
             AbilityManager::AngryGuy::SpawnSpeedSpin(vfxManager, caster, target, clickedAbility, partyManager);
-            clickedAbility.Execute(caster, target);
+            // we do damage in code
+            clickedAbility.Execute(caster, target, true);
             return;
         }
         if (clickedAbility.GetName() == "scream")
         {
             AbilityManager::AngryGuy::SpawnScream(vfxManager, caster, target, clickedAbility, partyManager, stateManager);
-            clickedAbility.Execute(caster, target);
+            // we do damage in code
+            clickedAbility.Execute(caster, target, true);
             return;
         }
 
@@ -78,7 +81,8 @@ namespace AbilityManager {
         if (clickedAbility.GetName() == "enemyDash")
         {
             AbilityManager::ForestEnemies::SpawnEnemyDash(vfxManager, caster, target, clickedAbility, partyManager);
-            clickedAbility.Execute(caster, target);
+            // we do damage in code
+            clickedAbility.Execute(caster, target, true);
             return;
         }
         
@@ -257,18 +261,21 @@ namespace AbilityManager {
             printf("SpawnScream called\n");
 
             BattleEntity* casterPtr = &caster;
+            Party& party = partyManager.GetParty(target.isEnemy);
 
             // target.SetWeaknessEffect(10, 4.0f);
 
             casterPtr->minigame.Arm(
                 KEY_R,
-                /* onSuccess */ [casterPtr, &target, stateManager]() {
+                /* onSuccess */ [casterPtr, &target, stateManager, &party]() {
                     casterPtr->getSprite().SetShaking(true);
 
                     casterPtr->getSprite().SetFrameTime(2, 0, 1.0f);
-                    target.SetScreamEffect(4.0f);
+                    party.SetScreamEffectAll(4.0f);
+
                     int bonus = 25;
-                    target.Damage(bonus, casterPtr);
+                    party.DamageAll(bonus);
+
                     // target.EnemyHitAnimation();
                     casterPtr->actionText.Add("SCREAM BONUS!", MAGENTA);
                     target.actionText.Add(TextFormat("-%d BONUS", bonus), RED);
@@ -280,7 +287,7 @@ namespace AbilityManager {
                             if (ctx.elapsed < 0.5f)
                             {
                                 float t = ctx.elapsed / 0.5f; // 0..1
-                                ctx.camera.position.z = 6.0f - t * 2.0f; // 6 → 4
+                                ctx.camera.position.z = 6.0f - t * 2.0f; // 6 -> 4
                                 ctx.entity->getSprite().SetShaking(true, 1.0f);
                             }                    
                         },
@@ -290,17 +297,17 @@ namespace AbilityManager {
 
                     stateManager->PushState(std::move(scene));
                 },
-                /* onFail */ [casterPtr, &target]() {
+                /* onFail */ [casterPtr, &target, &party]() {
                     casterPtr->actionText.Add("Missed timing...", GRAY);
-                    target.SetScreamEffect(4.0f);
+                    party.SetScreamEffectAll(4.0f);
                     casterPtr->getSprite().SetShaking(true);
 
                     casterPtr->getSprite().SetFrameTime(2, 0, 1.0f);
                 },
-                [casterPtr, &target] () {
+                [casterPtr, &target, &party] () {
                     casterPtr->getSprite().SetFrameTime(2, 0, 1.0f);
 
-                    target.SetScreamEffect(4.0f);
+                    party.SetScreamEffectAll(4.0f);
                     casterPtr->getSprite().SetShaking(true);
 
                 }
@@ -311,7 +318,7 @@ namespace AbilityManager {
 
 
     namespace ForestEnemies {
-        // todo: шейдер почему то не хавает текстуру врага
+        // todo: шейдер почему то не хавает текстуру врага 0_0
         void SpawnEnemyDash(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {
             caster.getSprite().SetFrame(1);
