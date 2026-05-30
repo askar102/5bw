@@ -16,6 +16,8 @@
 
 #include "../entities/spriteV2.h"
 
+#include "../battle/battleEntity.h"
+
 class Vfx {
 public:
     Vfx() = default;
@@ -33,6 +35,9 @@ public:
 
     bool Hitted();
 
+    void SetSource(BattleEntity* source) { _source = source; }
+    BattleEntity* GetSource() const { return _source; } 
+
 protected:
     SpriteV2 _sprite;
     float _speed = 0.0f;
@@ -41,4 +46,6 @@ protected:
     Color _color = WHITE;
 
     bool _hitTarget = false;
+
+    BattleEntity* _source = nullptr;
 };
