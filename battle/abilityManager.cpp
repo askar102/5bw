@@ -386,8 +386,8 @@ namespace AbilityManager {
                 &Game::GetResources().Get("pencil"),
                 caster.getSprite().GetPosition(),
                 (caster.facing == FacingDirection::Right) ? 0.0f : 180.0f,
-                500.0f,                          // speed
-                5.0f,                            // lifetime
+                500.0f,                          
+                5.0f,                            
                 AbilityType::BulletDefault,
                 DamageSideForCaster(caster.isEnemy),
                 &partyManager
@@ -402,9 +402,9 @@ namespace AbilityManager {
             // todo: fix it later, hardcore
             bullet->SetBulletType(AbilityType::BulletSplash);
 
-            bullet->SetOnTouched([damage](BulletEntity& b, BattleEntity& hit) {
-                hit.Damage(damage, b.GetSource());
-                hit.EnemyHitAnimation();
+            bullet->SetOnTouched([damage](BulletEntity& caster, BattleEntity& touched) {
+                touched.Damage(damage, caster.GetSource());
+                touched.EnemyHitAnimation();
             });
         }
         void SpawnPenThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
