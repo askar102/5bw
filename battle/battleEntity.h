@@ -63,6 +63,7 @@ public:
     bool selected = false;
     bool canSelected = true;
     bool isEnemy = false;
+    bool immortal = false; 
 
     std::vector<std::unique_ptr<Ability>> abilities;
     Texture2D abilityTexture;

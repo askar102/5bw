@@ -86,6 +86,8 @@ void BattleEntity::RefreshActionText()
 
  void BattleEntity::Heal(int amount)
  {
+    if (immortal) return; 
+
     if (amount <= 0) return;
 
     this->hp = std::min(hp + amount, maxHp);
@@ -105,6 +107,8 @@ void BattleEntity::RefreshActionText()
   */
  void BattleEntity::Damage(int amount, BattleEntity* source)
  {
+    if (immortal) return; 
+
     int finalAmount = amount;
 
     if (source && source->GetWeaknessEffect() > 0)
@@ -128,6 +132,7 @@ void BattleEntity::RefreshActionText()
  */
 void BattleEntity::UpdateEnemyWhirl()
 {
+
     if (!_enemyWhirlActive || GetTime() < _enemyWhirlResetAt) 
     {
         return;
@@ -143,6 +148,8 @@ void BattleEntity::UpdateEnemyWhirl()
 
 void BattleEntity::EnemyHitAnimation()
 {
+    if (immortal) return;
+
     if (!_enemyWhirlActive)
     {
         _whirlPushApplied = (facing == FacingDirection::Left)
@@ -319,6 +326,8 @@ void BattleEntity::UpdateTurn(float dt)
 
 void BattleEntity::SetWeaknessEffect(int amount, float duration, std::function<void()> onDone)
 {
+    if (immortal) return;
+
     _weaknessAmount   = amount;
     _weaknessDuration = duration;
     _weaknessActive   = true;
@@ -356,6 +365,8 @@ void BattleEntity::UpdateWeaknessEffect(float dt)
 
 void BattleEntity::SetScreamEffect(float duration, std::function<void()> onDone)
 {
+    if (immortal) return;
+
     _screamDuration = duration;
     _screamActive   = true;
     _screamOnDone = std::move(onDone);
@@ -392,6 +403,8 @@ void BattleEntity::UpdateScreamEffect(float dt)
 
 void BattleEntity::SetStunEffect(float duration, std::function<void()> onDone)
 {
+    if (immortal) return;
+
     _stunDuration = duration;
     _stunActive   = true;
     _stunOnDone = std::move(onDone);
