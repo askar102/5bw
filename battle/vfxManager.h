@@ -16,11 +16,14 @@
 #include "../raylib/raylib.h"
 #include "../core/game.h"
 
+#include "bulletEntity.h"
+
 #include "vfx.h"
 #include "battleEntity.h"
 #include "ability.h"
 #include "battleSide.h"
 #include "cardVfx.h"
+#include "bulletEntity.h"
 
 class BattleEntity;
 class PartyManager;
@@ -31,6 +34,7 @@ public:
     void Draw() const;
 
     void Add(std::unique_ptr<Vfx> vfx);
+    void AddBullet(std::unique_ptr<BulletEntity> bullet);
     void Clear();
 
     void SpawnCardVfx(Vector2 position,
@@ -45,6 +49,18 @@ public:
     void SpawnDefendVfx(Vector2 origin, Vector2 target);
     void SpawnHealVfx(Vector2 origin, Vector2 target);
 
+    BulletEntity* SpawnBullet(TextureResource*  texture,
+        Vector2           position,
+        float             rotation,
+        float             speed,
+        float             lifetime,
+        AbilityType       bulletType,
+        DamageableSide    damageSide,
+        PartyManager*     pm,
+        bool              peaceful = false);
+    
+
 private:
     std::vector<std::unique_ptr<Vfx>> _effects;
+    std::vector<std::unique_ptr<BulletEntity>> _bullets;
 };

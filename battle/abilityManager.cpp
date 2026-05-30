@@ -10,6 +10,7 @@
 
 #include "abilityManager.h"
 
+#include "ability.h"
 #include "battleSide.h"
 
 namespace AbilityManager {
@@ -20,10 +21,7 @@ namespace AbilityManager {
                       PartyManager& partyManager,
                       StateManager* stateManager)
     {
-        const AbilityType abilityType = clickedAbility.GetType();
-
-        if (abilityType == AbilityType::BulletDefault ||
-            abilityType == AbilityType::BulletSplash)
+        if (clickedAbility.GetName() == "cardAttack")
         {
             AbilityManager::CardGuy::SpawnCardAttack(
                 vfxManager,
@@ -87,7 +85,7 @@ namespace AbilityManager {
 
         if (clickedAbility.GetName() == "penThrow")
         {
-            AbilityManager::SigmaMen::SpawnPencilThrow(vfxManager, caster, target, clickedAbility, partyManager);
+            AbilityManager::SigmaMen::SpawnPenThrow(vfxManager, caster, target, clickedAbility, partyManager);
             clickedAbility.Execute(caster, target, true);
             return;
         }
@@ -384,7 +382,30 @@ namespace AbilityManager {
     namespace SigmaMen {
         void SpawnPencilThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {
-            
+            BulletEntity* bullet = vfxManager.SpawnBullet(
+                &Game::GetResources().Get("pencil"),
+                caster.getSprite().GetPosition(),
+                (caster.facing == FacingDirection::Right) ? 0.0f : 180.0f,
+                500.0f,                          // speed
+                5.0f,                            // lifetime
+                AbilityType::BulletDefault,
+                DamageSideForCaster(caster.isEnemy),
+                &partyManager
+            );
+
+            bullet->SetSource(&caster);
+            bullet->getSprite().SetSize({100, 100});
+
+            caster.getSprite().SetFrameTime(1, 0, 1.0f);
+
+            int damage = ability.GetDamage();
+            // todo: fix it later, hardcore
+            bullet->SetBulletType(AbilityType::BulletSplash);
+
+            bullet->SetOnTouched([damage](BulletEntity& b, BattleEntity& hit) {
+                hit.Damage(damage, b.GetSource());
+                hit.EnemyHitAnimation();
+            });
         }
         void SpawnPenThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {

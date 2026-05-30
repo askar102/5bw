@@ -54,6 +54,8 @@ add_executable(5bw12
 
     battle/minigame.cpp
     battle/targetSelector.cpp 
+
+    battle/bulletEntity.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)

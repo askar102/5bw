@@ -20,6 +20,8 @@ BattleEntity::BattleEntity(std::string _name, int _maxHp, bool _isEnemy, bool _c
         }
     }
 
+BattleEntity::BattleEntity() {}
+
 void BattleEntity::Draw()
 {
     sprite.Draw();

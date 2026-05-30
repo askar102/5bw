@@ -78,7 +78,7 @@
      bool HasResource() const;
      bool HasAtlas() const;
      Rectangle GetSource() const;
-     void SyncSizeWithSource();
+     
 
      // frame timer
     int _timerReturnFrame = 0;
@@ -93,6 +93,8 @@
     
      Rectangle GetSourceRect() const { return _frame; }
      size_t GetSourceRectIndex() const { return _frameIndex; }
+
+     void SyncSizeWithSource();
 
      // visual
      Vector2 GetPosition() const;
