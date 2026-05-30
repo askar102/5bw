@@ -23,6 +23,8 @@
  
  class PartyManager;
  
+// todo: в будущем короче сделать чтобы это тоже считалось персонжаем, его можно было затаргетить и etc
+
  class BulletEntity : public BattleEntity {
  public:
      BulletEntity(TextureResource*  textureResource,

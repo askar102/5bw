@@ -10,8 +10,7 @@
 
  #include "bulletEntity.h"
  #include "partyManager.h"
- 
- 
+
  BulletEntity::BulletEntity(TextureResource*  textureResource,
                             Vector2           position,
                             float             rotation,

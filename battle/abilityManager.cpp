@@ -402,6 +402,7 @@ namespace AbilityManager {
             // todo: fix it later, hardcore
             bullet->SetBulletType(AbilityType::BulletSplash);
             bullet->TurnDegrees(360.0f, 300.0f, 6);
+            bullet->trail.SetEnabled(true);
 
             bullet->SetOnTouched([damage](BulletEntity& caster, BattleEntity& touched) {
                 touched.Damage(damage, caster.GetSource());
@@ -410,7 +411,33 @@ namespace AbilityManager {
         }
         void SpawnPenThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {
+            // то есть летит вперед, когда задела 2-3 игрока, крутит рандом, дает сайланс
+            BulletEntity* bullet = vfxManager.SpawnBullet(
+                &Game::GetResources().Get("pen"),
+                caster.getSprite().GetPosition(),
+                (caster.facing == FacingDirection::Right) ? 0.0f : 180.0f,
+                500.0f,                          
+                5.0f,                            
+                AbilityType::BulletDefault,
+                DamageSideForCaster(caster.isEnemy),
+                &partyManager
+            );
 
+            bullet->SetSource(&caster);
+            bullet->getSprite().SetSize({100, 100});
+
+            caster.getSprite().SetFrameTime(1, 0, 1.0f);
+
+            int damage = ability.GetDamage();
+            // todo: fix it later, hardcore
+            bullet->SetBulletType(AbilityType::BulletSplash);
+            bullet->TurnDegrees(360.0f, 300.0f, 6);
+            bullet->trail.SetEnabled(true);
+
+            bullet->SetOnTouched([damage](BulletEntity& caster, BattleEntity& touched) {
+                touched.Damage(damage, caster.GetSource());
+                touched.EnemyHitAnimation();
+            });
         }
         void SpawnTimestop(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {

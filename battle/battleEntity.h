@@ -109,6 +109,8 @@ public:
     // Movement actions
     void MoveTo(float targetX, float speed = 300.0f, std::function<void()> onStop = nullptr);
     void MoveTo(BattleEntity& target, float speed = 300.0f, std::function<void()> onStop = nullptr);
+    void MoveToTarget(BattleEntity& target, float speed = 300.0f, float stopDistance = 0.0f, std::function<void()> onStop = nullptr);
+    void StopMove();
     void UpdateMove(float dt);
 
     void TurnDegrees(float degrees, float speed = 180.0f, int times = 1, std::function<void()> onDone = nullptr);
@@ -145,6 +147,10 @@ private:
     float _moveTargetX = 0.0f;
     float _moveSpeed = 300.0f;
     std::function<void()> _onStop;
+
+    bool _movingToTarget   = false;
+    BattleEntity* _moveTarget = nullptr;
+    float _moveStopDistance = 60.0f;
 
     bool _turning = false;
     float _turnTarget = 0.0f;   

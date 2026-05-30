@@ -213,6 +213,44 @@ void BattleEntity::MoveTo(BattleEntity& target, float speed, std::function<void(
 
 void BattleEntity::UpdateMove(float dt)
 {
+    if (_movingToTarget)
+    {
+        if (!_moveTarget || !_moveTarget->Alive())
+        {
+            _movingToTarget = false;
+            _moveTarget = nullptr;
+            if (_onStop)
+            {
+                auto cb = std::move(_onStop);
+                _onStop = nullptr;
+                cb();
+            }
+            return;
+        }
+
+        Vector2 pos = sprite.GetPosition();
+        float targetX = _moveTarget->getSprite().GetPosition().x;
+        float dist = std::abs(targetX - pos.x);
+
+        if (dist <= _moveStopDistance)
+        {
+            _movingToTarget = false;
+            _moveTarget = nullptr;
+            if (_onStop)
+            {
+                auto cb = std::move(_onStop);
+                _onStop = nullptr;
+                cb();
+            }
+            return;
+        }
+
+        float dir = (targetX > pos.x) ? 1.0f : -1.0f;
+        pos.x += dir * _moveSpeed * dt;
+        sprite.SetPosition(pos);
+        return;
+    }
+
     if (!_moving) return;
 
     Vector2 pos = sprite.GetPosition();
@@ -452,5 +490,29 @@ void BattleEntity::UpdateStunEffect(float dt)
             _stunOnDone();
             _stunOnDone = nullptr;
         }
+    }
+}
+
+void BattleEntity::MoveToTarget(BattleEntity& target, float speed, float stopDistance, std::function<void()> onStop)
+{
+    _moving = false;
+
+    _movingToTarget = true;
+    _moveTarget = &target;
+    _moveSpeed = speed;
+    _moveStopDistance = stopDistance;
+    _onStop = onStop;
+}
+
+void BattleEntity::StopMove()
+{
+    _moving = false;
+    _movingToTarget = false;
+    _moveTarget = nullptr;
+    if (_onStop)
+    {
+        auto cb = std::move(_onStop);
+        _onStop = nullptr;
+        cb();
     }
 }
