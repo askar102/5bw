@@ -114,6 +114,8 @@ public:
     void TurnDegrees(float degrees, float speed = 180.0f, int times = 1, std::function<void()> onDone = nullptr);
     void UpdateTurn(float dt);
 
+    bool isTurningActive() const { return _turning; }
+
     void SetOnTouch(std::function<void(BattleEntity&)> onTouch);
     void ClearOnTouch();
     void ResetTouchTracking();

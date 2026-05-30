@@ -26,6 +26,7 @@
      , _bulletType(bulletType)
      , _damageSide(damageSide)
      , _peaceful(peaceful)
+     , _startRotation(rotation)
  {
      
      immortal = true;
@@ -91,7 +92,16 @@
      BattleEntity::Update(dt);
  
      Vector2 pos = getSprite().GetPosition();
-     float   rad = getSprite().GetRotation() * DEG2RAD;
+     float rad;
+
+     if (!isTurningActive()) 
+     {
+        rad = getSprite().GetRotation() * DEG2RAD;
+     } 
+     else
+     {  
+        rad = _startRotation;
+     } 
  
      pos.x += std::cos(rad) * _speed * dt;
      pos.y += std::sin(rad) * _speed * dt;
