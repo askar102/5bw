@@ -1,36 +1,36 @@
 /**
- * @file mapEntity.cpp
+ * @file uniqueHitbox.cpp
  * @author askar102
- * @brief Base class for all map entities (visual sprite + separate hitbox sprite)
+ * @brief This is a entity with separate hitbox sprite
  * @date 2026-05-25
  *
  * @copyright Copyright (c) 2026, askar102
  *
  */
  
- #include "mapEntity.h"
+ #include "uniqueHitbox.h"
 
- SpriteV2& MapEntity::GetVisual()
+ SpriteV2& UniqueHitbox::GetVisual()
  {
      return _visual;
  }
   
- const SpriteV2& MapEntity::GetVisual() const
+ const SpriteV2& UniqueHitbox::GetVisual() const
  {
      return _visual;
  }
   
- SpriteV2& MapEntity::GetHitbox()
+ SpriteV2& UniqueHitbox::GetHitbox()
  {
      return _hitbox;
  }
   
- const SpriteV2& MapEntity::GetHitbox() const
+ const SpriteV2& UniqueHitbox::GetHitbox() const
  {
      return _hitbox;
  }
   
- void MapEntity::SetPosition(Vector2 position)
+ void UniqueHitbox::SetPosition(Vector2 position)
  {
      _visual.SetPosition(position);
   
@@ -40,27 +40,27 @@
      });
  }
   
- Vector2 MapEntity::GetPosition() const
+ Vector2 UniqueHitbox::GetPosition() const
  {
      return _visual.GetPosition();
  }
   
- bool MapEntity::IsCollide() const
+ bool UniqueHitbox::IsCollide() const
  {
      return _hitbox.IsCollide();
  }
   
- void MapEntity::SetCollide(bool value)
+ void UniqueHitbox::SetCollide(bool value)
  {
      _hitbox.SetCollide(value);
  }
   
- Rectangle MapEntity::GetRect() const
+ Rectangle UniqueHitbox::GetRect() const
  {
      return _hitbox.GetRect();
  }
   
- void MapEntity::Draw()
+ void UniqueHitbox::Draw()
  {
      _visual.Draw();
   

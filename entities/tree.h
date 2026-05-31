@@ -10,20 +10,17 @@
  
  #pragma once
  
- #include "mapEntity.h"
+ #include "uniqueHitbox.h"
  #include "../core/resourceManager.h"
   
- class Tree : public MapEntity {
+ class Tree : public UniqueHitbox {
  public:
-     // visualSize  — размер визуального спрайта (крона + ствол целиком)
-     // hitboxSize  — размер хитбокса (обычно только ствол, меньше и ниже)
-     // hitboxOffset — смещение хитбокса от центра позиции
+    // hitboxOffset - смещение хитбокса от центра
      Tree(TextureResource* treeResource,
           Vector2 visualSize   = {100.0f, 100.0f},
           Vector2 hitboxSize   = {40.0f,  30.0f},
           Vector2 hitboxOffset = {0.0f,   0.0f});
   
-     // Tree не нужен отдельный Update, но оставим возможность переопределить
  };
   
  

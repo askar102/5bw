@@ -22,7 +22,7 @@
 
 #include "../entities/spriteV2.h"
 #include "../entities/player.h"
-#include "../entities/mapEntity.h"
+#include "../entities/uniqueHitbox.h"
 #include "../entities/tree.h"
 
 #include "../misc/mapGenerator.h"

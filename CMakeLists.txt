@@ -19,7 +19,7 @@ add_executable(5bw12
     entities/player.cpp
     entities/spriteV2.cpp
     entities/tree.cpp
-    entities/mapEntity.cpp
+    entities/uniqueHitbox.cpp
 
     gui/gui.cpp
     gui/button.cpp
@@ -56,6 +56,9 @@ add_executable(5bw12
     battle/targetSelector.cpp 
 
     battle/bulletEntity.cpp
+
+    map/mapEntity.cpp
+    map/npc.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)

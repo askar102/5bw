@@ -15,19 +15,19 @@
             Vector2 hitboxSize,
             Vector2 hitboxOffset)
  {
-     // --- Визуальный спрайт ---
+    // visual
      _visual.SetResource(treeResource);
      _visual.SetSize(visualSize);
-     // Визуал никогда не участвует в коллизиях и не рисует свой хитбокс
+
      _visual.SetCollide(false);
      _visual.SetCanDrawHiboxes(false);
-  
-     // --- Хитбокс-спрайт ---
-     // Ресурс не нужен — он только для коллизий и дебаг-отображения
+
+     // hitbox
      _hitbox.SetResource(nullptr);
      _hitbox.SetRectSize(hitboxSize);
      _hitbox.SetCollide(true);
-     // Хитбокс рисует себя только в debug-режиме (SpriteV2::_drawHitboxes)
+
+     // debug
      _hitbox.SetCanDrawHiboxes(true);
   
      _hitboxOffset = hitboxOffset;
