@@ -193,10 +193,10 @@ Party& PartyManager::GetParty(bool isEnemy)
                    : static_cast<Party&>(_playerParty);
 }
 
-void PartyManager::TimestopAll(float duration, std::function<void()> onDone)
+void PartyManager::TimestopAll(float duration, std::function<void()> onDone, bool showUi)
 {
     _timeStopped = true;
     _timeStopDuration = duration;
-    GetEnemyParty().SetTimestopEffectAll(duration, onDone);
-    GetPlayerParty().SetTimestopEffectAll(duration, onDone);
+    GetEnemyParty().SetTimestopEffectAll(duration, onDone, showUi);
+    GetPlayerParty().SetTimestopEffectAll(duration, onDone, showUi);
 }

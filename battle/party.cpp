@@ -126,37 +126,37 @@ void Party::HealAll(int amount)
     }
 }
 
-void Party::SetWeaknessEffectAll(int amount, float duration, std::function<void()> onDone)
+void Party::SetWeaknessEffectAll(int amount, float duration, std::function<void()> onDone, bool showUi)
 {
     for (auto& c : characters)
     {
         if (!c || !c->Alive()) continue;
-        c->SetWeaknessEffect(amount, duration, onDone);
+        c->SetWeaknessEffect(amount, duration, onDone, showUi);
     }
 }
 
-void Party::SetScreamEffectAll(float duration, std::function<void()> onDone)
+void Party::SetScreamEffectAll(float duration, std::function<void()> onDone, bool showUi)
 {
     for (auto& c : characters)
     {
         if (!c || !c->Alive()) continue;
-        c->SetScreamEffect(duration, onDone);
+        c->SetScreamEffect(duration, onDone, showUi);
     }
 }
 
-void Party::SetStunEffectAll(float duration, std::function<void()> onDone)
+void Party::SetStunEffectAll(float duration, std::function<void()> onDone, bool showUi)
 {
     for (auto& c : characters)
     {
         if (!c || !c->Alive()) continue;
-        c->SetStunEffect(duration, onDone);
+        c->SetStunEffect(duration, onDone, showUi);
     }
 }
-void Party::SetTimestopEffectAll(float duration, std::function<void()> onDone)
+void Party::SetTimestopEffectAll(float duration, std::function<void()> onDone, bool showUi)
 {
     for (auto& c : characters)
     {
         if (!c || !c->Alive()) continue;
-        c->SetTimestopEffect(duration, onDone);
+        c->SetTimestopEffect(duration, onDone, showUi);
     }
 }

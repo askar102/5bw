@@ -40,10 +40,10 @@ public:
     void DamageAll(int amount, BattleEntity* source = nullptr);
     void HealAll(int amount);
 
-    void SetWeaknessEffectAll(int amount, float duration, std::function<void()> onDone = nullptr);
-    void SetScreamEffectAll(float duration, std::function<void()> onDone = nullptr);
-    void SetStunEffectAll(float duration, std::function<void()> onDone = nullptr);
-    void SetTimestopEffectAll(float duration, std::function<void()> onDone = nullptr);
+    void SetWeaknessEffectAll(int amount, float duration, std::function<void()> onDone = nullptr, bool showUi = true);
+    void SetScreamEffectAll(float duration, std::function<void()> onDone = nullptr, bool showUi = true);
+    void SetStunEffectAll(float duration, std::function<void()> onDone = nullptr, bool showUi = true);
+    void SetTimestopEffectAll(float duration, std::function<void()> onDone = nullptr, bool showUi = true);
 
 
 protected:

@@ -448,7 +448,7 @@ namespace AbilityManager {
         void SpawnTimestop(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {
             caster.timestopImmortal = true;
-            partyManager.TimestopAll(3.0f);
+            partyManager.TimestopAll(3.0f, nullptr, false);
         }
     } // sigmaMen
         

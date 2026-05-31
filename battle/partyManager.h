@@ -30,7 +30,7 @@ public:
     Party& GetParty(bool isEnemy);
 
     // effects
-    void TimestopAll(float duration, std::function<void()> onDone = nullptr);
+    void TimestopAll(float duration, std::function<void()> onDone = nullptr, bool showUi = true);
     bool isTimeStopped() const { return _timeStopped; }
 
 private:
