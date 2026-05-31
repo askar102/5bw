@@ -67,6 +67,8 @@ void MapState::OnEnter() {
 
     player.getSprite().SetPosition({400, 300});
 
+    TileTrigger::Init();
+
     LoadTile();
 }
 
@@ -81,6 +83,10 @@ void MapState::LoadResources() {
 }
 
 void MapState::MapRotationCheck() {
+    // old tile
+    int prevX = currentTileX;
+    int prevY = currentTileY;
+
     // up   
     if (playerPos.y+100 < 0) {
         currentTileY += 1;
@@ -115,6 +121,11 @@ void MapState::MapRotationCheck() {
         LoadTile();
     
         player.getSprite().SetPosition({0-100, playerPos.y});
+    }
+
+    if (currentTileX != prevX || currentTileY != prevY) {
+        TileTrigger::OnExitTile(prevX, prevY);
+        TileTrigger::OnEnterTile(currentTileX, currentTileY);
     }
 }
 

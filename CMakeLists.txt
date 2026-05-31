@@ -60,6 +60,8 @@ add_executable(5bw12
     map/npcManager.cpp
     map/mapEntity.cpp
     map/npc.cpp
+
+    map/tileTrigger.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)

@@ -32,6 +32,7 @@
 #include "../map/npc.h"
 
 #include "../map/npcManager.h"
+#include "../map/tileTrigger.h"
 
 class MapState : public State {
 public:

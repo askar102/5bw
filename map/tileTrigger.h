@@ -11,6 +11,9 @@ struct TileScript {
     
     std::function<void()> onEnter;
     std::function<void()> onExit;
+
+    bool manyTimes = true;
+    int amountOfUse = 0;
 };
 
 
@@ -21,7 +24,7 @@ public:
     static void OnExitTile(int tileX, int tileY);
 
     // create
-    static void AddTileScript(int tileX, int tileY, std::function<void()> onEnter, std::function<void()> onExit);
+    static void AddTileScript(int tileX, int tileY, bool manyTimes, std::function<void()> onEnter, std::function<void()> onExit);
 
     static TileScript* FindScript(int tileX, int tileY);
 

@@ -1,17 +1,19 @@
 #include "tileTrigger.h"
 
-void TileTrigger::AddTileScript(int tileX, int tileY, std::function<void()> onEnter, std::function<void()> onExit) 
+std::vector<TileScript> TileTrigger::_scripts;
+
+void TileTrigger::AddTileScript(int tileX, int tileY, bool manyTimes, std::function<void()> onEnter, std::function<void()> onExit) 
 {
     if (TileScript* existing = FindScript(tileX, tileY))
     {
         existing->onEnter = std::move(onEnter);
         existing->onExit  = std::move(onExit);
 
-        printf("[TileTrigger] script is existing, rewrite");
+        printf("[TileTrigger] script is existing, rewrite...\n");
         return;
     }
 
-    _scripts.push_back({ tileX, tileY, std::move(onEnter), std::move(onExit) });
+    _scripts.push_back({ tileX, tileY, std::move(onEnter), std::move(onExit), manyTimes});
 
 }
 
@@ -32,11 +34,18 @@ void TileTrigger::OnEnterTile(int tileX, int tileY)
     TileScript* s = FindScript(tileX, tileY);
     if (!s) return;
 
-    printf("[TileTrigger] OnEnter tile script is found (%d, %d)", tileX, tileY);
+    printf("[TileTrigger] OnEnter tile script is found (%d, %d)\n", tileX, tileY);
 
     if (s->onEnter)
     {
-        printf("[TileTrigger] (%d, %d) Calling onEnter script...", tileX, tileY);
+        if (!s->manyTimes && s->amountOfUse >= 1)
+        {
+            printf("[TileTrigger] (%d, %d) Script already used, OnEnter skipped...\n", tileX, tileY);
+            return;
+        }
+
+        printf("[TileTrigger] (%d, %d) Calling onEnter script...\n", tileX, tileY);
+        s->amountOfUse += 1;
         s->onEnter();
     }  
 }
@@ -46,11 +55,11 @@ void TileTrigger::OnExitTile(int tileX, int tileY)
     TileScript* s = FindScript(tileX, tileY);
     if (!s) return;
 
-    printf("[TileTrigger] OnExit tile script is found (%d, %d)", tileX, tileY);
+    printf("[TileTrigger] OnExit tile script is found (%d, %d)\n", tileX, tileY);
 
     if (s->onExit)
     {
-        printf("[TileTrigger] (%d, %d) Calling onExit script...", tileX, tileY);
+        printf("[TileTrigger] (%d, %d) Calling onExit script...\n", tileX, tileY);
         s->onExit();
     }   
         
@@ -61,9 +70,9 @@ void TileTrigger::OnExitTile(int tileX, int tileY)
 void TileTrigger::Init()
 {
     // EXAMPLE
-    AddTileScript(600, 601, 
+    AddTileScript(600, 601, false, 
         /*onEnter=*/    [] () {
-            // bla-bla
+            printf("Hello\n");
         },
         /*onExit=*/     [] () {
             // bla-bla
