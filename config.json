@@ -94,8 +94,8 @@
             "canSelected": true,
             "abilities": [
                 {
-                    "name": "cardAttack",
-                    "type": "bullet",
+                    "name": "pencilThrow",
+                    "type": "melee",
                     "damage": 10,
                     "heal": 0
                 },

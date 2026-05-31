@@ -138,6 +138,16 @@ public:
     void SetStunEffect(float duration, std::function<void()> onDone = nullptr);
     void UpdateStunEffect(float dt);
 
+    // таймстоп сука
+    void SetTimestopEffect(float duration, std::function<void()> onDone = nullptr);
+    void UpdateTimestopEffect(float dt);
+    bool IsTimestopped() const { return _timestopActive; }
+
+    bool timestopImmortal = false;
+
+    // stop abilities
+    void InterruptAbility();
+
 private:
     bool _enemyWhirlActive = false;
     float _whirlPushApplied = 0.0f;
@@ -182,5 +192,23 @@ private:
     std::function<void()> _stunOnDone;
 
     size_t _prevFrameIndex;
+
+    // timestop
+    float _timestopDuration = 0.0f;
+    bool  _timestopActive   = false;
+    std::function<void()> _timestopOnDone;
+
+    struct SavedMoveState {
+        bool moving = false;
+        bool movingToTarget = false;
+        float moveTargetX = 0.0f;
+        float moveSpeed = 300.0f;
+        float moveStopDist = 60.0f;
+        BattleEntity* moveTarget = nullptr;
+        std::function<void()> onStop;
+    };
+
+    SavedMoveState _savedMove;
+    bool _moveStateSaved = false;
 };
 

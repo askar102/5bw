@@ -182,6 +182,7 @@ void BattleEntity::Update(float dt)
     UpdateWeaknessEffect(dt);
     UpdateScreamEffect(dt);
     UpdateStunEffect(dt);
+    UpdateTimestopEffect(dt);
 
     effectLabel.Update(dt); 
     effectIcons.Update(dt);
@@ -516,4 +517,100 @@ void BattleEntity::StopMove()
         _onStop = nullptr;
         cb();
     }
+}
+
+// timstop
+void BattleEntity::SetTimestopEffect(float duration, std::function<void()> onDone)
+{
+    if (timestopImmortal) return;
+
+    _timestopDuration = duration;
+    _timestopActive   = true;
+    _timestopOnDone   = std::move(onDone);
+
+    // save
+    _savedMove.moving         = _moving;
+    _savedMove.movingToTarget = _movingToTarget;
+    _savedMove.moveTargetX    = _moveTargetX;
+    _savedMove.moveSpeed      = _moveSpeed;
+    _savedMove.moveStopDist   = _moveStopDistance;
+    _savedMove.moveTarget     = _moveTarget;
+    _savedMove.onStop         = _onStop; 
+    _moveStateSaved           = true;
+
+    // stop
+    _moving         = false;
+    _movingToTarget = false;
+    _moveTarget     = nullptr;
+    _onStop         = nullptr;
+
+    canSelected = false;
+
+    effectLabel.Show("timestopEffect", duration);
+    effectIcons.Show("timestopIcon", duration);
+    getSprite().SetAlphaFlashing(true);
+}
+
+void BattleEntity::UpdateTimestopEffect(float dt)
+{
+    if (!_timestopActive) return;
+
+    _timestopDuration -= dt;
+
+    if (_timestopDuration <= 0.0f)
+    {
+        _timestopDuration = 0.0f;
+        _timestopActive   = false;
+
+        canSelected = true;
+        getSprite().SetAlphaFlashing(false);
+
+        // continue
+        if (_moveStateSaved)
+        {
+            _moving           = _savedMove.moving;
+            _movingToTarget   = _savedMove.movingToTarget;
+            _moveTargetX      = _savedMove.moveTargetX;
+            _moveSpeed        = _savedMove.moveSpeed;
+            _moveStopDistance = _savedMove.moveStopDist;
+            _moveTarget       = _savedMove.moveTarget;
+            _onStop           = std::move(_savedMove.onStop);
+            _moveStateSaved   = false;
+        }
+
+        if (_timestopOnDone)
+        {
+            _timestopOnDone();
+            _timestopOnDone = nullptr;
+        }
+    }
+}
+
+// stop abilities
+void BattleEntity::InterruptAbility()
+{
+    // сбрасываем движение
+    _moving         = false;
+    _movingToTarget = false;
+    _moveTarget     = nullptr;
+    _onStop         = nullptr;
+
+    // сбрасываем поворот
+    _turning       = false;
+    _onTurnDone    = nullptr;
+    _turnTimesLeft = 0;
+
+    // сбрасываем таймер фрейма спрайта
+    getSprite().SetAlphaFlashing(false);
+    getSprite().SetShaking(false);
+    getSprite().SetFrame(0);
+
+    // сбрасываем touch-колбэки
+    ClearOnTouch();
+
+    // trail выключаем
+    trail.SetEnabled(false);
+
+    // идём на startPosition
+    MoveTo(startPosition.x);
 }

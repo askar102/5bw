@@ -99,7 +99,7 @@
      } 
      else
      {  
-        rad = _startRotation;
+        rad = _startRotation * DEG2RAD;;
      } 
      
 
