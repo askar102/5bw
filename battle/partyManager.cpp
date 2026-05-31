@@ -104,6 +104,17 @@ BattleEntity* PartyManager::GetPlayer(size_t index)
 
 void PartyManager::Update(float dt)
 {
+    // timstop logic
+    if (_timeStopped)
+    {
+        _timeStopDuration -= dt;
+        if (_timeStopDuration <= 0.0f)
+        {
+            _timeStopDuration = 0.0f;
+            _timeStopped = false;
+        }
+    }
+
     std::array<BattleEntity*, 8> allEntities{};
 
     for (size_t i = 0; i < 4; ++i)
@@ -184,6 +195,8 @@ Party& PartyManager::GetParty(bool isEnemy)
 
 void PartyManager::TimestopAll(float duration, std::function<void()> onDone)
 {
+    _timeStopped = true;
+    _timeStopDuration = duration;
     GetEnemyParty().SetTimestopEffectAll(duration, onDone);
     GetPlayerParty().SetTimestopEffectAll(duration, onDone);
 }

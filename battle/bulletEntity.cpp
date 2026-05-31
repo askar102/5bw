@@ -31,7 +31,8 @@
      immortal = true;
  
      canSelected = false;
- 
+    _startSpeed = _speed;
+
      getSprite().SetResource(textureResource);
      getSprite().SetPosition(position);
 
@@ -87,6 +88,20 @@
  void BulletEntity::Update(float dt)
  {
      if (IsFinished()) return;
+
+    // timestop logic
+    if (_pm)
+    {
+        printf("TimeStop: %d\n", _pm->isTimeStopped());
+        if (_pm->isTimeStopped())
+        {
+            SetSpeed(100.0f);
+        }
+        else 
+        {
+            SetSpeed(_startSpeed);
+        }
+    }
 
      BattleEntity::Update(dt);
  

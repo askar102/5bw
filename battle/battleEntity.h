@@ -126,20 +126,20 @@ public:
     // Effect actions
     // waekness effect - под battleEntity появляется лейбл weaknessEffect.png,
     // накладывается эффект, который уменьшает урон всех скиллов на amount, на время duration
-    void SetWeaknessEffect(int amount, float duration, std::function<void()> onDone = nullptr);
+    void SetWeaknessEffect(int amount, float duration, std::function<void()> onDone = nullptr, bool showUi = true);
     int GetWeaknessEffect();
     void UpdateWeaknessEffect(float dt);
 
     // типо нельзя атакаовать во время действия
-    void SetScreamEffect(float duration, std::function<void()> onDone = nullptr);
+    void SetScreamEffect(float duration, std::function<void()> onDone = nullptr, bool showUi = true);
     void UpdateScreamEffect(float dt);
 
     // противник не может атакавовать, он неуязвим, если атака не inRagdoll
-    void SetStunEffect(float duration, std::function<void()> onDone = nullptr);
+    void SetStunEffect(float duration, std::function<void()> onDone = nullptr, bool showUi = true);
     void UpdateStunEffect(float dt);
 
     // таймстоп сука
-    void SetTimestopEffect(float duration, std::function<void()> onDone = nullptr);
+    void SetTimestopEffect(float duration, std::function<void()> onDone = nullptr, bool showUi = true);
     void UpdateTimestopEffect(float dt);
     bool IsTimestopped() const { return _timestopActive; }
 

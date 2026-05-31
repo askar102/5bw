@@ -65,6 +65,7 @@
  
  private:
      float _speed = 400.0f;
+     float _startSpeed;
         
      float _startRotation;
      bool _moving = true;

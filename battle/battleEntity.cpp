@@ -365,7 +365,7 @@ void BattleEntity::UpdateTurn(float dt)
  * 
  */
 
-void BattleEntity::SetWeaknessEffect(int amount, float duration, std::function<void()> onDone)
+void BattleEntity::SetWeaknessEffect(int amount, float duration, std::function<void()> onDone, bool showUi)
 {
     if (immortal) return;
 
@@ -374,8 +374,12 @@ void BattleEntity::SetWeaknessEffect(int amount, float duration, std::function<v
     _weaknessActive   = true;
     _weaknessOnDone = std::move(onDone);
     // visual
-    effectLabel.Show("weaknessEffect", 1.0f);
-    effectIcons.Show("weaknessIcon", duration);
+
+    if (showUi)
+    {
+        effectLabel.Show("weaknessEffect", 1.0f);
+        effectIcons.Show("weaknessIcon", duration);
+    }
 }
 
 
@@ -404,7 +408,7 @@ void BattleEntity::UpdateWeaknessEffect(float dt)
     }
 }
 
-void BattleEntity::SetScreamEffect(float duration, std::function<void()> onDone)
+void BattleEntity::SetScreamEffect(float duration, std::function<void()> onDone, bool showUi)
 {
     if (immortal) return;
 
@@ -415,8 +419,12 @@ void BattleEntity::SetScreamEffect(float duration, std::function<void()> onDone)
     canSelected = false;
     MoveTo(startPosition.x);
     // visual
-    effectLabel.Show("screamEffect", 1.0f);
-    effectIcons.Show("screamIcon", duration);
+
+    if (showUi)
+    {
+        effectLabel.Show("screamEffect", 1.0f);
+        effectIcons.Show("screamIcon", duration);
+    }
 
     getSprite().SetShaking(true, _screamDuration);
 }
@@ -443,7 +451,7 @@ void BattleEntity::UpdateScreamEffect(float dt)
     }
 }
 
-void BattleEntity::SetStunEffect(float duration, std::function<void()> onDone)
+void BattleEntity::SetStunEffect(float duration, std::function<void()> onDone, bool showUi)
 {
     if (immortal) return;
 
@@ -463,8 +471,13 @@ void BattleEntity::SetStunEffect(float duration, std::function<void()> onDone)
     effectLabel.Show("stunEffect", 1.0f);
     effectIcons.Show("stunIcon", duration);
 
-    getSprite().SetFrameTime(2, _prevFrameIndex, _stunDuration);
+    if (showUi)
+    {
+        getSprite().SetFrameTime(2, _prevFrameIndex, _stunDuration);
     getSprite().SetAlphaFlashing(true);
+    }
+
+    
     // getSprite().SetShaking(true, _stunDuration);
 }
 
@@ -520,7 +533,7 @@ void BattleEntity::StopMove()
 }
 
 // timstop
-void BattleEntity::SetTimestopEffect(float duration, std::function<void()> onDone)
+void BattleEntity::SetTimestopEffect(float duration, std::function<void()> onDone, bool showUi)
 {
     if (timestopImmortal) return;
 
@@ -546,8 +559,11 @@ void BattleEntity::SetTimestopEffect(float duration, std::function<void()> onDon
 
     canSelected = false;
 
-    effectLabel.Show("timestopEffect", duration);
-    effectIcons.Show("timestopIcon", duration);
+    if (showUi)
+    {
+        effectLabel.Show("timestopEffect", duration);
+        effectIcons.Show("timestopIcon", duration);
+    }
 }
 
 void BattleEntity::UpdateTimestopEffect(float dt)

@@ -31,7 +31,7 @@ public:
 
     // effects
     void TimestopAll(float duration, std::function<void()> onDone = nullptr);
-    bool isTimeStopped() const { return _timeStopeed; }
+    bool isTimeStopped() const { return _timeStopped; }
 
 private:
     //todo: check
@@ -42,5 +42,6 @@ private:
     PlayerParty& _playerParty = Game::GetPlayerParty();
     BattleEntity* _abilityTarget = nullptr;
 
-    bool _timeStopeed = false;
+    bool _timeStopped = false;
+    float _timeStopDuration = 0.0f;
 };

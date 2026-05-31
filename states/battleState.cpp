@@ -87,6 +87,11 @@ void BattleState::Draw()
         _targetSelector.Draw(GetMousePosition());
 
 
+    if (_partyManager.isTimeStopped())
+    {
+        DrawRectangle(0, 0, 800, 600, Fade(GRAY, 0.5));
+    }
+
     DrawText("currentState: battle", 0, 0, 20, WHITE);
     DrawText(TextFormat("mX: %d, mY: %d", GetMouseX(), GetMouseY()), 0, 30, 20, WHITE);
 }

@@ -383,7 +383,7 @@ namespace AbilityManager {
 
     namespace SigmaMen {
         void SpawnPencilThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
-        {
+        {            
             BulletEntity* bullet = vfxManager.SpawnBullet(
                 &Game::GetResources().Get("pencil"),
                 caster.getSprite().GetPosition(),
@@ -394,6 +394,8 @@ namespace AbilityManager {
                 DamageSideForCaster(caster.isEnemy),
                 &partyManager
             );
+            bullet->SetPartyManager(&partyManager);
+
 
             bullet->SetSource(&caster);
             bullet->getSprite().SetSize({100, 100});
@@ -424,6 +426,7 @@ namespace AbilityManager {
                 DamageSideForCaster(caster.isEnemy),
                 &partyManager
             );
+            bullet->SetPartyManager(&partyManager);
 
             bullet->SetSource(&caster);
             bullet->getSprite().SetSize({100, 100});
@@ -445,8 +448,7 @@ namespace AbilityManager {
         void SpawnTimestop(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {
             caster.timestopImmortal = true;
-            partyManager.GetEnemyParty().SetTimestopEffectAll(3.0f);
-            partyManager.GetPlayerParty().SetTimestopEffectAll(3.0f);
+            partyManager.TimestopAll(3.0f);
         }
     } // sigmaMen
         
