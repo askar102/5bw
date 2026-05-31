@@ -350,7 +350,9 @@ void SpriteV2::Update(float dt)
     UpdateShaking(dt);
 
     UpdateBrightnessFlashing(dt);  
-    UpdateBrighteningUp(dt);  
+    UpdateBrighteningUp(dt); 
+    
+    UpdateFadeOut(dt);
     
     _text.Update(dt);
 
@@ -485,6 +487,36 @@ void SpriteV2::UpdateBrighteningUp(float dt)
         return;
     }
 
-    // плавно нарастает 1.0 -> BRIGHTNESS_MAX
     _brightness = 1.0f + (BRIGHTNESS_MAX - 1.0f) * t;
+}
+
+void SpriteV2::FadeOut(float duration, std::function<void()> onDone)
+{
+    _fadingOut = true;
+    _fadeOutDuration = duration;
+    _fadeOutTimer = 0.0f;
+    _fadeOutOnDone = std::move(onDone);
+    _alpha = 1.0f;
+}
+
+void SpriteV2::UpdateFadeOut(float dt)
+{
+    if (!_fadingOut) return;
+
+    _fadeOutTimer += dt;
+
+    float t = _fadeOutTimer / _fadeOutDuration; // 0 -> 1
+    _alpha = 1.0f - t;
+
+    if (_fadeOutTimer >= _fadeOutDuration)
+    {
+        _fadingOut = false;
+        _alpha = 1.0f; 
+
+        if (_fadeOutOnDone)
+        {
+            _fadeOutOnDone();
+            _fadeOutOnDone = nullptr;
+        }
+    }
 }

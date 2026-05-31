@@ -2,10 +2,10 @@
 
 void Npc::MoveTo(Vector2 target, float speed, std::function<void()> onArrive)
 {
-    _target   = target;
-    _speed    = speed;
+    _target = target;
+    _speed = speed;
     _onArrive = std::move(onArrive);
-    _moving   = true;
+    _moving = true;
 }
  
 void Npc::StopMove()

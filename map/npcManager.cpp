@@ -43,6 +43,7 @@
     {
         if (record.tileX == tileX && record.tileY == tileY)
         {
+            record.npc->GetSprite().SetAlpha(1.0f);
             result.push_back(record.npc.get());
         }
            
@@ -72,6 +73,9 @@
         {
            record.tileX = newTileX;
            record.tileY = newTileY;
+           record.npc->GetSprite().FadeOut(1.0f, [&record] () {
+                record.npc->GetSprite().SetAlpha(0.0f);
+           });
            TraceLog(LOG_INFO, "[NpcManager] NPC '%s' moved to tile (%d, %d)", id.c_str(), newTileX, newTileY);
            return;
         }
@@ -103,9 +107,12 @@
         angryGuy->GetSprite().SetSize({88.0f, 128.0f});
         angryGuy->SetPosition({300.0f, 200.0f});
         angryGuy->SetInteractionRadius(70.0f);
-        angryGuy->SetOnEnter([]() {
+        angryGuy->SetOnEnter([angryGuy]() {
            TraceLog(LOG_INFO, "[NPC] Npc was clicked");
            MoveTile("angryGuy", 600, 601);
+           angryGuy->SetOnEnter([angryGuy]() {
+                angryGuy->MoveTo({100, 100});
+           });
         });
     }
  }

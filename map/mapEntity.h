@@ -14,14 +14,14 @@ public:
     MapEntity() = default;
     virtual ~MapEntity() = default;
 
-    SpriteV2& GetSprite()             { return _sprite; }
+    SpriteV2& GetSprite() { return _sprite; }
     const SpriteV2& GetSprite() const { return _sprite; }
 
-    virtual void    SetPosition(Vector2 pos);
-    Vector2         GetPosition() const;
+    virtual void  SetPosition(Vector2 pos);
+    Vector2 GetPosition() const;
 
     void SetInteractionRadius(float radius) { _interactionRadius = radius; }
-    float GetInteractionRadius() const      { return _interactionRadius;   }
+    float GetInteractionRadius() const { return _interactionRadius;   }
 
     void SetOnEnter(std::function<void()> cb) { _onEnter = std::move(cb); }
 
@@ -34,7 +34,7 @@ public:
     virtual void Draw();
     
     static void SetDrawZones(bool value) { _drawZones = value; }
-    static bool GetDrawZones()           { return _drawZones;  }
+    static bool GetDrawZones() { return _drawZones;  }
 
 protected:
     SpriteV2 _sprite;

@@ -21,9 +21,9 @@ public:
 private:
     void UpdateMove(float dt);
  
-    bool  _moving      = false;
-    Vector2 _target    = {0.0f, 0.0f};
-    float _speed       = 100.0f;
+    bool _moving = false;
+    Vector2 _target = {0.0f, 0.0f};
+    float _speed = 100.0f;
     std::function<void()> _onArrive;
  
     static constexpr float ARRIVE_THRESHOLD = 2.0f;

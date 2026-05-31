@@ -17,6 +17,7 @@
  
  #include "npc.h"
  
+
  struct NpcRecord {
     std::string id;
     std::unique_ptr<Npc> npc;
@@ -29,7 +30,7 @@
     static void Init();
 
     static Npc* Register(const std::string& id, int tileX, int tileY);
-    
+
     static std::vector<Npc*> GetForTile(int tileX, int tileY);
 
     static Npc* Find(const std::string& id);

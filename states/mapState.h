@@ -49,6 +49,7 @@ public:
 
     bool CheckCollision(Rectangle playerRect);
 
+    Vector2 GetCurrentTilePos() const { return {static_cast<float>(currentTileX), static_cast<float>(currentTileY)}; }
 
 private:
     Player player;

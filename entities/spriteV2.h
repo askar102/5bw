@@ -86,6 +86,12 @@
     float _frameTimerDuration = 0.0f;
     bool _frameTimerActive = false;
     std::function<void()> _frameTimerCallback;
+
+    // fade out
+    bool _fadingOut = false;
+    float _fadeOutTimer = 0.0f;
+    float _fadeOutDuration = 0.0f;
+    std::function<void()> _fadeOutOnDone;
  
  public:
      // resources
@@ -126,6 +132,10 @@
 
     void SetBrighteningUp(float duration, std::function<void()> onDone = nullptr);
     void UpdateBrighteningUp(float dt);
+
+    // fadeout animation
+    void FadeOut(float duration, std::function<void()> onDone = nullptr);
+    void UpdateFadeOut(float dt);
  
      // atlas
      void SetFrame(size_t index);
