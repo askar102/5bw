@@ -94,7 +94,7 @@ namespace AbilityManager {
 
         if (clickedAbility.GetName() == "timestop")
         {
-            AbilityManager::SigmaMen::SpawnPencilThrow(vfxManager, caster, target, clickedAbility, partyManager);
+            AbilityManager::SigmaMen::SpawnTimestop(vfxManager, caster, target, clickedAbility, partyManager);
             clickedAbility.Execute(caster, target, true);
             return;
         }
@@ -444,7 +444,9 @@ namespace AbilityManager {
         }
         void SpawnTimestop(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
         {
-
+            caster.timestopImmortal = true;
+            partyManager.GetEnemyParty().SetTimestopEffectAll(3.0f);
+            partyManager.GetPlayerParty().SetTimestopEffectAll(3.0f);
         }
     } // sigmaMen
         

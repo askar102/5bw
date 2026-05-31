@@ -42,6 +42,8 @@ public:
 
     void SetWeaknessEffectAll(int amount, float duration, std::function<void()> onDone = nullptr);
     void SetScreamEffectAll(float duration, std::function<void()> onDone = nullptr);
+    void SetStunEffectAll(float duration, std::function<void()> onDone = nullptr);
+    void SetTimestopEffectAll(float duration, std::function<void()> onDone = nullptr);
 
 
 protected:

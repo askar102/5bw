@@ -181,3 +181,9 @@ Party& PartyManager::GetParty(bool isEnemy)
     return isEnemy ? static_cast<Party&>(_enemyParty)
                    : static_cast<Party&>(_playerParty);
 }
+
+void PartyManager::TimestopAll(float duration, std::function<void()> onDone)
+{
+    GetEnemyParty().SetTimestopEffectAll(duration, onDone);
+    GetPlayerParty().SetTimestopEffectAll(duration, onDone);
+}

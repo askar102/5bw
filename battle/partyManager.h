@@ -29,6 +29,10 @@ public:
 
     Party& GetParty(bool isEnemy);
 
+    // effects
+    void TimestopAll(float duration, std::function<void()> onDone = nullptr);
+    bool isTimeStopped() const { return _timeStopeed; }
+
 private:
     //todo: check
     BattleEntity* FindEntityAtMouse();
@@ -37,4 +41,6 @@ private:
     EnemyParty _enemyParty;
     PlayerParty& _playerParty = Game::GetPlayerParty();
     BattleEntity* _abilityTarget = nullptr;
+
+    bool _timeStopeed = false;
 };

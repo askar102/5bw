@@ -143,3 +143,20 @@ void Party::SetScreamEffectAll(float duration, std::function<void()> onDone)
         c->SetScreamEffect(duration, onDone);
     }
 }
+
+void Party::SetStunEffectAll(float duration, std::function<void()> onDone)
+{
+    for (auto& c : characters)
+    {
+        if (!c || !c->Alive()) continue;
+        c->SetStunEffect(duration, onDone);
+    }
+}
+void Party::SetTimestopEffectAll(float duration, std::function<void()> onDone)
+{
+    for (auto& c : characters)
+    {
+        if (!c || !c->Alive()) continue;
+        c->SetTimestopEffect(duration, onDone);
+    }
+}
