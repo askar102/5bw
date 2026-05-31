@@ -65,7 +65,7 @@
  }
  
 
- void NpcManager::MoveTile(const std::string& id, int newTileX, int newTileY)
+ void NpcManager::MoveTile(const std::string& id, int newTileX, int newTileY, Vector2 startPosition)
  {
     for (auto& record : _records)
     {
@@ -76,6 +76,7 @@
            record.npc->GetSprite().FadeOut(1.0f, [&record] () {
                 record.npc->GetSprite().SetAlpha(0.0f);
            });
+           record.npc->SetPosition(startPosition);
            TraceLog(LOG_INFO, "[NpcManager] NPC '%s' moved to tile (%d, %d)", id.c_str(), newTileX, newTileY);
            return;
         }

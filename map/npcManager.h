@@ -35,7 +35,7 @@
 
     static Npc* Find(const std::string& id);
  
-    static void MoveTile(const std::string& id, int newTileX, int newTileY);
+    static void MoveTile(const std::string& id, int newTileX, int newTileY, Vector2 startPosition = {300, 400});
  
     static void Clear();
  
