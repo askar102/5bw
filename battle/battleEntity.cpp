@@ -412,6 +412,7 @@ void BattleEntity::SetScreamEffect(float duration, std::function<void()> onDone)
     _screamOnDone = std::move(onDone);
     // перс не может атаковать
     canSelected = false;
+    MoveTo(startPosition.x);
     // visual
     effectLabel.Show("screamEffect", 1.0f);
     effectIcons.Show("screamIcon", duration);

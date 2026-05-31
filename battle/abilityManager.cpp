@@ -447,7 +447,7 @@ namespace AbilityManager {
 
         }
     } // sigmaMen
-
+        
 
 
     namespace ForestEnemies {
