@@ -548,7 +548,6 @@ void BattleEntity::SetTimestopEffect(float duration, std::function<void()> onDon
 
     effectLabel.Show("timestopEffect", duration);
     effectIcons.Show("timestopIcon", duration);
-    getSprite().SetAlphaFlashing(true);
 }
 
 void BattleEntity::UpdateTimestopEffect(float dt)
@@ -589,28 +588,22 @@ void BattleEntity::UpdateTimestopEffect(float dt)
 // stop abilities
 void BattleEntity::InterruptAbility()
 {
-    // сбрасываем движение
     _moving         = false;
     _movingToTarget = false;
     _moveTarget     = nullptr;
     _onStop         = nullptr;
 
-    // сбрасываем поворот
     _turning       = false;
     _onTurnDone    = nullptr;
     _turnTimesLeft = 0;
 
-    // сбрасываем таймер фрейма спрайта
     getSprite().SetAlphaFlashing(false);
     getSprite().SetShaking(false);
     getSprite().SetFrame(0);
 
-    // сбрасываем touch-колбэки
     ClearOnTouch();
 
-    // trail выключаем
     trail.SetEnabled(false);
 
-    // идём на startPosition
     MoveTo(startPosition.x);
 }
