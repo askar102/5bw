@@ -29,13 +29,13 @@
  public:
     static void Init();
 
-    static Npc* Register(const std::string& id, int tileX, int tileY);
+    static Npc* Register(const std::string& id, int tileX, int tileY, Vector2 startPosition = {400, 300});
 
     static std::vector<Npc*> GetForTile(int tileX, int tileY);
 
     static Npc* Find(const std::string& id);
  
-    static void MoveTile(const std::string& id, int newTileX, int newTileY, Vector2 startPosition = {300, 400});
+    static void MoveTile(const std::string& id, int newTileX, int newTileY, Vector2 startPosition = {400, 300});
  
     static void Clear();
  

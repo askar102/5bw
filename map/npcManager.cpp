@@ -13,7 +13,7 @@
  
  std::vector<NpcRecord> NpcManager::_records;
 
- Npc* NpcManager::Register(const std::string& id, int tileX, int tileY)
+ Npc* NpcManager::Register(const std::string& id, int tileX, int tileY, Vector2 startPosition)
  {
     if (Npc* existing = Find(id))
     {
@@ -26,6 +26,8 @@
     record.npc = std::make_unique<Npc>();
     record.tileX = tileX;
     record.tileY = tileY;
+
+    record.npc->SetPosition(startPosition);
  
     Npc* raw = record.npc.get();
     _records.push_back(std::move(record));
@@ -73,10 +75,10 @@
         {
            record.tileX = newTileX;
            record.tileY = newTileY;
-           record.npc->GetSprite().FadeOut(1.0f, [&record] () {
+           record.npc->GetSprite().FadeOut(1.0f, [&record, startPosition] () {
                 record.npc->GetSprite().SetAlpha(0.0f);
+                record.npc->SetPosition(startPosition);
            });
-           record.npc->SetPosition(startPosition);
            TraceLog(LOG_INFO, "[NpcManager] NPC '%s' moved to tile (%d, %d)", id.c_str(), newTileX, newTileY);
            return;
         }
@@ -106,7 +108,6 @@
         Npc* angryGuy = Register("angryGuy", 600, 600);
         angryGuy->GetSprite().SetResource(&Game::GetResources().Get("angryGuy"));
         angryGuy->GetSprite().SetSize({88.0f, 128.0f});
-        angryGuy->SetPosition({300.0f, 200.0f});
         angryGuy->SetInteractionRadius(70.0f);
         angryGuy->SetOnEnter([angryGuy]() {
            TraceLog(LOG_INFO, "[NPC] Npc was clicked");
