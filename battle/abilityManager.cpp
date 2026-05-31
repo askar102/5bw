@@ -449,6 +449,7 @@ namespace AbilityManager {
         {
             caster.timestopImmortal = true;
             partyManager.TimestopAll(3.0f, nullptr, false);
+            // todo: add secret ability "Gruzovik"
         }
     } // sigmaMen
         
