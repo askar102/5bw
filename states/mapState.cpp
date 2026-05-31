@@ -41,6 +41,7 @@ void MapState::Draw() {
     DrawText("NOTE: press B for battle", 0, 30, 20, WHITE);
 
     DrawText(TextFormat("X: %d, Y: %d", currentTileX, currentTileY), 0, 60, 20, WHITE);
+    DrawText(TextFormat("mX: %d, mY: %d", GetMouseX(), GetMouseY()), 0, 90, 20, WHITE);
 }
 
 void MapState::Update(float dt) {

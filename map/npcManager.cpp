@@ -105,7 +105,7 @@
     // PLEASE USE {} FOR NEW CLEAN SCOPE
 
     {
-        Npc* angryGuy = Register("angryGuy", 600, 600);
+        Npc* angryGuy = Register("angryGuy", 600, 601, {740, 136});
         angryGuy->GetSprite().SetResource(&Game::GetResources().Get("angryGuy"));
         angryGuy->GetSprite().SetSize({88.0f, 128.0f});
         angryGuy->SetInteractionRadius(70.0f);
