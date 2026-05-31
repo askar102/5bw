@@ -29,6 +29,10 @@
 
 #include "battleState.h"
 
+#include "../map/npc.h"
+
+#include "../map/npcManager.h"
+
 class MapState : public State {
 public:
     void HandleInput() override;
@@ -62,5 +66,8 @@ private:
     // todo: change to more safe method
     const int SCREEN_WIDTH = 800;
     const int SCREEN_HEIGHT = 600;
+
+
+    std::vector<Npc*> _activeNpcs; 
 
 };

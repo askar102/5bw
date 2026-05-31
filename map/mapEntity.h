@@ -6,6 +6,9 @@
 
 #include "../entities/spriteV2.h"
 
+class MapState;
+class Player;
+
 class MapEntity {
 public:
     MapEntity() = default;

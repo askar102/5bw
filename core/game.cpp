@@ -49,6 +49,7 @@
      Init();
      // Init only here
      _playerParty.Init();
+     NpcManager::Init();
  
      while (!WindowShouldClose() && _running) 
      {
@@ -79,6 +80,8 @@
  {
     SpriteV2::UnloadBrightnessShader();
      Game::GetResources().Unload();
+
+     NpcManager::Clear();
 
      CloseWindow();
  }

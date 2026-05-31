@@ -16,6 +16,7 @@
  #include "stateManager.h"
  #include "resourceManager.h"
  #include "../battle/playerParty.h"
+ #include "../map/npcManager.h"
 
  #include "../raylib/raylib.h"
 

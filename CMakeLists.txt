@@ -57,6 +57,7 @@ add_executable(5bw12
 
     battle/bulletEntity.cpp
 
+    map/npcManager.cpp
     map/mapEntity.cpp
     map/npc.cpp
 )

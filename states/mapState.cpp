@@ -14,16 +14,26 @@ void MapState::HandleInput() {
     if (IsKeyPressed(KEY_B) && !startBattle) {
         startBattle = true;
     }
+
+    if (IsKeyPressed(KEY_H))
+    {
+        SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
+        MapEntity::SetDrawZones(!MapEntity::GetDrawZones());
+    }
 }
 
 void MapState::Draw() {
     ClearBackground(GREEN);
-    tree.Draw();
 
     for (auto& tree : trees) {
         tree->Draw();
     }
 
+    for (Npc* npc : _activeNpcs)
+    {
+        npc->Draw();
+    }
+    
     player.Draw();
 
     // todo: delete this in future
@@ -44,9 +54,10 @@ void MapState::Update(float dt) {
         stateMachine->PushState(std::make_unique<BattleState>());
     }
 
-    if (IsKeyPressed(KEY_H))
+    Vector2 playerPos = player.getSprite().GetPosition();
+    for (Npc* npc : _activeNpcs)
     {
-        SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
+        npc->Update(dt, playerPos);
     }
 }
 
@@ -54,8 +65,6 @@ void MapState::OnEnter() {
     this->LoadResources();
 
     player.getSprite().SetPosition({400, 300});
-
-    tree.SetPosition({200, 200});
 
     LoadTile();
 }
@@ -115,15 +124,11 @@ void MapState::LoadTile() {
         currentTileY,
         &Game::GetResources().Get(TextureID::Tree)
     );
+
+    _activeNpcs = NpcManager::GetForTile(currentTileX, currentTileY);
 }
 
 bool MapState::CheckCollision(Rectangle playerRect) {
-    if (tree.IsCollide()) {
-        if (CheckCollisionRecs(playerRect, tree.GetRect())) {
-            return true;
-        }
-    }
-
     for (auto& tree : trees) {
         if (tree->IsCollide()) {
             if (CheckCollisionRecs(playerRect, tree->GetRect())) {
