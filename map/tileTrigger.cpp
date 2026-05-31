@@ -73,6 +73,10 @@ void TileTrigger::Init()
     AddTileScript(600, 601, false, 
         /*onEnter=*/    [] () {
             printf("Hello\n");
+            Npc* npc = NpcManager::Find("angryGuy");
+            if (!npc) return;
+
+            npc->MoveTo({400, 300});
         },
         /*onExit=*/     [] () {
             // bla-bla
