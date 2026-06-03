@@ -5,6 +5,8 @@
 
 #include "npcManager.h"
 
+#include "../dialog/dialogPopup.h"
+
 struct TileScript {
     int tileX;
     int tileY;

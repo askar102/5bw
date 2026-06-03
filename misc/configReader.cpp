@@ -129,15 +129,15 @@ std::vector<std::string> ConfigReader::GetDialogFromConfig(int32_t dialogID)
 
     if (!file.is_open())
     {
-        printf("[configReader] Cant open dialogs.json!!!");
+        printf("[configReader] Cant open dialogs.json!!!\n");
         return dialogContainer;
     }
 
     json dialogConfig;
     file >> dialogConfig;
 
-    if (!dialogConfig.empty() || !dialogConfig.is_array()) {
-        printf("[configReader] dialogs.json is empty or not array");
+    if (dialogConfig.empty() || !dialogConfig.is_array()) {
+        printf("[configReader] dialogs.json is empty or not array\n");
         return dialogContainer;
     }
 
@@ -150,6 +150,6 @@ std::vector<std::string> ConfigReader::GetDialogFromConfig(int32_t dialogID)
         }
     }
 
-    printf("[configReader] Cannot find dialog by id: %d", dialogID);
+    printf("[configReader] Cannot find dialog by id: %d\n", dialogID);
     return dialogContainer;
 }

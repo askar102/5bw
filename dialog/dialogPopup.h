@@ -8,11 +8,13 @@
 
 #include "../entities/spriteV2.h"
 
+#include "../misc/configReader.h"
+
 class DialogPopUp {
 public:
-    void Show(const SpriteV2& entity, uint32_t dialogID);
+    static void Show(const SpriteV2* entity, uint32_t dialogID);
     void Next();
 
 private:
-    std::vector<std::string> text;
+    static std::vector<std::string> text;
 };

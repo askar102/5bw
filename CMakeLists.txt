@@ -62,6 +62,8 @@ add_executable(5bw12
     map/npc.cpp
 
     map/tileTrigger.cpp
+
+    dialog/dialogPopup.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)
