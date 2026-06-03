@@ -120,3 +120,9 @@ AbilityType ConfigReader::ParseAbilityType(const std::string& type)
 
     return AbilityType::Melee;
 }
+
+
+std::vector<std::string> ConfigReader::GetDialogFromConfig(int32_t dialogID)
+{
+    
+}
