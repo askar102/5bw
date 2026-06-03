@@ -141,6 +141,7 @@ std::vector<std::string> ConfigReader::GetDialogFromConfig(int32_t dialogID)
         return dialogContainer;
     }
 
+    printf("[configReader] Starting to read dialogs.json by id: %d\n", dialogID);
     for (auto& entry : dialogConfig)
     {
         if (entry["dialogID"] == dialogID)
