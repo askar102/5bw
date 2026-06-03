@@ -22,6 +22,7 @@
 #include "sceneState.h"
 
 #include "mapState.h"
+
 #include <memory>
 
 class MenuState : public State {

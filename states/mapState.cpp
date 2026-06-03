@@ -42,6 +42,8 @@ void MapState::Draw() {
 
     DrawText(TextFormat("X: %d, Y: %d", currentTileX, currentTileY), 0, 60, 20, WHITE);
     DrawText(TextFormat("mX: %d, mY: %d", GetMouseX(), GetMouseY()), 0, 90, 20, WHITE);
+
+    // __pizda.Draw();
 }
 
 void MapState::Update(float dt) {
@@ -60,6 +62,8 @@ void MapState::Update(float dt) {
     {
         npc->Update(dt, playerPos);
     }
+
+    // __pizda.Update(dt);
 }
 
 void MapState::OnEnter() {
@@ -71,8 +75,15 @@ void MapState::OnEnter() {
     TileTrigger::SetPlayer(&player);
 
     TileTrigger::Init();
+    DialogPopup::Init();
 
     LoadTile();
+
+    // temp
+    __pizdaTx = {LoadTexture("resources/BUBBLE_EXAMPLE.png"), {}};
+    __pizda.SetResource(&__pizdaTx);
+    __pizda.SetPosition({567, 195});
+    __pizda.SetAlpha(0.3);
 }
 
 void MapState::OnExit() {}

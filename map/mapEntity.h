@@ -6,7 +6,7 @@
 
 #include "../entities/spriteV2.h"
 
-// #include "../dialog/dialogPopup.h"
+#include "../dialog/dialogPopup.h"
 
 class MapState;
 class Player;
@@ -39,7 +39,7 @@ public:
     static bool GetDrawZones() { return _drawZones;  }
 
     // dialog
-    // DialogPopUp& GetDialogPopUp() { return _popup; }
+    DialogPopup& GetDialogPopUp() { return _popup; }
 
 protected:
     SpriteV2 _sprite;
@@ -52,5 +52,5 @@ protected:
     // debug
     static bool _drawZones;
 
-    // DialogPopUp _popup;
+    DialogPopup _popup;
 };

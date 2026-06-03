@@ -5,7 +5,8 @@
 
 #include "npcManager.h"
 
-// #include "../dialog/dialogPopup.h"
+#include "../dialog/dialogPopup.h"
+#include "../misc/configReader.h"
 
 #include "../entities/player.h"
 

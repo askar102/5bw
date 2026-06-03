@@ -34,6 +34,8 @@
 #include "../map/npcManager.h"
 #include "../map/tileTrigger.h"
 
+#include "../dialog/dialogPopup.h"
+
 class MapState : public State {
 public:
     void HandleInput() override;
@@ -71,5 +73,9 @@ private:
 
 
     std::vector<Npc*> _activeNpcs; 
+
+    // temp
+    SpriteV2 __pizda;
+    TextureResource __pizdaTx;
 
 };

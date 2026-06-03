@@ -31,7 +31,7 @@ void MapEntity::Update(float dt, Vector2 playerPos)
     (void)dt;
  
     _sprite.Update(dt);
-    // _popup.Update(dt);
+    _popup.Update(dt);
 
 
     if (!IsPlayerInRange(playerPos))
@@ -52,7 +52,7 @@ void MapEntity::Draw()
 {
     _sprite.Draw();
  
-    // _popup.Draw(&GetSprite());
+    _popup.Draw();
 
     if (_drawZones)
     {

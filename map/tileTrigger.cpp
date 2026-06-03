@@ -70,6 +70,7 @@ void TileTrigger::OnExitTile(int tileX, int tileY)
 
 void TileTrigger::Init()
 {
+
     // EXAMPLE
     AddTileScript(600, 601, false, 
         /*onEnter=*/    [] () {
@@ -79,9 +80,11 @@ void TileTrigger::Init()
             _player->SetInScene(true);
 
             Player* player = _player;
-
-            npc->MoveTo({400, 300}, 100.0f, [player] () {
-                player->SetInScene(false);
+            
+            npc->MoveTo({400, 300}, 1000.0f, [player, npc] () {
+                npc->GetDialogPopUp().ShowLines(ConfigReader::GetDialogFromConfig(1), &npc->GetSprite(), [player] () {
+                    player->SetInScene(false);
+                });
             });
             // todo: dialog popup dont working now
             // npc->GetDialogPopUp().Show(1);

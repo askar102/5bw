@@ -32,6 +32,7 @@
  void Game::Init() 
  {
     TraceLog(LOG_INFO, "[core] Creating window BLYAT :( .....");
+    SetConfigFlags(FLAG_MSAA_4X_HINT);
      InitWindow(_screenWidth, _screenHeight, _windowTitle);
      SetTargetFPS(60);
 
