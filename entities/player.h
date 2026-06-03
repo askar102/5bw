@@ -36,7 +36,19 @@ public:
     void Update(float dt, MapState* map);
     void Draw();
 
+    void SetInScene(bool value);
+
+    bool InScene() const
+    {
+        return _inScene;
+    }
+
 private:
     SpriteV2 _sprite;
     float _speed = 200.0f;
+
+    bool _inScene = false;
+    bool _beforeScene = false;
+    float _beforeSceneTimer = 0.0f;
+    float _beforeSceneDuration = 0.3f;
 };

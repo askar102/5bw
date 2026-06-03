@@ -66,6 +66,9 @@ void MapState::OnEnter() {
     this->LoadResources();
 
     player.getSprite().SetPosition({400, 300});
+    
+    // for player manipulation
+    TileTrigger::SetPlayer(&player);
 
     TileTrigger::Init();
 

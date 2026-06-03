@@ -5,7 +5,9 @@
 
 #include "npcManager.h"
 
-#include "../dialog/dialogPopup.h"
+// #include "../dialog/dialogPopup.h"
+
+#include "../entities/player.h"
 
 struct TileScript {
     int tileX;
@@ -33,6 +35,14 @@ public:
     // scripting place
     static void Init();
 
+    // for player manipulation
+    static void SetPlayer(Player* player)
+    {
+        _player = player;
+    }
+
 private:    
     static std::vector<TileScript> _scripts;
+
+    static Player* _player;
 };

@@ -11,9 +11,41 @@
 #include "player.h"
 
 #include "../states/mapState.h"
+#include <algorithm>
+
+void Player::SetInScene(bool value)
+{
+    if (value)
+    {
+        _beforeScene = true;
+        _beforeSceneTimer = _beforeSceneDuration;
+        return;
+    }
+
+    _beforeScene = false;
+    _beforeSceneTimer = 0.0f;
+    _inScene = false;
+}
 
 void Player::Update(float dt, MapState* map) 
 {
+    if (_beforeScene)
+    {
+        _beforeSceneTimer -= dt;
+
+        if (_beforeSceneTimer <= 0.0f)
+        {
+            _beforeScene = false;
+            _beforeSceneTimer = 0.0f;
+            _inScene = true;
+        }
+    }
+
+    if (InScene())
+    {
+        return;
+    }
+
     if (!map) {
         return;
     }

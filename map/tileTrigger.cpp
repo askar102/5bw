@@ -1,6 +1,7 @@
 #include "tileTrigger.h"
 
 std::vector<TileScript> TileTrigger::_scripts;
+Player* TileTrigger::_player;
 
 void TileTrigger::AddTileScript(int tileX, int tileY, bool manyTimes, std::function<void()> onEnter, std::function<void()> onExit) 
 {
@@ -75,10 +76,16 @@ void TileTrigger::Init()
             printf("Hello\n");
             Npc* npc = NpcManager::Find("angryGuy");
             if (!npc) return;
+            _player->SetInScene(true);
 
-            npc->MoveTo({400, 300});
+            Player* player = _player;
+
+            npc->MoveTo({400, 300}, 100.0f, [player] () {
+                player->SetInScene(false);
+            });
             // todo: dialog popup dont working now
             // npc->GetDialogPopUp().Show(1);
+            
         },
         /*onExit=*/     [] () {
             // bla-bla
