@@ -124,5 +124,32 @@ AbilityType ConfigReader::ParseAbilityType(const std::string& type)
 
 std::vector<std::string> ConfigReader::GetDialogFromConfig(int32_t dialogID)
 {
-    
+    std::vector<std::string> dialogContainer;
+    std::ifstream file("dialogs.json");
+
+    if (!file.is_open())
+    {
+        printf("[configReader] Cant open dialogs.json!!!");
+        return dialogContainer;
+    }
+
+    json dialogConfig;
+    file >> dialogConfig;
+
+    if (!dialogConfig.empty() || !dialogConfig.is_array()) {
+        printf("[configReader] dialogs.json is empty or not array");
+        return dialogContainer;
+    }
+
+    for (auto& entry : dialogConfig)
+    {
+        if (entry["dialogID"] == dialogID)
+        {
+            dialogContainer = entry["text"].get<std::vector<std::string>>();
+            return dialogContainer;
+        }
+    }
+
+    printf("[configReader] Cannot find dialog by id: %d", dialogID);
+    return dialogContainer;
 }
