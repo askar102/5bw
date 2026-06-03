@@ -31,7 +31,9 @@ void MapEntity::Update(float dt, Vector2 playerPos)
     (void)dt;
  
     _sprite.Update(dt);
- 
+    // _popup.Update(dt);
+
+
     if (!IsPlayerInRange(playerPos))
     {
         _enterConsumed = false;
@@ -50,6 +52,8 @@ void MapEntity::Draw()
 {
     _sprite.Draw();
  
+    // _popup.Draw(&GetSprite());
+
     if (_drawZones)
     {
         DrawCircleLines(

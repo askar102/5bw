@@ -77,7 +77,8 @@ void TileTrigger::Init()
             if (!npc) return;
 
             npc->MoveTo({400, 300});
-            DialogPopUp::Show(nullptr, 1);
+            // todo: dialog popup dont working now
+            // npc->GetDialogPopUp().Show(1);
         },
         /*onExit=*/     [] () {
             // bla-bla

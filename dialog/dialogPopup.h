@@ -12,9 +12,21 @@
 
 class DialogPopUp {
 public:
-    static void Show(const SpriteV2* entity, uint32_t dialogID);
+    DialogPopUp() = default;
+    DialogPopUp(const SpriteV2* entity);
+
+    void Show(uint32_t dialogID);
     void Next();
 
+    void Draw();
+    void Draw(const SpriteV2* entity);
+
+    void Update(float dt);
+
 private:
-    static std::vector<std::string> text;
+    static std::vector<std::string> _text;
+    bool _visible = false;
+    
+    const SpriteV2* _anchor;
+    Rectangle _rect;
 };
