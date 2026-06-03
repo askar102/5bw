@@ -50,5 +50,7 @@ private:
     bool _inScene = false;
     bool _beforeScene = false;
     float _beforeSceneTimer = 0.0f;
-    float _beforeSceneDuration = 0.3f;
+
+    // config
+    float _beforeSceneDuration = 0.5f;
 };

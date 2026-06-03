@@ -42,10 +42,6 @@ private:
     void InitEnemyParty();
     void InitPlayerParty();
 
-    // Temporary single-character test setup.
-    std::unique_ptr<BattleEntity> _character;
-    std::unique_ptr<BattleEntity> _enemy;
-
     AbilityPanel _abilityPanel;
     VfxManager _vfxManager;
 

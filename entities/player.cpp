@@ -11,7 +11,6 @@
 #include "player.h"
 
 #include "../states/mapState.h"
-#include <algorithm>
 
 void Player::SetInScene(bool value)
 {

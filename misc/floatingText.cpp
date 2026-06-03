@@ -34,7 +34,6 @@ void FloatingText::Update(float dt)
         t.velocity.y *= 0.98f;
     }
 
-    // удаляем просроченные
     std::erase_if(_texts, [](const Instance& t)
     {
         return t.time >= t.lifetime;

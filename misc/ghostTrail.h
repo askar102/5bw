@@ -11,9 +11,6 @@ struct GhostFrame {
 
 class GhostTrail {
 public:
-    // maxGhosts - сколько копий максимум
-    // fadeSpeed - как быстро исчезают
-    // interval - как часто создаём новый ghost (в секундах)
     void Init(int maxGhosts = 6, float fadeSpeed = 8.0f, float interval = 0.03f);
 
     void Update(float dt, const SpriteV2& sprite);

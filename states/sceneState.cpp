@@ -11,9 +11,7 @@
  #include "sceneState.h"
  #include "../core/stateManager.h"
  
- // ─────────────────────────────────────────────────────────────
- //  Ctor
- // ─────────────────────────────────────────────────────────────
+
  SceneState::SceneState(float                              duration,
                         std::function<void()>              onFinish,
                         std::function<void(SceneContext&)> onUpdate,
@@ -26,9 +24,7 @@
        _camCfg(camCfg)
  {}
  
- // ─────────────────────────────────────────────────────────────
- //  Lifecycle
- // ─────────────────────────────────────────────────────────────
+
  void SceneState::OnEnter()
  {
      _elapsed  = 0.0f;
@@ -45,20 +41,16 @@
  
  void SceneState::HandleInput() {}
  
- // ─────────────────────────────────────────────────────────────
- //  Update
- // ─────────────────────────────────────────────────────────────
+
  void SceneState::Update(float dt)
  {
      if (_finished) return;
  
      _elapsed += dt;
  
-     // Обновляем entity (шейкинг, фреймы, эффекты и т.д.)
      if (_entity)
          _entity->Update(dt);
  
-     // Пользовательский скрипт — вызывается каждый кадр
      if (_onUpdate)
      {
          SceneContext ctx {
@@ -71,17 +63,12 @@
          _onUpdate(ctx);
      }
  
-     // Управление камерой мышкой
      UpdateCamera(dt);
  
-     // Автозавершение по таймеру
      if (_duration > 0.0f && _elapsed >= _duration)
          Finish();
  }
  
- // ─────────────────────────────────────────────────────────────
- //  Draw
- // ─────────────────────────────────────────────────────────────
  void SceneState::Draw()
  {
      ClearBackground(WHITE);
@@ -91,7 +78,6 @@
          DrawCharacter();
      EndMode3D();
  
-     // HUD — таймер обратного отсчёта
      if (_duration > 0.0f)
      {
          float remaining = _duration - _elapsed;
@@ -102,10 +88,7 @@
          );
      }
  }
- 
- // ─────────────────────────────────────────────────────────────
- //  Finish
- // ─────────────────────────────────────────────────────────────
+
  void SceneState::Finish()
  {
      if (_finished) return;
@@ -117,10 +100,7 @@
      if (stateMachine)
          stateMachine->PopState();
  }
- 
- // ─────────────────────────────────────────────────────────────
- //  DrawRoom
- // ─────────────────────────────────────────────────────────────
+
  void SceneState::DrawRoom() const
  {
      const Color wallColor  = WHITE;
@@ -133,15 +113,12 @@
      DrawCube({  10.0f, 5.0f,  0.0f  }, 0.2f,  10.0f, 20.0f, wallColor);
      DrawCube({ 0.0f,  10.0f,  0.0f  }, 20.0f, 0.2f,  20.0f, wallColor);
  
-     // плинтусы
      DrawCube({ 0.0f,   0.05f, -10.0f }, 20.0f, 0.1f, 0.1f, edge);
      DrawCube({ -10.0f, 0.05f,  0.0f  }, 0.1f,  0.1f, 20.0f, edge);
      DrawCube({  10.0f, 0.05f,  0.0f  }, 0.1f,  0.1f, 20.0f, edge);
  }
  
- // ─────────────────────────────────────────────────────────────
- //  DrawCharacter
- // ─────────────────────────────────────────────────────────────
+
  void SceneState::DrawCharacter() const
  {
      if (!_entity) return;
@@ -149,23 +126,18 @@
      SpriteV2& spr = _entity->getSprite();
      TextureResource* res = &Game::GetResources().Get(_entity->name);
      if (!res || res->texture.id == 0) return;
- 
-     // Billboard позиция — центр комнаты
+
      Vector3 billboardPos = { 0.0f, 1.5f, 0.0f };
  
-     // Шейкинг — применяем _shakeOffset к позиции billboard
-     // (требует GetShakeOffset() в SpriteV2 — см. spriteV2_patch.h)
      Vector2 shake = spr.GetShakeOffset();
      billboardPos.x += shake.x * BILLBOARD_SCALE * 10.0f;
-     billboardPos.y -= shake.y * BILLBOARD_SCALE * 10.0f; // Y инвертирован
+     billboardPos.y -= shake.y * BILLBOARD_SCALE * 10.0f; 
  
      Vector2 sprSize  = spr.GetSize();
      Vector2 billSize = { sprSize.x * BILLBOARD_SCALE, sprSize.y * BILLBOARD_SCALE };
  
      if (!res->frames.empty())
      {
-         // Атлас — берём текущий фрейм через GetSourceRect()
-         // (требует GetSourceRect() в SpriteV2 — см. spriteV2_patch.h)
          Rectangle srcRect = spr.GetSourceRect();
          DrawBillboardRec(_camera, res->texture, srcRect, billboardPos, billSize, WHITE);
      }
@@ -175,14 +147,10 @@
      }
  }
  
- // ─────────────────────────────────────────────────────────────
- //  UpdateCamera
- // ─────────────────────────────────────────────────────────────
  void SceneState::UpdateCamera(float dt)
  {
      (void)dt;
- 
-     // Зум колёсиком
+
      float wheel = GetMouseWheelMove();
      if (wheel != 0.0f)
      {
@@ -196,7 +164,6 @@
          _camera.position = Vector3Add(_camera.position, Vector3Scale(dir, delta));
      }
  
-     // Pan — ПКМ + drag
      Vector2 mouse = GetMousePosition();
  
      if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))  { _lastMouse = mouse; _dragging = true;  }
@@ -222,7 +189,7 @@
          _camera.target   = Vector3Add(_camera.target,   pan);
      }
  
-     // Орбита — ЛКМ + drag
+     // control
      if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
      {
          UpdateCameraPro(

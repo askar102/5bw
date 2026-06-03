@@ -23,7 +23,6 @@
 #include "../entities/spriteV2.h"
 #include "../entities/tree.h"
 
-// todo: make the Tree class
 class MapGenerator {
 public:
     static std::vector<std::unique_ptr<Tree>> GenerateTile(
