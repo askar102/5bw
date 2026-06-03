@@ -34,7 +34,11 @@
 #include "../map/npcManager.h"
 #include "../map/tileTrigger.h"
 
+// For init font
 #include "../dialog/dialogPopup.h"
+
+#include "../gui/button.h"
+#include "../gui/guiManager.h"
 
 class MapState : public State {
 public:
@@ -53,6 +57,8 @@ public:
     bool CheckCollision(Rectangle playerRect);
 
     Vector2 GetCurrentTilePos() const { return {static_cast<float>(currentTileX), static_cast<float>(currentTileY)}; }
+
+    void InitGui();
 
 private:
     Player player;
@@ -74,8 +80,5 @@ private:
 
     std::vector<Npc*> _activeNpcs; 
 
-    // temp
-    SpriteV2 __pizda;
-    TextureResource __pizdaTx;
-
+    GuiManager _gui;
 };

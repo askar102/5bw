@@ -16,7 +16,7 @@ enum class PositionType {
 
 class Button : public Gui {
     public:
-        Button();  // в конструкторе берём GuiButton из ResourceManager
+        Button(); 
         // default with non-custom rsource
         Button(Vector2 pos, Vector2 size, std::string label, std::function<void()> onClick, PositionType textPositionType = PositionType::Center);
         // with custom resource

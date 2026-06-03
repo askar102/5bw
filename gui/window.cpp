@@ -79,7 +79,7 @@ void Button::Update() {
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)
         && CheckCollisionPointRec(mouse, rect)
-        && _onClick) 
+        && _onClick)  // проверяем что callback задан
     {
         _onClick();
     }
@@ -101,6 +101,7 @@ void Button::Draw() {
     
     _sprite.Draw();
 
+    // текст по центру кнопки
     Vector2 pos = _sprite.GetPosition();
     Vector2 size = _sprite.GetSize();
     int textWidth = MeasureText(_label.c_str(), _textFontSize);

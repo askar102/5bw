@@ -36,6 +36,8 @@ void MapState::Draw() {
     
     player.Draw();
 
+    _gui.Draw();
+
     // todo: delete this in future
     DrawText("currentState: game(map)", 0, 0, 20, WHITE);
     DrawText("NOTE: press B for battle", 0, 30, 20, WHITE);
@@ -43,12 +45,13 @@ void MapState::Draw() {
     DrawText(TextFormat("X: %d, Y: %d", currentTileX, currentTileY), 0, 60, 20, WHITE);
     DrawText(TextFormat("mX: %d, mY: %d", GetMouseX(), GetMouseY()), 0, 90, 20, WHITE);
 
-    // __pizda.Draw();
 }
 
 void MapState::Update(float dt) {
     player.Update(dt, this);
     playerPos  = player.getSprite().GetPosition();
+
+    _gui.Update();
 
     MapRotationCheck();
 
@@ -62,8 +65,6 @@ void MapState::Update(float dt) {
     {
         npc->Update(dt, playerPos);
     }
-
-    // __pizda.Update(dt);
 }
 
 void MapState::OnEnter() {
@@ -71,6 +72,8 @@ void MapState::OnEnter() {
 
     player.getSprite().SetPosition({400, 300});
     
+    InitGui();
+
     // for player manipulation
     TileTrigger::SetPlayer(&player);
 
@@ -78,12 +81,6 @@ void MapState::OnEnter() {
     DialogPopup::Init();
 
     LoadTile();
-
-    // temp
-    __pizdaTx = {LoadTexture("resources/BUBBLE_EXAMPLE.png"), {}};
-    __pizda.SetResource(&__pizdaTx);
-    __pizda.SetPosition({567, 195});
-    __pizda.SetAlpha(0.3);
 }
 
 void MapState::OnExit() {}
@@ -163,4 +160,45 @@ bool MapState::CheckCollision(Rectangle playerRect) {
         }
     }
     return false;
+}
+
+void MapState::InitGui()
+{
+    std::vector<std::unique_ptr<Button>> buttons; 
+
+    auto menuButton = std::make_unique<Button>(
+        Vector2{767, 50},
+        Vector2{50, 50},
+        "",
+        &Game::GetResources().Get("gameMenuButton"),
+        [this]() {
+            printf("Pizda menu\n");
+        },
+        PositionType::Left
+    );
+
+    menuButton->GetSprite().SetAlpha(0.5f);
+
+    buttons.push_back(std::move(menuButton));
+
+    auto inventoryButton = std::make_unique<Button>(
+        Vector2{767, 110},
+        Vector2{50, 50},
+        "",
+        &Game::GetResources().Get("inventoryButton"),
+        [this]() {
+            printf("pizda inv\n");
+        },
+        PositionType::Left
+    );
+
+    inventoryButton->GetSprite().SetAlpha(0.5f);
+
+    buttons.push_back(std::move(inventoryButton));
+    
+
+    for (auto& button : buttons)
+    {
+        _gui.Add(std::move(button));
+    }
 }
