@@ -85,4 +85,9 @@ private:
     std::vector<Npc*> _activeNpcs; 
 
     GuiManager _gui;
+
+    // new
+
+    TextureResource tileTx;
+    std::vector<std::unique_ptr<SpriteV2>> tiles;
 };

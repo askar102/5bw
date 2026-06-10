@@ -9,6 +9,7 @@
  */
 
 #include "mapState.h"
+#include <memory>
 
 void MapState::HandleInput() {
     if (IsKeyPressed(KEY_B) && !startBattle) {
@@ -23,7 +24,7 @@ void MapState::HandleInput() {
 }
 
 void MapState::Draw() {
-    ClearBackground(GREEN);
+    ClearBackground(BLACK);
 
     for (auto& tree : trees) {
         tree->Draw();
@@ -34,6 +35,10 @@ void MapState::Draw() {
         npc->Draw();
     }
     
+    for (const auto& tile : tiles) {
+        tile->Draw();
+    }
+
     player.Draw();
 
     _gui.Draw();
@@ -44,26 +49,31 @@ void MapState::Draw() {
 
     DrawText(TextFormat("X: %d, Y: %d", currentTileX, currentTileY), 0, 60, 20, WHITE);
     DrawText(TextFormat("mX: %d, mY: %d", GetMouseX(), GetMouseY()), 0, 90, 20, WHITE);
-
+    
+    
 }
 
 void MapState::Update(float dt) {
     player.Update(dt, this);
     playerPos  = player.getSprite().GetPosition();
 
-    _gui.Update();
+    // _gui.Update();
 
-    MapRotationCheck();
+    // MapRotationCheck();
 
-    if (startBattle && stateMachine) {
-        startBattle = false;
-        stateMachine->PushState(std::make_unique<BattleState>());
-    }
+    // if (startBattle && stateMachine) {
+    //     startBattle = false;
+    //     stateMachine->PushState(std::make_unique<BattleState>());
+    // }
 
-    Vector2 playerPos = player.getSprite().GetPosition();
-    for (Npc* npc : _activeNpcs)
-    {
-        npc->Update(dt, playerPos);
+    // Vector2 playerPos = player.getSprite().GetPosition();
+    // for (Npc* npc : _activeNpcs)
+    // {
+    //     npc->Update(dt, playerPos);
+    // }
+
+    for (const auto& tile : tiles) {
+        tile->Update(dt);
     }
 }
 
@@ -71,16 +81,34 @@ void MapState::OnEnter() {
     this->LoadResources();
 
     player.getSprite().SetPosition({400, 300});
-    
-    InitGui();
+    player.getSprite().SetSize({48, 48});
 
-    // for player manipulation
-    TileTrigger::SetPlayer(&player);
+    // InitGui();
 
-    TileTrigger::Init();
-    DialogPopup::Init();
+    // // for player manipulation
+    // TileTrigger::SetPlayer(&player);
 
-    LoadTile();
+    // TileTrigger::Init();
+    // DialogPopup::Init();
+
+    // LoadTile();
+
+    Vector2 startPos = {232, 48};
+    // 26, 15 - full map
+    for (int tx = 0; tx <= 16; ++tx) {
+        for (int ty = 0; ty <= 12; ++ty) {
+            auto tile = std::make_unique<SpriteV2>();
+            tile->SetResource(&tileTx);
+
+            tile->SetPosition({
+                startPos.x + (float)tx * 48.0f + 48.0f / 2,
+                startPos.y + (float)ty * 48.0f + 48.0f / 2
+            });
+
+            tiles.push_back(std::move(tile));
+        }
+    }
+
 }
 
 void MapState::OnExit() {}
@@ -91,6 +119,10 @@ void MapState::LoadResources() {
     tree.SetResource(&Game::GetResources().Get(TextureID::Tree));
     tree.SetSize({100, 100});
     tree.SetRectSize({90, 60});
+
+
+    tileTx = {LoadTexture("resources/defaultTile.png"), {}};
+
 }
 
 void MapState::MapRotationCheck() {
