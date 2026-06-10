@@ -90,4 +90,7 @@ private:
 
     TextureResource tileTx;
     std::vector<std::unique_ptr<SpriteV2>> tiles;
+
+    // builder mode
+    bool _builderMode = false;
 };

@@ -21,6 +21,11 @@ void MapState::HandleInput() {
         SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
         MapEntity::SetDrawZones(!MapEntity::GetDrawZones());
     }
+
+    if (IsKeyPressed(KEY_V))
+    {
+        _builderMode = !_builderMode;
+    }
 }
 
 void MapState::Draw() {
@@ -37,6 +42,7 @@ void MapState::Draw() {
     
     for (const auto& tile : tiles) {
         tile->Draw();
+        DrawText("T",tile->GetPosition().x, tile->GetPosition().y, 10, WHITE);
     }
 
     player.Draw();
@@ -74,6 +80,20 @@ void MapState::Update(float dt) {
 
     for (const auto& tile : tiles) {
         tile->Update(dt);
+
+        if (_builderMode) {
+            Rectangle mouseRect = { GetMousePosition().x, GetMousePosition().y, 1.0f, 1.0f };
+
+            if (CheckCollisionRecs(tile->GetRect(), mouseRect)) {
+                tile->SetBrightness(1.5f);
+            }
+            else
+            {
+                tile->SetBrightness(1.0f);
+            } 
+        }
+        else tile->SetBrightness(1.0f);
+        
     }
 }
 
