@@ -216,7 +216,7 @@ std::vector<std::unique_ptr<Button>> MapState::GetInventoryButtons()
 
     auto changePartyButton = std::make_unique<Button>(
         Vector2{400 - 100, 300 + 100},
-        Vector2{50, 50},
+        Vector2{150, 60},
         "",
         &Game::GetResources().Get("changePartyButton"),
         [this]() {
@@ -229,7 +229,7 @@ std::vector<std::unique_ptr<Button>> MapState::GetInventoryButtons()
 
     auto changeBookButton = std::make_unique<Button>(
         Vector2{400 + 100, 300 + 100},
-        Vector2{50, 50},
+        Vector2{150, 60},
         "",
         &Game::GetResources().Get("changeBookButton"),
         [this]() {
