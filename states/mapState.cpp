@@ -199,5 +199,47 @@ void MapState::InitGui()
     // window
     auto inventoryWindow = std::make_unique<Window>(rawInvButtonPtr);
 
+    // invWindow buttons
+    inventoryWindow->AddButtons(GetInventoryButtons());
+
     _gui.Add(std::move(inventoryWindow));
-}   
+
+
+
+
+
+}
+
+std::vector<std::unique_ptr<Button>> MapState::GetInventoryButtons()
+{
+    std::vector<std::unique_ptr<Button>> buttons;
+
+    auto changePartyButton = std::make_unique<Button>(
+        Vector2{400 - 100, 300 + 100},
+        Vector2{50, 50},
+        "",
+        &Game::GetResources().Get("changePartyButton"),
+        [this]() {
+            printf("change party\n");
+        },
+        PositionType::Left
+    );
+
+    buttons.push_back(std::move(changePartyButton));
+
+    auto changeBookButton = std::make_unique<Button>(
+        Vector2{400 + 100, 300 + 100},
+        Vector2{50, 50},
+        "",
+        &Game::GetResources().Get("changeBookButton"),
+        [this]() {
+            printf("change book\n");
+        },
+        PositionType::Left
+    );
+
+    buttons.push_back(std::move(changeBookButton));
+    
+
+    return buttons;
+}

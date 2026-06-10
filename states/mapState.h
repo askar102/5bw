@@ -60,7 +60,9 @@ public:
 
     Vector2 GetCurrentTilePos() const { return {static_cast<float>(currentTileX), static_cast<float>(currentTileY)}; }
 
+    // gui flow
     void InitGui();
+    std::vector<std::unique_ptr<Button>> GetInventoryButtons();
 
 private:
     Player player;

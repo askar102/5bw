@@ -3,6 +3,7 @@
 #include <functional>
 #include <string>
 #include <memory>
+#include <vector>
 
 #include "../entities/spriteV2.h"
 #include "../core/resourceManager.h"
@@ -19,6 +20,11 @@ class Window : public Gui {
 
         void Show(bool value);
 
+        // additional buttons
+        void AddButton(std::unique_ptr<Button> newButton);
+        // rvalue-referens means that we "steal" vector
+        void AddButtons(std::vector<std::unique_ptr<Button>>&& newButtonsVec);
+
     private:
         // windowBg - is _sprite from Gui class-parent
         // SpriteV2 _windowBg;
@@ -34,4 +40,6 @@ class Window : public Gui {
         // Res
         TextureResource _bgRes;
         TextureResource _exitRes;
+
+        std::vector<std::unique_ptr<Button>> _additionalButtons;
 };
