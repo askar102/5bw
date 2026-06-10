@@ -3,12 +3,15 @@
 Window::Window(Button* hook, Vector2 pos, Vector2 size, std::function<void()> onEnter) 
     : _hookButton(hook), _pos(pos), _size(size), _onEnter(onEnter)
 {
-    TextureResource bgRes = {LoadTexture("resources/windowBackground.png"), {}};
-    SetResource(&bgRes);
+    _bgRes = {LoadTexture("resources/windowBackground.png"), {}};
+    _sprite.SetResource(&_bgRes);
 
-    TextureResource exitRes = {LoadTexture("resources/closeButton.png"), {}};
-    _exitButton.SetResource(&exitRes);
+    _exitRes = {LoadTexture("resources/windowCloseButton.png"), {}};
+    _exitButton.SetResource(&_exitRes);
     _exitButton.SetPosition({300, 400});
+
+    _sprite.SetPosition(_pos);
+    _sprite.SetSize(_size);
 }
 
 void Window::Draw() 

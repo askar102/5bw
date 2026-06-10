@@ -12,7 +12,7 @@
 
 class Window : public Gui {
     public:
-        Window(Button* hook, Vector2 pos = {300, 400}, Vector2 size = {200, 300}, std::function<void()> onEnter = nullptr);
+        Window(Button* hook, Vector2 pos = {300, 400}, Vector2 size = {410, 297}, std::function<void()> onEnter = nullptr);
 
         void Update() override;
         void Draw() override;
@@ -30,4 +30,8 @@ class Window : public Gui {
 
         // hook button
         Button* _hookButton = nullptr;
+
+        // Res
+        TextureResource _bgRes;
+        TextureResource _exitRes;
 };
