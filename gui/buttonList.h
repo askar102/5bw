@@ -8,7 +8,7 @@
 
 class ButtonList : public Gui {
 public:
-    void Draw() override; // становяться в ряд
+    void Draw() override; // column
     void Update() override;
 
     void Add(std::unique_ptr<Button> newButton);

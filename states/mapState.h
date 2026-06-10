@@ -40,6 +40,8 @@
 #include "../gui/button.h"
 #include "../gui/guiManager.h"
 
+#include "../gui/window.h"
+
 class MapState : public State {
 public:
     void HandleInput() override;

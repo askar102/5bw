@@ -8,7 +8,6 @@ void ButtonList::Draw()
     {
         _buttons[i]->Draw();
 
-        // Курсор-треугольник слева от выбранной кнопки
         if (i == _selectedIndex)
         {
             Vector2 btnPos  = _buttons[i]->GetSprite().GetPosition();
@@ -17,7 +16,6 @@ void ButtonList::Draw()
             float cx = btnPos.x - btnSize.x * 0.5f - CURSOR_SIZE * 2.0f;
             float cy = btnPos.y;
 
-            // треугольник: вершина смотрит вправо →
             DrawTriangle(
                 { cx,                    cy - CURSOR_SIZE },
                 { cx,                    cy + CURSOR_SIZE },

@@ -163,9 +163,7 @@ bool MapState::CheckCollision(Rectangle playerRect) {
 }
 
 void MapState::InitGui()
-{
-    std::vector<std::unique_ptr<Button>> buttons; 
-
+{ 
     auto menuButton = std::make_unique<Button>(
         Vector2{767, 50},
         Vector2{50, 50},
@@ -179,7 +177,7 @@ void MapState::InitGui()
 
     menuButton->GetSprite().SetAlpha(0.5f);
 
-    buttons.push_back(std::move(menuButton));
+    _gui.Add(std::move(menuButton));
 
     auto inventoryButton = std::make_unique<Button>(
         Vector2{767, 110},
@@ -191,14 +189,15 @@ void MapState::InitGui()
         },
         PositionType::Left
     );
-
-    inventoryButton->GetSprite().SetAlpha(0.5f);
-
-    buttons.push_back(std::move(inventoryButton));
     
+    inventoryButton->GetSprite().SetAlpha(0.5f);                                                                
 
-    for (auto& button : buttons)
-    {
-        _gui.Add(std::move(button));
-    }
-}
+    Button* rawInvButtonPtr = inventoryButton.get();
+
+    _gui.Add(std::move(inventoryButton));   
+
+    // window
+    auto inventoryWindow = std::make_unique<Window>(rawInvButtonPtr);
+
+    _gui.Add(std::move(inventoryWindow));
+}   
