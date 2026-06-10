@@ -17,6 +17,11 @@ Window::Window(Button* hook, Vector2 pos, Vector2 size, std::function<void()> on
     _sprite.SetSize(_size);
 
     SetVisible(false);
+
+    // exit logic
+    _exitButton.SetOnClick([this] () {
+        Show(false);
+    });
 }
 
 void Window::Draw() 
@@ -35,6 +40,9 @@ void Window::Update() {
             Show(!_visible);
         });
     }
+
+    //exit button
+    _exitButton.Update();
 }
 
 
