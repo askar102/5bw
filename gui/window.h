@@ -22,7 +22,7 @@ class Window : public Gui {
     private:
         // windowBg - is _sprite from Gui class-parent
         // SpriteV2 _windowBg;
-        SpriteV2 _exitButton;
+        Button _exitButton;
 
         Vector2 _pos;
         Vector2 _size;

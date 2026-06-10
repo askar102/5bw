@@ -7,11 +7,11 @@ Window::Window(Button* hook, Vector2 pos, Vector2 size, std::function<void()> on
     _sprite.SetResource(&_bgRes);
 
     _exitRes = {LoadTexture("resources/windowCloseButton.png"), {}};
-    _exitButton.SetResource(&_exitRes);
+    _exitButton.GetSprite().SetResource(&_exitRes);
 
     Vector2 exitPos = {_pos.x + _size.x / 2.0f, _pos.y - _size.y / 2.0f}; 
     _exitButton.SetPosition(exitPos);
-    _exitButton.SetSize({50, 50});
+    _exitButton.GetSprite().SetSize({50, 50});
 
     _sprite.SetPosition(_pos);
     _sprite.SetSize(_size);
