@@ -69,15 +69,18 @@ void MapState::Update(float dt) {
     playerPos  = player.getSprite().GetPosition();
 
     _camera.target = player.getSprite().GetPosition();
+    _worldMousePos = GetScreenToWorld2D(Game::GetWorldMouse(), _camera);
+
 
     // _gui.Update();
 
     // MapRotationCheck();
 
-    // if (startBattle && stateMachine) {
-    //     startBattle = false;
-    //     stateMachine->PushState(std::make_unique<BattleState>());
-    // }
+    // battle
+    if (startBattle && stateMachine) {
+        startBattle = false;
+        stateMachine->PushState(std::make_unique<BattleState>());
+    }
 
     // Vector2 playerPos = player.getSprite().GetPosition();
     // for (Npc* npc : _activeNpcs)
@@ -93,8 +96,9 @@ void MapState::Update(float dt) {
             currentTileY = tile->y;
         }
 
+        // BUILDER MODE LOGIC
         if (_builderMode) {
-            Rectangle mouseRect = { GetScreenToWorld2D(GetMousePosition(), _camera).x, GetScreenToWorld2D(GetMousePosition(), _camera).y, 1.0f, 1.0f };
+            Rectangle mouseRect = { _worldMousePos.x, _worldMousePos.y, 1.0f, 1.0f };
 
             if (CheckCollisionRecs(tile->sprite.GetRect(), mouseRect)) {
                 tile->sprite.SetBrightness(1.5f);
