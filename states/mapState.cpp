@@ -94,7 +94,7 @@ void MapState::Update(float dt) {
         }
 
         if (_builderMode) {
-            Rectangle mouseRect = { GetMousePosition().x, GetMousePosition().y, 1.0f, 1.0f };
+            Rectangle mouseRect = { GetScreenToWorld2D(GetMousePosition(), _camera).x, GetScreenToWorld2D(GetMousePosition(), _camera).y, 1.0f, 1.0f };
 
             if (CheckCollisionRecs(tile->sprite.GetRect(), mouseRect)) {
                 tile->sprite.SetBrightness(1.5f);
@@ -120,7 +120,7 @@ bool MapState::CheckTileCollision(Tile* tile) {
 void MapState::OnEnter() {
     this->LoadResources();
 
-    player.getSprite().SetPosition({400, 300});
+    player.getSprite().SetPosition({SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f});
     player.getSprite().SetSize({48, 48});
 
     _camera.target = player.getSprite().GetPosition();
@@ -138,10 +138,10 @@ void MapState::OnEnter() {
 
     // LoadTile();
 
-    Vector2 startPos = {232, 48};
+    Vector2 startPos = {0, 0};
     // 26, 15 - full map
-    for (int tx = 0; tx <= 16; ++tx) {
-        for (int ty = 0; ty <= 12; ++ty) {
+    for (int tx = 0; tx <= 13; ++tx) {
+        for (int ty = 0; ty <= 10; ++ty) {
             // tree checker
             if (tx == 12 && ty == 6) {
                 auto tile = std::make_unique<Tile>();
@@ -256,7 +256,7 @@ bool MapState::CheckCollision(Rectangle playerRect) {
         if (tree->IsCollide()) {
             if (CheckCollisionRecs(playerRect, tree->GetRect())) {
                 return true;
-            }
+            }   
         }
     }
     return false;

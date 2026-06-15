@@ -42,7 +42,6 @@
  
      _stateMachine.ChangeState(std::make_unique<MenuState>());
 
-      
  }
  
  void Game::Run() 

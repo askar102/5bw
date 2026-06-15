@@ -85,9 +85,8 @@ private:
     unsigned int currentTileX = 0;
     unsigned int currentTileY = 0;
         
-    // todo: change to more safe method
-    const int SCREEN_WIDTH = 800;
-    const int SCREEN_HEIGHT = 600;
+    const int SCREEN_WIDTH = GetScreenWidth();
+    const int SCREEN_HEIGHT = GetScreenHeight();
 
 
     std::vector<Npc*> _activeNpcs; 
