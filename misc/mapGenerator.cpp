@@ -9,18 +9,22 @@
  */
 
 #include "mapGenerator.h"
+#include <cstdint>
 
 TextureResource* MapGenerator::_tileTexturePack = nullptr;
+std::unordered_map<uint64_t, Chunk> MapGenerator::_chunks;
 
 using json = nlohmann::json;
 
-std::vector<std::unique_ptr<Tile>> MapGenerator::GenerateChunk(const std::string& path, int chunkX, int chunkY) 
+std::unique_ptr<Chunk> MapGenerator::GenerateChunk(const std::string& path, uint32_t chunkX, uint32_t chunkY) 
 {
-    std::vector<std::unique_ptr<Tile>> result;
+    std::unique_ptr<Chunk> resultChunk = std::make_unique<Chunk>();
+    std::vector<std::unique_ptr<Tile>> resultTiles;
     std::ifstream file(path);
     if (!file.is_open()) {
         TraceLog(LOG_WARNING, "Chunk file not found: %s", path.c_str());
-        return result;
+        resultChunk->tiles = resultTiles;
+        return resultChunk;
     }
 
     json chunks;
@@ -53,16 +57,49 @@ std::vector<std::unique_ptr<Tile>> MapGenerator::GenerateChunk(const std::string
                     startPos.x + (float)tx * tileSize + tileSize / 2,
                     startPos.y + (float)ty * tileSize + tileSize / 2
                 });
-                result.push_back(std::move(tile));
+                resultTiles.push_back(std::move(tile));
             }
         }
-        return result;
+
+        resultChunk->tiles = resultTiles;
+
+        
+        return resultChunk;
     }
 
     TraceLog(LOG_WARNING, "Chunk %d %d not found in json", chunkX, chunkY);
-    return result;
+    resultChunk->tiles = resultTiles;
+    return resultChunk;
 }
 
 void MapGenerator::Init(TextureResource* tx) {
     _tileTexturePack = tx;
+}
+
+Chunk* MapGenerator::GetChunk(uint32_t chunkX, uint32_t chunkY)
+{
+    uint64_t key = ChunkKey(chunkX, chunkY);
+    
+    auto it = _chunks.find(key);
+    if (it != _chunks.end())
+        return &it->second;
+    
+    auto chunk = GenerateChunk("map.json", chunkX, chunkY);
+    if (!chunk) return nullptr;
+    
+    _chunks[key] = std::move(*chunk);
+    return &_chunks[key];
+}
+
+
+void MapGenerator::UnloadDistantChunks(uint32_t targetChunkX, uint32_t targetChunkY, uint32_t radius)
+{
+    for (auto it = _chunks.begin(); it != _chunks.end();) {
+        auto chunk = it->second;
+
+        bool inRadius =  abs((int)chunk.x - (int)targetChunkX) <= (int)radius && 
+                         abs((int)chunk.y - (int)targetChunkY) <= (int)radius;
+        
+        it = inRadius ? std::next(it) : _chunks.erase(it); 
+    }
 }
