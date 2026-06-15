@@ -75,9 +75,12 @@ private:
     bool startBattle = false;
 
     std::vector<std::unique_ptr<Tree>> trees;
-                                                                                       
-    unsigned int currentTileX = 0;
-    unsigned int currentTileY = 0;
+
+    uint32_t currentChunkX = 0;
+    uint32_t currentChunkY = 0;
+
+    uint32_t currentTileX = 0;
+    uint32_t currentTileY = 0;
         
     const int SCREEN_WIDTH = GetScreenWidth();
     const int SCREEN_HEIGHT = GetScreenHeight();

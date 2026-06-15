@@ -181,7 +181,7 @@ void MapState::OnEnter() {
     //     }
     // }
 
-    tiles = MapGenerator::GenerateChunk("map.json", 0, 0);
+    tiles = MapGenerator::GenerateChunk("map.json", currentChunkX, currentChunkY);
 }
 
 void MapState::OnExit() {}
