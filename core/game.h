@@ -38,6 +38,8 @@ class Party;
 
      static PlayerParty& GetPlayerParty();
 
+     static Vector2 GetWorldMouse();
+
  private:
      void Init();
      void Update();
@@ -48,6 +50,10 @@ class Party;
      int _screenWidth;
      int _screenHeight;
      const char* _windowTitle;
+
+     RenderTexture2D _renderTarget;
+     int _virtualW = 640; 
+     int _virtualH = 480;
  
      bool _running;
  
