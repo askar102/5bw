@@ -43,8 +43,11 @@ public:
         return _inScene;
     }
 
+    void Init();
+
 private:
     SpriteV2 _sprite;
+
     float _speed = 200.0f;
 
     bool _inScene = false;
@@ -53,4 +56,17 @@ private:
 
     // config
     float _beforeSceneDuration = 0.5f;
+
+    enum class Direction { Down = 0, Left = 1, Right = 2, Up = 3 };
+    
+    Direction _direction = Direction::Down;
+    int _walkFrame = 0; 
+    float _animTimer = 0.0f;
+    float _animSpeed = 0.15f; 
+    bool _isMoving = false;
+    
+    int GetBaseFrame() const 
+    {
+        return static_cast<int>(_direction) * 3;
+    }
 };

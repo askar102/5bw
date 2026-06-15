@@ -21,7 +21,9 @@
 #include "core/game.h"
 
 int main() {
-  Game game(1280, 720, "5bw1.2.2");
+
+  SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+  Game game(640, 480, "5bw1.2.2");
   game.Run();
 
   return 0;

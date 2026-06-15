@@ -93,4 +93,6 @@ private:
 
     // builder mode
     bool _builderMode = false;
+
+    Camera2D _camera;
 };

@@ -42,8 +42,14 @@
  
      _textures[TextureID::Player] = 
      {
-         LoadTexture("resources/player.png"),
-         {}
+         LoadTexture("resources/yarik.png"),
+         MakeGrid(48, 48, 12)
+     };
+
+     _textures[TextureID::MapTiles] = 
+     {
+         LoadTexture("resources/mapTiles.png"),
+         MakeGrid(48, 48, 2)
      };
  
      _textures[TextureID::Tree] = 

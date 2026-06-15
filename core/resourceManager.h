@@ -17,6 +17,8 @@
  #include "../raylib/raylib.h"
  
  enum class TextureID {
+     MapTiles,
+
      BattleBg,
      Player,
      Tree,
@@ -34,7 +36,6 @@
      GuiTradesButton,
 
      MenuBackground,
-
 
      ErrorTexture
  };

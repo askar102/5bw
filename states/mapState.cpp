@@ -31,6 +31,8 @@ void MapState::HandleInput() {
 void MapState::Draw() {
     ClearBackground(BLACK);
 
+    BeginMode2D(_camera);
+
     for (auto& tree : trees) {
         tree->Draw();
     }
@@ -47,6 +49,8 @@ void MapState::Draw() {
 
     player.Draw();
 
+    EndMode2D();
+
     _gui.Draw();
 
     // todo: delete this in future
@@ -62,6 +66,8 @@ void MapState::Draw() {
 void MapState::Update(float dt) {
     player.Update(dt, this);
     playerPos  = player.getSprite().GetPosition();
+
+    _camera.target = player.getSprite().GetPosition();
 
     // _gui.Update();
 
@@ -95,6 +101,8 @@ void MapState::Update(float dt) {
         else tile->SetBrightness(1.0f);
         
     }
+
+
 }
 
 void MapState::OnEnter() {
@@ -102,6 +110,11 @@ void MapState::OnEnter() {
 
     player.getSprite().SetPosition({400, 300});
     player.getSprite().SetSize({48, 48});
+
+    _camera.target = player.getSprite().GetPosition();
+    _camera.offset = { SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f };
+    _camera.rotation = 0.0f;
+    _camera.zoom = 1.0f;
 
     // InitGui();
 
@@ -117,8 +130,25 @@ void MapState::OnEnter() {
     // 26, 15 - full map
     for (int tx = 0; tx <= 16; ++tx) {
         for (int ty = 0; ty <= 12; ++ty) {
+            // tree checker
+            if (tx == 12 && ty == 6) {
+                auto tile = std::make_unique<SpriteV2>();
+                tile->SetResource(&tileTx);
+                tile->SetFrame(1);
+
+                tile->SetPosition({
+                    startPos.x + (float)tx * 48.0f + 48.0f / 2,
+                    startPos.y + (float)ty * 48.0f + 48.0f / 2
+                });
+
+                tiles.push_back(std::move(tile));
+                continue;
+            }
+
+
             auto tile = std::make_unique<SpriteV2>();
             tile->SetResource(&tileTx);
+            tile->SetFrame(0);
 
             tile->SetPosition({
                 startPos.x + (float)tx * 48.0f + 48.0f / 2,
@@ -141,7 +171,7 @@ void MapState::LoadResources() {
     tree.SetRectSize({90, 60});
 
 
-    tileTx = {LoadTexture("resources/defaultTile.png"), {}};
+    tileTx = Game::GetResources().Get(TextureID::MapTiles);
 
 }
 
