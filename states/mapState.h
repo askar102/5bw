@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <vector>
 #include <memory>
 #include <format>
@@ -42,6 +43,12 @@
 
 #include "../gui/window.h"
 
+struct Tile {
+    SpriteV2 sprite;
+    uint32_t x;
+    uint32_t y;
+};
+
 class MapState : public State {
 public:
     void HandleInput() override;
@@ -57,6 +64,7 @@ public:
     void LoadTile();
 
     bool CheckCollision(Rectangle playerRect);
+    bool CheckTileCollision(Tile* tile);
 
     Vector2 GetCurrentTilePos() const { return {static_cast<float>(currentTileX), static_cast<float>(currentTileY)}; }
 
@@ -74,8 +82,8 @@ private:
 
     std::vector<std::unique_ptr<Tree>> trees;
                                                                                        
-    unsigned int currentTileX = 600;
-    unsigned int currentTileY = 600;
+    unsigned int currentTileX = 0;
+    unsigned int currentTileY = 0;
         
     // todo: change to more safe method
     const int SCREEN_WIDTH = 800;
@@ -89,10 +97,11 @@ private:
     // new
 
     TextureResource tileTx;
-    std::vector<std::unique_ptr<SpriteV2>> tiles;
+    std::vector<std::unique_ptr<Tile>> tiles;
 
     // builder mode
     bool _builderMode = false;
 
     Camera2D _camera;
+
 };

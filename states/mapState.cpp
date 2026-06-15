@@ -9,6 +9,7 @@
  */
 
 #include "mapState.h"
+#include <cstdint>
 #include <memory>
 
 void MapState::HandleInput() {
@@ -43,8 +44,8 @@ void MapState::Draw() {
     }
     
     for (const auto& tile : tiles) {
-        tile->Draw();
-        DrawText("T",tile->GetPosition().x, tile->GetPosition().y, 10, WHITE);
+        tile->sprite.Draw();
+        DrawText("T",tile->sprite.GetPosition().x, tile->sprite.GetPosition().y, 10, WHITE);
     }
 
     player.Draw();
@@ -85,24 +86,35 @@ void MapState::Update(float dt) {
     // }
 
     for (const auto& tile : tiles) {
-        tile->Update(dt);
+        tile->sprite.Update(dt);
+
+        if (CheckTileCollision(tile.get())) {
+            currentTileX = tile->x;
+            currentTileY = tile->y;
+        }
 
         if (_builderMode) {
             Rectangle mouseRect = { GetMousePosition().x, GetMousePosition().y, 1.0f, 1.0f };
 
-            if (CheckCollisionRecs(tile->GetRect(), mouseRect)) {
-                tile->SetBrightness(1.5f);
+            if (CheckCollisionRecs(tile->sprite.GetRect(), mouseRect)) {
+                tile->sprite.SetBrightness(1.5f);
             }
             else
             {
-                tile->SetBrightness(1.0f);
+                tile->sprite.SetBrightness(1.0f);
             } 
         }
-        else tile->SetBrightness(1.0f);
-        
+        else tile->sprite.SetBrightness(1.0f); 
     }
 
+}
 
+bool MapState::CheckTileCollision(Tile* tile) {
+    if (CheckCollisionRecs(tile->sprite.GetRect(), player.getSprite().GetRect())) {
+        return true;
+    }
+
+    return false;
 }
 
 void MapState::OnEnter() {
@@ -132,11 +144,14 @@ void MapState::OnEnter() {
         for (int ty = 0; ty <= 12; ++ty) {
             // tree checker
             if (tx == 12 && ty == 6) {
-                auto tile = std::make_unique<SpriteV2>();
-                tile->SetResource(&tileTx);
-                tile->SetFrame(1);
+                auto tile = std::make_unique<Tile>();
+                tile->sprite.SetResource(&tileTx);
+                tile->sprite.SetFrame(1);
 
-                tile->SetPosition({
+                tile->x = tx;
+                tile->y = ty;
+
+                tile->sprite.SetPosition({
                     startPos.x + (float)tx * 48.0f + 48.0f / 2,
                     startPos.y + (float)ty * 48.0f + 48.0f / 2
                 });
@@ -146,11 +161,14 @@ void MapState::OnEnter() {
             }
 
 
-            auto tile = std::make_unique<SpriteV2>();
-            tile->SetResource(&tileTx);
-            tile->SetFrame(0);
+            auto tile = std::make_unique<Tile>();
+            tile->sprite.SetResource(&tileTx);
+            tile->sprite.SetFrame(0);
 
-            tile->SetPosition({
+            tile->x = tx;
+            tile->y = ty;
+
+            tile->sprite.SetPosition({
                 startPos.x + (float)tx * 48.0f + 48.0f / 2,
                 startPos.y + (float)ty * 48.0f + 48.0f / 2
             });
