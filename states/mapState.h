@@ -92,8 +92,7 @@ private:
 
     // new
 
-    TextureResource _mapTilesPack;
-    std::vector<std::unique_ptr<Tile>> tiles;
+    TextureResource _mapTilesPack; 
 
     // builder mode
     bool _builderMode = false;

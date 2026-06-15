@@ -16,6 +16,7 @@
 #include <string>
 #include <fstream>
 #include <unordered_map>
+#include <functional>
 
 #include "../raylib/raylib.h"
 #include "../external/json.h"
@@ -51,10 +52,12 @@ public:
         return ((uint64_t)x << 32) | y;
     }
 
-    Chunk* GetChunk(uint32_t chunkX, uint32_t chunkY);
+    static Chunk* GetChunk(uint32_t chunkX, uint32_t chunkY);
 
-    void UnloadDistantChunks(uint32_t targetChunkX, uint32_t targetChunkY, uint32_t radius);
+    static void UnloadDistantChunks(uint32_t targetChunkX, uint32_t targetChunkY, uint32_t radius);
     
+    static void ForEachChunk(std::function<void(Chunk&)> pred);
+
 private:
     static TextureResource* _tileTexturePack;
 

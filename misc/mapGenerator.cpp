@@ -9,6 +9,7 @@
  */
 
 #include "mapGenerator.h"
+#include <algorithm>
 #include <cstdint>
 
 TextureResource* MapGenerator::_tileTexturePack = nullptr;
@@ -103,3 +104,7 @@ void MapGenerator::UnloadDistantChunks(uint32_t targetChunkX, uint32_t targetChu
         it = inRadius ? std::next(it) : _chunks.erase(it); 
     }
 }
+
+void MapGenerator::ForEachChunk(std::function<void(Chunk&)> pred) {
+    std::for_each(_chunks.begin(), _chunks.end(), pred);
+};
