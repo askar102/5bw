@@ -10,10 +10,12 @@
 
 #pragma once
 
+#include <cstdint>
 #include <vector>
 #include <memory>
 #include <string>
 #include <fstream>
+#include <unordered_map>
 
 #include "../raylib/raylib.h"
 #include "../external/json.h"
@@ -23,12 +25,23 @@
 #include "../entities/spriteV2.h"
 #include "../entities/tree.h"
 
+struct Tile {
+    SpriteV2 sprite;
+    uint32_t x;
+    uint32_t y;
+};
+
+
 class MapGenerator {
 public:
-    static std::vector<std::unique_ptr<Tree>> GenerateTile(
+    static std::vector<std::unique_ptr<Tile>> GenerateChunk(
         const std::string& path,
-        int tileX,
-        int tileY,
-        TextureResource* treeResource
+        int chunkX,
+        int chunkY
     );
+
+    static void Init(TextureResource* tx);
+    
+private:
+    static TextureResource* _tileTexturePack;
 };

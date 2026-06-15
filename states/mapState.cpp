@@ -144,43 +144,44 @@ void MapState::OnEnter() {
 
     Vector2 startPos = {0, 0};
     // 26, 15 - full map
-    for (int tx = 0; tx <= 13; ++tx) {
-        for (int ty = 0; ty <= 10; ++ty) {
-            // tree checker
-            if (tx == 12 && ty == 6) {
-                auto tile = std::make_unique<Tile>();
-                tile->sprite.SetResource(&tileTx);
-                tile->sprite.SetFrame(1);
+    // for (int tx = 0; tx <= 13; ++tx) {
+    //     for (int ty = 0; ty <= 10; ++ty) {
+    //         // tree checker
+    //         if (tx == 12 && ty == 6) {
+    //             auto tile = std::make_unique<Tile>();
+    //             tile->sprite.SetResource(&tileTx);
+    //             tile->sprite.SetFrame(1);
 
-                tile->x = tx;
-                tile->y = ty;
+    //             tile->x = tx;
+    //             tile->y = ty;
 
-                tile->sprite.SetPosition({
-                    startPos.x + (float)tx * 48.0f + 48.0f / 2,
-                    startPos.y + (float)ty * 48.0f + 48.0f / 2
-                });
+    //             tile->sprite.SetPosition({
+    //                 startPos.x + (float)tx * 48.0f + 48.0f / 2,
+    //                 startPos.y + (float)ty * 48.0f + 48.0f / 2
+    //             });
 
-                tiles.push_back(std::move(tile));
-                continue;
-            }
+    //             tiles.push_back(std::move(tile));
+    //             continue;
+    //         }
 
 
-            auto tile = std::make_unique<Tile>();
-            tile->sprite.SetResource(&tileTx);
-            tile->sprite.SetFrame(0);
+    //         auto tile = std::make_unique<Tile>();
+    //         tile->sprite.SetResource(&tileTx);
+    //         tile->sprite.SetFrame(0);
 
-            tile->x = tx;
-            tile->y = ty;
+    //         tile->x = tx;
+    //         tile->y = ty;
 
-            tile->sprite.SetPosition({
-                startPos.x + (float)tx * 48.0f + 48.0f / 2,
-                startPos.y + (float)ty * 48.0f + 48.0f / 2
-            });
+    //         tile->sprite.SetPosition({
+    //             startPos.x + (float)tx * 48.0f + 48.0f / 2,
+    //             startPos.y + (float)ty * 48.0f + 48.0f / 2
+    //         });
 
-            tiles.push_back(std::move(tile));
-        }
-    }
+    //         tiles.push_back(std::move(tile));
+    //     }
+    // }
 
+    tiles = MapGenerator::GenerateChunk("map.json", 0, 0);
 }
 
 void MapState::OnExit() {}
@@ -193,7 +194,8 @@ void MapState::LoadResources() {
     tree.SetRectSize({90, 60});
 
 
-    tileTx = Game::GetResources().Get(TextureID::MapTiles);
+    _mapTilesPack = Game::GetResources().Get(TextureID::MapTiles);
+    MapGenerator::Init(&_mapTilesPack);
 
 }
 
@@ -245,12 +247,12 @@ void MapState::MapRotationCheck() {
 }
 
 void MapState::LoadTile() {
-    trees = MapGenerator::GenerateTile(
-        "config.json",
-        currentTileX,
-        currentTileY,
-        &Game::GetResources().Get(TextureID::Tree)
-    );
+    // trees = MapGenerator::GenerateTile(
+    //     "config.json",
+    //     currentTileX,
+    //     currentTileY,
+    //     &Game::GetResources().Get(TextureID::Tree)
+    // );
 
     _activeNpcs = NpcManager::GetForTile(currentTileX, currentTileY);
 }

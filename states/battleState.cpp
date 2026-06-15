@@ -145,7 +145,7 @@ void BattleState::OnExit()
 void BattleState::InitBackground()
 {
     _background.SetResource(&Game::GetResources().Get(TextureID::BattleBg));
-    _background.SetSize({800, 600});
+    _background.SetSize({Game::GetVirtualPos().x, Game::GetVirtualPos().y});
     _background.SetPosition({(float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2});
     _background.SetCanDrawHiboxes(false);
 }

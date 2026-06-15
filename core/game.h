@@ -40,6 +40,8 @@ class Party;
 
      static Vector2 GetWorldMouse();
 
+     static Vector2 GetVirtualPos();
+
  private:
      void Init();
      void Update();

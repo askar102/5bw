@@ -10,65 +10,59 @@
 
 #include "mapGenerator.h"
 
+TextureResource* MapGenerator::_tileTexturePack = nullptr;
+
 using json = nlohmann::json;
 
-std::vector<std::unique_ptr<Tree>> MapGenerator::GenerateTile(const std::string& path, int tileX, int tileY, TextureResource* treeResource) 
+std::vector<std::unique_ptr<Tile>> MapGenerator::GenerateChunk(const std::string& path, int chunkX, int chunkY) 
 {
-    std::vector<std::unique_ptr<Tree>> result;
-
+    std::vector<std::unique_ptr<Tile>> result;
     std::ifstream file(path);
     if (!file.is_open()) {
-        TraceLog(LOG_WARNING, "Chunk not found: %d %d", tileX, tileY);
+        TraceLog(LOG_WARNING, "Chunk file not found: %s", path.c_str());
         return result;
     }
 
-    json data;
-    file >> data;
+    json chunks;
+    file >> chunks;
 
-    const int tileSize = 100;
+    float tileSize = 48.0f;
+    Vector2 startPos = {
+        (float)chunkX * 13 * tileSize,
+        (float)chunkY * 10 * tileSize
+    };
 
-    for (auto& chunk : data["map"]) 
+    for (auto& chunk : chunks) 
     {
-        int x = chunk["x"];
-        int y = chunk["y"];
+        if (chunk["x"] != chunkX || chunk["y"] != chunkY) continue;
 
-        if (x == tileX && y == tileY) {
-            auto tiles = chunk["tile"];
-            
-            for (int ty = 0; ty < tiles.size(); ++ty) 
+        auto& tileData = chunk["tiles"]; // [ty][tx]
+
+        for (int ty = 0; ty < (int)tileData.size(); ++ty) 
+        {
+            for (int tx = 0; tx < (int)tileData[ty].size(); ++tx) 
             {
-                for (int tx = 0; tx < tiles[ty].size(); ++tx) 
-                {
-                    /**
-                    * 0 - Nothing
-                    * 1 - Tree
-                    */
-                    int tileType = tiles[ty][tx];
+                int tileType = tileData[ty][tx];
 
-                    if (tileType == 1) 
-                    {
-                        auto sprite = std::make_unique<Tree>(treeResource, (Vector2){tileSize, tileSize});
-
-                        sprite->SetPosition({
-                            (float)tx * tileSize + tileSize / 2.0f,
-                            (float)ty * tileSize + tileSize / 2.0f
-                        });
-
-                        sprite->SetCollide(true);
-                        // width, height
-                        // sprite->SetRectSize({90, 30});
-
-                        result.push_back(std::move(sprite));
-                    }
-                }
+                auto tile = std::make_unique<Tile>();
+                tile->sprite.SetResource(_tileTexturePack);
+                tile->sprite.SetFrame(tileType);
+                tile->x = tx;
+                tile->y = ty;
+                tile->sprite.SetPosition({
+                    startPos.x + (float)tx * tileSize + tileSize / 2,
+                    startPos.y + (float)ty * tileSize + tileSize / 2
+                });
+                result.push_back(std::move(tile));
             }
-
-            return result;
-
         }
-
+        return result;
     }
-    // if the chunk doesnt exits
-    // GenerateTile(path, 600, 600, treeTexture);
+
+    TraceLog(LOG_WARNING, "Chunk %d %d not found in json", chunkX, chunkY);
     return result;
+}
+
+void MapGenerator::Init(TextureResource* tx) {
+    _tileTexturePack = tx;
 }

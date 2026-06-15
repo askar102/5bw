@@ -43,12 +43,6 @@
 
 #include "../gui/window.h"
 
-struct Tile {
-    SpriteV2 sprite;
-    uint32_t x;
-    uint32_t y;
-};
-
 class MapState : public State {
 public:
     void HandleInput() override;
@@ -95,7 +89,7 @@ private:
 
     // new
 
-    TextureResource tileTx;
+    TextureResource _mapTilesPack;
     std::vector<std::unique_ptr<Tile>> tiles;
 
     // builder mode

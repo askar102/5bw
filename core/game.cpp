@@ -87,6 +87,11 @@
      };
  }
  
+ // todo: hardcore
+ Vector2 Game::GetVirtualPos() {
+    return {640, 480};
+ }
+
  void Game::Draw() 
 {
     BeginTextureMode(_renderTarget);
