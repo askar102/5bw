@@ -276,6 +276,10 @@ void SpriteV2::SetFrameTime(size_t frame, size_t returnFrame, float duration, st
  {
      _collision = isCollide;
  }
+
+ void SpriteV2::SetHitboxColor(Color clr) {
+    _hitboxColor = clr;
+}
  
 /**
  * 
@@ -339,7 +343,7 @@ void SpriteV2::SetFrameTime(size_t frame, size_t returnFrame, float duration, st
               {_position.x, _position.y, _rect.width, _rect.height},
               rectOrigin,
               _rotation,
-              Fade(WHITE, 0.5f)
+              Fade(_hitboxColor, 0.5f)
           );
       }
   }

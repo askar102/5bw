@@ -70,6 +70,7 @@
      // hitbox visual
      static bool _drawHitboxes;
      bool _canDrawHitboxes = true;
+     Color _hitboxColor = WHITE;
  
      // hitbox
      Rectangle _rect{_position.x, _position.y, _size.x, _size.y};
@@ -156,6 +157,8 @@
  
      bool IsCollide() const;
      void SetCollide(bool isCollide);
+
+     void SetHitboxColor(Color clr);
     
     // misc
     bool IsSpriteOnScreen();

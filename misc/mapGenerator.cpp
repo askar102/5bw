@@ -59,9 +59,10 @@ std::unique_ptr<Chunk> MapGenerator::GenerateChunk(const std::string& path, int3
                     startPos.y + (float)ty * tileSize + tileSize / 2
                 });
 
-                // FIXME: hardcore
+                // FIXME: hardcore, only tree now
                 if (tileType == 1) { // если четное
                     tile->collide = true;
+                    tile->sprite.SetHitboxColor(YELLOW);
                 }
 
                 resultTiles.push_back(std::move(tile));
