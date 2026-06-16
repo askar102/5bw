@@ -43,10 +43,12 @@ void MapState::Draw() {
         npc->Draw();
     }
     
-    for (const auto& tile : tiles) {
-        tile->sprite.Draw();
-        DrawText("T",tile->sprite.GetPosition().x, tile->sprite.GetPosition().y, 10, WHITE);
-    }
+    MapGenerator::ForEachChunk([this] (Chunk& c) {
+        const auto& tiles = c.tiles;
+        for (const auto& t : tiles) {
+            t->sprite.Draw();
+        }
+    });
 
     player.Draw();
 
@@ -88,8 +90,10 @@ void MapState::Update(float dt) {
     //     npc->Update(dt, playerPos);
     // }
 
-    MapGenerator::ForEachChunk([this, dt] (Chunk& c) {
-        auto tiles = c.tiles;
+    Rectangle mouseRect = { _worldMousePos.x, _worldMousePos.y, 1.0f, 1.0f };
+
+    MapGenerator::ForEachChunk([this, dt, mouseRect] (Chunk& c) {
+        const auto& tiles = c.tiles;
         for (const auto& t : tiles) {
             t->sprite.Update(dt);
 
@@ -100,7 +104,6 @@ void MapState::Update(float dt) {
 
              // BUILDER MODE LOGIC
             if (_builderMode) {
-                Rectangle mouseRect = { _worldMousePos.x, _worldMousePos.y, 1.0f, 1.0f };
 
                 if (CheckCollisionRecs(t->sprite.GetRect(), mouseRect)) {
                     t->sprite.SetBrightness(1.5f);

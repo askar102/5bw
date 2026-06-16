@@ -24,7 +24,7 @@ std::unique_ptr<Chunk> MapGenerator::GenerateChunk(const std::string& path, uint
     std::ifstream file(path);
     if (!file.is_open()) {
         TraceLog(LOG_WARNING, "Chunk file not found: %s", path.c_str());
-        resultChunk->tiles = resultTiles;
+        resultChunk->tiles = std::move(resultTiles);
         return resultChunk;
     }
 
@@ -62,14 +62,14 @@ std::unique_ptr<Chunk> MapGenerator::GenerateChunk(const std::string& path, uint
             }
         }
 
-        resultChunk->tiles = resultTiles;
+        resultChunk->tiles = std::move(resultTiles);
 
         
         return resultChunk;
     }
 
     TraceLog(LOG_WARNING, "Chunk %d %d not found in json", chunkX, chunkY);
-    resultChunk->tiles = resultTiles;
+    resultChunk->tiles = std::move(resultTiles);
     return resultChunk;
 }
 
@@ -88,15 +88,19 @@ Chunk* MapGenerator::GetChunk(uint32_t chunkX, uint32_t chunkY)
     auto chunk = GenerateChunk("map.json", chunkX, chunkY);
     if (!chunk) return nullptr;
     
-    _chunks[key] = std::move(*chunk);
-    return &_chunks[key];
+    Chunk& insertedChunk = _chunks[key]; 
+    insertedChunk.x = chunkX;
+    insertedChunk.y = chunkY;
+
+    insertedChunk.tiles = std::move(chunk->tiles);
+    return &insertedChunk;
 }
 
 
 void MapGenerator::UnloadDistantChunks(uint32_t targetChunkX, uint32_t targetChunkY, uint32_t radius)
 {
     for (auto it = _chunks.begin(); it != _chunks.end();) {
-        auto chunk = it->second;
+        auto& chunk = it->second;
 
         bool inRadius =  abs((int)chunk.x - (int)targetChunkX) <= (int)radius && 
                          abs((int)chunk.y - (int)targetChunkY) <= (int)radius;
@@ -106,5 +110,7 @@ void MapGenerator::UnloadDistantChunks(uint32_t targetChunkX, uint32_t targetChu
 }
 
 void MapGenerator::ForEachChunk(std::function<void(Chunk&)> pred) {
-    std::for_each(_chunks.begin(), _chunks.end(), pred);
+    for (auto& [id, chunk] : _chunks) {
+        pred(chunk);
+    }
 };

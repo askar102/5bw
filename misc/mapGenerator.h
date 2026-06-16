@@ -36,6 +36,14 @@ struct Chunk {
     std::vector<std::unique_ptr<Tile>> tiles;
     uint32_t x;
     uint32_t y;
+
+    Chunk() = default;
+
+    Chunk(const Chunk&) = delete;
+    Chunk& operator=(const Chunk&) = delete;
+
+    Chunk(Chunk&&) noexcept = default;
+    Chunk& operator=(Chunk&&) noexcept = default;
 };
 
 class MapGenerator {
