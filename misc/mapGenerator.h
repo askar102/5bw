@@ -34,8 +34,8 @@ struct Tile {
 
 struct Chunk {
     std::vector<std::unique_ptr<Tile>> tiles;
-    uint32_t x;
-    uint32_t y;
+    int32_t x;
+    int32_t y;
 
     Chunk() = default;
 
@@ -50,24 +50,25 @@ class MapGenerator {
 public:
     static std::unique_ptr<Chunk> GenerateChunk(
         const std::string& path,
-        uint32_t chunkX,
-        uint32_t chunkY
+        int32_t chunkX,
+        int32_t chunkY
     );
 
     static void Init(TextureResource* tx);
 
-    static uint64_t ChunkKey(uint32_t x, uint32_t y) {
-        return ((uint64_t)x << 32) | y;
+    static uint64_t ChunkKey(int32_t x, int32_t y) {
+        return ((int64_t)x << 32) | y;
     }
 
-    static Chunk* GetChunk(uint32_t chunkX, uint32_t chunkY);
+    static Chunk* GetChunk(int32_t chunkX, int32_t chunkY);
 
-    static void UnloadDistantChunks(uint32_t targetChunkX, uint32_t targetChunkY, uint32_t radius);
+    static void LoadDistantChunks(int32_t targetChunkX, int32_t targetChunkY, int32_t radius);
+    static void UnloadDistantChunks(int32_t targetChunkX, int32_t targetChunkY, int32_t radius);
     
     static void ForEachChunk(std::function<void(Chunk&)> pred);
 
 private:
     static TextureResource* _tileTexturePack;
 
-    static std::unordered_map<uint64_t, Chunk> _chunks;
+    static std::unordered_map<int64_t, Chunk> _chunks;
 };

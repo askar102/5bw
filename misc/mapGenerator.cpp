@@ -13,11 +13,11 @@
 #include <cstdint>
 
 TextureResource* MapGenerator::_tileTexturePack = nullptr;
-std::unordered_map<uint64_t, Chunk> MapGenerator::_chunks;
+std::unordered_map<int64_t, Chunk> MapGenerator::_chunks;
 
 using json = nlohmann::json;
 
-std::unique_ptr<Chunk> MapGenerator::GenerateChunk(const std::string& path, uint32_t chunkX, uint32_t chunkY) 
+std::unique_ptr<Chunk> MapGenerator::GenerateChunk(const std::string& path, int32_t chunkX, int32_t chunkY) 
 {
     std::unique_ptr<Chunk> resultChunk = std::make_unique<Chunk>();
     std::vector<std::unique_ptr<Tile>> resultTiles;
@@ -77,7 +77,7 @@ void MapGenerator::Init(TextureResource* tx) {
     _tileTexturePack = tx;
 }
 
-Chunk* MapGenerator::GetChunk(uint32_t chunkX, uint32_t chunkY)
+Chunk* MapGenerator::GetChunk(int32_t chunkX, int32_t chunkY)
 {
     uint64_t key = ChunkKey(chunkX, chunkY);
     
@@ -88,7 +88,9 @@ Chunk* MapGenerator::GetChunk(uint32_t chunkX, uint32_t chunkY)
     auto chunk = GenerateChunk("map.json", chunkX, chunkY);
     if (!chunk) return nullptr;
     
+    // Adding into _chunks!!!
     Chunk& insertedChunk = _chunks[key]; 
+
     insertedChunk.x = chunkX;
     insertedChunk.y = chunkY;
 
@@ -97,7 +99,7 @@ Chunk* MapGenerator::GetChunk(uint32_t chunkX, uint32_t chunkY)
 }
 
 
-void MapGenerator::UnloadDistantChunks(uint32_t targetChunkX, uint32_t targetChunkY, uint32_t radius)
+void MapGenerator::UnloadDistantChunks(int32_t targetChunkX, int32_t targetChunkY, int32_t radius)
 {
     for (auto it = _chunks.begin(); it != _chunks.end();) {
         auto& chunk = it->second;
@@ -106,6 +108,23 @@ void MapGenerator::UnloadDistantChunks(uint32_t targetChunkX, uint32_t targetChu
                          abs((int)chunk.y - (int)targetChunkY) <= (int)radius;
         
         it = inRadius ? std::next(it) : _chunks.erase(it); 
+    }
+}
+
+void MapGenerator::LoadDistantChunks(int32_t targetChunkX, int32_t targetChunkY, int32_t radius)
+{
+    std::vector<std::pair<int32_t, int32_t>> keys_grid = {
+    {targetChunkX, targetChunkY + 1},
+    {targetChunkX, targetChunkY - 1},
+
+    {targetChunkX + 1, targetChunkY},
+    {targetChunkX - 1, targetChunkY}
+    };
+
+    for ( const auto& [x, y] : keys_grid) {
+        if (auto chunkPtr = GetChunk(x, y)) {
+            _chunks.insert({ChunkKey(x, y), std::move(*chunkPtr)});
+        }
     }
 }
 

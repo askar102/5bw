@@ -60,9 +60,10 @@ void MapState::Draw() {
     DrawText("currentState: game(map)", 0, 0, 20, WHITE);
     DrawText("NOTE: press B for battle", 0, 30, 20, WHITE);
 
-    DrawText(TextFormat("X: %d, Y: %d", currentTileX, currentTileY), 0, 60, 20, WHITE);
+    DrawText(TextFormat("tX: %d, tY: %d", currentTileX, currentTileY), 0, 60, 20, WHITE);
     DrawText(TextFormat("mX: %d, mY: %d", GetMouseX(), GetMouseY()), 0, 90, 20, WHITE);
     
+    DrawText(TextFormat("cX: %d, cY: %d", currentChunkX, currentChunkY), 0, 120, 20, WHITE);
     
 }
 
@@ -73,7 +74,14 @@ void MapState::Update(float dt) {
     _camera.target = player.getSprite().GetPosition();
     _worldMousePos = GetScreenToWorld2D(Game::GetWorldMouse(), _camera);
 
+    currentChunkX = -(int)std::floor(playerPos.x / 624.0f);
+    currentChunkY = -(int)std::floor(playerPos.y / 480.0f);
 
+    MapGenerator::GetChunk(currentChunkX, currentChunkY);
+
+    // MapGenerator::LoadDistantChunks(currentChunkX, currentChunkY, 3);
+    // MapGenerator::UnloadDistantChunks(currentChunkX, currentChunkY, 3);
+    
     // _gui.Update();
 
     // MapRotationCheck();
