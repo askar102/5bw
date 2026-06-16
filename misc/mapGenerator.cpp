@@ -58,6 +58,12 @@ std::unique_ptr<Chunk> MapGenerator::GenerateChunk(const std::string& path, int3
                     startPos.x + (float)tx * tileSize + tileSize / 2,
                     startPos.y + (float)ty * tileSize + tileSize / 2
                 });
+
+                // FIXME: hardcore
+                if (tileType == 1) { // если четное
+                    tile->collide = true;
+                }
+
                 resultTiles.push_back(std::move(tile));
             }
         }

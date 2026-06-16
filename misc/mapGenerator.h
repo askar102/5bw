@@ -28,6 +28,7 @@
 
 struct Tile {
     SpriteV2 sprite;
+    bool collide = false;
     uint32_t x;
     uint32_t y;
 };

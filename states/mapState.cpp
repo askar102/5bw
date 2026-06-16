@@ -128,10 +128,12 @@ void MapState::Update(float dt) {
 }
 
 bool MapState::CheckTileCollision(Tile* tile) {
-    if (CheckCollisionRecs(tile->sprite.GetRect(), player.getSprite().GetRect())) {
-        return true;
+    if (tile->collide) {
+        if (CheckCollisionRecs(tile->sprite.GetRect(), player.getSprite().GetRect())) {
+            return true;
+        }
     }
-
+    
     return false;
 }
 
@@ -272,14 +274,21 @@ void MapState::LoadTile() {
 }
 
 bool MapState::CheckCollision(Rectangle playerRect) {
-    for (auto& tree : trees) {
-        if (tree->IsCollide()) {
-            if (CheckCollisionRecs(playerRect, tree->GetRect())) {
-                return true;
-            }   
+    bool collided = false;
+
+    MapGenerator::ForEachChunk([&] (Chunk& c) {
+        if (collided) return;
+
+        const auto& tiles = c.tiles;
+        for (const auto& t : tiles) {
+            if (t->collide && CheckCollisionRecs(playerRect, t->sprite.GetRect())) {
+                collided = true;
+                return;
+            }
         }
-    }
-    return false;
+    });
+
+    return collided;
 }
 
 void MapState::InitGui()
