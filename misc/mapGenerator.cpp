@@ -63,7 +63,6 @@ std::unique_ptr<Chunk> MapGenerator::GenerateChunk(const std::string& path, int3
         }
 
         resultChunk->tiles = std::move(resultTiles);
-
         
         return resultChunk;
     }
@@ -107,23 +106,23 @@ void MapGenerator::UnloadDistantChunks(int32_t targetChunkX, int32_t targetChunk
         bool inRadius =  abs((int)chunk.x - (int)targetChunkX) <= (int)radius && 
                          abs((int)chunk.y - (int)targetChunkY) <= (int)radius;
         
-        it = inRadius ? std::next(it) : _chunks.erase(it); 
+        if (!inRadius) TraceLog(LOG_INFO, "Chunk %d %d UNloaded -_-", chunk.x, chunk.y);
+
+        it = inRadius ? std::next(it) :  _chunks.erase(it); 
     }
 }
 
 void MapGenerator::LoadDistantChunks(int32_t targetChunkX, int32_t targetChunkY, int32_t radius)
 {
-    std::vector<std::pair<int32_t, int32_t>> keys_grid = {
-    {targetChunkX, targetChunkY + 1},
-    {targetChunkX, targetChunkY - 1},
-
-    {targetChunkX + 1, targetChunkY},
-    {targetChunkX - 1, targetChunkY}
-    };
-
-    for ( const auto& [x, y] : keys_grid) {
-        if (auto chunkPtr = GetChunk(x, y)) {
-            _chunks.insert({ChunkKey(x, y), std::move(*chunkPtr)});
+    for (int32_t dy = -radius; dy <= radius; ++dy) {
+        for (int32_t dx = -radius; dx <= radius; ++dx) {
+            int32_t x = targetChunkX + dx;
+            int32_t y = targetChunkY + dy;
+            int64_t key = ChunkKey(x, y);
+            if (!_chunks.count(key)) {
+                TraceLog(LOG_INFO, "Chunk %d %d loaded +_+", x, y);
+                GetChunk(x, y); 
+            }
         }
     }
 }

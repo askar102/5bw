@@ -74,13 +74,14 @@ void MapState::Update(float dt) {
     _camera.target = player.getSprite().GetPosition();
     _worldMousePos = GetScreenToWorld2D(Game::GetWorldMouse(), _camera);
 
+    // chunk position
     currentChunkX = -(int)std::floor(playerPos.x / 624.0f);
     currentChunkY = -(int)std::floor(playerPos.y / 480.0f);
 
-    MapGenerator::GetChunk(currentChunkX, currentChunkY);
+    // MapGenerator::GetChunk(currentChunkX, currentChunkY);
 
-    // MapGenerator::LoadDistantChunks(currentChunkX, currentChunkY, 3);
-    // MapGenerator::UnloadDistantChunks(currentChunkX, currentChunkY, 3);
+    MapGenerator::LoadDistantChunks(currentChunkX, currentChunkY, 3);
+    MapGenerator::UnloadDistantChunks(currentChunkX, currentChunkY, 3);
     
     // _gui.Update();
 

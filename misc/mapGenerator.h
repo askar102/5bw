@@ -56,8 +56,9 @@ public:
 
     static void Init(TextureResource* tx);
 
-    static uint64_t ChunkKey(int32_t x, int32_t y) {
-        return ((int64_t)x << 32) | y;
+    static int64_t ChunkKey(int32_t x, int32_t y) {
+        // cool, right?
+        return ((int64_t)x << 32) | (uint32_t)y;
     }
 
     static Chunk* GetChunk(int32_t chunkX, int32_t chunkY);
