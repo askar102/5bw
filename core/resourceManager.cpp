@@ -54,7 +54,7 @@
 
      _textures[TextureID::ItemIcons] = 
      {
-         LoadTexture("resources/ItemIcons.png"),
+         LoadTexture("resources/itemIcons.png"),
          MakeGrid(48, 48, 2)
      };
  

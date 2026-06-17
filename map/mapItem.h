@@ -14,12 +14,13 @@ public:
     {
         _icon.SetResource(&iconsTx);
         _icon.SetFrame((size_t)_id);
+        MapLocator::PlaceSprite(_icon, loc);
     } 
 
     const ItemID& GetId() { return _id; }
     SpriteV2& GetIcon() { return _icon; }
 
-    void CheckCollision(Rectangle& playerRect);
+    void CheckCollision(const Rectangle& playerRect);
 private:
     ItemID _id;
     SpriteV2 _icon;

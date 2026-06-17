@@ -50,6 +50,8 @@ void MapState::Draw() {
         }
     });
 
+    item->GetIcon().Draw();
+
     player.Draw();
 
     EndMode2D();
@@ -75,6 +77,7 @@ void MapState::Update(float dt) {
     _worldMousePos = GetScreenToWorld2D(Game::GetWorldMouse(), _camera);
 
     // chunk position
+
     currentChunkX = -(int)std::floor(playerPos.x / 624.0f);
     currentChunkY = -(int)std::floor(playerPos.y / 480.0f);
 
@@ -83,6 +86,9 @@ void MapState::Update(float dt) {
     MapGenerator::LoadDistantChunks(currentChunkX, currentChunkY, 3);
     MapGenerator::UnloadDistantChunks(currentChunkX, currentChunkY, 3);
     
+
+    item->GetIcon().Update(dt);
+    item->CheckCollision(player.getSprite().GetRect());
     // _gui.Update();
 
     // MapRotationCheck();
@@ -106,7 +112,7 @@ void MapState::Update(float dt) {
         for (const auto& t : tiles) {
             t->sprite.Update(dt);
 
-            if (CheckTileCollision(t.get())) {
+            if (CheckCollisionRecs(t->sprite.GetRect(), player.getSprite().GetRect())) {
                 currentTileX = t->x;
                 currentTileY = t->y;
             } 
@@ -199,7 +205,9 @@ void MapState::OnEnter() {
 
     MapGenerator::GetChunk(currentChunkX, currentChunkY);
 
+    auto testItem = std::make_unique<MapItem>(ItemID::Chalk, MapLocation{0, 0, 3, 3}, Game::GetResources().Get(TextureID::ItemIcons));
 
+    item = std::move(testItem);
 }
 
 void MapState::OnExit() {}
