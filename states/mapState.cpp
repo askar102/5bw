@@ -198,6 +198,8 @@ void MapState::OnEnter() {
     // }
 
     MapGenerator::GetChunk(currentChunkX, currentChunkY);
+
+
 }
 
 void MapState::OnExit() {}
@@ -212,6 +214,8 @@ void MapState::LoadResources() {
 
     _mapTilesPack = Game::GetResources().Get(TextureID::MapTiles);
     MapGenerator::Init(&_mapTilesPack);
+
+    _itemIconsPack = Game::GetResources().Get(TextureID::ItemIcons);
 
 }
 

@@ -43,6 +43,9 @@
 
 #include "../gui/window.h"
 
+// items
+#include "../map/mapItem.h"
+
 class MapState : public State {
 public:
     void HandleInput() override;
@@ -93,6 +96,7 @@ private:
     // new
 
     TextureResource _mapTilesPack; 
+    TextureResource _itemIconsPack;
 
     // builder mode
     bool _builderMode = false;

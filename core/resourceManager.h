@@ -18,6 +18,7 @@
  
  enum class TextureID {
      MapTiles,
+     ItemIcons,
 
      BattleBg,
      Player,

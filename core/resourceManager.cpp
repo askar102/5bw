@@ -51,6 +51,12 @@
          LoadTexture("resources/mapTiles.png"),
          MakeGrid(48, 48, 2)
      };
+
+     _textures[TextureID::ItemIcons] = 
+     {
+         LoadTexture("resources/ItemIcons.png"),
+         MakeGrid(48, 48, 2)
+     };
  
      _textures[TextureID::Tree] = 
      {
