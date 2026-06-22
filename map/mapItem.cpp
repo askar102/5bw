@@ -33,3 +33,7 @@ void MapItem::Update(float dt, const SpriteV2& playerSprite) {
         }
     }
 }
+
+void MapItem::Draw() {
+    _icon.Draw();
+}

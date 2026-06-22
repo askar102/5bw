@@ -24,6 +24,7 @@ public:
 
     void CheckCollision(const SpriteV2& playerSprite);
     void Update(float dt, const SpriteV2& playerSprite);
+    void Draw();
 private:
     ItemID _id;
     SpriteV2 _icon;
