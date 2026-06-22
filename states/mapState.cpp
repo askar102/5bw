@@ -9,8 +9,6 @@
  */
 
 #include "mapState.h"
-#include <cstdint>
-#include <memory>
 
 void MapState::HandleInput() {
     if (IsKeyPressed(KEY_B) && !startBattle) {
@@ -50,7 +48,7 @@ void MapState::Draw() {
         }
     });
 
-    item->GetIcon().Draw();
+    MapItemManager::Draw();
 
     player.Draw();
 
@@ -87,7 +85,7 @@ void MapState::Update(float dt) {
     MapGenerator::UnloadDistantChunks(currentChunkX, currentChunkY, 3);
     
 
-    item->Update(dt, player.getSprite());
+    MapItemManager::Update(dt, player.getSprite());
     // _gui.Update();
 
     // MapRotationCheck();
@@ -206,7 +204,8 @@ void MapState::OnEnter() {
 
     auto testItem = std::make_unique<MapItem>(ItemID::Chalk, MapLocation{0, 0, 3, 3}, Game::GetResources().Get(TextureID::ItemIcons));
 
-    item = std::move(testItem);
+    MapItemManager::SpawnItem(ItemID::Chalk);
+    
 }
 
 void MapState::OnExit() {}
@@ -223,6 +222,7 @@ void MapState::LoadResources() {
     MapGenerator::Init(&_mapTilesPack);
 
     _itemIconsPack = Game::GetResources().Get(TextureID::ItemIcons);
+    MapItemManager::Init(&_itemIconsPack);
 
 }
 

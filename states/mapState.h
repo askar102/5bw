@@ -44,7 +44,7 @@
 #include "../gui/window.h"
 
 // items
-#include "../map/mapItem.h"
+#include "../map/mapItemManager.h"
 
 class MapState : public State {
 public:
@@ -103,7 +103,4 @@ private:
 
     Camera2D _camera;
     Vector2 _worldMousePos = GetScreenToWorld2D(Game::GetWorldMouse(), _camera);
-
-    std::unique_ptr<MapItem> item;
-
 };

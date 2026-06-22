@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <memory>
 
@@ -10,9 +12,9 @@ public:
 
     static void Init(TextureResource* itemIconsPack);
     static void Draw();
-    static void Update(float dt);
-    static void CheckCollision(const Rectangle& playerRect);
-private:    
-    std::vector<std::unique_ptr<MapItem>> _items;
-    TextureResource* _itemIconsPack;
+    static void Update(float dt, const SpriteV2& playerSprite);
+
+private:
+    static std::vector<std::unique_ptr<MapItem>> _items;
+    static TextureResource* _itemIconsPack;
 };

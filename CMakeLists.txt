@@ -64,6 +64,7 @@ add_executable(5bw12
 
     map/tileTrigger.cpp
     map/mapItem.cpp
+    map/mapItemManager.cpp
 
     dialog/dialogPopup.cpp
 )
