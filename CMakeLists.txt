@@ -67,6 +67,9 @@ add_executable(5bw12
     map/mapItemManager.cpp
 
     dialog/dialogPopup.cpp
+
+    item/inventoryContainer.cpp
+    item/itemManager.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)

@@ -217,9 +217,10 @@ void MapState::LoadResources() {
     tree.SetSize({100, 100});
     tree.SetRectSize({90, 60});
 
-
     _mapTilesPack = Game::GetResources().Get(TextureID::MapTiles);
     MapGenerator::Init(&_mapTilesPack);
+
+    ItemManager::Init();
 
     _itemIconsPack = Game::GetResources().Get(TextureID::ItemIcons);
     MapItemManager::Init(&_itemIconsPack);
