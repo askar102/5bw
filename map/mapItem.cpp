@@ -17,13 +17,11 @@ void MapItem::Update(float dt, const SpriteV2& playerSprite) {
         if (_anchor) 
         {
             _bringAnimationTimer += dt;
-        
-            float t = _bringAnimationTimer / _bringAnimationInterval;
 
             _icon.SetPosition({_anchor->GetPosition().x, _anchor->GetPosition().y - 50.0f});
 
 
-            if (_bringAnimationTimer >= _bringAnimationInterval && !_icon.IsFadingOut()) {
+            if (_bringAnimationTimer >= _bringAnimationDuration && !_icon.IsFadingOut()) {
                 _icon.FadeOut(3.0f, [this] () {
                     _bringAnimationTimer = 0.0f;
                     // _anchor = nullptr;

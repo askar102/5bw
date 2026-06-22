@@ -32,7 +32,7 @@ private:
 
     const SpriteV2* _anchor = nullptr;
     float _bringAnimationTimer = 0.0f;
-    float _bringAnimationInterval = 3.0f;
+    float _bringAnimationDuration = 3.0f;
 
     bool _destoyed = false;
 };
