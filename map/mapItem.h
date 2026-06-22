@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../entities/spriteV2.h"
 
 #include "mapLocation.h"
@@ -20,10 +22,17 @@ public:
     const ItemID& GetId() { return _id; }
     SpriteV2& GetIcon() { return _icon; }
 
-    void CheckCollision(const Rectangle& playerRect);
+    void CheckCollision(const SpriteV2& playerSprite);
+    void Update(float dt, const SpriteV2& playerSprite);
 private:
     ItemID _id;
     SpriteV2 _icon;
 
     MapLocation _loc;
+
+    const SpriteV2* _anchor = nullptr;
+    float _bringAnimationTimer = 0.0f;
+    float _bringAnimationInterval = 3.0f;
+
+    bool _destoyed = false;
 };

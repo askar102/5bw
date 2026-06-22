@@ -3,7 +3,7 @@
  * @author askar102
  * @brief Sprite type
  * @date 2026-05-03
- * 
+ *
  * @copyright Copyright (c) 2026, askar102
  * 
  */
@@ -137,6 +137,7 @@
     // fadeout animation
     void FadeOut(float duration, std::function<void()> onDone = nullptr);
     void UpdateFadeOut(float dt);
+    bool IsFadingOut() const { return _fadingOut; }
  
      // atlas
      void SetFrame(size_t index);

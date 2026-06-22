@@ -2,7 +2,7 @@
 setlocal
 
 echo ============================
-echo   I fck your mother I building project plz wait me
+echo   Building project...
 echo ============================
 
 cmake -S . -B build
@@ -26,6 +26,6 @@ echo ============================
 build\5bw12.exe
 
 echo ============================
-echo   Game has closed alright
+echo   Game has closed
 echo ============================
 pause

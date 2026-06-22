@@ -500,7 +500,7 @@ void SpriteV2::FadeOut(float duration, std::function<void()> onDone)
     _fadeOutDuration = duration;
     _fadeOutTimer = 0.0f;
     _fadeOutOnDone = std::move(onDone);
-    _alpha = 1.0f;
+    // _alpha = 1.0f;
 }
 
 void SpriteV2::UpdateFadeOut(float dt)
@@ -510,12 +510,12 @@ void SpriteV2::UpdateFadeOut(float dt)
     _fadeOutTimer += dt;
 
     float t = _fadeOutTimer / _fadeOutDuration; // 0 -> 1
-    _alpha = 1.0f - t;
+    _alpha = _alpha - t;
 
     if (_fadeOutTimer >= _fadeOutDuration)
     {
         _fadingOut = false;
-        _alpha = 1.0f; 
+        _alpha = 0.0f; // maybe FIXME
 
         if (_fadeOutOnDone)
         {

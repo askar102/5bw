@@ -11,7 +11,8 @@ public:
     static void Init(TextureResource* itemIconsPack);
     static void Draw();
     static void Update(float dt);
-private:
+    static void CheckCollision(const Rectangle& playerRect);
+private:    
     std::vector<std::unique_ptr<MapItem>> _items;
     TextureResource* _itemIconsPack;
 };

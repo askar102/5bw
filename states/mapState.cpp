@@ -87,8 +87,7 @@ void MapState::Update(float dt) {
     MapGenerator::UnloadDistantChunks(currentChunkX, currentChunkY, 3);
     
 
-    item->GetIcon().Update(dt);
-    item->CheckCollision(player.getSprite().GetRect());
+    item->Update(dt, player.getSprite());
     // _gui.Update();
 
     // MapRotationCheck();
