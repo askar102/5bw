@@ -13,7 +13,7 @@
 class InventoryContainer {
 public:
     void Add(ItemID newItemId, uint32_t count = 1);
-    // void GetAsString();
+    std::map<ItemID, std::pair<std::unique_ptr<Item>, uint32_t>>& GetItems() { return _items; }
 private:
     std::map<ItemID, std::pair<std::unique_ptr<Item>, uint32_t>> _items;
 };
