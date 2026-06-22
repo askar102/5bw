@@ -16,6 +16,7 @@ void MapItem::Update(float dt, const SpriteV2& playerSprite) {
 
         if (_anchor) 
         {
+            Inventory::Add(_id);
             _bringAnimationTimer += dt;
 
             _icon.SetPosition({_anchor->GetPosition().x, _anchor->GetPosition().y - 50.0f});

@@ -70,6 +70,8 @@ add_executable(5bw12
 
     item/inventoryContainer.cpp
     item/itemManager.cpp
+
+    item/inventory.cpp
 )
 
 # include пути (чтобы #include "game.h" работал)

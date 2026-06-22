@@ -65,6 +65,13 @@ void MapState::Draw() {
     
     DrawText(TextFormat("cX: %d, cY: %d", currentChunkX, currentChunkY), 0, 120, 20, WHITE);
     
+    std::string invStr;
+    for (std::string itemTitle : Inventory::GetAsString()) {
+       invStr += ", " + itemTitle; 
+    }
+
+    DrawText(TextFormat("inv: %s", invStr.c_str()), 0, 150, 20, WHITE);
+
 }
 
 void MapState::Update(float dt) {
@@ -205,6 +212,7 @@ void MapState::OnEnter() {
     auto testItem = std::make_unique<MapItem>(ItemID::Chalk, MapLocation{0, 0, 3, 3}, Game::GetResources().Get(TextureID::ItemIcons));
 
     MapItemManager::SpawnItem(ItemID::Chalk);
+    MapItemManager::SpawnItem(ItemID::Kvass, {0, 0, 1, 0});
     
 }
 
@@ -220,7 +228,7 @@ void MapState::LoadResources() {
     _mapTilesPack = Game::GetResources().Get(TextureID::MapTiles);
     MapGenerator::Init(&_mapTilesPack);
 
-    ItemManager::Init();
+    Inventory::Init();
 
     _itemIconsPack = Game::GetResources().Get(TextureID::ItemIcons);
     MapItemManager::Init(&_itemIconsPack);

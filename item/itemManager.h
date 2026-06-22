@@ -4,7 +4,6 @@
 
 #include "item.h"
 
-
 class ItemManager {
 public:
     static void Init();

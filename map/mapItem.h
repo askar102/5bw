@@ -4,10 +4,8 @@
 
 #include "mapLocation.h"
 
-enum class ItemID {
-    Chalk = 0,
-    Kvass = 1
-};
+#include "../item/itemId.h"
+#include "../item/inventory.h"
 
 class MapItem {
 public:

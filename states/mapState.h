@@ -45,7 +45,7 @@
 
 // items
 #include "../map/mapItemManager.h"
-#include "../item/itemManager.h"
+#include "../item/inventory.h"
 
 class MapState : public State {
 public:

@@ -1,6 +1,9 @@
 #pragma once
 
-#include "../map/mapItem.h"
+#include <string>
+#include <map>
+
+#include "itemId.h"
 
 struct ItemInfo {
     std::string title;

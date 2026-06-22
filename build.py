@@ -12,11 +12,10 @@ stages = [
     "Configuring project...",
     "Building target...",
     "Trying to run your fucking game...",
-    "Finished successfully!",
-    "Finished with error!"
+    "Finished successfully!"
 ]
 
-with tqdm(total=4, bar_format="{l_bar}{bar:10}{r_bar}{bar:-10b}") as pbar:
+with tqdm(total=4, bar_format="{l_bar}{bar:10}{r_bar}{bar:-10b}", leave=False) as pbar:
     error = False;
 
     pbar.set_description("Building project...")
@@ -41,8 +40,8 @@ with tqdm(total=4, bar_format="{l_bar}{bar:10}{r_bar}{bar:-10b}") as pbar:
                 subprocess.run(['cmake', '--build', 'build'], check=True, capture_output=True, text=True)
             except subprocess.CalledProcessError as e:
                 pbar.set_description(f"CMake build failed. Running build.bat for more details..")
-                error = True
                 subprocess.run([os.path.join(".", "build.bat") ])
+                break;
 
         if i == 3:
             pbar.set_description(stage_text)
@@ -56,10 +55,5 @@ with tqdm(total=4, bar_format="{l_bar}{bar:10}{r_bar}{bar:-10b}") as pbar:
                 tqdm.write(f"Error: Executable not found at {exe_path}")
 
         if i == 4:
-            if (error): ++i
             pbar.set_description(stage_text)
-
-        if i == 5:
-            pbar.set_description(stage_text)
-
         pbar.update(1)
