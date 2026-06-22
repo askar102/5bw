@@ -212,7 +212,7 @@ void MapState::OnEnter() {
     auto testItem = std::make_unique<MapItem>(ItemID::Chalk, MapLocation{0, 0, 3, 3}, Game::GetResources().Get(TextureID::ItemIcons));
 
     MapItemManager::SpawnItem(ItemID::Chalk);
-    MapItemManager::SpawnItem(ItemID::Kvass, {0, 0, 1, 0});
+    MapItemManager::SpawnItem(ItemID::Kvass, {0, 1, 1, 0});
     
 }
 

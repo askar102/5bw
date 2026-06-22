@@ -14,7 +14,7 @@ struct MapLocator {
     {
         Vector2 chunkStart = {
             (float)loc.chunkX * 13  * 48,
-            (float)loc.chunkY * 10 * 48
+            -(float)loc.chunkY * 10 * 48
         };
 
         return {
