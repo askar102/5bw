@@ -1,6 +1,7 @@
 import subprocess
 import time
 import os
+from tkinter import BooleanVar
 
 try: from tqdm import tqdm
 except ImportError: 
@@ -11,10 +12,13 @@ stages = [
     "Configuring project...",
     "Building target...",
     "Trying to run your fucking game...",
-    "Finished successfully!"
+    "Finished successfully!",
+    "Finished with error!"
 ]
 
 with tqdm(total=4, bar_format="{l_bar}{bar:10}{r_bar}{bar:-10b}") as pbar:
+    error = False;
+
     pbar.set_description("Building project...")
     for i, stage_text in enumerate(stages):
         time.sleep(0.1)
@@ -36,8 +40,9 @@ with tqdm(total=4, bar_format="{l_bar}{bar:10}{r_bar}{bar:-10b}") as pbar:
             try:
                 subprocess.run(['cmake', '--build', 'build'], check=True, capture_output=True, text=True)
             except subprocess.CalledProcessError as e:
-                tqdm.write(f"CMake build failed:\nCode: {e.returncode}\nError: {e.stderr}")
-                break
+                pbar.set_description(f"CMake build failed. Running build.bat for more details..")
+                error = True
+                subprocess.run([os.path.join(".", "build.bat") ])
 
         if i == 3:
             pbar.set_description(stage_text)
@@ -51,6 +56,10 @@ with tqdm(total=4, bar_format="{l_bar}{bar:10}{r_bar}{bar:-10b}") as pbar:
                 tqdm.write(f"Error: Executable not found at {exe_path}")
 
         if i == 4:
+            if (error): ++i
+            pbar.set_description(stage_text)
+
+        if i == 5:
             pbar.set_description(stage_text)
 
         pbar.update(1)
