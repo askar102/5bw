@@ -19,3 +19,7 @@ std::vector<std::string> Inventory::GetAsString() {
     
     return strs;
 }
+
+void Inventory::Remove(ItemID existItemId, uint32_t count) {
+    _container.Remove(existItemId, count);
+}
