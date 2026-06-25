@@ -162,6 +162,8 @@ void MapState::Update(float dt) {
         _prevLoc = curLoc;
         _prevLocInit = true;
     }
+
+    testWrite.Update(dt);
 }
 
 bool MapState::CheckTileCollision(Tile* tile) {
@@ -247,7 +249,6 @@ void MapState::OnEnter() {
 
     // test
     testWrite.SpawnAt("pizdaaaaaaaaaaaaaaaaaa", {100, 200});
-    
 }
 
 void MapState::OnExit() {}
