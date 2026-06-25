@@ -83,7 +83,7 @@ void MapState::Update(float dt) {
 
     // chunk position
 
-    currentChunkX = -(int)std::floor(playerPos.x / 624.0f);
+    currentChunkX = (int)std::floor(playerPos.x / 624.0f);
     currentChunkY = -(int)std::floor(playerPos.y / 480.0f);
 
     // MapGenerator::GetChunk(currentChunkX, currentChunkY);

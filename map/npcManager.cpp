@@ -32,7 +32,7 @@
     Npc* raw = record.npc.get();
     _records.push_back(std::move(record));
  
-    TraceLog(LOG_INFO, "[NpcManager] Registered npc '%s' at tile (%d, %d), chunk (%d, %d)\n", id.c_str(), pos.tileX, pos.tileY, pos.chunkX, pos.tileX);
+    TraceLog(LOG_INFO, "[NpcManager] Registered npc '%s' at tile (%d, %d), chunk (%d, %d)\n", id.c_str(), pos.tileX, pos.tileY, pos.chunkX, pos.chunkY);
     return raw;
  }
  
