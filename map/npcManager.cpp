@@ -14,7 +14,7 @@
  
  std::vector<NpcRecord> NpcManager::_records;
 
- Npc* NpcManager::Register(const std::string& id, MapLocation pos)
+ Npc* NpcManager::Register(const std::string& id, MapLocation pos, NpcLoadMode loadMode)
  {
     if (Npc* existing = Find(id))
     {
@@ -44,6 +44,12 @@
  
     for (auto& record : _records)
     {
+        if (record.loadMode == NpcLoadMode::Global) 
+        {
+            result.push_back(record.npc.get());
+            continue;
+        }
+
         if (record.pos.chunkX == chunkX && record.pos.chunkY == chunkY)
         {
             record.npc->GetSprite().SetAlpha(1.0f);
@@ -109,8 +115,8 @@
 
     {
         Npc* angryGuy = Register("angryGuy", {0, 0, 5, 0});
-        angryGuy->GetSprite().SetResource(&Game::GetResources().Get("idk"));
-        angryGuy->GetSprite().SetSize({88.0f, 128.0f});
+        angryGuy->GetSprite().SetResource(&Game::GetResources().Get(TextureID::Player));
+        angryGuy->GetSprite().SetFrame(0);
         angryGuy->SetInteractionRadius(70.0f);
         angryGuy->SetOnEnter([angryGuy]() {
            TraceLog(LOG_INFO, "[NPC] Npc was clicked");

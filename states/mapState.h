@@ -80,11 +80,11 @@ private:
 
     std::vector<std::unique_ptr<Tree>> trees;
 
-    uint32_t currentChunkX = 0;
-    uint32_t currentChunkY = 0;
+    int32_t currentChunkX = 0;
+    int32_t currentChunkY = 0;
 
-    uint32_t currentTileX = 0;
-    uint32_t currentTileY = 0;
+    int32_t currentTileX = 0;
+    int32_t currentTileY = 0;
 
     MapLocation _prevLoc = {0, 0, 0, 0};
     bool _prevLocInit = false;

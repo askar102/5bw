@@ -18,18 +18,25 @@
 #include "mapEntity.h"
  #include "npc.h"
  
+ enum class NpcLoadMode
+ {
+     LocalChunk,
+     Global
+ };
 
  struct NpcRecord {
     std::string id;
     std::unique_ptr<Npc> npc;
     MapLocation pos;
+
+    NpcLoadMode loadMode = NpcLoadMode::Global;
  };
 
  class NpcManager {
  public:
     static void Init();
 
-    static Npc* Register(const std::string& id, MapLocation pos);
+    static Npc* Register(const std::string& id, MapLocation pos, NpcLoadMode loadMode = NpcLoadMode::Global);
 
     static std::vector<Npc*> GetForChunk(int32_t chunkX, int32_t chunkY);
 

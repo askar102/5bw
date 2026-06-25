@@ -18,6 +18,9 @@ public:
 
     void Update(float dt, MapLocation playerPos) override;
 
+    bool GetCollide() { return _collide; }
+    void SetCollide(bool newValue) { _collide = newValue; }
+
 private:
     void UpdateMove(float dt);
  
@@ -25,6 +28,8 @@ private:
     MapLocation _target = {0, 0, 0, 0};
     float _speed = 100.0f;
     std::function<void()> _onArrive;
+
+    bool _collide = true;
  
     static constexpr float ARRIVE_THRESHOLD = 2.0f;
 };

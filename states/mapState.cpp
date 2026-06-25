@@ -103,11 +103,10 @@ void MapState::Update(float dt) {
         stateMachine->PushState(std::make_unique<BattleState>());
     }
 
-    // Vector2 playerPos = player.getSprite().GetPosition();
-    // for (Npc* npc : _activeNpcs)
-    // {
-    //     npc->Update(dt, playerPos);
-    // }
+    for (Npc* npc : _activeNpcs)
+    {
+        npc->Update(dt, {currentChunkX, currentChunkY, currentTileX, currentTileY});
+    }
 
     Rectangle mouseRect = { _worldMousePos.x, _worldMousePos.y, 1.0f, 1.0f };
 
@@ -336,6 +335,13 @@ bool MapState::CheckCollision(Rectangle playerRect) {
             }
         }
     });
+
+    for (auto& npc : _activeNpcs) {
+        if (npc->GetCollide() && CheckCollisionRecs(playerRect, npc->GetSprite().GetRect())) {
+            collided = true;
+            return collided;
+        }
+    }
 
     return collided;
 }
