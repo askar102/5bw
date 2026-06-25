@@ -55,6 +55,9 @@ void MapState::Draw() {
     EndMode2D();
 
     _gui.Draw();
+    
+    // test
+    testWrite.Draw();
 
     // todo: delete this in future
     DrawText("currentState: game(map)", 0, 0, 20, WHITE);
@@ -241,6 +244,9 @@ void MapState::OnEnter() {
     MapItemManager::SpawnItem(ItemID::Kvass, {0, 1, 1, 0});
 
     NpcManager::Init();
+
+    // test
+    testWrite.SpawnAt("pizdaaaaaaaaaaaaaaaaaa", {100, 200});
     
 }
 

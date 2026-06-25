@@ -67,6 +67,7 @@ add_executable(5bw12
     map/mapItemManager.cpp
 
     dialog/dialogPopup.cpp
+    dialog/typewritter.cpp
 
     item/inventoryContainer.cpp
     item/itemManager.cpp

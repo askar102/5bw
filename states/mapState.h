@@ -37,6 +37,7 @@
 
 // For init font
 #include "../dialog/dialogPopup.h"
+#include "../dialog/typewritter.h"
 
 #include "../gui/button.h"
 #include "../gui/guiManager.h"
@@ -109,5 +110,5 @@ private:
     Vector2 _worldMousePos = GetScreenToWorld2D(Game::GetWorldMouse(), _camera);
 
     // test
-    MapEntity ent;
+    Typewritter testWrite;
 };
