@@ -120,10 +120,11 @@
         angryGuy->SetInteractionRadius(70.0f);
         angryGuy->SetOnEnter([angryGuy]() {
            TraceLog(LOG_INFO, "[NPC] Npc was clicked");
-           MoveToLocation("angryGuy", {0, 0, 5, 0});
-           angryGuy->SetOnEnter([angryGuy]() {
-                angryGuy->MoveTo({100, 100});
-           });
+           angryGuy->GetDialogPopUp().Show("...", &angryGuy->GetSprite());
+         //   MoveToLocation("angryGuy", {0, 0, 5, 0});
+         //   angryGuy->SetOnEnter([angryGuy]() {
+         //        angryGuy->MoveTo({100, 100});
+         //   });
         });
     }
  }

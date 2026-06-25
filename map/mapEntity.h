@@ -48,7 +48,7 @@ protected:
 
     MapLocation _loc = {0, 0, 0, 0};
                  
-    float _interactionRadius = 80.0f;
+    float _interactionRadius = 200.0f;
     std::function<void()> _onEnter;
 
     bool _enterConsumed = false;
