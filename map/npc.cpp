@@ -1,6 +1,7 @@
 #include "npc.h"
+#include "mapEntity.h"
 
-void Npc::MoveTo(Vector2 target, float speed, std::function<void()> onArrive)
+void Npc::MoveTo(MapLocation target, float speed, std::function<void()> onArrive)
 {
     _target = target;
     _speed = speed;
@@ -17,17 +18,18 @@ void Npc::StopMove()
 void Npc::UpdateMove(float dt)
 {
     if (!_moving) return;
- 
-    Vector2 pos = GetPosition();
-    float dx = _target.x - pos.x;
-    float dy = _target.y - pos.y;
+
+    Vector2 pos = MapLocator::GetWorldPosition(_loc); 
+    Vector2 targetPos = MapLocator::GetWorldPosition(_target);
+    float dx = targetPos.x - pos.x;
+    float dy = targetPos.y - pos.y;
     float dist = std::sqrt(dx * dx + dy * dy);
- 
+
     if (dist <= ARRIVE_THRESHOLD)
     {
         SetPosition(_target);
         _moving = false;
- 
+
         if (_onArrive)
         {
             auto cb = std::move(_onArrive);
@@ -36,19 +38,19 @@ void Npc::UpdateMove(float dt)
         }
         return;
     }
- 
+
     float step = _speed * dt;
     if (step > dist) step = dist;
- 
-    SetPosition({
+
+    _sprite.SetPosition({
         pos.x + (dx / dist) * step,
         pos.y + (dy / dist) * step
     });
 }
  
-void Npc::Update(float dt, Vector2 playerPos)
+void Npc::Update(float dt, MapLocation playerPos)
 {
-    UpdateMove(dt);
+    UpdateMove(dt);                                                                                     
  
     MapEntity::Update(dt, playerPos);
 }

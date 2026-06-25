@@ -8,6 +8,8 @@
 
 #include "../dialog/dialogPopup.h"
 
+#include "mapLocation.h"
+
 class MapState;
 class Player;
 
@@ -19,8 +21,8 @@ public:
     SpriteV2& GetSprite() { return _sprite; }
     const SpriteV2& GetSprite() const { return _sprite; }
 
-    virtual void  SetPosition(Vector2 pos);
-    Vector2 GetPosition() const;
+    virtual void  SetPosition(MapLocation loc);
+    MapLocation GetPosition() const;
 
     void SetInteractionRadius(float radius) { _interactionRadius = radius; }
     float GetInteractionRadius() const { return _interactionRadius;   }
@@ -29,10 +31,10 @@ public:
 
     void TriggerEnter();
 
-    bool IsPlayerInRange(Vector2 playerPos) const;
+    bool IsPlayerInRange(MapLocation playerPos) const;
     
     // core
-    virtual void Update(float dt, Vector2 playerPos);
+    virtual void Update(float dt, MapLocation playerPos);
     virtual void Draw();
     
     static void SetDrawZones(bool value) { _drawZones = value; }
@@ -44,6 +46,8 @@ public:
 protected:
     SpriteV2 _sprite;
 
+    MapLocation _loc = {0, 0, 0, 0};
+                 
     float _interactionRadius = 80.0f;
     std::function<void()> _onEnter;
 

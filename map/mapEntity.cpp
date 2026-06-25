@@ -2,21 +2,26 @@
 
 bool MapEntity::_drawZones = false;
  
-void MapEntity::SetPosition(Vector2 pos)
+void MapEntity::SetPosition(MapLocation newLoc)
 {
-    _sprite.SetPosition(pos);
+    _loc = newLoc;
+    MapLocator::PlaceSprite(_sprite, newLoc);
 }
  
-Vector2 MapEntity::GetPosition() const
+MapLocation MapEntity::GetPosition() const 
 {
-    return _sprite.GetPosition();
+    return _loc;
 }
  
-bool MapEntity::IsPlayerInRange(Vector2 playerPos) const
+
+bool MapEntity::IsPlayerInRange(MapLocation playerPos) const
 {
-    Vector2 myPos = GetPosition();
-    float dx = playerPos.x - myPos.x;
-    float dy = playerPos.y - myPos.y;
+    Vector2 myPos = MapLocator::GetWorldPosition(_loc);
+    Vector2 otherPos = MapLocator::GetWorldPosition(playerPos);
+
+    float dx = otherPos.x - myPos.x;
+    float dy = otherPos.y - myPos.y;
+
     return (dx * dx + dy * dy) <= (_interactionRadius * _interactionRadius);
 }
  
@@ -26,7 +31,7 @@ void MapEntity::TriggerEnter()
         _onEnter();
 }
  
-void MapEntity::Update(float dt, Vector2 playerPos)
+void MapEntity::Update(float dt, MapLocation playerPos)
 {
     (void)dt;
  
@@ -56,9 +61,11 @@ void MapEntity::Draw()
 
     if (_drawZones)
     {
+        Vector2 pos = MapLocator::GetWorldPosition(_loc);
+
         DrawCircleLines(
-            static_cast<int>(GetPosition().x),
-            static_cast<int>(GetPosition().y),
+            static_cast<int>(pos.x),
+            static_cast<int>(pos.y),
             _interactionRadius,
             Fade(YELLOW, 0.6f)
         );
