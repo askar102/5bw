@@ -85,6 +85,9 @@ private:
 
     uint32_t currentTileX = 0;
     uint32_t currentTileY = 0;
+
+    MapLocation _prevLoc = {0, 0, 0, 0};
+    bool _prevLocInit = false;
         
     const int SCREEN_WIDTH = GetScreenWidth();
     const int SCREEN_HEIGHT = GetScreenHeight();

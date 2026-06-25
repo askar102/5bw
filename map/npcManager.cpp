@@ -39,6 +39,7 @@
 
  std::vector<Npc*> NpcManager::GetForChunk(int32_t chunkX, int32_t chunkY)
  {
+    TraceLog(LOG_INFO, "Clled 'GetForChunk'");
     std::vector<Npc*> result;
  
     for (auto& record : _records)
@@ -108,7 +109,7 @@
 
     {
         Npc* angryGuy = Register("angryGuy", {0, 0, 5, 0});
-        angryGuy->GetSprite().SetResource(&Game::GetResources().Get("angryGuy"));
+        angryGuy->GetSprite().SetResource(&Game::GetResources().Get("idk"));
         angryGuy->GetSprite().SetSize({88.0f, 128.0f});
         angryGuy->SetInteractionRadius(70.0f);
         angryGuy->SetOnEnter([angryGuy]() {

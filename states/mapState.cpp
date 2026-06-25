@@ -135,6 +135,31 @@ void MapState::Update(float dt) {
             else t->sprite.SetBrightness(1.0f); 
         }
     });
+
+    MapLocation curLoc{
+        (int32_t)currentChunkX,
+        (int32_t)currentChunkY,
+        (int32_t)currentTileX,
+        (int32_t)currentTileY
+    };
+
+    bool changed = !_prevLocInit || curLoc.chunkX != _prevLoc.chunkX || curLoc.chunkY != _prevLoc.chunkY;
+
+
+    if (changed)
+    {
+        // if (_prevLocInit)
+            // TileTrigger::OnExitTile(_prevLoc.tileX, _prevLoc.tileY);
+
+        // LoadTile();
+        // TileTrigger::OnEnterTile(curLoc.tileX, curLoc.tileY);
+
+
+        _activeNpcs = NpcManager::GetForChunk(currentChunkX, currentChunkY);
+
+        _prevLoc = curLoc;
+        _prevLocInit = true;
+    }
 }
 
 bool MapState::CheckTileCollision(Tile* tile) {
@@ -167,6 +192,8 @@ void MapState::OnEnter() {
     // DialogPopup::Init();
 
     // LoadTile();
+
+    _activeNpcs = NpcManager::GetForChunk(currentChunkX, currentChunkY);
 
     Vector2 startPos = {0, 0};
     // 26, 15 - full map
