@@ -45,8 +45,7 @@
     _resourceManager.Load();
  
     _stateMachine.ChangeState(std::make_unique<MenuState>());
-
- }
+}
  
  void Game::Run() 
  {

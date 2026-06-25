@@ -19,6 +19,8 @@
 #include "../gui/buttonList.h"
 #include "../gui/guiManager.h"
 
+#include "../misc/text.h"
+
 #include "sceneState.h"
 
 #include "mapState.h"

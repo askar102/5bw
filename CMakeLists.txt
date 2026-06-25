@@ -33,6 +33,8 @@ add_executable(5bw12
     misc/ghostTrail.cpp
     misc/floatingText.cpp
 
+    misc/text.cpp
+
     battle/battleEntity.cpp
     battle/actionText.cpp
     battle/abilityPanel.cpp

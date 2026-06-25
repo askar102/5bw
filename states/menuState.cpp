@@ -41,6 +41,7 @@ void MenuState::Update(float dt) {
     }
 }
 void MenuState::OnEnter() {
+    Text::Init();
     InitNewGui();
 }
     

@@ -15,12 +15,14 @@
  #include "state.h"
  #include "stateManager.h"
  #include "resourceManager.h"
+
  #include "../battle/playerParty.h"
  #include "../map/npcManager.h"
 
  #include "../raylib/raylib.h"
 
  #include "../entities/spriteV2.h"
+
 
  
 class Party;

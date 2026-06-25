@@ -249,6 +249,7 @@ void MapState::OnEnter() {
 
     // test
     testWrite.SpawnAt("pizdaaaaaaaaaaaaaaaaaa", {100, 200});
+    testWrite.SpawnAt("huyyyyyyyyyyyyyyyyyy", {100, 200});
 }
 
 void MapState::OnExit() {}
