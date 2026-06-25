@@ -35,11 +35,6 @@ void MapState::Draw() {
     for (auto& tree : trees) {
         tree->Draw();
     }
-
-    for (Npc* npc : _activeNpcs)
-    {
-        npc->Draw();
-    }
     
     MapGenerator::ForEachChunk([this] (Chunk& c) {
         const auto& tiles = c.tiles;
@@ -47,6 +42,11 @@ void MapState::Draw() {
             t->sprite.Draw();
         }
     });
+
+    for (Npc* npc : _activeNpcs)
+    {
+        npc->Draw();
+    }
 
     MapItemManager::Draw();
 
