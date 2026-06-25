@@ -15,27 +15,27 @@
  #include <vector>
  #include <functional>
  
+#include "mapEntity.h"
  #include "npc.h"
  
 
  struct NpcRecord {
     std::string id;
     std::unique_ptr<Npc> npc;
-    int tileX = 0;
-    int tileY = 0;
+    MapLocation pos;
  };
 
  class NpcManager {
  public:
     static void Init();
 
-    static Npc* Register(const std::string& id, int tileX, int tileY, Vector2 startPosition = {400, 300});
+    static Npc* Register(const std::string& id, MapLocation pos);
 
-    static std::vector<Npc*> GetForTile(int tileX, int tileY);
+    static std::vector<Npc*> GetForChunk(int32_t chunkX, int32_t chunkY);
 
     static Npc* Find(const std::string& id);
  
-    static void MoveTile(const std::string& id, int newTileX, int newTileY, Vector2 startPosition = {400, 300});
+    static void MoveToLocation(const std::string& id, MapLocation loc);
  
     static void Clear();
  

@@ -104,4 +104,7 @@ private:
 
     Camera2D _camera;
     Vector2 _worldMousePos = GetScreenToWorld2D(Game::GetWorldMouse(), _camera);
+
+    // test
+    MapEntity ent;
 };

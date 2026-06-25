@@ -10,40 +10,40 @@
 
  #include "npcManager.h"
  #include "../core/game.h"
+#include "mapEntity.h"
  
  std::vector<NpcRecord> NpcManager::_records;
 
- Npc* NpcManager::Register(const std::string& id, int tileX, int tileY, Vector2 startPosition)
+ Npc* NpcManager::Register(const std::string& id, MapLocation pos)
  {
     if (Npc* existing = Find(id))
     {
-        printf("[NpcManager] npc '%s' already registered\n", id.c_str());
+        TraceLog(LOG_INFO, "[NpcManager] npc '%s' already registered\n", id.c_str());
         return existing;
     }
  
     NpcRecord record;
     record.id = id;
     record.npc = std::make_unique<Npc>();
-    record.tileX = tileX;
-    record.tileY = tileY;
+    record.pos = pos;
 
-    record.npc->SetPosition(startPosition);
+    record.npc->SetPosition(pos);
  
     Npc* raw = record.npc.get();
     _records.push_back(std::move(record));
  
-    printf("[NpcManager] Registered npc '%s' at tile (%d, %d)\n", id.c_str(), tileX, tileY);
+    TraceLog(LOG_INFO, "[NpcManager] Registered npc '%s' at tile (%d, %d), chunk (%d, %d)\n", id.c_str(), pos.tileX, pos.tileY, pos.chunkX, pos.tileX);
     return raw;
  }
  
 
- std::vector<Npc*> NpcManager::GetForTile(int tileX, int tileY)
+ std::vector<Npc*> NpcManager::GetForChunk(int32_t chunkX, int32_t chunkY)
  {
     std::vector<Npc*> result;
  
     for (auto& record : _records)
     {
-        if (record.tileX == tileX && record.tileY == tileY)
+        if (record.pos.chunkX == chunkX && record.pos.chunkY == chunkY)
         {
             record.npc->GetSprite().SetAlpha(1.0f);
             result.push_back(record.npc.get());
@@ -67,19 +67,21 @@
  }
  
 
- void NpcManager::MoveTile(const std::string& id, int newTileX, int newTileY, Vector2 startPosition)
+ void NpcManager::MoveToLocation(const std::string& id, MapLocation loc)
  {
     for (auto& record : _records)
     {
         if (record.id == id)
         {
-           record.tileX = newTileX;
-           record.tileY = newTileY;
-           record.npc->GetSprite().FadeOut(1.0f, [&record, startPosition] () {
+           record.pos.chunkX = loc.chunkX;
+           record.pos.chunkY = loc.chunkY;
+           record.pos.tileX = loc.tileX;
+           record.pos.tileY = loc.tileY;
+           record.npc->GetSprite().FadeOut(1.0f, [&record, loc] () {
                 record.npc->GetSprite().SetAlpha(0.0f);
-                record.npc->SetPosition(startPosition);
+                record.npc->SetPosition(loc);
            });
-           TraceLog(LOG_INFO, "[NpcManager] NPC '%s' moved to tile (%d, %d)", id.c_str(), newTileX, newTileY);
+           TraceLog(LOG_INFO, "[NpcManager] NPC '%s' moved to tile (%d, %d), chunk (%d, %d)", id.c_str(), loc.tileX, loc.tileY, loc.chunkX, loc.chunkY);
            return;
         }
     }
@@ -105,13 +107,13 @@
     // PLEASE USE {} FOR NEW CLEAN SCOPE
 
     {
-        Npc* angryGuy = Register("angryGuy", 600, 601, {740, 136});
+        Npc* angryGuy = Register("angryGuy", {0, 0, 5, 0});
         angryGuy->GetSprite().SetResource(&Game::GetResources().Get("angryGuy"));
         angryGuy->GetSprite().SetSize({88.0f, 128.0f});
         angryGuy->SetInteractionRadius(70.0f);
         angryGuy->SetOnEnter([angryGuy]() {
            TraceLog(LOG_INFO, "[NPC] Npc was clicked");
-           MoveTile("angryGuy", 600, 601);
+           MoveToLocation("angryGuy", {0, 0, 5, 0});
            angryGuy->SetOnEnter([angryGuy]() {
                 angryGuy->MoveTo({100, 100});
            });

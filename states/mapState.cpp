@@ -213,6 +213,8 @@ void MapState::OnEnter() {
 
     MapItemManager::SpawnItem(ItemID::Chalk);
     MapItemManager::SpawnItem(ItemID::Kvass, {0, 1, 1, 0});
+
+    NpcManager::Init();
     
 }
 
@@ -290,7 +292,7 @@ void MapState::LoadTile() {
     //     &Game::GetResources().Get(TextureID::Tree)
     // );
 
-    _activeNpcs = NpcManager::GetForTile(currentTileX, currentTileY);
+    _activeNpcs = NpcManager::GetForChunk(currentChunkX, currentChunkY);
 }
 
 bool MapState::CheckCollision(Rectangle playerRect) {

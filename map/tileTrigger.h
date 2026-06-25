@@ -25,8 +25,8 @@ struct TileScript {
 class TileTrigger {
 public:
     // scripts checkers
-    static void OnEnterTile(int tileX, int tileY);
-    static void OnExitTile(int tileX, int tileY);
+    static void OnEnterTile(int32_t tileX, int32_t tileY);
+    static void OnExitTile(int32_t tileX, int32_t tileY);
 
     // create
     static void AddTileScript(int tileX, int tileY, bool manyTimes, std::function<void()> onEnter, std::function<void()> onExit);
