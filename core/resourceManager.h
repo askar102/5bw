@@ -27,6 +27,8 @@
      AbilityIcon,
      CardVFX,
 
+    Emotion,
+
      CardGuy,
      AngryGuy,
      SigmaMen,

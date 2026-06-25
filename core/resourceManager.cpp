@@ -119,6 +119,12 @@
          {}
      };
 
+     _textures[TextureID::Emotion] =
+     {
+        LoadTexture("resources/emotion.png"),
+        MakeGrid(160, 192, 20)
+     };
+
      _textures[TextureID::AngryGuy] =
      {
          LoadTexture("resources/angryGuy.png"),
