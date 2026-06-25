@@ -117,7 +117,7 @@
         Npc* angryGuy = Register("angryGuy", {0, 0, 5, 0});
         angryGuy->GetSprite().SetResource(&Game::GetResources().Get(TextureID::Player));
         angryGuy->GetSprite().SetFrame(0);
-        angryGuy->SetInteractionRadius(70.0f);
+        angryGuy->SetInteractionRadius(2);
         angryGuy->SetOnEnter([angryGuy]() {
            TraceLog(LOG_INFO, "[NPC] Npc was clicked");
            angryGuy->GetDialogPopUp().Show("...", &angryGuy->GetSprite());

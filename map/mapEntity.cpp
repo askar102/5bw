@@ -16,13 +16,7 @@ MapLocation MapEntity::GetPosition() const
 
 bool MapEntity::IsPlayerInRange(MapLocation playerPos) const
 {
-    Vector2 myPos = MapLocator::GetWorldPosition(_loc);
-    Vector2 otherPos = MapLocator::GetWorldPosition(playerPos);
-
-    float dx = otherPos.x - myPos.x;
-    float dy = otherPos.y - myPos.y;
-
-    return (dx * dx + dy * dy) <= (_interactionRadius * _interactionRadius);
+    return MapLocator::GetTileDistance(_loc, playerPos) <= _interactionRadius;
 }
  
 void MapEntity::TriggerEnter()
@@ -62,11 +56,14 @@ void MapEntity::Draw()
     if (_drawZones)
     {
         Vector2 pos = MapLocator::GetWorldPosition(_loc);
-
-        DrawCircleLines(
-            static_cast<int>(pos.x),
-            static_cast<int>(pos.y),
-            _interactionRadius,
+        float tileSize = 48.0f;
+        float boxSize = (float)(_interactionRadius * 2 + 1) * tileSize;
+    
+        DrawRectangleLines(
+            static_cast<int>(pos.x - boxSize * 0.5f),
+            static_cast<int>(pos.y - boxSize * 0.5f),
+            static_cast<int>(boxSize),
+            static_cast<int>(boxSize),
             Fade(YELLOW, 0.6f)
         );
     }

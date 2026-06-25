@@ -24,8 +24,8 @@ public:
     virtual void  SetPosition(MapLocation loc);
     MapLocation GetPosition() const;
 
-    void SetInteractionRadius(float radius) { _interactionRadius = radius; }
-    float GetInteractionRadius() const { return _interactionRadius;   }
+    void SetInteractionRadius(int32_t tiles) { _interactionRadius = tiles; }
+    int32_t GetInteractionRadius() const { return _interactionRadius; }
 
     void SetOnEnter(std::function<void()> cb) { _onEnter = std::move(cb); }
 
@@ -48,7 +48,7 @@ protected:
 
     MapLocation _loc = {0, 0, 0, 0};
                  
-    float _interactionRadius = 200.0f;
+    int32_t _interactionRadius = 2;
     std::function<void()> _onEnter;
 
     bool _enterConsumed = false;
