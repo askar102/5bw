@@ -32,7 +32,15 @@ void Emotion::Show(EmotionType type, PopupSize size, float duration)
 
 void Emotion::Hide()
 {
-    _visible = false;
+    _emotion.FadeOut(1.0f, [this] () {
+        _emotion.SetAlpha(0.0f);
+    });
+
+    _popup.FadeOut(1.0f, [this] () {
+        _popup.SetAlpha(0.0f);
+        _visible = false;
+    });
+
     _animationTimer = 0.0f;
 }
 
@@ -51,7 +59,6 @@ void Emotion::Update(float dt)
         return;
     }
 
-    // float alpha = (_timer < FADE_OUT_TIME) ? (_timer / FADE_OUT_TIME) : 1.0f;
     // _popup.SetAlpha(0.0f);
     // _emotion.SetAlpha(0.0f);
 
