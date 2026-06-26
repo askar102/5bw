@@ -18,8 +18,9 @@ void Emotion::Init(const SpriteV2* anchor)
 
 void Emotion::Show(EmotionType type, PopupSize size, float duration)
 {
-    _popup.SetAnimation({0, 1}, 1.0f, true);
+    _popup.SetAnimation({0, 1}, 0.15f, false);
     // _emotion.SetFrame(static_cast<size_t>(type));
+    _emotion.SetAnimation({2, 3, 4}, 0.15f, false);
 
     _animationDuration = duration;
     _animationTimer = 0.0f;
@@ -37,6 +38,9 @@ void Emotion::Hide()
 
 void Emotion::Update(float dt)
 {
+    _popup.Update(dt);
+    _emotion.Update(dt);
+
     if (!_visible) return;
 
     _animationTimer += dt;
@@ -55,7 +59,7 @@ void Emotion::Update(float dt)
 
     Vector2 anchorPos = _anchor->GetPosition();
 
-    Vector2 pos = {_anchor->GetPosition().x, _anchor->GetPosition().y - 50.0f};
+    Vector2 pos = {_anchor->GetPosition().x, _anchor->GetPosition().y - 40.0f};
 
     _popup.SetPosition(pos);
     _emotion.SetPosition(pos);

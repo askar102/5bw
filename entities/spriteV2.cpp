@@ -431,6 +431,7 @@ void SpriteV2::Update(float dt)
     UpdateBrighteningUp(dt); 
     
     UpdateFadeOut(dt);
+    UpdateAnimation(dt);
     
     _text.Update(dt);
 
