@@ -122,7 +122,7 @@
      _textures[TextureID::Emotion] =
      {
         LoadTexture("resources/emotionPack.png"),
-        MakeGrid(240, 48, 5)
+        MakeGrid(48, 48, 5)
      };
 
      _textures[TextureID::AngryGuy] =
