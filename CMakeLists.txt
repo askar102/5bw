@@ -70,6 +70,7 @@ add_executable(5bw12
 
     dialog/dialogPopup.cpp
     dialog/typewritter.cpp
+    dialog/emotion.cpp
 
     item/inventoryContainer.cpp
     item/itemManager.cpp

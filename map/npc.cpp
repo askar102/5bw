@@ -50,7 +50,7 @@ void Npc::UpdateMove(float dt)
  
 void Npc::Update(float dt, MapLocation playerPos)
 {
-    UpdateMove(dt);                                                                                     
+    UpdateMove(dt);                                                                                  
  
     MapEntity::Update(dt, playerPos);
 }

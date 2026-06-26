@@ -31,6 +31,7 @@ void MapEntity::Update(float dt, MapLocation playerPos)
  
     _sprite.Update(dt);
     _popup.Update(dt);
+    _emotion.Update(dt);
 
 
     if (!IsPlayerInRange(playerPos))
@@ -67,4 +68,6 @@ void MapEntity::Draw()
             Fade(YELLOW, 0.6f)
         );
     }
+
+    _emotion.Draw();
 }

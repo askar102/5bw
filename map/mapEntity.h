@@ -10,12 +10,15 @@
 
 #include "mapLocation.h"
 
+
+#include "../dialog/emotion.h"
+
 class MapState;
 class Player;
 
 class MapEntity {
 public:
-    MapEntity() = default;
+    MapEntity() { _emotion.Init(&_sprite); }
     virtual ~MapEntity() = default;
 
     SpriteV2& GetSprite() { return _sprite; }
@@ -42,6 +45,7 @@ public:
 
     // dialog
     DialogPopup& GetDialogPopUp() { return _popup; }
+    Emotion& GetEmotionPopUp() { return _emotion; }
 
 protected:
     SpriteV2 _sprite;
@@ -57,4 +61,6 @@ protected:
     static bool _drawZones;
 
     DialogPopup _popup;
+
+    Emotion _emotion;
 };
