@@ -18,7 +18,7 @@ void Emotion::Init(const SpriteV2* anchor)
 
 void Emotion::Show(EmotionType type, PopupSize size, float duration)
 {
-    _popup.SetFrame(1);
+    _popup.SetAnimation({0, 1}, 1.0f, true);
     // _emotion.SetFrame(static_cast<size_t>(type));
 
     _animationDuration = duration;

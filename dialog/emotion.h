@@ -37,7 +37,6 @@ public:
     bool IsVisible() const { return _visible; }
     void Hide();
 
-
 private:
     SpriteV2 _popup;
     SpriteV2 _emotion;
