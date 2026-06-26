@@ -280,6 +280,80 @@ void SpriteV2::SetFrameTime(size_t frame, size_t returnFrame, float duration, st
  void SpriteV2::SetHitboxColor(Color clr) {
     _hitboxColor = clr;
 }
+
+/**
+ * 
+ *  Aniamtion
+ * 
+ */
+
+ void SpriteV2::SetAnimation(std::vector<size_t> frames, float interval, bool looping, std::function<void()> onDone)
+{
+    if (frames.empty())
+    {   
+        return;
+    }     
+ 
+    _animFrames = std::move(frames);
+    _animIndex = 0;
+    _animTimer = 0.0f;
+    _animInterval = interval;
+    _animLooping = looping;
+    _animActive = true;
+    _animOnDone = std::move(onDone);
+ 
+    SetFrame(_animFrames[_animIndex]);
+}
+ 
+void SpriteV2::StopAnimation()
+{
+    _animActive = false;
+    _animFrames.clear();
+    _animIndex = 0;
+    _animTimer = 0.0f;
+    _animOnDone = nullptr;
+}
+ 
+void SpriteV2::UpdateAnimation(float dt)
+{
+    if (!_animActive || _animFrames.empty())
+    {
+        return;
+    }
+        
+    _animTimer += dt;
+ 
+    while (_animTimer >= _animInterval)
+    {
+        _animTimer -= _animInterval;
+        _animIndex++;
+ 
+        if (_animIndex >= _animFrames.size())
+        {
+            if (_animLooping)
+            {
+                _animIndex = 0;
+            }
+            else
+            {
+                _animIndex = _animFrames.size() - 1;
+                _animActive = false;
+                SetFrame(_animFrames[_animIndex]);
+ 
+                if (_animOnDone)
+                {
+                    auto cb = std::move(_animOnDone);
+                    _animOnDone = nullptr;
+                    cb();
+                }
+                return;
+            }
+        }
+ 
+        SetFrame(_animFrames[_animIndex]);
+    }
+}
+
  
 /**
  * 

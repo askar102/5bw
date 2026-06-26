@@ -93,6 +93,16 @@
     float _fadeOutTimer = 0.0f;
     float _fadeOutDuration = 0.0f;
     std::function<void()> _fadeOutOnDone;
+
+    // animation    
+    std::vector<size_t> _animFrames;
+    size_t _animIndex = 0;
+    float _animTimer = 0.0f;
+    float _animInterval = 0.1f;
+    bool _animLooping = true;
+    bool _animActive = false;
+    std::function<void()> _animOnDone;
+
  
  public:
      // resources
@@ -161,6 +171,13 @@
 
      void SetHitboxColor(Color clr);
     
+    // animation
+    void SetAnimation(std::vector<size_t> frames, float interval, bool looping = true, std::function<void()> onDone = nullptr);
+    void StopAnimation();
+    void UpdateAnimation(float dt);
+    bool IsAnimating() const { return _animActive; }
+
+
     // misc
     bool IsSpriteOnScreen();
     FloatingText& GetText() { return _text; }
