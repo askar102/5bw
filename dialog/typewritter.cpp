@@ -80,6 +80,8 @@ void Typewritter::Reset()
     _queueIndex = 0;
     _text.clear();
     _charsOpened = 0;
+
+    _inOver();
 }
 
 void Typewritter::SkipAnimation()

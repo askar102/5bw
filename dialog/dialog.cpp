@@ -25,6 +25,9 @@ void Dialog::Show(std::string text, DialogMode mode, std::function<void()> onClo
     _visible = true;
 
     _typewritter.SpawnAt(text, {640/2.0f-200.0f, 480/2.0f-30.0f}, 10.0f, true);
+    _typewritter.InOver([this] () {
+        _visible = false;
+    });
 }
 
 void Dialog::Update(float dt)

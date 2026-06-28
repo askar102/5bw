@@ -23,6 +23,8 @@ public:
 
     void SetSpeed(float charsPerSecond);
 
+    void InOver(std::function<void()> inOver) { _inOver = inOver; }
+
 private:
     void StartLine(const std::string& text);
     void AdvanceQueue();
@@ -40,4 +42,7 @@ private:
 
     float _speed = 10.0f;
     float _charsOpened = 0;
+
+    std::function<void()> _inOver;
+
 };
