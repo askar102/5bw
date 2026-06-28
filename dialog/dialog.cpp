@@ -1,4 +1,5 @@
 #include "dialog.h"
+#include "typewritter.h"
 
 TextureResource Dialog::_storyTexture;
 TextureResource Dialog::_defaultTexture;
@@ -13,18 +14,24 @@ void Dialog::Init()
 
     _storyBackgroud.SetResource(&_storyTexture);
     _defaultBackground.SetResource(&_defaultTexture);
+
+    _storyBackgroud.SetPosition({640/2.0f, 480/2.0f});
+    _storyBackgroud.SetAlpha(0.6f);
 }
 
-void Dialog::Show(int id, DialogMode mode, std::function<void()> onClose)
+void Dialog::Show(std::string text, DialogMode mode, std::function<void()> onClose)
 {
     _mode = mode;
     _visible = true;
+
+    _typewritter.SpawnAt(text, {640/2.0f-200.0f, 480/2.0f-30.0f}, 10.0f, true);
 }
 
 void Dialog::Update(float dt)
 {
     if (_mode == DialogMode::StoryCenter || _mode == DialogMode::StoryDown) _storyBackgroud.Update(dt);
     if (_mode == DialogMode::Mind || _mode == DialogMode::Npc) _defaultBackground.Update(dt);
+    _typewritter.Update(dt);
 }
 
 void Dialog::Draw()
@@ -34,6 +41,8 @@ void Dialog::Draw()
         if (_mode == DialogMode::StoryCenter || _mode == DialogMode::StoryDown) _storyBackgroud.Draw();
         if (_mode == DialogMode::Mind || _mode == DialogMode::Npc) _defaultBackground.Draw();
     }
+
+    _typewritter.Draw();
     
 }
 
@@ -43,7 +52,7 @@ void Dialog::Draw()
 
 void Dialog::LoadLine()
 {
-
+    
 }
 
 void Dialog::NextLine()

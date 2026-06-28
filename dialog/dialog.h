@@ -47,7 +47,7 @@ enum class DialogMode {
 
 class Dialog {
 public:
-    void Show(int id, DialogMode mode, std::function<void()> onClose = nullptr);
+    void Show(std::string text, DialogMode mode, std::function<void()> onClose = nullptr);
 
     void Update(float dt);
     void Draw();
@@ -72,5 +72,5 @@ private:
     static SpriteV2 _defaultBackground;
 
 
-    Typewritter typewritter;
+    Typewritter _typewritter;
 };

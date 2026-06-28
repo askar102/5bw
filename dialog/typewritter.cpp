@@ -49,7 +49,7 @@ void Typewritter::Draw()
 {
     if (!_visible) return;
 
-    Text::DrawText(TextSubtext(_text.c_str(), 0, static_cast<int32_t>(_charsOpened)), (int)_pos.x, (int)_pos.y, 20, MAROON);
+    Text::DrawText(TextSubtext(_text.c_str(), 0, static_cast<int32_t>(_charsOpened)), (int)_pos.x, (int)_pos.y, 20, WHITE);
 }
 
 void Typewritter::Update(float dt)

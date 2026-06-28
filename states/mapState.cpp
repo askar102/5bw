@@ -253,7 +253,7 @@ void MapState::OnEnter() {
     // test
     testWrite.SpawnAt((std::vector<std::string>){"huyyyyyyyyyyyyyyyyyy", "pizdaaaaaaaaaaaaaaaaaa"}, {100, 200});
 
-    _dialog.Show(1, DialogMode::StoryCenter);
+    _dialog.Show("Hello dayn.", DialogMode::StoryCenter);
 }
 
 void MapState::OnExit() {}
