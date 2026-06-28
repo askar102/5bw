@@ -38,6 +38,7 @@
 // For init font
 #include "../dialog/dialogPopup.h"
 #include "../dialog/typewritter.h"
+#include "../dialog/dialog.h"
 
 #include "../gui/button.h"
 #include "../gui/guiManager.h"
@@ -47,6 +48,7 @@
 // items
 #include "../map/mapItemManager.h"
 #include "../item/inventory.h"
+
 
 class MapState : public State {
 public:
@@ -111,4 +113,6 @@ private:
 
     // test
     Typewritter testWrite;
+
+    Dialog _dialog;
 };

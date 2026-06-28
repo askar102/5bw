@@ -58,6 +58,7 @@ void MapState::Draw() {
     
     // test
     testWrite.Draw();
+    _dialog.Draw();
 
     // todo: delete this in future
     DrawText("currentState: game(map)", 0, 0, 20, WHITE);
@@ -164,6 +165,7 @@ void MapState::Update(float dt) {
     }
 
     testWrite.Update(dt);
+    _dialog.Update(dt);
 }
 
 bool MapState::CheckTileCollision(Tile* tile) {
@@ -246,9 +248,12 @@ void MapState::OnEnter() {
     MapItemManager::SpawnItem(ItemID::Kvass, {0, 1, 1, 0});
 
     NpcManager::Init();
+    Dialog::Init();
 
     // test
     testWrite.SpawnAt((std::vector<std::string>){"huyyyyyyyyyyyyyyyyyy", "pizdaaaaaaaaaaaaaaaaaa"}, {100, 200});
+
+    _dialog.Show(1, DialogMode::StoryCenter);
 }
 
 void MapState::OnExit() {}
