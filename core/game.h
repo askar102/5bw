@@ -23,8 +23,6 @@
 
  #include "../entities/spriteV2.h"
 
-
- 
 class Party;
 
  class Game {

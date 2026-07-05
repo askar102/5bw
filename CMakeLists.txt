@@ -3,7 +3,6 @@ project(5bw12)
 
 set(CMAKE_CXX_STANDARD 23)
 
-# исходники
 add_executable(5bw12
     main.cpp
 
@@ -79,7 +78,6 @@ add_executable(5bw12
     item/inventory.cpp
 )
 
-# include пути (чтобы #include "game.h" работал)
 target_include_directories(5bw12 PRIVATE
     ${CMAKE_SOURCE_DIR}
 )
