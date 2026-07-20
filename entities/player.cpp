@@ -110,6 +110,11 @@ void Player::Draw()
     this->_sprite.Draw();
 }
 
+void Player::EquipItem(Item item)
+{
+    _equippedItem = item;
+}
+
 void Player::Init()
 {
     

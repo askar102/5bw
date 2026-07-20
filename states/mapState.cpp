@@ -9,6 +9,7 @@
  */
 
 #include "mapState.h"
+#include <sec_api/stdio_s.h>
 
 void MapState::HandleInput() {
     if (IsKeyPressed(KEY_B) && !startBattle) {
@@ -76,6 +77,9 @@ void MapState::Draw() {
 
     DrawText(TextFormat("inv: %s", invStr.c_str()), 0, 150, 20, WHITE);
 
+    std::string handItem = player.GetEquippedItem().info.title;
+
+    DrawText(TextFormat("hand: %s", handItem.c_str()), 0, 180, 20, DARKGREEN);
 }
 
 void MapState::Update(float dt) {
@@ -96,7 +100,7 @@ void MapState::Update(float dt) {
     MapGenerator::UnloadDistantChunks(currentChunkX, currentChunkY, 3);
     
 
-    MapItemManager::Update(dt, player.getSprite());
+    MapItemManager::Update(dt, player);
     _gui.Update();
 
     // MapRotationCheck();

@@ -12,6 +12,8 @@
 
 #include "../raylib/raylib.h"
 
+#include "../item/item.h"
+
 #include "spriteV2.h"
 
 class MapState;
@@ -45,6 +47,9 @@ public:
 
     void Init();
 
+    void EquipItem(Item item);
+    Item GetEquippedItem() { return _equippedItem; }
+
 private:
     SpriteV2 _sprite;
 
@@ -69,4 +74,6 @@ private:
     {
         return static_cast<int>(_direction) * 3;
     }
+
+    Item _equippedItem;
 };

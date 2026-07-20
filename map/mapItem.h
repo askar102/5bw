@@ -6,6 +6,8 @@
 
 #include "../item/itemId.h"
 #include "../item/inventory.h"
+#include "../item/itemManager.h"
+#include "../entities/player.h"
 
 class MapItem {
 public:
@@ -21,7 +23,7 @@ public:
     SpriteV2& GetIcon() { return _icon; }
 
     void CheckCollision(const SpriteV2& playerSprite);
-    void Update(float dt, const SpriteV2& playerSprite);
+    void Update(float dt, Player& player);
     void Draw();
 private:
     ItemID _id;

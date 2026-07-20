@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "mapItem.h"
+#include "../entities/player.h"
 
 class MapItemManager {
 public:
@@ -12,7 +13,7 @@ public:
 
     static void Init(TextureResource* itemIconsPack);
     static void Draw();
-    static void Update(float dt, const SpriteV2& playerSprite);
+    static void Update(float dt, Player& player);
 
 private:
     static std::vector<std::unique_ptr<MapItem>> _items;

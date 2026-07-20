@@ -1,4 +1,6 @@
 #include "mapItem.h"
+#include "item/item.h"
+#include "item/itemManager.h"
 
 void MapItem::CheckCollision(const SpriteV2& playerSprite) {
     if (_anchor || _icon.IsFadingOut()) return; 
@@ -9,14 +11,15 @@ void MapItem::CheckCollision(const SpriteV2& playerSprite) {
     }
 }
 
-void MapItem::Update(float dt, const SpriteV2& playerSprite) {
+void MapItem::Update(float dt, Player& player) {
     if (!_destoyed) {
         _icon.Update(dt);
-        CheckCollision(playerSprite);
+        CheckCollision(player.getSprite());
 
         if (_anchor) 
         {
             Inventory::Add(_id);
+            player.EquipItem({_id, ItemManager::GetInfo(_id)});
             _bringAnimationTimer += dt;
 
             _icon.SetPosition({_anchor->GetPosition().x, _anchor->GetPosition().y - 50.0f});

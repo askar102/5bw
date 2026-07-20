@@ -20,11 +20,11 @@ void MapItemManager::SpawnItem(ItemID id)
     SpawnItem(id, MapLocation{0, 0, 0, 0});
 }
 
-void MapItemManager::Update(float dt, const SpriteV2& playerSprite)
+void MapItemManager::Update(float dt, Player& player)
 {
     for (auto& item : _items)
     {
-        item->Update(dt, playerSprite);
+        item->Update(dt, player);
     }
 }
 

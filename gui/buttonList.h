@@ -23,6 +23,6 @@ private:
 
     int _selectedIndex = 0;
 
-    static constexpr float SPACING     = 30.0f;
-    static constexpr int   CURSOR_SIZE = 6;
+    static constexpr float SPACING = 30.0f;
+    static constexpr int CURSOR_SIZE = 6;
 };
