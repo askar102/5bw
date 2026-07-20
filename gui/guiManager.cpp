@@ -1,7 +1,7 @@
 /**
  * @file guiManager.cpp
  * @author askar102
- * @brief GUI container — holds and ticks all GUI elements for a state
+ * @brief GUI container - holds and ticks all GUI elements for a state
  * @date 2026-05-25
  *
  * @copyright Copyright (c) 2026, askar102
