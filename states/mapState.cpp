@@ -9,6 +9,7 @@
  */
 
 #include "mapState.h"
+#include "item/inventory.h"
 #include <sec_api/stdio_s.h>
 
 void MapState::HandleInput() {
@@ -25,6 +26,18 @@ void MapState::HandleInput() {
     if (IsKeyPressed(KEY_V))
     {
         _builderMode = !_builderMode;
+    }
+
+    if (IsKeyPressed(KEY_LEFT)) {
+        auto& inv_map = Inventory::GetContainer().GetItems();
+
+        if (!inv_map.empty()) 
+        {
+            _handCursor = (_handCursor + 1) % static_cast<int>(inv_map.size());
+            auto it = std::next(inv_map.begin(), _handCursor);
+            player.SetEquipItem({it->second.first->id, it->second.first->info.title});
+            TraceLog(LOG_INFO, "%d, %s", it->second.first->id, it->second.first->info.title.c_str());
+        }
     }
 }
 

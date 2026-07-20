@@ -19,7 +19,7 @@ void MapItem::Update(float dt, Player& player) {
         if (_anchor) 
         {
             Inventory::Add(_id);
-            player.EquipItem({_id, ItemManager::GetInfo(_id)});
+            player.SetEquipItem({_id, ItemManager::GetInfo(_id)});
             _bringAnimationTimer += dt;
 
             _icon.SetPosition({_anchor->GetPosition().x, _anchor->GetPosition().y - 50.0f});

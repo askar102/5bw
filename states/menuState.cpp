@@ -9,6 +9,7 @@
  */
 
 #include "menuState.h"
+#include "raylib/raylib.h"
 #include <memory>
 
 void MenuState::HandleInput() {

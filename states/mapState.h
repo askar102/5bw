@@ -115,4 +115,7 @@ private:
     Typewritter testWrite;
 
     Dialog _dialog;
+
+    // Idk
+    uint32_t _handCursor = 0;
 };

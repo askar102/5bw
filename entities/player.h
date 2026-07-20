@@ -47,7 +47,7 @@ public:
 
     void Init();
 
-    void EquipItem(Item item);
+    void SetEquipItem(Item item);
     Item GetEquippedItem() { return _equippedItem; }
 
 private:
