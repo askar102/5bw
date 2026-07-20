@@ -74,7 +74,7 @@ void Button::Update() {
     // default value
     GetSprite().SetBrightness(1.0f);
 
-    Vector2 mouse = GetMousePosition();
+    Vector2 mouse = Game::GetWorldMouse();
     Rectangle rect = _sprite.GetRect();
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)

@@ -97,7 +97,7 @@ void MapState::Update(float dt) {
     
 
     MapItemManager::Update(dt, player.getSprite());
-    // _gui.Update();
+    _gui.Update();
 
     // MapRotationCheck();
 
@@ -189,7 +189,7 @@ void MapState::OnEnter() {
     _camera.rotation = 0.0f;
     _camera.zoom = 1.0f;
 
-    // InitGui();
+    InitGui();
 
     // // for player manipulation
     // TileTrigger::SetPlayer(&player);
@@ -361,7 +361,7 @@ bool MapState::CheckCollision(Rectangle playerRect) {
 void MapState::InitGui()
 { 
     auto menuButton = std::make_unique<Button>(
-        Vector2{767, 50},
+        Vector2{610, 25},
         Vector2{50, 50},
         "",
         &Game::GetResources().Get("gameMenuButton"),
@@ -376,7 +376,7 @@ void MapState::InitGui()
     _gui.Add(std::move(menuButton));
 
     auto inventoryButton = std::make_unique<Button>(
-        Vector2{767, 110},
+        Vector2{610, 80},
         Vector2{50, 50},
         "",
         &Game::GetResources().Get("inventoryButton"),
