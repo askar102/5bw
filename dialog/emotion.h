@@ -16,20 +16,28 @@ enum class PopupSize {
     SMALL, BIG
 };
 
+// добавлено Клодом, индексы сверены с askar102 2026-07-21 (заменяет прошлую версию, которая была неточной)
 enum class EmotionType : int32_t {
-    QUESTION = 5,
-    LOVE = 6,
-    SAD = 8,
-    MAD = 10,
-    NO_IDEA = 11,
-    IDEA = 12,
-    BROKEN = 15 // TODO: add animation here (15, 16, 17)
+    Exclaim    = 2,  // анимация 2, 3, 4
+    Question   = 5,
+    Love       = 6,
+    Drop       = 7,
+    Irritation = 8,
+    LampOff    = 9,
+    LampOn     = 10,
+    Confusion  = 11, // анимация 11, 12, 13, loop
+    Sleep      = 14
+    // 15 - пустой слот 48x48 в emotionPack.png, зарезервирован под кастомные эмодзи, см. Emotion::ShowCustom
 };
 
 class Emotion {
 public:
     void Init(const SpriteV2* anchor);
     void Show(EmotionType type, PopupSize size, float duration);
+
+    // добавлено Клодом: вставить в попап произвольную картинку вместо кадра из emotionPack.png,
+    // она подгоняется под тот же размер, что обычная иконка эмоции (48x48)
+    void ShowCustom(TextureResource* customTexture, PopupSize size, float duration);
 
     void Update(float dt);
     void Draw();
@@ -40,6 +48,8 @@ public:
 private:
     SpriteV2 _popup;
     SpriteV2 _emotion;
+
+    TextureResource* _defaultEmotionTexture = nullptr; // добавлено Клодом: чтобы вернуться к атласу после ShowCustom
 
     bool _visible = false;
     const SpriteV2* _anchor = nullptr;

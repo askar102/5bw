@@ -6,6 +6,7 @@ void Emotion::Init(const SpriteV2* anchor)
     _anchor = anchor;
 
     TextureResource& tex = Game::GetResources().Get(TextureID::Emotion);
+    _defaultEmotionTexture = &tex; // добавлено Клодом
 
     _popup.SetResource(&tex);
     // _popup.SetSize(POPUP_SIZE);
@@ -19,8 +20,43 @@ void Emotion::Init(const SpriteV2* anchor)
 void Emotion::Show(EmotionType type, PopupSize size, float duration)
 {
     _popup.SetAnimation({0, 1}, 0.15f, false);
-    // _emotion.SetFrame(static_cast<size_t>(type));
-    _emotion.SetAnimation({2, 3, 4}, 0.15f, false);
+
+    // добавлено Клодом: раньше type тут не использовался вообще (в атлас всегда играл {2,3,4}),
+    // теперь реально выбирает кадр/анимацию под конкретную эмоцию. Плюс возврат на дефолтный
+    // атлас на случай если до этого был вызван ShowCustom.
+    _emotion.SetResource(_defaultEmotionTexture);
+
+    switch (type)
+    {
+        case EmotionType::Exclaim:
+            _emotion.SetAnimation({2, 3, 4}, 0.15f, false);
+            break;
+        case EmotionType::Confusion:
+            _emotion.SetAnimation({11, 12, 13}, 0.2f, true);
+            break;
+        default:
+            _emotion.StopAnimation();
+            _emotion.SetFrame(static_cast<size_t>(type));
+            break;
+    }
+
+    _animationDuration = duration;
+    _animationTimer = 0.0f;
+    _visible = true;
+
+    _popup.SetAlpha(1.0f);
+    _emotion.SetAlpha(1.0f);
+}
+
+// добавлено Клодом: слот 15 в emotionPack.png оставлен пустым специально под это,
+// но сюда можно передать вообще любую текстуру, не только из атласа
+void Emotion::ShowCustom(TextureResource* customTexture, PopupSize size, float duration)
+{
+    _popup.SetAnimation({0, 1}, 0.15f, false);
+
+    _emotion.StopAnimation();
+    _emotion.SetResource(customTexture);
+    _emotion.SetSize({48.0f, 48.0f});
 
     _animationDuration = duration;
     _animationTimer = 0.0f;
