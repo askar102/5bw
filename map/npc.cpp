@@ -82,7 +82,7 @@ void Npc::Update(float dt, MapLocation playerPos)
         _enterConsumed = true;
 
         if (!_onFirstEnter && _secondEnterEnabled) {
-            GetEmotionPopUp().Show(EmotionType::LOVE, PopupSize::BIG, 3.0f);
+            GetEmotionPopUp().Show(EmotionType::Confusion, 3.0f);
         }
 
         if (_onFirstEnter) {

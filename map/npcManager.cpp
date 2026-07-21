@@ -121,7 +121,8 @@
         angryGuy->SetOnFirstEnter([angryGuy]() {
            TraceLog(LOG_INFO, "[NPC] Npc was clicked (popup only)");
          //   angryGuy->GetDialogPopUp().Show("...", &angryGuy->GetSprite());
-           angryGuy->GetEmotionPopUp().Show(EmotionType::LOVE, PopupSize::BIG, 3.0f);
+           angryGuy->GetEmotionPopUp().Show(EmotionType::Confusion, 3.0f);
+         // angryGuy->GetEmotionPopUp().ShowCustom(EmotionType::Confusion, 3.0f);
          //   MoveToLocation("angryGuy", {0, 0, 5, 0});
          //   angryGuy->SetOnEnter([angryGuy]() {
          //        angryGuy->MoveTo({100, 100});

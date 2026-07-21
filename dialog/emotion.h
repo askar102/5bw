@@ -12,11 +12,6 @@
 
 #include "../entities/spriteV2.h"
 
-enum class PopupSize {
-    SMALL, BIG
-};
-
-// добавлено Клодом, индексы сверены с askar102 2026-07-21 (заменяет прошлую версию, которая была неточной)
 enum class EmotionType : int32_t {
     Exclaim    = 2,  // анимация 2, 3, 4
     Question   = 5,
@@ -33,11 +28,10 @@ enum class EmotionType : int32_t {
 class Emotion {
 public:
     void Init(const SpriteV2* anchor);
-    void Show(EmotionType type, PopupSize size, float duration);
+    void Show(EmotionType type, float duration);
 
-    // добавлено Клодом: вставить в попап произвольную картинку вместо кадра из emotionPack.png,
-    // она подгоняется под тот же размер, что обычная иконка эмоции (48x48)
-    void ShowCustom(TextureResource* customTexture, PopupSize size, float duration);
+    // подгоняется под размер (48x48)
+    void ShowCustom(TextureResource* customTexture, float duration);
 
     void Update(float dt);
     void Draw();

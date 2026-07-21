@@ -9,22 +9,22 @@ void Emotion::Init(const SpriteV2* anchor)
     _defaultEmotionTexture = &tex; // добавлено Клодом
 
     _popup.SetResource(&tex);
-    // _popup.SetSize(POPUP_SIZE);
     _popup.SetCanDrawHiboxes(false);
 
     _emotion.SetResource(&tex);
-    // _emotion.SetSize(ICON_SIZE);
     _emotion.SetCanDrawHiboxes(false);
 }
 
-void Emotion::Show(EmotionType type, PopupSize size, float duration)
+void Emotion::Show(EmotionType type, float duration)
 {
     _popup.SetAnimation({0, 1}, 0.15f, false);
 
-    // добавлено Клодом: раньше type тут не использовался вообще (в атлас всегда играл {2,3,4}),
-    // теперь реально выбирает кадр/анимацию под конкретную эмоцию. Плюс возврат на дефолтный
-    // атлас на случай если до этого был вызван ShowCustom.
     _emotion.SetResource(_defaultEmotionTexture);
+    // _emotion.SetFrame(5);
+
+    // _emotion.SetAnimation({2, 3, 4, 5}, 0.15f, false);
+
+    // _emotion.SetAnimation({11, 12, 13}, 0.2f, false);
 
     switch (type)
     {
@@ -50,7 +50,7 @@ void Emotion::Show(EmotionType type, PopupSize size, float duration)
 
 // добавлено Клодом: слот 15 в emotionPack.png оставлен пустым специально под это,
 // но сюда можно передать вообще любую текстуру, не только из атласа
-void Emotion::ShowCustom(TextureResource* customTexture, PopupSize size, float duration)
+void Emotion::ShowCustom(TextureResource* customTexture, float duration)
 {
     _popup.SetAnimation({0, 1}, 0.15f, false);
 
