@@ -118,14 +118,18 @@
         angryGuy->GetSprite().SetResource(&Game::GetResources().Get(TextureID::Player));
         angryGuy->GetSprite().SetFrame(0);
         angryGuy->SetInteractionRadius(2);
-        angryGuy->SetOnEnter([angryGuy]() {
-           TraceLog(LOG_INFO, "[NPC] Npc was clicked");
+        angryGuy->SetOnFirstEnter([angryGuy]() {
+           TraceLog(LOG_INFO, "[NPC] Npc was clicked (popup only)");
          //   angryGuy->GetDialogPopUp().Show("...", &angryGuy->GetSprite());
            angryGuy->GetEmotionPopUp().Show(EmotionType::LOVE, PopupSize::BIG, 3.0f);
          //   MoveToLocation("angryGuy", {0, 0, 5, 0});
          //   angryGuy->SetOnEnter([angryGuy]() {
          //        angryGuy->MoveTo({100, 100});
          //   });
+        });
+
+        angryGuy->SetOnSecondEnter(true, [angryGuy]() {
+            printf("SECOND\n");
         });
     }
  }

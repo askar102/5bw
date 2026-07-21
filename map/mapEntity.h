@@ -18,7 +18,7 @@ class Player;
 
 class MapEntity {
 public:
-    MapEntity() { _emotion.Init(&_sprite); }
+    MapEntity() = default;
     virtual ~MapEntity() = default;
 
     SpriteV2& GetSprite() { return _sprite; }
@@ -30,9 +30,9 @@ public:
     void SetInteractionRadius(int32_t tiles) { _interactionRadius = tiles; }
     int32_t GetInteractionRadius() const { return _interactionRadius; }
 
-    void SetOnEnter(std::function<void()> cb) { _onEnter = std::move(cb); }
+    virtual void SetOnEnter(std::function<void()> cb) { _onEnter = std::move(cb); }
 
-    void TriggerEnter();
+    virtual void TriggerEnter();
 
     bool IsPlayerInRange(MapLocation playerPos) const;
     
@@ -45,7 +45,6 @@ public:
 
     // dialog
     DialogPopup& GetDialogPopUp() { return _popup; }
-    Emotion& GetEmotionPopUp() { return _emotion; }
 
 protected:
     SpriteV2 _sprite;
@@ -61,6 +60,4 @@ protected:
     static bool _drawZones;
 
     DialogPopup _popup;
-
-    Emotion _emotion;
 };

@@ -52,5 +52,62 @@ void Npc::Update(float dt, MapLocation playerPos)
 {
     UpdateMove(dt);                                                                                  
  
-    MapEntity::Update(dt, playerPos);
+    // MapEntity::Update(dt, playerPos);
+
+    (void)dt;
+ 
+    _sprite.Update(dt);
+    _popup.Update(dt);
+    _emotion.Update(dt);
+
+    if (_waitForSecondEnter && IsKeyPressed(KEY_ENTER)) {
+        if (_onSecondEnter) {
+            _onSecondEnter();
+        }
+
+        _waitForSecondEnter = false; 
+    }
+
+    if (!IsPlayerInRange(playerPos))
+    {
+        _waitForSecondEnter = false;
+        _enterConsumed = false;
+        return;
+    }
+ 
+    // in zone
+    if (!_enterConsumed && IsKeyPressed(KEY_ENTER))
+    {
+        _waitForSecondEnter = true;
+        _enterConsumed = true;
+
+        if (!_onFirstEnter && _secondEnterEnabled) {
+            GetEmotionPopUp().Show(EmotionType::LOVE, PopupSize::BIG, 3.0f);
+        }
+
+        if (_onFirstEnter) {
+            _onFirstEnter();
+        }
+    }
+}
+
+void Npc::Draw()
+{
+    MapEntity::Draw();
+
+    _emotion.Draw();
+}
+
+// в Npc назначает onFirstEnter!!!!
+void Npc::SetOnEnter(std::function<void()> cb) 
+{
+    SetOnFirstEnter(cb);
+}
+
+// в Npc вызывает onFirstEnter!!!!
+void Npc::TriggerEnter() 
+{
+    if (_onFirstEnter) {
+        _onFirstEnter();
+    }
 }
