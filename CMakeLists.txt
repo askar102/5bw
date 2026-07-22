@@ -90,6 +90,26 @@ if (WIN32)
         winmm
     )
 
+elseif (EMSCRIPTEN)
+    message(STATUS "Build as wasm")
+
+    set_target_properties(5bw12 PROPERTIES SUFFIX ".html")
+
+    target_compile_definitions(5bw12 PRIVATE PLATFORM_WEB)
+
+    target_link_options(5bw12 PRIVATE
+        "-sUSE_GLFW=3"
+        "-sASSERTIONS"
+        "-sASYNCIFY"
+        "SHELL:--preload-file \"${CMAKE_CURRENT_SOURCE_DIR}/resources@resources\""
+        "SHELL:--preload-file \"${CMAKE_CURRENT_SOURCE_DIR}/config.json@config.json\""
+        "SHELL:--preload-file \"${CMAKE_CURRENT_SOURCE_DIR}/map.json@map.json\""
+    )
+
+    target_link_libraries(5bw12 PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/raylib/libraylib.web.a"
+    )
+
 elseif (UNIX)
     target_link_libraries(5bw12
         raylib
@@ -97,4 +117,5 @@ elseif (UNIX)
         pthread
         dl
     )
+
 endif()

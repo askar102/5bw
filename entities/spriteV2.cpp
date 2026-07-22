@@ -113,9 +113,13 @@
  // brightness
  void SpriteV2::LoadBrightnessShader()
  {
+    #if defined(PLATFORM_WEB)
+     _brightnessShader = LoadShader(nullptr, "resources/shaders/brightness_web.fs");
+    #else
      _brightnessShader = LoadShader(nullptr, "resources/shaders/brightness.fs");
-     _brightnessLoc = GetShaderLocation(_brightnessShader, "brightness");
-     _shaderLoaded = true;
+    #endif
+    _brightnessLoc = GetShaderLocation(_brightnessShader, "brightness");
+    _shaderLoaded = true;
  }
  
  void SpriteV2::UnloadBrightnessShader()

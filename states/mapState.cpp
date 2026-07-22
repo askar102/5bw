@@ -9,8 +9,7 @@
  */
 
 #include "mapState.h"
-#include "item/inventory.h"
-#include <sec_api/stdio_s.h>
+#include "../item/inventory.h"
 
 void MapState::HandleInput() {
     if (IsKeyPressed(KEY_B) && !startBattle) {

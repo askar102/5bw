@@ -1,4 +1,4 @@
-#include "FloatingText.h"
+#include "floatingText.h"
 
 void FloatingText::SetFollowOffset(Vector2 offset)
 {

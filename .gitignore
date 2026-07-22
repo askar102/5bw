@@ -5,5 +5,12 @@ resources/
 ideas.txt
 todo.txt
 
+.cache/
+.vscode/
 .idea/
 README.*
+CLAUDE.*
+CMakeFiles/
+
+CMakeCache.txt
+cmake_install.cmake

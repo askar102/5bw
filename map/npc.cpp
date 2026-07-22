@@ -23,7 +23,7 @@ void Npc::UpdateMove(float dt)
     Vector2 targetPos = MapLocator::GetWorldPosition(_target);
     float dx = targetPos.x - pos.x;
     float dy = targetPos.y - pos.y;
-    float dist = std::sqrt(dx * dx + dy * dy);
+    float dist = sqrt(dx * dx + dy * dy);
 
     if (dist <= ARRIVE_THRESHOLD)
     {
