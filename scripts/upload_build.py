@@ -30,15 +30,17 @@ class Uploader():
             # print(zip.printdir())
 
     def upload(self):
-        files = {"archive": ("build.zip", open("build.zip", "rb"), 'application/zip')}
-        response = requests.post("https://127.0.0.1:8989/upload_test", files=files)
+        with open("build.zip", "rb") as zip:
+            # files = {"archive": ("build.zip", zip, 'application/zip')}
+            files = {'file': zip} 
+            response = requests.post("http://127.0.0.1:8989/upload_test", files=files)
 
-        if (response.ok):
-            print(response.json())
+            if (response.ok):
+                print(response.json())
 
 if __name__ == "__main__":
     up = Uploader()
-    up.upload()
+    up.run()
 
 
 # files = {'archive': ('resources.zip', zip_buffer, 'application/zip')}
