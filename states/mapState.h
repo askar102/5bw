@@ -92,8 +92,8 @@ private:
     MapLocation _prevLoc = {0, 0, 0, 0};
     bool _prevLocInit = false;
         
-    const int SCREEN_WIDTH = GetScreenWidth();
-    const int SCREEN_HEIGHT = GetScreenHeight();
+    const int SCREEN_WIDTH = static_cast<int>(Game::GetVirtualPos().x);
+    const int SCREEN_HEIGHT = static_cast<int>(Game::GetVirtualPos().y);
 
 
     std::vector<Npc*> _activeNpcs; 

@@ -14,3 +14,7 @@ CMakeFiles/
 
 CMakeCache.txt
 cmake_install.cmake
+
+.claude/
+.playwright-mcp/
+*.png
