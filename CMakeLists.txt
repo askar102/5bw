@@ -104,6 +104,7 @@ elseif (EMSCRIPTEN)
         "SHELL:--preload-file \"${CMAKE_CURRENT_SOURCE_DIR}/resources@resources\""
         "SHELL:--preload-file \"${CMAKE_CURRENT_SOURCE_DIR}/config.json@config.json\""
         "SHELL:--preload-file \"${CMAKE_CURRENT_SOURCE_DIR}/map.json@map.json\""
+        "SHELL:--shell-file \"${CMAKE_CURRENT_SOURCE_DIR}/index.html\""
     )
 
     target_link_libraries(5bw12 PRIVATE

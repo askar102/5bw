@@ -8,8 +8,6 @@ todo.txt
 .cache/
 .vscode/
 .idea/
-README.*
-CLAUDE.*
 CMakeFiles/
 
 CMakeCache.txt
@@ -18,3 +16,8 @@ cmake_install.cmake
 .claude/
 .playwright-mcp/
 *.png
+
+__pycache__
+uploads/
+view/
+.zip/

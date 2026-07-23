@@ -46,13 +46,5 @@ if %errorlevel% neq 0 (
     exit /b
 )
 
-echo --- Starting live server...
-echo Here: http://127.0.0.1:8989/5bw12.html
 
-cd D:\User\Desktop\5bw121\build
-python -m http.server 8989
-
-@REM For silence
-@REM python -m http.server 8989 > nul 2>&1
-
-echo --- Done!
+echo --- Build done!
