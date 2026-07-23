@@ -9,11 +9,12 @@
  */
 
 #include "menuState.h"
+#include "../misc/inputBridge.h"
 #include "raylib/raylib.h"
 #include <memory>
 
 void MenuState::HandleInput() {
-    if (IsKeyPressed(KEY_M)) {
+    if (InputBridge::KeyPressed(KEY_M)) {
         startPressed = true;
     }
 }
@@ -36,7 +37,7 @@ void MenuState::Update(float dt) {
 
     _gui.Update();
 
-    if (IsKeyPressed(KEY_H))
+    if (InputBridge::KeyPressed(KEY_H))
     {
         SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
     }

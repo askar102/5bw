@@ -13,6 +13,7 @@
 #include "../battle/party.h"
 
  #include "../states/menuState.h"
+ #include "../misc/inputBridge.h"
  
  ResourceManager Game::_resourceManager;
  PlayerParty Game::_playerParty;
@@ -67,6 +68,8 @@
  
      _stateMachine.HandleInput();
      _stateMachine.Update(dt);
+
+     InputBridge::EndFrame();
  }
 
  Vector2 Game::GetWorldMouse()
@@ -80,10 +83,11 @@
      float offsetY = (realH - 480 * scale) / 2.0f;
  
      Vector2 mouse = GetMousePosition();
-     return {
+     Vector2 realWorldMouse = {
          (mouse.x - offsetX) / scale,
          (mouse.y - offsetY) / scale
      };
+     return InputBridge::OverrideWorldMouse(realWorldMouse);
  }
  
  // todo: hardcore

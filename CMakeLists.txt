@@ -28,6 +28,7 @@ add_executable(5bw12
 
     misc/mapGenerator.cpp
     misc/configReader.cpp
+    misc/inputBridge.cpp
 
     misc/ghostTrail.cpp
     misc/floatingText.cpp
@@ -105,6 +106,8 @@ elseif (EMSCRIPTEN)
         "SHELL:--preload-file \"${CMAKE_CURRENT_SOURCE_DIR}/config.json@config.json\""
         "SHELL:--preload-file \"${CMAKE_CURRENT_SOURCE_DIR}/map.json@map.json\""
         "SHELL:--shell-file \"${CMAKE_CURRENT_SOURCE_DIR}/index.html\""
+        "SHELL:--post-js \"${CMAKE_CURRENT_SOURCE_DIR}/misc/testApi.js\""
+        "-sEXPORTED_RUNTIME_METHODS=[\"ccall\",\"cwrap\"]"
     )
 
     target_link_libraries(5bw12 PRIVATE

@@ -1,4 +1,5 @@
 #include "button.h"
+#include "../misc/inputBridge.h"
 
 #include "../core/game.h"
 
@@ -77,7 +78,7 @@ void Button::Update() {
     Vector2 mouse = Game::GetWorldMouse();
     Rectangle rect = _sprite.GetRect();
 
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)
+    if (InputBridge::MouseButtonPressed(MOUSE_LEFT_BUTTON)
         && CheckCollisionPointRec(mouse, rect)
         && _onClick) 
     {

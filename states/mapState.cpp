@@ -9,25 +9,26 @@
  */
 
 #include "mapState.h"
+#include "../misc/inputBridge.h"
 #include "../item/inventory.h"
 
 void MapState::HandleInput() {
-    if (IsKeyPressed(KEY_B) && !startBattle) {
+    if (InputBridge::KeyPressed(KEY_B) && !startBattle) {
         startBattle = true;
     }
 
-    if (IsKeyPressed(KEY_H))
+    if (InputBridge::KeyPressed(KEY_H))
     {
         SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
         MapEntity::SetDrawZones(!MapEntity::GetDrawZones());
     }
 
-    if (IsKeyPressed(KEY_V))
+    if (InputBridge::KeyPressed(KEY_V))
     {
         _builderMode = !_builderMode;
     }
 
-    if (IsKeyPressed(KEY_LEFT)) {
+    if (InputBridge::KeyPressed(KEY_LEFT)) {
         auto& inv_map = Inventory::GetContainer().GetItems();
 
         if (!inv_map.empty()) 

@@ -9,6 +9,7 @@
  */
 
 #include "player.h"
+#include "../misc/inputBridge.h"
 
 #include "../states/mapState.h"
 
@@ -52,22 +53,22 @@ void Player::Update(float dt, MapState* map)
 
     _isMoving = false;
 
-    if (IsKeyDown(KEY_W)) {
+    if (InputBridge::KeyDown(KEY_W)) {
         velocity.y -= playerSpeed * dt;
         _direction = Direction::Up;
         _isMoving = true;
     }
-    if (IsKeyDown(KEY_S)) {
+    if (InputBridge::KeyDown(KEY_S)) {
         velocity.y += playerSpeed * dt;
         _direction = Direction::Down;
         _isMoving = true;
     }
-    if (IsKeyDown(KEY_A)) {
+    if (InputBridge::KeyDown(KEY_A)) {
         velocity.x -= playerSpeed * dt;
         _direction = Direction::Left;
         _isMoving = true;
     }
-    if (IsKeyDown(KEY_D)) {
+    if (InputBridge::KeyDown(KEY_D)) {
         velocity.x += playerSpeed * dt;
         _direction = Direction::Right;
         _isMoving = true;
