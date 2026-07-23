@@ -1,13 +1,15 @@
 import io
 import requests
 import os
+import argparse
 
 from zipfile import ZipFile, ZIP_DEFLATED
 from pathlib import Path
 
 class Uploader():
-    def __init__(self):
+    def __init__(self, docker: bool = False):
         self._build_path = Path("../build")
+        self._docker = docker
 
     def run(self):
         self.make_zip()
@@ -30,13 +32,25 @@ class Uploader():
         with open("build.zip", "rb") as zip:
             # files = {"archive": ("build.zip", zip, 'application/zip')}
             files = {'file': zip} 
-            response = requests.post("http://127.0.0.1:8989/upload_test", files=files)
 
-            if (response.ok):
+            if self._docker:
+                response = requests.post("http://host.docker.internal:8989/upload_test", files=files, data={"extra_data": "docker"})
+            else:
+                response = requests.post("http://127.0.0.1:8989/upload_test", files=files)
+
+            if response.ok:
                 print(response.json())
+            else:
+                print(f"Upload failed: {response.status_code} {response.text}")
 
 if __name__ == "__main__":
-    up = Uploader()
+    par = argparse.ArgumentParser()
+    par.add_argument("--docker", action="store_true")
+
+    args = par.parse_args()
+
+
+    up = Uploader(docker=args.docker)
     up.run()
 
 

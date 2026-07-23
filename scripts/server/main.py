@@ -4,10 +4,11 @@ import shutil
 import time
 import mimetypes
 from zipfile import ZipFile
-from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi import FastAPI, HTTPException, UploadFile, Form
 from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from utility import rm_extra_dirs, get_html_name
+from server.utility import rm_extra_dirs, get_html_name
+from typing import Optional
 
 mimetypes.add_type("application/wasm", ".wasm")
 
@@ -20,7 +21,7 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 @app.post("/upload_test")
-async def upload_file(file: UploadFile):
+async def upload_file(file: UploadFile, extra_data: Optional[str] = Form(None)):
     if not file.filename.endswith('.zip'):
         raise HTTPException(status_code=400, detail="Invalid file type. Only ZIP files are allowed.")
 
@@ -29,9 +30,11 @@ async def upload_file(file: UploadFile):
     with open(file_location, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
+    host = "host.docker.internal" if extra_data == "docker" else "127.0.0.1"
+
     return {
                 "info": f"File '{file.filename}' uploaded successfully",
-                "url": f"http://127.0.0.1:{PORT}/get_test/{curr_time}"
+                "url": f"http://{host}:{PORT}/get_test/{curr_time}"
             }
 
 
