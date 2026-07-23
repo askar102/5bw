@@ -5,9 +5,6 @@ import os
 from zipfile import ZipFile, ZIP_DEFLATED
 from pathlib import Path
 
-
-
-
 class Uploader():
     def __init__(self):
         self._build_path = Path("../build")
