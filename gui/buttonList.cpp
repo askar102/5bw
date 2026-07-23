@@ -1,4 +1,5 @@
 #include "buttonList.h"
+#include "../misc/inputBridge.h"
 
 void ButtonList::Draw()
 {
@@ -30,19 +31,19 @@ void ButtonList::Update()
 {
     if (_buttons.empty()) return;
 
-    if (IsKeyPressed(KEY_DOWN))
+    if (InputBridge::KeyPressed(KEY_DOWN))
     {
         _selectedIndex = (_selectedIndex + 1) % static_cast<int>(_buttons.size());
     }
         
 
-    if (IsKeyPressed(KEY_UP))
+    if (InputBridge::KeyPressed(KEY_UP))
     {
         _selectedIndex = (_selectedIndex - 1 + static_cast<int>(_buttons.size()))
                          % static_cast<int>(_buttons.size());
     }
 
-    if (IsKeyPressed(KEY_ENTER))
+    if (InputBridge::KeyPressed(KEY_ENTER))
         _buttons[_selectedIndex]->UseOnClick();
 
     for (int i = 0; i < static_cast<int>(_buttons.size()); ++i)
