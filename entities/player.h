@@ -50,6 +50,8 @@ public:
     void SetEquipItem(Item item);
     Item GetEquippedItem() { return _equippedItem; }
 
+    void UseEquippedItem();
+
 private:
     SpriteV2 _sprite;
 
@@ -76,4 +78,5 @@ private:
     }
 
     Item _equippedItem;
+    bool _hasEquippedItem = false;
 };

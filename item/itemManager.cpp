@@ -6,7 +6,8 @@ std::unordered_map<ItemID, ItemInfo> ItemManager::_items;
 void ItemManager::Init() {
     _items[ItemID::Chalk] = {
         "Pizda",
-        "huy"
+        "huy",
+        ItemType::Usable
     };
 
     _items[ItemID::Kvass] = {
