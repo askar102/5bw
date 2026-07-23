@@ -5,9 +5,15 @@
 
 #include "itemId.h"
 
+enum class ItemType {
+    Default = 0,
+    Usable = 1
+};
+
 struct ItemInfo {
     std::string title;
     std::string description;
+    ItemType type = ItemType::Default;
 };
 
 struct Item {
