@@ -7,7 +7,7 @@ from zipfile import ZipFile
 from fastapi import FastAPI, HTTPException, UploadFile, Form
 from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from server.utility import rm_extra_dirs, get_html_name
+from utility import rm_extra_dirs, get_html_name
 from typing import Optional
 
 mimetypes.add_type("application/wasm", ".wasm")
