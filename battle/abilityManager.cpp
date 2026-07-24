@@ -136,7 +136,7 @@ namespace AbilityManager {
             return desc;
         }
 
-        // ── Сюда добавляй новые таргет-абилки ─────────────────────
+        // TARGET TEMPLATE
         //
         // if (ability.GetName() == "myNewAbility")
         // {
@@ -144,7 +144,6 @@ namespace AbilityManager {
         //     return desc;
         // }
 
-        // ── Fallback — просто выполняем базовый Ability::Execute ──
         desc.onConfirm = [&ability](BattleEntity& caster, BattleEntity& target){
             ability.Execute(caster, target);
         };

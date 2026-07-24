@@ -45,10 +45,10 @@ BattleEntity* Party::Get(size_t index)
 Vector2 Party::GetPositionByIndex(size_t index)
 {
     switch (index) {
-        case 0: return {472, 568};
-        case 1: return {473, 785};
-        case 2: return {698, 578};
-        case 3: return {722, 787};
+        case 0: return {70, 280}; // верхний угол слева
+        case 1: return {60, 380}; // нижний угол слева
+        case 2: return {180, 280}; // верхний угол справа
+        case 3: return {170, 380}; // нижний угол справа
         default: return {0, 0};
     };
 }
