@@ -11,12 +11,22 @@ Module['onRuntimeInitialized'] = (function (prevInit) {
     var keyUp   = Module.cwrap('TestApi_KeyUp', null, ['number']);
     var tapKey  = Module.cwrap('TestApi_TapKey', null, ['number']);
     var clickAt = Module.cwrap('TestApi_ClickAt', null, ['number', 'number']);
+    var teleportTo = Module.cwrap('TestApi_TeleportTo', null, ['number', 'number', 'number', 'number']);
+    var getBattleStateRaw = Module.cwrap('TestApi_GetBattleState', 'string', []);
 
     window.TestAPI = {
       keyDown: keyDown,
       keyUp: keyUp,
       tapKey: tapKey,
       clickAt: clickAt,
+      // warps the player to a MapLocation instead of walking there
+      teleportTo: function (chunkX, chunkY, tileX, tileY) {
+        teleportTo(chunkX, chunkY, tileX, tileY);
+      },
+      // JSON dump of the running battle (party HP/selection/timestop), or null outside battle
+      getBattleState: function () {
+        return JSON.parse(getBattleStateRaw());
+      },
       KEY: {
         W: 87, A: 65, S: 83, D: 68,
         ENTER: 257, UP: 265, DOWN: 264, LEFT: 263,

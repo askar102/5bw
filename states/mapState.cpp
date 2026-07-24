@@ -100,6 +100,24 @@ void MapState::Draw() {
 }
 
 void MapState::Update(float dt) {
+    MapLocation teleportLoc;
+    if (InputBridge::ConsumeTeleport(teleportLoc)) {
+        Vector2 warpPos = MapLocator::GetWorldPosition(teleportLoc);
+        player.getSprite().SetPosition(warpPos);
+
+        currentChunkX = teleportLoc.chunkX;
+        currentChunkY = teleportLoc.chunkY;
+        currentTileX = teleportLoc.tileX;
+        currentTileY = teleportLoc.tileY;
+
+        _camera.target = warpPos;
+
+        MapGenerator::LoadDistantChunks(currentChunkX, currentChunkY, 3);
+        _activeNpcs = NpcManager::GetForChunk(currentChunkX, currentChunkY);
+        _prevLoc = teleportLoc;
+        _prevLocInit = true;
+    }
+
     player.Update(dt, this);
     playerPos  = player.getSprite().GetPosition();
 
