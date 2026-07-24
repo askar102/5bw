@@ -31,18 +31,6 @@ void MapState::HandleInput() {
     if (InputBridge::KeyPressed(KEY_F)) {
         player.UseEquippedItem();
     }
-
-    if (InputBridge::KeyPressed(KEY_LEFT)) {
-        auto& inv_map = Inventory::GetContainer().GetItems();
-
-        if (!inv_map.empty()) 
-        {
-            _handCursor = (_handCursor + 1) % static_cast<int>(inv_map.size());
-            auto it = std::next(inv_map.begin(), _handCursor);
-            player.SetEquipItem({it->second.first->id, it->second.first->info.title});
-            TraceLog(LOG_INFO, "%d, %s", it->second.first->id, it->second.first->info.title.c_str());
-        }
-    }
 }
 
 void MapState::Draw() {
@@ -87,13 +75,6 @@ void MapState::Draw() {
     
     DrawText(TextFormat("cX: %d, cY: %d", currentChunkX, currentChunkY), 0, 120, 20, WHITE);
     
-    std::string invStr;
-    for (std::string itemTitle : Inventory::GetAsString()) {
-       invStr += ", " + itemTitle; 
-    }
-
-    DrawText(TextFormat("inv: %s", invStr.c_str()), 0, 150, 20, WHITE);
-
     std::string handItem = player.GetEquippedItem().info.title;
 
     DrawText(TextFormat("hand: %s", handItem.c_str()), 0, 180, 20, DARKGREEN);
@@ -136,6 +117,8 @@ void MapState::Update(float dt) {
     
 
     MapItemManager::Update(dt, player);
+
+    SyncInventoryScroll();
     _gui.Update();
 
     // MapRotationCheck();
@@ -437,8 +420,34 @@ void MapState::InitGui()
     // invWindow buttons
     inventoryWindow->AddButtons(GetInventoryButtons());
 
+    // item icon list: right click an icon to equip it in hand
+    auto invScroll = std::make_unique<Scroll>(Vector2{230, 180}, 1, 1, 48.0f, 8.0f);
+    invScroll->SetMaxSelected(1);
+    invScroll->SetOnSelect([this](int id) {
+        ItemID itemId = static_cast<ItemID>(id);
+        player.SetEquipItem({itemId, ItemManager::GetInfo(itemId)});
+    });
+
+    _invScroll = static_cast<Scroll*>(inventoryWindow->AddElement(std::move(invScroll)));
+    _lastInvSize = 0;
+
     _gui.Add(std::move(inventoryWindow));
 
+}
+
+void MapState::SyncInventoryScroll()
+{
+    if (!_invScroll) return;
+
+    auto& items = Inventory::GetContainer().GetItems();
+    if (items.size() == _lastInvSize) return;
+
+    _lastInvSize = items.size();
+
+    _invScroll->Clear();
+    for (auto& [id, itemPair] : items) {
+        _invScroll->AddIcon(static_cast<int>(id), &_itemIconsPack, static_cast<size_t>(id));
+    }
 }
 
 std::vector<std::unique_ptr<Button>> MapState::GetInventoryButtons()

@@ -44,6 +44,7 @@
 #include "../gui/guiManager.h"
 
 #include "../gui/window.h"
+#include "../gui/scroll.h"
 
 // items
 #include "../map/mapItemManager.h"
@@ -72,6 +73,7 @@ public:
     // gui flow
     void InitGui();
     std::vector<std::unique_ptr<Button>> GetInventoryButtons();
+    void SyncInventoryScroll();
 
 private:
     Player player;
@@ -116,6 +118,7 @@ private:
 
     Dialog _dialog;
 
-    // Idk
-    uint32_t _handCursor = 0;
+    // inventory scroll (item icons live in the inventory window, hand-equip via right click)
+    Scroll* _invScroll = nullptr;
+    size_t _lastInvSize = 0;
 };
