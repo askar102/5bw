@@ -127,7 +127,8 @@ void Player::UseEquippedItem()
 
     if (!_hasEquippedItem)
     {
-        _sprite.GetText().Show("Nothing to use!", textOrigin, 1.0f, RED);
+        // _sprite.GetText().Show("Nothing to use!", textOrigin, 1.0f, RED);
+        TraceLog(LOG_INFO, "Nothing to use");
         return;
     }
 
@@ -135,11 +136,13 @@ void Player::UseEquippedItem()
 
     if (info.type == ItemType::Usable)
     {
-        _sprite.GetText().Show("Use!", textOrigin, 1.0f, WHITE);
+        // _sprite.GetText().Show("Use!", textOrigin, 1.0f, WHITE);
+        TraceLog(LOG_INFO, "Used hand item: %s", GetEquippedItem().info.title.c_str());
     }
     else
     {
-        _sprite.GetText().Show("Cant use this!", textOrigin, 1.0f, RED);
+        // _sprite.GetText().Show("Cant use this!", textOrigin, 1.0f, RED);
+        TraceLog(LOG_INFO, "Cant use item: %s", GetEquippedItem().info.title.c_str());
     }
 }
 

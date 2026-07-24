@@ -28,7 +28,7 @@ void MapState::HandleInput() {
         _builderMode = !_builderMode;
     }
 
-    if (InputBridge::KeyPressed(KEY_E)) {
+    if (InputBridge::KeyPressed(KEY_F)) {
         player.UseEquippedItem();
     }
 
