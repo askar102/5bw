@@ -34,6 +34,10 @@ void Window::Draw()
         for (const auto& btn : _additionalButtons) {
             btn->Draw();
         }
+
+        for (const auto& el : _elements) {
+            el->Draw();
+        }
     }
 }
 
@@ -56,6 +60,12 @@ void Window::Update()
             btn->Update();
         }
     }
+
+    if (_visible) {
+        for (const auto& el : _elements) {
+            el->Update();
+        }
+    }
 }
 
 
@@ -72,8 +82,17 @@ void Window::AddButton(std::unique_ptr<Button> newButton)
 void Window::AddButtons(std::vector<std::unique_ptr<Button>>&& newButtonsVec)
 {
     _additionalButtons.insert(
-        _additionalButtons.end(), 
-        std::make_move_iterator(newButtonsVec.begin()), 
+        _additionalButtons.end(),
+        std::make_move_iterator(newButtonsVec.begin()),
         std::make_move_iterator(newButtonsVec.end())
     );
+}
+
+Gui* Window::AddElement(std::unique_ptr<Gui> element)
+{
+    if (!element) return nullptr;
+
+    Gui* raw = element.get();
+    _elements.push_back(std::move(element));
+    return raw;
 }
