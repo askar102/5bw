@@ -5,6 +5,8 @@ echo ============================
 echo   Building project...
 echo ============================
 
+rmdir -rf build CMakeFiles
+
 cmake -S . -B build
 if %errorlevel% neq 0 (
     echo CMake configure failed

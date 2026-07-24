@@ -31,12 +31,13 @@ class Uploader():
     def upload(self):
         with open("build.zip", "rb") as zip:
             # files = {"archive": ("build.zip", zip, 'application/zip')}
-            files = {'file': zip} 
+            files = {'file': zip}
+            no_proxy = {"http": None, "https": None}
 
             if self._docker:
-                response = requests.post("http://host.docker.internal:8989/upload_test", files=files, data={"extra_data": "docker"})
+                response = requests.post("http://host.docker.internal:8989/upload_test", files=files, data={"extra_data": "docker"}, proxies=no_proxy)
             else:
-                response = requests.post("http://127.0.0.1:8989/upload_test", files=files)
+                response = requests.post("http://127.0.0.1:8989/upload_test", files=files, proxies=no_proxy)
 
             if response.ok:
                 print(response.json())
