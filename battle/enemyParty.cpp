@@ -16,12 +16,12 @@ EnemyParty::EnemyParty() : Party() {}
 
 Vector2 EnemyParty::GetPositionByIndex(size_t index) {
     switch (index) {
-        case 0: return {530, 420};
+        case 0: return {1178, 524};
 
         // todo: is not working right yet
-        case 1: return {650, 300};
-        case 2: return {680, 415};
-        case 3: return {660, 520};
+        case 1: return {1179, 663};
+        case 2: return {1414, 663};
+        case 3: return {1350, 781};
         default: return {0, 0};
     };
 }

@@ -1256,6 +1256,30 @@ misc/ghostTrail.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\5bw12.dir\build.make CMakeFiles/5bw12.dir/misc/ghostTrail.cpp.s
 .PHONY : misc/ghostTrail.cpp.s
 
+misc/inputBridge.o: misc/inputBridge.cpp.o
+.PHONY : misc/inputBridge.o
+
+# target to build an object file
+misc/inputBridge.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\5bw12.dir\build.make CMakeFiles/5bw12.dir/misc/inputBridge.cpp.o
+.PHONY : misc/inputBridge.cpp.o
+
+misc/inputBridge.i: misc/inputBridge.cpp.i
+.PHONY : misc/inputBridge.i
+
+# target to preprocess a source file
+misc/inputBridge.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\5bw12.dir\build.make CMakeFiles/5bw12.dir/misc/inputBridge.cpp.i
+.PHONY : misc/inputBridge.cpp.i
+
+misc/inputBridge.s: misc/inputBridge.cpp.s
+.PHONY : misc/inputBridge.s
+
+# target to generate assembly for a file
+misc/inputBridge.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\5bw12.dir\build.make CMakeFiles/5bw12.dir/misc/inputBridge.cpp.s
+.PHONY : misc/inputBridge.cpp.s
+
 misc/mapGenerator.o: misc/mapGenerator.cpp.o
 .PHONY : misc/mapGenerator.o
 
@@ -1550,6 +1574,9 @@ help:
 	@echo ... misc/ghostTrail.o
 	@echo ... misc/ghostTrail.i
 	@echo ... misc/ghostTrail.s
+	@echo ... misc/inputBridge.o
+	@echo ... misc/inputBridge.i
+	@echo ... misc/inputBridge.s
 	@echo ... misc/mapGenerator.o
 	@echo ... misc/mapGenerator.i
 	@echo ... misc/mapGenerator.s
