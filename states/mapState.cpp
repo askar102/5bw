@@ -421,7 +421,7 @@ void MapState::InitGui()
     inventoryWindow->AddButtons(GetInventoryButtons());
 
     // item icon list: right click an icon to equip it in hand
-    auto invScroll = std::make_unique<Scroll>(Vector2{230, 180}, 1, 1, 48.0f, 8.0f);
+    auto invScroll = std::make_unique<Scroll>(Vector2{219, 180}, 8, 1, 40.0f, 6.0f);
     invScroll->SetMaxSelected(1);
     invScroll->SetOnSelect([this](int id) {
         ItemID itemId = static_cast<ItemID>(id);
