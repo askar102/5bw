@@ -10,6 +10,8 @@
 
 #include "party.h"
 
+#include "../core/game.h"
+
 void Party::Init()
 {}
 
@@ -43,10 +45,10 @@ BattleEntity* Party::Get(size_t index)
 Vector2 Party::GetPositionByIndex(size_t index)
 {
     switch (index) {
-        case 0: return {200, 480};
-        case 1: return {180, 350};
-        case 2: return {90, 490};
-        case 3: return {50, 340};
+        case 0: return {472, 568};
+        case 1: return {473, 785};
+        case 2: return {698, 578};
+        case 3: return {722, 787};
         default: return {0, 0};
     };
 }
@@ -78,7 +80,7 @@ void Party::DeselectAll()
 
 void Party::UpdateSelection()
 {
-    Vector2 mouse = GetMousePosition();
+    Vector2 mouse = Game::GetWorldMouse();
 
     for (auto& character : characters)
     {

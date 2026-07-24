@@ -138,9 +138,9 @@
      
      // off-screen
      Rectangle r = getSprite().GetRect();
-     if (r.x > static_cast<float>(GetScreenWidth())  ||
+     if (r.x > Game::GetVirtualPos().x  ||
          r.x + r.width  < 0.0f                        ||
-         r.y > static_cast<float>(GetScreenHeight())  ||
+         r.y > Game::GetVirtualPos().y  ||
          r.y + r.height < 0.0f)
      {
          _leftScreen = true;

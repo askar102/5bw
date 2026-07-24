@@ -41,7 +41,7 @@ BattleEntity* PartyManager::GetSelectedEntity()
 // проверяем есть ли под мышкой любой энтити
 BattleEntity* PartyManager::FindEntityAtMouse()
 {
-    const Vector2 mouse = GetMousePosition();
+    const Vector2 mouse = Game::GetWorldMouse();
 
     for (size_t i = 0; i < 4; ++i)
     {

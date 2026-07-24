@@ -9,10 +9,14 @@
  */
 
 #include "battleState.h"
+#include "../misc/inputBridge.h"
+#include "../external/json.h"
+
+BattleState* BattleState::s_active = nullptr;
 
 void BattleState::HandleInput()
 {
-    Vector2 mouse = GetMousePosition();
+    Vector2 mouse = Game::GetWorldMouse();
 
     if (_targetSelector.IsActive())
     {
@@ -21,7 +25,7 @@ void BattleState::HandleInput()
     }
 
 
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+    if (InputBridge::MouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
         // target flow
         if (Ability* clickedAbility = _abilityPanel.GetAbilityAt(mouse))
@@ -68,7 +72,7 @@ void BattleState::HandleInput()
         _partyManager.UpdateSelection();
     }
 
-    if (IsKeyPressed(KEY_H))
+    if (InputBridge::KeyPressed(KEY_H))
     {
         SpriteV2::SetDrawHitboxes(!SpriteV2::GetDrawHitboxes());
     }
@@ -84,12 +88,12 @@ void BattleState::Draw()
     _abilityPanel.Draw();
 
     if (_targetSelector.IsActive())
-        _targetSelector.Draw(GetMousePosition());
+        _targetSelector.Draw(Game::GetWorldMouse());
 
 
     if (_partyManager.isTimeStopped())
     {
-        DrawRectangle(0, 0, 800, 600, Fade(GRAY, 0.5));
+        DrawRectangle(0, 0, (int)Game::GetVirtualPos().x, (int)Game::GetVirtualPos().y, Fade(GRAY, 0.5));
     }
 
     DrawText("currentState: battle", 0, 0, 20, WHITE);
@@ -122,6 +126,8 @@ void BattleState::Update(float dt)
 
 void BattleState::OnEnter()
 {
+    s_active = this;
+
     InitBackground();
 
     _partyManager.Init();
@@ -140,14 +146,49 @@ void BattleState::OnExit()
 
     if (_targetSelector.IsActive())
         _targetSelector.Cancel();
+
+    if (s_active == this)
+        s_active = nullptr;
 }
 
 void BattleState::InitBackground()
 {
     _background.SetResource(&Game::GetResources().Get(TextureID::BattleBg));
     _background.SetSize({Game::GetVirtualPos().x, Game::GetVirtualPos().y});
-    _background.SetPosition({(float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2});
+    _background.SetPosition({Game::GetVirtualPos().x / 2, Game::GetVirtualPos().y / 2});
     _background.SetCanDrawHiboxes(false);
+}
+
+// test-only: dumps battle state as JSON for Playwright assertions
+// without having to screenshot+eyeball HP bars.
+std::string BattleState::DumpTestState()
+{
+    nlohmann::json j;
+    j["timeStopped"] = _partyManager.isTimeStopped();
+    j["targetSelectorActive"] = _targetSelector.IsActive();
+
+    auto dumpEntity = [](BattleEntity* e) {
+        nlohmann::json ej;
+        ej["name"] = e->name;
+        ej["hp"] = e->hp;
+        ej["maxHp"] = e->maxHp;
+        ej["alive"] = e->Alive();
+        ej["selected"] = e->selected;
+        ej["isEnemy"] = e->isEnemy;
+        return ej;
+    };
+
+    j["players"] = nlohmann::json::array();
+    for (size_t i = 0; i < 4; ++i)
+        if (BattleEntity* e = _partyManager.GetPlayer(i))
+            j["players"].push_back(dumpEntity(e));
+
+    j["enemies"] = nlohmann::json::array();
+    for (size_t i = 0; i < 4; ++i)
+        if (BattleEntity* e = _partyManager.GetEnemy(i))
+            j["enemies"].push_back(dumpEntity(e));
+
+    return j.dump();
 }
 
 void BattleState::InitPlayerParty()
@@ -197,6 +238,21 @@ std::vector<BattleEntity*> BattleState::GatherAllTargets()
         if (BattleEntity* e = _partyManager.GetEnemy(i))
             result.push_back(e);
     }
- 
+
     return result;
 }
+
+#ifdef PLATFORM_WEB
+#include <emscripten/emscripten.h>
+
+namespace {
+    std::string g_lastBattleStateDump;
+}
+
+extern "C" {
+    EMSCRIPTEN_KEEPALIVE const char* TestApi_GetBattleState() {
+        g_lastBattleStateDump = BattleState::s_active ? BattleState::s_active->DumpTestState() : "null";
+        return g_lastBattleStateDump.c_str();
+    }
+}
+#endif

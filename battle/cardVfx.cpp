@@ -160,9 +160,9 @@ void CardVfx::Update(float dt) {
     }
 
     const Rectangle projectileRect = _sprite.GetRect();
-    if (projectileRect.x > static_cast<float>(GetScreenWidth()) ||
+    if (projectileRect.x > Game::GetVirtualPos().x ||
         projectileRect.x + projectileRect.width < 0 ||
-        projectileRect.y > static_cast<float>(GetScreenHeight()) ||
+        projectileRect.y > Game::GetVirtualPos().y ||
         projectileRect.y + projectileRect.height < 0) {
       _leftScreen = true;
     }
