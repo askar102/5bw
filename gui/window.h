@@ -25,6 +25,9 @@ class Window : public Gui {
         // rvalue-referens means that we "steal" vector
         void AddButtons(std::vector<std::unique_ptr<Button>>&& newButtonsVec);
 
+        // any other Gui child (Scroll, etc), ticked/drawn only while window is visible
+        Gui* AddElement(std::unique_ptr<Gui> element);
+
     private:
         // windowBg - is _sprite from Gui class-parent
         // SpriteV2 _windowBg;
@@ -42,4 +45,5 @@ class Window : public Gui {
         TextureResource _exitRes;
 
         std::vector<std::unique_ptr<Button>> _additionalButtons;
+        std::vector<std::unique_ptr<Gui>> _elements;
 };
