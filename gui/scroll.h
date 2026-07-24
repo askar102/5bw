@@ -8,7 +8,7 @@
 #include "../core/resourceManager.h"
 
 // Generic vertical(-ish) scrollable icon list: mouse wheel scrolls it,
-// right click selects an icon (frame turns green). Scroll itself doesn't
+// left click selects an icon (frame turns green). Scroll itself doesn't
 // know what it's showing (items, party members, whatever) - the caller
 // hands it an arbitrary int id per icon and a callback, so the same class
 // can back the inventory today and a character-select list later.

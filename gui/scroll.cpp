@@ -140,7 +140,7 @@ void Scroll::Update()
         }
     }
 
-    if (InputBridge::MouseButtonPressed(MOUSE_RIGHT_BUTTON))
+    if (InputBridge::MouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
         for (int i = 0; i < static_cast<int>(_slots.size()); ++i)
         {
