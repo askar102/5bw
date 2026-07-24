@@ -51,6 +51,7 @@ public:
     Item GetEquippedItem() { return _equippedItem; }
 
     void UseEquippedItem();
+    void ClearEquippedItem();
 
 private:
     SpriteV2 _sprite;

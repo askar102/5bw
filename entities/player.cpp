@@ -118,6 +118,12 @@ void Player::SetEquipItem(Item item)
     _hasEquippedItem = true;
 }
 
+void Player::ClearEquippedItem()
+{
+    _equippedItem = Item{};
+    _hasEquippedItem = false;
+}
+
 void Player::UseEquippedItem()
 {
     Vector2 textOrigin = {
