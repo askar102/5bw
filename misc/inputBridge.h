@@ -11,6 +11,7 @@ namespace InputBridge {
     bool KeyDown(int key);
     bool KeyPressed(int key);
     bool MouseButtonPressed(int button);
+    float MouseWheelMove();
 
     Vector2 OverrideWorldMouse(Vector2 realWorldMouse);
 
@@ -22,6 +23,8 @@ namespace InputBridge {
     void ForceKeyUp(int key);
     void ForceTapKey(int key);
     void ForceClickAt(float worldX, float worldY);
+    void ForceRightClickAt(float worldX, float worldY);
+    void ForceScroll(float delta);
 
     // teleport: MapState polls this once per Update() to warp the player
     // instead of walking, so tests don't burn time/tokens navigating chunks

@@ -11,6 +11,8 @@ Module['onRuntimeInitialized'] = (function (prevInit) {
     var keyUp   = Module.cwrap('TestApi_KeyUp', null, ['number']);
     var tapKey  = Module.cwrap('TestApi_TapKey', null, ['number']);
     var clickAt = Module.cwrap('TestApi_ClickAt', null, ['number', 'number']);
+    var rightClickAt = Module.cwrap('TestApi_RightClickAt', null, ['number', 'number']);
+    var scroll = Module.cwrap('TestApi_Scroll', null, ['number']);
     var teleportTo = Module.cwrap('TestApi_TeleportTo', null, ['number', 'number', 'number', 'number']);
     var getBattleStateRaw = Module.cwrap('TestApi_GetBattleState', 'string', []);
 
@@ -19,6 +21,8 @@ Module['onRuntimeInitialized'] = (function (prevInit) {
       keyUp: keyUp,
       tapKey: tapKey,
       clickAt: clickAt,
+      rightClickAt: rightClickAt,
+      scroll: scroll,
       // warps the player to a MapLocation instead of walking there
       teleportTo: function (chunkX, chunkY, tileX, tileY) {
         teleportTo(chunkX, chunkY, tileX, tileY);
