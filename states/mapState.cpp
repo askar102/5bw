@@ -31,6 +31,51 @@ void MapState::HandleInput() {
     if (InputBridge::KeyPressed(KEY_F)) {
         player.UseEquippedItem();
     }
+
+    // test: cycle through all DialogMode variants (1-4), see Dialog::Init call in OnEnter
+    if (!_dialog.IsOpen())
+    {
+        if (InputBridge::KeyPressed(KEY_ONE))
+        {
+            _dialog.Show("I want to eat something...", DialogMode::Mind);
+        }
+        else if (InputBridge::KeyPressed(KEY_TWO))
+        {
+            _dialog.ShowChoice(
+                { "Do you want to eat?" },
+                DialogMode::StoryCenter,
+                {
+                    { "Yes", [] () { TraceLog(LOG_INFO, "story center: yes"); } },
+                    { "No",  [] () { TraceLog(LOG_INFO, "story center: no"); } }
+                },
+                nullptr,
+                RED
+            );
+        }
+        else if (InputBridge::KeyPressed(KEY_THREE))
+        {
+            _dialog.ShowChoice(
+                { "He wants to eat more..." },
+                DialogMode::StoryDown,
+                {
+                    { "Give food", [] () { TraceLog(LOG_INFO, "story down: give food"); } },
+                    { "Refuse",    [] () { TraceLog(LOG_INFO, "story down: refuse"); } }
+                }
+            );
+        }
+        else if (InputBridge::KeyPressed(KEY_FOUR))
+        {
+            _dialog.ShowChoice(
+                { "Shut up and give me your items!" },
+                DialogMode::Npc,
+                {
+                    { "Never!",   [] () { TraceLog(LOG_INFO, "npc: never"); } },
+                    { "Here...",  [] () { TraceLog(LOG_INFO, "npc: here"); } }
+                },
+                &Game::GetResources().Get(TextureID::Player)
+            );
+        }
+    }
 }
 
 void MapState::Draw() {

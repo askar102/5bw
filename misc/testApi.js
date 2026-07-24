@@ -34,7 +34,8 @@ Module['onRuntimeInitialized'] = (function (prevInit) {
       KEY: {
         W: 87, A: 65, S: 83, D: 68,
         ENTER: 257, UP: 265, DOWN: 264, LEFT: 263,
-        M: 77, B: 66, H: 72, V: 86, F: 70
+        M: 77, B: 66, H: 72, V: 86, F: 70,
+        ONE: 49, TWO: 50, THREE: 51, FOUR: 52
       }
     };
 
