@@ -40,8 +40,12 @@ class Uploader():
 
             if response.ok:
                 print(response.json())
+                zip.close()
+                if os.path.exists("build.zip"): os.remove("build.zip")
             else:
                 print(f"Upload failed: {response.status_code} {response.text}")
+                zip.close()
+                if os.path.exists("build.zip"): os.remove("build.zip")
 
 if __name__ == "__main__":
     par = argparse.ArgumentParser()
