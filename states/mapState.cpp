@@ -427,6 +427,9 @@ void MapState::InitGui()
         ItemID itemId = static_cast<ItemID>(id);
         player.SetEquipItem({itemId, ItemManager::GetInfo(itemId)});
     });
+    invScroll->SetOnDeselect([this](int id) {
+        player.ClearEquippedItem();
+    });
 
     _invScroll = static_cast<Scroll*>(inventoryWindow->AddElement(std::move(invScroll)));
     _lastInvSize = 0;
