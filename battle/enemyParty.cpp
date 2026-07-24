@@ -20,6 +20,7 @@ Vector2 EnemyParty::GetPositionByIndex(size_t index) {
 
         // todo: is not working right yet!!!!!!!!!!!!!
         case 1: return {500, 400};
+        // ! Commented for now
         // case 2: return {, 663};
         // case 3: return {1350, 781};
         default: return {0, 0};
