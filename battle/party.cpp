@@ -10,6 +10,8 @@
 
 #include "party.h"
 
+#include "../core/game.h"
+
 void Party::Init()
 {}
 
@@ -78,7 +80,7 @@ void Party::DeselectAll()
 
 void Party::UpdateSelection()
 {
-    Vector2 mouse = GetMousePosition();
+    Vector2 mouse = Game::GetWorldMouse();
 
     for (auto& character : characters)
     {

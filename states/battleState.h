@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <string>
+
 #include "../raylib/raylib.h"
 
 #include "../core/game.h"
@@ -34,6 +36,12 @@ public:
 
     void OnEnter() override;
     void OnExit() override;
+
+    // test-only: JSON dump of party HP/selection state for Playwright assertions
+    std::string DumpTestState();
+
+    // test-only: points at the currently running battle, if any (null on map/menu)
+    static BattleState* s_active;
 
 private:
     SpriteV2 _background;

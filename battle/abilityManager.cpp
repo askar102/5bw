@@ -263,10 +263,10 @@ namespace AbilityManager {
                 touched.SetWeaknessEffect(10, 4.0f);
                 touched.actionText.Add(TextFormat("Hit by %s", "speedDash"), ORANGE);
             });
-            
+
             // left / right check
             const float dashDir = (caster.facing == FacingDirection::Right) ? 1.0f : -1.0f;
-            float offX = (caster.facing == FacingDirection::Right) ? -100.0f : (float)GetScreenWidth() + 100.0f;
+            float offX = (caster.facing == FacingDirection::Right) ? -100.0f : Game::GetVirtualPos().x + 100.0f;
 
             caster.trail.SetEnabled(true);
             // was startPos + 800.0f
@@ -482,10 +482,10 @@ namespace AbilityManager {
                     // touched.SetWeaknessEffect(10, 4.0f);
                     touched.actionText.Add(TextFormat("Hit by %s", "speedDash"), ORANGE);
                 });
-            
+
                 // left / right check
                 const float dashDir = (caster.facing == FacingDirection::Right) ? 1.0f : -1.0f;
-                float offX = (caster.facing == FacingDirection::Right) ? -100.0f : (float)GetScreenWidth() + 100.0f;
+                float offX = (caster.facing == FacingDirection::Right) ? -100.0f : Game::GetVirtualPos().x + 100.0f;
 
                 caster.trail.SetEnabled(true);
                 // was startPos + 800.0f

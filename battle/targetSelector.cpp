@@ -9,6 +9,7 @@
  */
 
  #include "targetSelector.h"
+ #include "../misc/inputBridge.h"
 
  void TargetSelector::Arm(BattleEntity* caster,
                           std::vector<BattleEntity*> targets,
@@ -50,14 +51,14 @@
      if (!_active) return false;
  
      //отмена
-     if (IsKeyPressed(KEY_ESCAPE) || IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+     if (InputBridge::KeyPressed(KEY_ESCAPE) || InputBridge::MouseButtonPressed(MOUSE_RIGHT_BUTTON))
      {
          Cancel();
          return true;
      }
  
      // потдверждение
-     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+     if (InputBridge::MouseButtonPressed(MOUSE_LEFT_BUTTON))
      {
          BattleEntity* hovered = FindHovered(mouse);
  
