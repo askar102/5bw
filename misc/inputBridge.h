@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../raylib/raylib.h"
+#include "../map/mapLocation.h"
 
 // Test-only input overlay: lets automated testing (Playwright) inject
 // deterministic key/mouse state at the game-logic level instead of
@@ -21,4 +22,9 @@ namespace InputBridge {
     void ForceKeyUp(int key);
     void ForceTapKey(int key);
     void ForceClickAt(float worldX, float worldY);
+
+    // teleport: MapState polls this once per Update() to warp the player
+    // instead of walking, so tests don't burn time/tokens navigating chunks
+    void ForceTeleport(int32_t chunkX, int32_t chunkY, int32_t tileX, int32_t tileY);
+    bool ConsumeTeleport(MapLocation& outLoc);
 }

@@ -11,6 +11,9 @@ namespace {
 
     bool hasForcedMouse = false;
     Vector2 forcedMouse = { 0, 0 };
+
+    bool hasPendingTeleport = false;
+    MapLocation pendingTeleport = { 0, 0, 0, 0 };
 }
 
 namespace InputBridge {
@@ -50,6 +53,18 @@ void ForceClickAt(float worldX, float worldY) {
     clickPending[MOUSE_LEFT_BUTTON] = true;
 }
 
+void ForceTeleport(int32_t chunkX, int32_t chunkY, int32_t tileX, int32_t tileY) {
+    pendingTeleport = { chunkX, chunkY, tileX, tileY };
+    hasPendingTeleport = true;
+}
+
+bool ConsumeTeleport(MapLocation& outLoc) {
+    if (!hasPendingTeleport) return false;
+    outLoc = pendingTeleport;
+    hasPendingTeleport = false;
+    return true;
+}
+
 }
 
 #ifdef PLATFORM_WEB
@@ -60,5 +75,6 @@ extern "C" {
     EMSCRIPTEN_KEEPALIVE void TestApi_KeyUp(int key)    { InputBridge::ForceKeyUp(key); }
     EMSCRIPTEN_KEEPALIVE void TestApi_TapKey(int key)   { InputBridge::ForceTapKey(key); }
     EMSCRIPTEN_KEEPALIVE void TestApi_ClickAt(float x, float y) { InputBridge::ForceClickAt(x, y); }
+    EMSCRIPTEN_KEEPALIVE void TestApi_TeleportTo(int chunkX, int chunkY, int tileX, int tileY) { InputBridge::ForceTeleport(chunkX, chunkY, tileX, tileY); }
 }
 #endif
