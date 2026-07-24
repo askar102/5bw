@@ -55,4 +55,5 @@ private:
     Rectangle GetSlotFrameRect(int index) const; // grid slot, scroll offset applied
     float MaxScrollRows() const;
     void ToggleSelect(int id);
+    void MoveToFront(int id);
 };

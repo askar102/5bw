@@ -19,6 +19,10 @@ Scroll::Scroll(Vector2 pos, int columns, int visibleRows, float slotSize, float 
 
 void Scroll::AddIcon(int id, TextureResource* resource, size_t frame)
 {
+    for (const auto& existing : _slots) {
+        if (existing.id == id) return; // already shown, keep its current spot
+    }
+
     Slot slot{ id, SpriteV2() };
     slot.icon.SetResource(resource);
     slot.icon.SetFrame(frame);
@@ -83,6 +87,16 @@ float Scroll::MaxScrollRows() const
     return overflow > 0 ? static_cast<float>(overflow) : 0.0f;
 }
 
+void Scroll::MoveToFront(int id)
+{
+    auto it = std::find_if(_slots.begin(), _slots.end(), [id](const Slot& s) { return s.id == id; });
+    if (it == _slots.end() || it == _slots.begin()) return;
+
+    Slot slot = std::move(*it);
+    _slots.erase(it);
+    _slots.insert(_slots.begin(), std::move(slot));
+}
+
 void Scroll::ToggleSelect(int id)
 {
     auto it = std::find(_selectedIds.begin(), _selectedIds.end(), id);
@@ -101,6 +115,7 @@ void Scroll::ToggleSelect(int id)
     }
 
     _selectedIds.push_back(id);
+    MoveToFront(id);
     if (_onSelect) _onSelect(id);
 }
 

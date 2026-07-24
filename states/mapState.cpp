@@ -444,7 +444,8 @@ void MapState::SyncInventoryScroll()
 
     _lastInvSize = items.size();
 
-    _invScroll->Clear();
+    // AddIcon is a no-op for ids already shown, so this only appends newly
+    // picked up items - keeps whatever order the player built via selection
     for (auto& [id, itemPair] : items) {
         _invScroll->AddIcon(static_cast<int>(id), &_itemIconsPack, static_cast<size_t>(id));
     }
