@@ -23,11 +23,22 @@ public:
 
     void SetSpeed(float charsPerSecond);
 
+    // optional: enables word-wrapping (needs a font that actually has the glyphs
+    // you're drawing, eg a cyrillic-loaded one - Text::_font doesn't have those)
+    void SetFont(const Font* font) { _font = font; }
+    void SetMaxWidth(float maxWidth) { _maxWidth = maxWidth; }
+    void SetFontSize(int fontSize) { _fontSize = fontSize; }
+    void SetColor(Color color) { _color = color; }
+
+    bool IsFullyShown() const { return _charsOpened >= static_cast<float>(_text.size()); }
+
     void InOver(std::function<void()> inOver) { _inOver = inOver; }
 
 private:
     void StartLine(const std::string& text);
     void AdvanceQueue();
+
+    std::vector<std::string> WrapText(const std::string& text) const;
 
     Vector2 _pos;
 
@@ -42,6 +53,11 @@ private:
 
     float _speed = 10.0f;
     float _charsOpened = 0;
+
+    const Font* _font = nullptr;
+    float _maxWidth = 0.0f;
+    int _fontSize = 20;
+    Color _color = WHITE;
 
     std::function<void()> _inOver;
 

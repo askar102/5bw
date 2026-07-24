@@ -6,6 +6,7 @@
 
 #include "../raylib/raylib.h"
 #include "../entities/spriteV2.h"
+#include "../core/resourceManager.h"
 
 #include "typewritter.h"
 
@@ -44,33 +45,57 @@ enum class DialogMode {
    Npc
 };
 
+struct DialogChoice {
+    std::string text;
+    std::function<void()> onSelect;
+};
 
 class Dialog {
 public:
-    void Show(std::string text, DialogMode mode, std::function<void()> onClose = nullptr);
+    // plain line(s), no portrait, no answer choices
+    void Show(std::string text, DialogMode mode, std::function<void()> onClose = nullptr, Color textColor = WHITE);
+    void Show(std::vector<std::string> lines, DialogMode mode, std::function<void()> onClose = nullptr, Color textColor = WHITE);
+
+    // Npc portrait (works with any mode, but really only makes sense for Mind/Npc)
+    void ShowWithPortrait(std::vector<std::string> lines, DialogMode mode, TextureResource* portrait, std::function<void()> onClose = nullptr, Color textColor = WHITE);
+
+    // once the lines finish typing, shows a selectable answer menu instead of just closing
+    void ShowChoice(std::vector<std::string> lines, DialogMode mode, std::vector<DialogChoice> choices, TextureResource* portrait = nullptr, Color textColor = WHITE);
 
     void Update(float dt);
     void Draw();
 
     static void Init();
-    // bool IsOpen() const { return _open; }
+
+    bool IsOpen() const { return _visible; }
 
 private:
-    void LoadLine();
-    void NextLine();
+    void ShowInternal(std::vector<std::string> lines, DialogMode mode, TextureResource* portrait, std::vector<DialogChoice> choices, Color textColor, std::function<void()> onClose);
+
     void SelectAnswer(int32_t index);
-    
+
+    Rectangle GetBoxRect() const;
+    void DrawBox();
+    void DrawChoices();
+    void DrawContinueHint();
+
     bool _visible = false;
-    DialogMode _mode;
+    DialogMode _mode = DialogMode::StoryCenter;
 
-    // Story
+    TextureResource* _portrait = nullptr;
+
+    std::vector<DialogChoice> _choices;
+    int32_t _selectedChoice = 0;
+    bool _showingChoices = false;
+
+    std::function<void()> _onClose;
+
+    // Story dim overlay, shared by StoryCenter/StoryDown
     static TextureResource _storyTexture;
-    static SpriteV2 _storyBackgroud;
-    
-    // NPC / MIND
-    static TextureResource _defaultTexture;
-    static SpriteV2 _defaultBackground;
+    static SpriteV2 _storyBackground;
 
+    // cyrillic-capable font, used by all box/text drawing here (Text::_font is ascii-only)
+    static Font _font;
 
     Typewritter _typewritter;
 };

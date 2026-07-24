@@ -1,5 +1,7 @@
 #include "typewritter.h"
 
+#include "../misc/inputBridge.h"
+
 void Typewritter::SpawnAt(std::string text, Vector2 position, float speed, bool resetInEnd)
 {
     SpawnAt(std::vector<std::string>{std::move(text)}, position, speed, resetInEnd);
@@ -45,11 +47,76 @@ void Typewritter::AdvanceQueue()
     }
 }
 
+std::vector<std::string> Typewritter::WrapText(const std::string& text) const
+{
+    std::vector<std::string> lines;
+    if (text.empty()) return lines;
+
+    std::string current;
+    std::string word;
+
+    auto pushWord = [&]() {
+        if (word.empty()) return;
+        std::string candidate = current.empty() ? word : (current + " " + word);
+
+        bool fits = _font
+            ? MeasureTextEx(*_font, candidate.c_str(), (float)_fontSize, 2.0f).x <= _maxWidth
+            : (float)MeasureText(candidate.c_str(), _fontSize) <= _maxWidth;
+
+        if (fits)
+        {
+            current = candidate;
+        }
+        else
+        {
+            if (!current.empty()) lines.push_back(current);
+            current = word;
+        }
+        word.clear();
+    };
+
+    for (char c : text)
+    {
+        if (c == ' ' || c == '\n')
+        {
+            pushWord();
+            if (c == '\n')
+            {
+                lines.push_back(current);
+                current.clear();
+            }
+        }
+        else
+        {
+            word += c;
+        }
+    }
+    pushWord();
+    if (!current.empty()) lines.push_back(current);
+
+    return lines;
+}
+
 void Typewritter::Draw()
 {
     if (!_visible) return;
 
-    Text::DrawText(TextSubtext(_text.c_str(), 0, static_cast<int32_t>(_charsOpened)), (int)_pos.x, (int)_pos.y, 20, WHITE);
+    std::string shown = TextSubtext(_text.c_str(), 0, static_cast<int32_t>(_charsOpened));
+
+    if (!_font || _maxWidth <= 0.0f)
+    {
+        Text::DrawText(shown, (int)_pos.x, (int)_pos.y, _fontSize, _color);
+        return;
+    }
+
+    Vector2 cursor = _pos;
+    int lineSpacing = _fontSize + 4;
+
+    for (const auto& line : WrapText(shown))
+    {
+        DrawTextEx(*_font, line.c_str(), cursor, (float)_fontSize, 2.0f, _color);
+        cursor.y += (float)lineSpacing;
+    }
 }
 
 void Typewritter::Update(float dt)
@@ -60,7 +127,7 @@ void Typewritter::Update(float dt)
 
     bool fullyShown = _charsOpened >= static_cast<float>(_text.size());
 
-    if (IsKeyPressed(KEY_ENTER))
+    if (InputBridge::KeyPressed(KEY_ENTER))
     {
         if (fullyShown)
         {
@@ -81,7 +148,7 @@ void Typewritter::Reset()
     _text.clear();
     _charsOpened = 0;
 
-    _inOver();
+    if (_inOver) _inOver();
 }
 
 void Typewritter::SkipAnimation()
