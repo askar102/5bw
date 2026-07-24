@@ -28,6 +28,10 @@ void MapState::HandleInput() {
         _builderMode = !_builderMode;
     }
 
+    if (InputBridge::KeyPressed(KEY_F)) {
+        player.UseEquippedItem();
+    }
+
     if (InputBridge::KeyPressed(KEY_LEFT)) {
         auto& inv_map = Inventory::GetContainer().GetItems();
 

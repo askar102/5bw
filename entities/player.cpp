@@ -10,6 +10,7 @@
 
 #include "player.h"
 #include "../misc/inputBridge.h"
+#include "../item/itemManager.h"
 
 #include "../states/mapState.h"
 
@@ -114,6 +115,35 @@ void Player::Draw()
 void Player::SetEquipItem(Item item)
 {
     _equippedItem = item;
+    _hasEquippedItem = true;
+}
+
+void Player::UseEquippedItem()
+{
+    Vector2 textOrigin = {
+        _sprite.GetPosition().x,
+        _sprite.GetPosition().y - 30.0f
+    };
+
+    if (!_hasEquippedItem)
+    {
+        // _sprite.GetText().Show("Nothing to use!", textOrigin, 1.0f, RED);
+        TraceLog(LOG_INFO, "Nothing to use");
+        return;
+    }
+
+    ItemInfo info = ItemManager::GetInfo(_equippedItem.id);
+
+    if (info.type == ItemType::Usable)
+    {
+        // _sprite.GetText().Show("Use!", textOrigin, 1.0f, WHITE);
+        TraceLog(LOG_INFO, "Used hand item: %s", GetEquippedItem().info.title.c_str());
+    }
+    else
+    {
+        // _sprite.GetText().Show("Cant use this!", textOrigin, 1.0f, RED);
+        TraceLog(LOG_INFO, "Cant use item: %s", GetEquippedItem().info.title.c_str());
+    }
 }
 
 void Player::Init()
