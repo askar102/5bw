@@ -22,6 +22,7 @@
  #include "../raylib/raylib.h"
 
  #include "../entities/spriteV2.h"
+ #include <sol/sol.hpp>
 
  
 class Party;
@@ -40,6 +41,9 @@ class Party;
      static PlayerParty& GetPlayerParty();
 
      static Bus& GetGlobalBus();
+
+     static sol::state& GetLua();
+
 
  private:
      void Init();
@@ -61,5 +65,7 @@ class Party;
      static PlayerParty _playerParty;
 
      inline static Bus _globalBus;
+
+     inline static sol::state _lua;
  };
  

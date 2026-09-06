@@ -22,14 +22,14 @@ namespace AbilityManager {
                       BattleEntity& caster,
                       BattleEntity& target,
                       PartyManager& partyManager,
-                      StateManager* stateManager)
+                      StateManager* stateManager, Bus& bus)
     {
         auto it = g_abilities.find(clickedAbility.GetName());
         if (it != g_abilities.end())
         {
             it->second(vfxManager, caster, target, clickedAbility, partyManager, stateManager);
             clickedAbility.Execute(caster, target,true, true);
-            g_battleBus->publish<UsedAbilityEvent>({&clickedAbility, &caster, &target});
+            bus.publish<UsedAbilityEvent>({&clickedAbility, &caster, &target});
             return;
         }
     }
@@ -37,14 +37,16 @@ namespace AbilityManager {
     TargetAbilityDesc MakeTargetDesc(Ability& ability,
         VfxManager& vfxManager,
         PartyManager& partyManager,
-        StateManager* stateManager)
+        StateManager* stateManager,
+        Bus& bus)
     {
         TargetAbilityDesc desc;
 
         if (ability.GetName() == "cardBlock")
         {
-            desc.onConfirm = [&ability, &vfxManager, &partyManager, stateManager](BattleEntity& caster, BattleEntity& target){
-                AbilityManager::SpawnAbility(ability, vfxManager, caster, target, partyManager, stateManager);
+            // NOTE: dont forgot that StateManager here is a pointer
+            desc.onConfirm = [&ability, &vfxManager, &partyManager, stateManager, &bus](BattleEntity& caster, BattleEntity& target){
+                AbilityManager::SpawnAbility(ability, vfxManager, caster, target, partyManager, stateManager, bus);
                 caster.actionText.Add("Used cardBlock", YELLOW);
                 target.actionText.Add("Stunned!", ORANGE);
             };
@@ -71,12 +73,10 @@ namespace AbilityManager {
         return desc;
     }
 
-    void InitAbilities(Bus& bus) 
+    void InitAbilities(Bus& bus)
     {
-        g_battleBus = &bus;
-
-        bus.subscribe<UseAbilityCommand>([](const UseAbilityCommand& e){
-            SpawnAbility(*e.clickedAbility, *e.vfxManager, *e.caster, *e.target, *e.partyManager, e.stateManager);
+        bus.subscribe<UseAbilityCommand>([&bus](const UseAbilityCommand& e){
+            SpawnAbility(*e.clickedAbility, *e.vfxManager, *e.caster, *e.target, *e.partyManager, e.stateManager, bus);
             printf("[BUS] Called 'UseAbilityCommand' with ability '%s'\n", e.clickedAbility->GetName().c_str());
         });
 

@@ -106,3 +106,8 @@ Bus& Game::GetGlobalBus()
 {
     return _globalBus;
 }
+
+sol::state& Game::GetLua()
+{
+    return _lua;
+}

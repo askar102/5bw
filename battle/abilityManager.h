@@ -38,19 +38,20 @@
 namespace AbilityManager {
     using AbilityHandler = std::function<void(VfxManager&, BattleEntity&, BattleEntity&, const Ability&, PartyManager&, StateManager*)>;
     inline std::unordered_map<std::string, AbilityHandler> g_abilities;
-    inline Bus* g_battleBus;
 
     void SpawnAbility(Ability& clickedAbility,
                       VfxManager& vfxManager,
                       BattleEntity& caster,
                       BattleEntity& target,
                       PartyManager& partyManager,
-                      StateManager* stateManager);
+                      StateManager* stateManager,
+                      Bus& bus);
 
     TargetAbilityDesc MakeTargetDesc(Ability& ability,
                         VfxManager& vfxManager,
                         PartyManager& partyManager,
-                        StateManager* stateManager);
+                        StateManager* stateManager,
+                        Bus& bus);
 
     void InitAbilities(Bus& bus);
 

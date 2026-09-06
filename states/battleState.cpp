@@ -38,7 +38,8 @@ void BattleState::HandleInput()
                         *clickedAbility,
                         _vfxManager,
                         _partyManager,
-                        stateMachine
+                        stateMachine,
+                        battleBus
                     )
                 );
                 _partyManager.DeselectAll();
