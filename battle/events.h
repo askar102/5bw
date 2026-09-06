@@ -1,12 +1,14 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
-#include "vfxManager.h"
-#include "battleEntity.h"
-#include "partyManager.h"
-#include "core/stateManager.h"
-#include "abilityManager.h"
+// Forward declaratio for pointers
+class Ability;
+class VfxManager;
+class BattleEntity;
+class PartyManager;
+class StateManager;
 
+// ------------- COMMANDS --------------
 struct UseAbilityCommand
 {
     Ability* clickedAbility;

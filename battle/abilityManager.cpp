@@ -15,8 +15,6 @@
 #include <cstdio>
 #include <vector>
 
-#include "states/battleState.h"
-
 namespace AbilityManager {
     void SpawnAbility(Ability& clickedAbility,
                       VfxManager& vfxManager,
@@ -57,15 +55,13 @@ namespace AbilityManager {
             return desc;
         }
 
-        // ── Сюда добавляй новые таргет-абилки ─────────────────────
-        //
+        //--------------EXAMPLE
         // if (ability.GetName() == "myNewAbility")
         // {
         //     desc.onConfirm = [&](BattleEntity& caster, BattleEntity& target) { ... };
         //     return desc;
         // }
 
-        // ── Fallback — просто выполняем базовый Ability::Execute ──
         desc.onConfirm = [&ability](BattleEntity& caster, BattleEntity& target){
             ability.Execute(caster, target);
         };
@@ -73,9 +69,9 @@ namespace AbilityManager {
         return desc;
     }
 
-    void InitAbilities(BattleState& state) 
+    void InitAbilities(Bus& bus) 
     {
-        state.battleBus.subscribe<UseAbilityCommand>([](const UseAbilityCommand& e){
+        bus.subscribe<UseAbilityCommand>([](const UseAbilityCommand& e){
             SpawnAbility(*e.clickedAbility, *e.vfxManager, *e.caster, *e.target, *e.partyManager, e.stateManager);
             printf("Called 'UseAbilityCommand' with ability '%s'\n", e.clickedAbility->GetName().c_str());
         });

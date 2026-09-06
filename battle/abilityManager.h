@@ -34,8 +34,6 @@
 #include <unordered_map>
 #include "events.h"
 
-// Forward declaration for InitAbilities() subscribe.
-class BattleState;
 
 namespace AbilityManager {
     using AbilityHandler = std::function<void(VfxManager&, BattleEntity&, BattleEntity&, const Ability&, PartyManager&, StateManager*)>;
@@ -53,7 +51,7 @@ namespace AbilityManager {
                         PartyManager& partyManager,
                         StateManager* stateManager);
 
-    void InitAbilities(BattleState& state);
+    void InitAbilities(Bus& bus);
 
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager,
