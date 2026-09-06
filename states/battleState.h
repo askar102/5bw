@@ -14,6 +14,7 @@
 
 #include "../core/game.h"
 #include "../core/state.h"
+#include "../core/bus.h"
 
 #include "../entities/spriteV2.h"
 
@@ -35,6 +36,7 @@ public:
     void OnEnter() override;
     void OnExit() override;
 
+    Bus battleBus;
 private:
     SpriteV2 _background;
 
