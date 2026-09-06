@@ -48,6 +48,7 @@ public:
     BattleEntity();
 
     std::string name;
+    int id = -1;
     
     FacingDirection facing;
 

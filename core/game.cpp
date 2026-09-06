@@ -51,6 +51,7 @@
      // Init only here
      _playerParty.Init();
      NpcManager::Init();
+     _lua.open_libraries(sol::lib::base);
  
      while (!WindowShouldClose() && _running) 
      {

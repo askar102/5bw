@@ -26,9 +26,9 @@
                     "heal": 20
                 },
                 {
-                    "name": "cardBlock",
+                    "name": "testAb",
                     "type": "target",
-                    "damage": 0,
+                    "damage": 100,
                     "heal": 0
                 }
             ]

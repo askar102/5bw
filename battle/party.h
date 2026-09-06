@@ -18,6 +18,8 @@
 
 #include "../misc/configReader.h"
 
+class PartyManager;
+
 class Party {
 public:
     Party() = default;
@@ -44,11 +46,8 @@ public:
     void SetScreamEffectAll(float duration, std::function<void()> onDone = nullptr, bool showUi = true);
     void SetStunEffectAll(float duration, std::function<void()> onDone = nullptr, bool showUi = true);
     void SetTimestopEffectAll(float duration, std::function<void()> onDone = nullptr, bool showUi = true);
-
-
 protected:
     virtual void Init();
-
 private:
     std::array<std::unique_ptr<BattleEntity>, 4> characters;
 };

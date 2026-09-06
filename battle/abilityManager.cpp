@@ -13,7 +13,10 @@
 #include "ability.h"
 #include "battleSide.h"
 #include "events.h"
+#include "vfxManager.h"
 #include <cstdio>
+#include <sol/forward.hpp>
+#include <sol/protected_function_result.hpp>
 #include <vector>
 
 namespace AbilityManager {
@@ -95,7 +98,37 @@ namespace AbilityManager {
 
         g_abilities["enemyDash"] = ForestEnemies::SpawnEnemyDash;
     }
-    
+
+    // ---------- LUA PUBLIC API ------------
+    void RegisterAbility(const std::string& name, sol::protected_function handler)
+    {
+        g_abilities[name] = [handler](VfxManager&, BattleEntity& caster, BattleEntity& target,
+            const Ability& ability, PartyManager&, StateManager*)
+        {
+            sol::protected_function_result result = handler(caster.id, target.id, ability.GetDamage(), ability.GetHeal());
+
+            if (!result.valid())
+            {
+                sol::error err = result;
+                printf("[LUA] Failed to register ability '%s': %s", ability.GetName().c_str(), err.what());
+            }
+        };
+    }
+
+    void BindLua(sol::state& lua, PartyManager& partyManager, Bus& bus)
+    {
+        lua.set_function("deal_damage", [&partyManager](int targetId, int amount) {
+        if (BattleEntity* e = partyManager.FindById(targetId))
+            e->Damage(amount);
+        });
+        lua.set_function("heal", [&partyManager](int targetId, int amount) {
+            if (BattleEntity* e = partyManager.FindById(targetId))
+                e->Heal(amount);
+        });
+        lua.set_function("register_ability", &AbilityManager::RegisterAbility);
+    }
+    // -------------------------------------
+
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager,
             BattleEntity& caster,

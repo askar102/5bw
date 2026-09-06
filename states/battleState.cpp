@@ -136,6 +136,9 @@ void BattleState::OnEnter()
     InitPlayerParty();
     InitEnemyParty();
     AbilityManager::InitAbilities(battleBus);
+    AbilityManager::BindLua(Game::GetLua(), _partyManager, battleBus);
+
+    Game::GetLua().script_file("test.lua");  
 
     _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon));
     _abilityPanel.SetVisible(false);
@@ -144,7 +147,7 @@ void BattleState::OnEnter()
     // --------- SUB -----------
     battleBus.subscribe<UsedAbilityEvent>([](const UsedAbilityEvent& ab){
         ab.caster->actionText.Add(TextFormat("Used %s", ab.ability->GetName().c_str()), YELLOW);
-        ab.caster->actionText.Add(TextFormat("Hurt by %s", ab.ability->GetName().c_str()), ORANGE);
+        ab.target->actionText.Add(TextFormat("Hurt by %s", ab.ability->GetName().c_str()), ORANGE);
         printf("[BUS] UsedAbilityEvent: got %s\n", ab.ability->GetName().c_str());
     });
 }

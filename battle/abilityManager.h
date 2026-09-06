@@ -34,7 +34,6 @@
 #include <unordered_map>
 #include "events.h"
 
-
 namespace AbilityManager {
     using AbilityHandler = std::function<void(VfxManager&, BattleEntity&, BattleEntity&, const Ability&, PartyManager&, StateManager*)>;
     inline std::unordered_map<std::string, AbilityHandler> g_abilities;
@@ -54,6 +53,12 @@ namespace AbilityManager {
                         Bus& bus);
 
     void InitAbilities(Bus& bus);
+
+    // --------- LUA ---------
+    void BindLua(sol::state& lua, PartyManager& partyManager, Bus& bus);
+    void RegisterAbility(const std::string& name, sol::protected_function handler);
+    
+    // -----------------------
 
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager,

@@ -33,6 +33,15 @@ public:
     void TimestopAll(float duration, std::function<void()> onDone = nullptr, bool showUi = true);
     bool isTimeStopped() const { return _timeStopped; }
 
+    // ----- ID WORKFLOW ------
+    // for lua bindings
+    static int NextEntityId()
+    {
+        return _entityIdCounter++;
+    }
+
+    BattleEntity* FindById(int id);
+
 private:
     //todo: check
     BattleEntity* FindEntityAtMouse();
@@ -44,4 +53,6 @@ private:
 
     bool _timeStopped = false;
     float _timeStopDuration = 0.0f;
+
+    inline static int _entityIdCounter = 0;
 };

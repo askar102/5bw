@@ -200,3 +200,22 @@ void PartyManager::TimestopAll(float duration, std::function<void()> onDone, boo
     GetEnemyParty().SetTimestopEffectAll(duration, onDone, showUi);
     GetPlayerParty().SetTimestopEffectAll(duration, onDone, showUi);
 }
+
+BattleEntity* PartyManager::FindById(int id)
+{
+    BattleEntity* match = nullptr; 
+
+    for (size_t i = 0; i < 4; ++i)
+    {
+        BattleEntity* e = _playerParty.Get(i);       
+        if (e->id == id) match = e;
+    }
+
+    for (size_t i = 0; i < 4; ++i)
+    {
+        BattleEntity* e = _enemyParty.Get(i);       
+        if (e->id == id) match = e;
+    }
+
+    return match;
+}

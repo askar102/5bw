@@ -10,12 +10,16 @@
 
 #include "party.h"
 
+#include "partyManager.h"
+
 void Party::Init()
 {}
 
 void Party::Add(std::unique_ptr<BattleEntity> character, size_t index) 
 {
     if (index >= characters.size()) return;
+
+    character->id = PartyManager::NextEntityId();
 
     characters[index] = std::move(character);
 }
