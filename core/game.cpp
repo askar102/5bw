@@ -101,3 +101,8 @@ PlayerParty& Game::GetPlayerParty()
  {
     return _playerParty;
  }
+
+Bus& Game::GetGlobalBus()
+{
+    return _globalBus;
+}

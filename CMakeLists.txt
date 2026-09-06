@@ -61,6 +61,7 @@ set(SOURCE_EXE main.cpp
     core/game.cpp
     core/stateManager.cpp
     core/resourceManager.cpp
+    core/bus.cpp
 
     states/menuState.cpp
     states/mapState.cpp

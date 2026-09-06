@@ -15,6 +15,7 @@
  #include "state.h"
  #include "stateManager.h"
  #include "resourceManager.h"
+ #include "bus.h"
  #include "../battle/playerParty.h"
  #include "../map/npcManager.h"
 
@@ -38,6 +39,8 @@ class Party;
 
      static PlayerParty& GetPlayerParty();
 
+     static Bus& GetGlobalBus();
+
  private:
      void Init();
      void Update();
@@ -56,5 +59,7 @@ class Party;
      static ResourceManager _resourceManager;
 
      static PlayerParty _playerParty;
+
+     inline static Bus _globalBus;
  };
  
