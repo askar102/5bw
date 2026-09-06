@@ -1,10 +1,61 @@
+# Copyright (C) 2026 No name software.
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# This file is part of the 5BW Project.
+
+#########-----PROJECT SETTING-----#########
 cmake_minimum_required(VERSION 3.16)
-project(5bw12)
+project(5bw VERSION 0.0.2 DESCRIPTION "The fucking game")
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# исходники
-add_executable(5bw12
+# Generating compile_commands.json for clangd
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+###########################################
+#---------------------LUA & SOL2-----------
+include(FetchContent)
+
+FetchContent_Declare(
+    sol2
+    GIT_REPOSITORY https://github.com/ThePhD/sol2.git
+    GIT_TAG develop
+    UPDATE_DISCONNECTED TRUE
+    GIT_SHALLOW TRUE
+)
+message(STATUS "Fetching sol2 library")
+FetchContent_MakeAvailable(sol2)
+
+if(sol2_POPULATED)
+    message(STATUS "Removing .git files from sol2 source")
+    file(REMOVE_RECURSE "${sol2_SOURCE_DIR}/.git")
+endif()
+
+find_package(Lua REQUIRED)
+############################################
+#-------------------ECS SYSTEM--------------
+#-------------------In progress yet---------
+# FetchContent_Declare(
+#     entt
+#     GIT_REPOSITORY https://github.com/skypjack/entt.git
+#     GIT_TAG v4.0.0
+#     UPDATE_DISCONNECTED TRUE
+#     GIT_SHALLOW TRUE
+# )
+# message(STATUS "Fetching Entt library")
+# FetchContent_MakeAvailable(entt)
+
+# if(sol2_POPULATED)
+#     message(STATUS "Removing .git files from Entt source")
+#     file(REMOVE_RECURSE "${entt_SOURCE_DIR}/.git")
+# endif()
+###########################################
+# ---------------- TARGET SETTING ---------
+set(SOURCE_EXE main.cpp
     main.cpp
 
     core/game.cpp
@@ -66,25 +117,77 @@ add_executable(5bw12
 
     dialog/dialogPopup.cpp
 )
+add_executable(5bw ${SOURCE_EXE})
+set_target_properties(5bw PROPERTIES OUTPUT_NAME "5bw")
 
-# include пути (чтобы #include "game.h" работал)
-target_include_directories(5bw12 PRIVATE
-    ${CMAKE_SOURCE_DIR}
-)
+target_include_directories(5bw PRIVATE ${CMAKE_SOURCE_DIR})
 
-if (WIN32)
-    target_link_libraries(5bw12
+find_package(ZLIB REQUIRED)
+###########################################
+target_include_directories(5bw PRIVATE ${LUA_INCLUDE_DIR})
+target_link_libraries(5bw PRIVATE sol2::sol2 ${LUA_LIBRARIES})
+target_link_libraries(5bw PRIVATE ZLIB::ZLIB)
+# In progress yet
+# target_link_libraries(5bw PRIVATE EnTT::EnTT)
+
+target_link_libraries(5bw
+    PRIVATE
         raylib
         opengl32
         gdi32
         winmm
-    )
+        stdc++exp # for std::print
+)
+############################################
+#######---------EMBEDED CONTENT-------######
+# For #embed "..." or something
+set(EMBED_DIR "") # SET HERE!
+if(NOT "${EMBED_DIR}" STREQUAL "")
+    target_compile_options(5bw PRIVATE --embed-dir=${EMBED_DIR})
+endif()
 
-elseif (UNIX)
-    target_link_libraries(5bw12
-        raylib
-        m
-        pthread
-        dl
+# RESOURCE FOLDER
+set(RESOURCE_DIR "resources") # SET HERE!
+if(NOT "${RESOURCE_DIR}" STREQUAL "")
+    add_custom_command(TARGET 5bw POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/${RESOURCE_DIR}"
+            "${CMAKE_CURRENT_BINARY_DIR}/${RESOURCE_DIR}"
+        COMMENT "Copying resources to build directory..."
     )
 endif()
+
+# LIB FOLDER
+set(LIB_DIR "") # SET HERE!
+if(NOT "${EMBED_DIR}" STREQUAL "")
+    add_custom_command(TARGET 5bw POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/${LIB_DIR}"
+            "${CMAKE_CURRENT_BINARY_DIR}/${LIB_DIR}"
+        COMMENT "Copying libs to build directory..."
+    )
+endif()
+
+# CONFIG FILE
+set(CONFIG_FILE "config.json") # SET HERE!
+if(NOT "${CONFIG_FILE}" STREQUAL "")
+    add_custom_command(TARGET 5bw POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+            "${CMAKE_CURRENT_SOURCE_DIR}/${CONFIG_FILE}"
+            "${CMAKE_CURRENT_BINARY_DIR}/${CONFIG_FILE}"
+        COMMENT "Copying ${CONFIG_FILE} to build directory..."
+    )
+endif()
+
+# CONFIG DIR
+set(CONFIG_DIR "") # SET HERE!
+if(NOT "${CONFIG_DIR}" STREQUAL "")
+    add_custom_command(TARGET 5bw POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/${CONFIG_DIR}"
+            "${CMAKE_CURRENT_BINARY_DIR}/${CONFIG_DIR}"
+        COMMENT "Copying configs to build directory..."
+    )
+endif()
+############################################
+
