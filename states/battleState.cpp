@@ -48,14 +48,23 @@ void BattleState::HandleInput()
             BattleEntity* target = _partyManager.GetAbilityTarget(*selected);
             if (target)
             {
-                AbilityManager::SpawnAbility(
-                    *clickedAbility,
-                    _vfxManager,
-                    *selected,
-                    *target,
-                    _partyManager,
+                // AbilityManager::SpawnAbility(
+                //     *clickedAbility,
+                //     _vfxManager,
+                //     *selected,
+                //     *target,
+                //     _partyManager,
+                //     stateMachine
+                // );
+
+                battleBus.publish<UseAbilityCommand>(UseAbilityCommand{
+                    clickedAbility,
+                    &_vfxManager, 
+                    selected, 
+                    target, 
+                    &_partyManager, 
                     stateMachine
-                );
+                });
  
                 selected->actionText.Add(TextFormat("Uzanulo %s", clickedAbility->GetName().c_str()), YELLOW);
                 target->actionText.Add(TextFormat("Pizdanulo by %s", clickedAbility->GetName().c_str()), ORANGE);
@@ -128,7 +137,7 @@ void BattleState::OnEnter()
 
     InitPlayerParty();
     InitEnemyParty();
-    AbilityManager::InitAbilities();
+    AbilityManager::InitAbilities(*this);
 
     _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon));
     _abilityPanel.SetVisible(false);

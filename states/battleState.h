@@ -27,6 +27,8 @@
 
 #include "../battle/targetSelector.h"
 
+#include "battle/events.h"
+
 class BattleState : public State {
 public:
     void HandleInput() override;

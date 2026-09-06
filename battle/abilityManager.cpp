@@ -15,6 +15,8 @@
 #include <cstdio>
 #include <vector>
 
+#include "states/battleState.h"
+
 namespace AbilityManager {
     void SpawnAbility(Ability& clickedAbility,
                       VfxManager& vfxManager,
@@ -71,8 +73,13 @@ namespace AbilityManager {
         return desc;
     }
 
-    void InitAbilities() 
+    void InitAbilities(BattleState& state) 
     {
+        state.battleBus.subscribe<UseAbilityCommand>([](const UseAbilityCommand& e){
+            SpawnAbility(*e.clickedAbility, *e.vfxManager, *e.caster, *e.target, *e.partyManager, e.stateManager);
+            printf("Called 'UseAbilityCommand' with ability '%s'\n", e.clickedAbility->GetName().c_str());
+        });
+
         g_abilities["cardAttack"] = CardGuy::SpawnCardAttack;
         g_abilities["cardHeal"] = CardGuy::SpawnCardHeal;
         g_abilities["cardBlock"] = CardGuy::SpawnCardBlock;
