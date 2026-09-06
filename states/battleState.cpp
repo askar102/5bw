@@ -65,9 +65,6 @@ void BattleState::HandleInput()
                     &_partyManager, 
                     stateMachine
                 });
- 
-                selected->actionText.Add(TextFormat("Uzanulo %s", clickedAbility->GetName().c_str()), YELLOW);
-                target->actionText.Add(TextFormat("Pizdanulo by %s", clickedAbility->GetName().c_str()), ORANGE);
             }
 
             _partyManager.DeselectAll();
@@ -142,6 +139,13 @@ void BattleState::OnEnter()
     _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon));
     _abilityPanel.SetVisible(false);
     _abilityPanel.Update();
+
+    // --------- SUB -----------
+    battleBus.subscribe<UsedAbilityEvent>([](const UsedAbilityEvent& ab){
+        ab.caster->actionText.Add(TextFormat("Used %s", ab.ability->GetName().c_str()), YELLOW);
+        ab.caster->actionText.Add(TextFormat("Hurt by %s", ab.ability->GetName().c_str()), ORANGE);
+        printf("[BUS] UsedAbilityEvent: got %s\n", ab.ability->GetName().c_str());
+    });
 }
 
 void BattleState::OnExit()

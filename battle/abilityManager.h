@@ -38,6 +38,7 @@
 namespace AbilityManager {
     using AbilityHandler = std::function<void(VfxManager&, BattleEntity&, BattleEntity&, const Ability&, PartyManager&, StateManager*)>;
     inline std::unordered_map<std::string, AbilityHandler> g_abilities;
+    inline Bus* g_battleBus;
 
     void SpawnAbility(Ability& clickedAbility,
                       VfxManager& vfxManager,

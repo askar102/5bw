@@ -20,5 +20,13 @@ struct UseAbilityCommand
 };
 
 
+// ------------- EVENTS ----------------
+struct UsedAbilityEvent
+{
+    Ability* ability;
+    BattleEntity* caster;
+    BattleEntity* target;
+};
+
 
 #endif

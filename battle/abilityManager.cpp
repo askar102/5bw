@@ -12,6 +12,7 @@
 
 #include "ability.h"
 #include "battleSide.h"
+#include "events.h"
 #include <cstdio>
 #include <vector>
 
@@ -28,6 +29,7 @@ namespace AbilityManager {
         {
             it->second(vfxManager, caster, target, clickedAbility, partyManager, stateManager);
             clickedAbility.Execute(caster, target,true, true);
+            g_battleBus->publish<UsedAbilityEvent>({&clickedAbility, &caster, &target});
             return;
         }
     }
@@ -71,9 +73,11 @@ namespace AbilityManager {
 
     void InitAbilities(Bus& bus) 
     {
+        g_battleBus = &bus;
+
         bus.subscribe<UseAbilityCommand>([](const UseAbilityCommand& e){
             SpawnAbility(*e.clickedAbility, *e.vfxManager, *e.caster, *e.target, *e.partyManager, e.stateManager);
-            printf("Called 'UseAbilityCommand' with ability '%s'\n", e.clickedAbility->GetName().c_str());
+            printf("[BUS] Called 'UseAbilityCommand' with ability '%s'\n", e.clickedAbility->GetName().c_str());
         });
 
         g_abilities["cardAttack"] = CardGuy::SpawnCardAttack;
@@ -95,10 +99,10 @@ namespace AbilityManager {
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager,
             BattleEntity& caster,
-             BattleEntity& target, 
-             const Ability& ability, 
-             PartyManager& partyManager, 
-             StateManager* stateManager)
+            BattleEntity& target, 
+            const Ability& ability, 
+            PartyManager& partyManager, 
+            StateManager* stateManager)
         {
             Vector2 casterPos = caster.getSprite().GetPosition();
             Vector2 cardPostion = {casterPos.x, casterPos.y};
