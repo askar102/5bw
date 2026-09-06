@@ -128,6 +128,7 @@ void BattleState::OnEnter()
 
     InitPlayerParty();
     InitEnemyParty();
+    AbilityManager::InitAbilities();
 
     _abilityPanel.SetIconTexture(&Game::GetResources().Get(TextureID::AbilityIcon));
     _abilityPanel.SetVisible(false);

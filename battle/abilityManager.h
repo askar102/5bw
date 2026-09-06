@@ -13,6 +13,7 @@
 #include <cmath>
 #include <random>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <set>
 
@@ -29,8 +30,13 @@
 
 #include "../gui/button.h"
 
+#include <functional>
+#include <unordered_map>
 
 namespace AbilityManager {
+    using AbilityHandler = std::function<void(VfxManager&, BattleEntity&, BattleEntity&, const Ability&, PartyManager&, StateManager*)>;
+    inline std::unordered_map<std::string, AbilityHandler> g_abilities;
+
     void SpawnAbility(Ability& clickedAbility,
                       VfxManager& vfxManager,
                       BattleEntity& caster,
@@ -43,33 +49,35 @@ namespace AbilityManager {
                         PartyManager& partyManager,
                         StateManager* stateManager);
 
+    void InitAbilities();
 
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager,
                              BattleEntity& caster,
                              BattleEntity& target,
                              const Ability& ability,
-                             PartyManager& partyManager);
-        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability,  PartyManager& partyManager);
-        void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);
+                             PartyManager& partyManager,
+                             StateManager* stateManager);
+        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager);
+        void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager);
 
-        void SpawnCardChoose(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager);
+        void SpawnCardChoose(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager);
     }
 
     namespace AngryGuy {
-        void SpawnSpeedDash(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager);
-        void SpawnSpeedSpin(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager);
+        void SpawnSpeedDash(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager);
+        void SpawnSpeedSpin(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager);
         void SpawnScream(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager);
     }
 
     namespace SigmaMen {
-        void SpawnPencilThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager);
-        void SpawnPenThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager);
-        void SpawnTimestop(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager);
+        void SpawnPencilThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager);
+        void SpawnPenThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager);
+        void SpawnTimestop(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager);
     }
 
     // Enemies
     namespace ForestEnemies {
-        void SpawnEnemyDash(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager);
+        void SpawnEnemyDash(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager);
     }
 }   

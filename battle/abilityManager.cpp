@@ -23,93 +23,13 @@ namespace AbilityManager {
                       PartyManager& partyManager,
                       StateManager* stateManager)
     {
-        if (clickedAbility.GetName() == "cardAttack")
+        auto it = g_abilities.find(clickedAbility.GetName());
+        if (it != g_abilities.end())
         {
-            AbilityManager::CardGuy::SpawnCardAttack(
-                vfxManager,
-                caster,
-                target,
-                clickedAbility,
-                partyManager
-            );
-            /**
-             * @ref damage is applied in cardVfx.cpp
-             */
-            clickedAbility.Execute(caster, target,true);
-            caster.actionText.Add(TextFormat("Used %s", clickedAbility.GetName().c_str()), YELLOW);
-            target.actionText.Add(TextFormat("Hit by %s", clickedAbility.GetName().c_str()), ORANGE);
+            it->second(vfxManager, caster, target, clickedAbility, partyManager, stateManager);
+            clickedAbility.Execute(caster, target,true, true);
             return;
         }
-
-        if (clickedAbility.GetName() == "cardHeal")
-        {
-            AbilityManager::CardGuy::SpawnCardHeal(vfxManager, caster, target, clickedAbility, partyManager);
-            // we are heal in code
-            clickedAbility.Execute(caster, target, true, true);
-            return;
-        }
-
-        if (clickedAbility.GetName() == "cardBlock")
-        {
-            AbilityManager::CardGuy::SpawnCardBlock(vfxManager, caster, target, partyManager);
-        }
-
-        // AngryGuy
-        if (clickedAbility.GetName() == "speedDash")
-        {
-            AbilityManager::AngryGuy::SpawnSpeedDash(vfxManager, caster, target, clickedAbility, partyManager);
-            // we do damage in code
-            clickedAbility.Execute(caster, target, true);
-            return;
-        }
-        if (clickedAbility.GetName() == "speedSpin")
-        {
-            AbilityManager::AngryGuy::SpawnSpeedSpin(vfxManager, caster, target, clickedAbility, partyManager);
-            // we do damage in code
-            clickedAbility.Execute(caster, target, true);
-            return;
-        }
-        if (clickedAbility.GetName() == "scream")
-        {
-            AbilityManager::AngryGuy::SpawnScream(vfxManager, caster, target, clickedAbility, partyManager, stateManager);
-            // we do damage in code
-            clickedAbility.Execute(caster, target, true);
-            return;
-        }
-
-        // sigmaMen
-        if (clickedAbility.GetName() == "pencilThrow")
-        {
-            AbilityManager::SigmaMen::SpawnPencilThrow(vfxManager, caster, target, clickedAbility, partyManager);
-            clickedAbility.Execute(caster, target, true);
-            return;
-        }
-
-        if (clickedAbility.GetName() == "penThrow")
-        {
-            AbilityManager::SigmaMen::SpawnPenThrow(vfxManager, caster, target, clickedAbility, partyManager);
-            clickedAbility.Execute(caster, target, true);
-            return;
-        }
-
-        if (clickedAbility.GetName() == "timestop")
-        {
-            AbilityManager::SigmaMen::SpawnTimestop(vfxManager, caster, target, clickedAbility, partyManager);
-            clickedAbility.Execute(caster, target, true);
-            return;
-        }
-
-
-        // forest enemies
-        if (clickedAbility.GetName() == "enemyDash")
-        {
-            AbilityManager::ForestEnemies::SpawnEnemyDash(vfxManager, caster, target, clickedAbility, partyManager);
-            // we do damage in code
-            clickedAbility.Execute(caster, target, true);
-            return;
-        }
-
-        
     }
 
     TargetAbilityDesc MakeTargetDesc(Ability& ability,
@@ -119,11 +39,10 @@ namespace AbilityManager {
     {
         TargetAbilityDesc desc;
 
-        // ── cardBlock — глушим выбранного персонажа ───────────────
         if (ability.GetName() == "cardBlock")
         {
-            desc.onConfirm = [&vfxManager, &partyManager](BattleEntity& caster, BattleEntity& target){
-                AbilityManager::CardGuy::SpawnCardBlock(vfxManager, caster, target, partyManager);
+            desc.onConfirm = [&ability, &vfxManager, &partyManager, stateManager](BattleEntity& caster, BattleEntity& target){
+                AbilityManager::SpawnAbility(ability, vfxManager, caster, target, partyManager, stateManager);
                 caster.actionText.Add("Used cardBlock", YELLOW);
                 target.actionText.Add("Stunned!", ORANGE);
             };
@@ -152,15 +71,32 @@ namespace AbilityManager {
         return desc;
     }
 
+    void InitAbilities() 
+    {
+        g_abilities["cardAttack"] = CardGuy::SpawnCardAttack;
+        g_abilities["cardHeal"] = CardGuy::SpawnCardHeal;
+        g_abilities["cardBlock"] = CardGuy::SpawnCardBlock;
+        g_abilities["cardChoose"] = CardGuy::SpawnCardChoose;
+
+        g_abilities["speedDash"] = AngryGuy::SpawnSpeedDash;
+        g_abilities["speedSpin"] = AngryGuy::SpawnSpeedSpin;
+        g_abilities["scream"] = AngryGuy::SpawnScream;
+        
+        g_abilities["pencilThrow"] = SigmaMen::SpawnPencilThrow;
+        g_abilities["penThrow"] = SigmaMen::SpawnPenThrow; 
+        g_abilities["timestop"] = SigmaMen::SpawnTimestop;
+
+        g_abilities["enemyDash"] = ForestEnemies::SpawnEnemyDash;
+    }
+    
     namespace CardGuy {
         void SpawnCardAttack(VfxManager& vfxManager,
-                             BattleEntity& caster,
-                             BattleEntity& target,
-                             const Ability& ability,
-                             PartyManager& partyManager)
+            BattleEntity& caster,
+             BattleEntity& target, 
+             const Ability& ability, 
+             PartyManager& partyManager, 
+             StateManager* stateManager)
         {
-            (void)target;
-
             Vector2 casterPos = caster.getSprite().GetPosition();
             Vector2 cardPostion = {casterPos.x, casterPos.y};
             float baseAngle = (caster.facing == FacingDirection::Right) ? 0.0f : 180.0f;
@@ -177,7 +113,12 @@ namespace AbilityManager {
             vfxManager.SpawnCardVfx(cardPostion, 5.0f, baseAngle + 10.0f, bulletType, abilityDamage, &partyManager, damageSide, false);
         }
 
-        void SpawnCardHeal(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        void SpawnCardHeal(VfxManager& vfxManager, 
+            BattleEntity& caster,
+             BattleEntity& target, 
+             const Ability& ability, 
+             PartyManager& partyManager, 
+             StateManager* stateManager)
         {
             const int countOfClones = 15;
 
@@ -211,7 +152,12 @@ namespace AbilityManager {
             }
         }   
 
-        void SpawnCardBlock(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager)
+        void SpawnCardBlock(VfxManager& vfxManager, 
+            BattleEntity& caster,
+             BattleEntity& target, 
+             const Ability& ability, 
+             PartyManager& partyManager, 
+             StateManager* stateManager)
         {
             caster.getSprite().SetFrameTime(2, 0, 1.0f);
 
@@ -238,7 +184,12 @@ namespace AbilityManager {
         }
 
 
-        void SpawnCardChoose(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, PartyManager& partyManager)
+        void SpawnCardChoose(VfxManager& vfxManager, 
+                BattleEntity& caster, 
+                BattleEntity& target, 
+                const Ability& ability, 
+            PartyManager& partyManager,
+            StateManager* stateManager)
         {
             
         }
@@ -246,7 +197,12 @@ namespace AbilityManager {
     } // namespace CardGuy
 
     namespace AngryGuy {
-        void SpawnSpeedDash(VfxManager &vfxManager, BattleEntity &caster, BattleEntity &target, const Ability &ability, PartyManager &partyManager) 
+        void SpawnSpeedDash(VfxManager& vfxManager, 
+            BattleEntity& caster,
+             BattleEntity& target, 
+             const Ability& ability, 
+             PartyManager& partyManager, 
+             StateManager* stateManager) 
         {
             // todo: add effect
             // todo: fix frames
@@ -283,7 +239,12 @@ namespace AbilityManager {
             caster.actionText.Add(TextFormat("Used %s", ability.GetName().c_str()), YELLOW);
         }
 
-        void SpawnSpeedSpin(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        void SpawnSpeedSpin(VfxManager& vfxManager, 
+            BattleEntity& caster,
+             BattleEntity& target, 
+             const Ability& ability, 
+             PartyManager& partyManager, 
+             StateManager* stateManager)
         {
             printf("SpawnSpin called\n");
 
@@ -321,7 +282,12 @@ namespace AbilityManager {
             
         }
 
-        void SpawnScream(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager)
+        void SpawnScream(VfxManager& vfxManager, 
+            BattleEntity& caster,
+             BattleEntity& target, 
+             const Ability& ability, 
+             PartyManager& partyManager, 
+             StateManager* stateManager)
         {
             printf("SpawnScream called\n");
 
@@ -382,7 +348,12 @@ namespace AbilityManager {
     } // namespace AngryGuy
 
     namespace SigmaMen {
-        void SpawnPencilThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        void SpawnPencilThrow(VfxManager& vfxManager, 
+            BattleEntity& caster,
+             BattleEntity& target, 
+             const Ability& ability, 
+             PartyManager& partyManager, 
+             StateManager* stateManager)
         {            
             BulletEntity* bullet = vfxManager.SpawnBullet(
                 &Game::GetResources().Get("pencil"),
@@ -413,7 +384,12 @@ namespace AbilityManager {
                 touched.EnemyHitAnimation();
             });
         }
-        void SpawnPenThrow(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        void SpawnPenThrow(VfxManager& vfxManager, 
+            BattleEntity& caster,
+             BattleEntity& target, 
+             const Ability& ability, 
+             PartyManager& partyManager, 
+             StateManager* stateManager)
         {
             // то есть летит вперед, когда задела 2-3 игрока, останавливается и крутиться. Она делает сайланс на врагах. Надо ее убить чтобы урать сайланс
             BulletEntity* bullet = vfxManager.SpawnBullet(
@@ -445,7 +421,12 @@ namespace AbilityManager {
                 touched.EnemyHitAnimation();
             });
         }
-        void SpawnTimestop(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        void SpawnTimestop(VfxManager& vfxManager, 
+            BattleEntity& caster,
+             BattleEntity& target, 
+             const Ability& ability, 
+             PartyManager& partyManager, 
+             StateManager* stateManager)
         {
             caster.timestopImmortal = true;
             partyManager.TimestopAll(3.0f, nullptr, false);
@@ -457,7 +438,7 @@ namespace AbilityManager {
 
     namespace ForestEnemies {
         // todo: шейдер почему то не хавает текстуру врага 0_0
-        void SpawnEnemyDash(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager)
+        void SpawnEnemyDash(VfxManager& vfxManager, BattleEntity& caster, BattleEntity& target, const Ability& ability, PartyManager& partyManager, StateManager* stateManager)
         {
             caster.getSprite().SetFrame(1);
             const int dashDamage = ability.GetDamage();
